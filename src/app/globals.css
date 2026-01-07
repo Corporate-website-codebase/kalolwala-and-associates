@@ -1,0 +1,195 @@
+/* @import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+.stroke-white {
+  color: transparent;
+  -webkit-text-stroke: 2px white;
+}
+
+
+video {
+  transition: opacity 1.5s ease-in-out;
+  filter: brightness(0.9) contrast(1.05);
+}
+
+body {
+  background-color: #000;
+}
+
+h1 span {
+  display: inline-block;
+}
+
+
+/* @import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --font-gotham: 'Gotham', sans-serif;
+}
+
+
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+/* body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+} */
+/* .stroke-white {
+  color: transparent;
+  -webkit-text-stroke: 2px white;
+}
+
+
+video {
+  transition: opacity 1.5s ease-in-out;
+  filter: brightness(0.9) contrast(1.05);
+}
+
+body {
+  background-color: #000;
+  font-family: var(--font-gotham);
+}
+
+h1 span {
+  display: inline-block;
+} */  
+ /* @import url("https://use.typekit.net/zmg6oqe.css"); */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+ @import "tailwindcss";
+
+
+ /* 3. Configure the Font */
+/* @theme {
+  --font-degular: "Degular", "sans-serif";
+  --font-degular-display: "Degular Display", "sans-serif";
+} */
+
+/* ----------------------------------------
+   Global Color + Theme Variables
+---------------------------------------- */
+/* :root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --font-sans: "Gotham", "Inter", system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --font-mono: "Courier New", monospace;
+} */
+
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  /* --font-sans: var(--font-sans); */
+  --font-mono: var(--font-mono);
+  /* --font-gotham: "Gotham", sans-serif; */
+  --font-anton: "Anton", sans-serif;
+  --font-noto-sans: "Noto Sans", sans-serif;;
+  /* --font-noto-sans: "Dosis", sans-serif; */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+/* ----------------------------------------
+   Base Styling
+---------------------------------------- */
+/* body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+} */
+ /* :root { */
+  /* 👇 CHANGE THIS LINE. Put "degular" at the very front. */
+  /* --font-sans: "degular", "Inter", sans-serif;  */
+/* } */
+
+ /* body {
+  font-family: var(--font-sans);
+  background: #000;
+  color: #fff;
+} */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background: #000;
+}
+
+
+.stroke-white {
+  color: transparent;
+  -webkit-text-stroke: 2px white;
+}
+
+video {
+  transition: opacity 1.5s ease-in-out;
+  filter: brightness(0.9) contrast(1.05);
+}
+
+body {
+  background-color: #000;
+}
+
+@keyframes rollX {
+  0%   { transform: translateX(0) rotate(0deg); }
+  50%  { transform: translateX(200px) rotate(360deg); }
+  100% { transform: translateX(0) rotate(720deg); }
+}
+
+/* continuous smooth rolling */
+.rolling {
+  animation: rollX 4s linear infinite;
+}
+.marginal {
+    width: 95vw;
+    /* max-width: 1500px; */
+    margin: auto;
+    padding: 2% 0;
+}
