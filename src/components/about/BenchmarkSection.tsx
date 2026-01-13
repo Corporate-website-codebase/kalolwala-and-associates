@@ -47,7 +47,7 @@ export default function BenchmarkSection() {
       className="w-full marginal bg-black border-b border-stone-600 text-white py-[clamp(60px,10vw,60px)] flex flex-col gap-16 lg:gap-32"
     >
       {/* --- TOP SECTION: HEADING --- */}
-      <div className="w-full flex md:flex-row flex-col gap-6">
+      <div className="w-full mt-20 md:mt-0 flex md:flex-row flex-col gap-6">
         <div className="md:w-1/2 flex flex-col gap-20">
           <motion.h1
             className="font-noto-sans font-light leading-tight"

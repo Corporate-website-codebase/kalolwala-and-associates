@@ -203,9 +203,16 @@ const Footers = ({
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-  };
+    const { name, value } = e.target;
 
+    if (name === "phone") {
+      // Regex: Allows only digits (0-9). If input contains non-digits, it won't update state.
+      // Returns early if the test fails (ignoring the keystroke)
+      if (!/^\d*$/.test(value)) return;
+    }
+
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("loading");
@@ -438,6 +445,7 @@ const Footers = ({
                   name="phone" 
                   placeholder="Phone Number" 
                   type="tel" 
+                  inputMode="numeric"
                   value={formData.phone} 
                   onChange={handleChange} 
                 />

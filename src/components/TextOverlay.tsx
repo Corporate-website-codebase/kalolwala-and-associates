@@ -13,7 +13,10 @@ if (typeof window !== "undefined") {
 }
 
 const lines = [
-  "For over a decade, these tenents have enabled us to emerge as India’s largest independent stakeholder communication consultancy. In an ever-evolving world of branding and communication, we continue to create meaningful impact with innovation.",
+  <span key="main-text">
+  For over a decade, these tenents have enabled us to emerge as India’s largest independent stakeholder communication consultancy. In an {" "}
+  <span className="whitespace-nowrap">ever-evolving</span> world of branding and communication, we continue to create meaningful impact with innovation.
+  </span>,
 ];
 
 // Create a single string for mobile (join without extra space because lines already have trailing spaces)
@@ -89,7 +92,8 @@ const TextOverlay = () => {
           suppressHydrationWarning
           className="md:hidden font-noto-sans text-lg sm:text-2xl leading-snug tracking-wide will-change-[transform,opacity,filter]"
         >
-          {mobileParagraph}
+          {/* {mobileParagraph} */}
+          {lines}
         </p>
 
         {/* === DESKTOP VERSION: Line by Line === */}

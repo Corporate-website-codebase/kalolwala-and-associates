@@ -27,7 +27,7 @@ export const PAYLOADS: Record<string, any> = {
       
       { label: "Presentations", key: "presentations" },
       { label: "Branding and Activation", key: "branding" },
-      { label: "Videos", key: "videos" },
+      { label: "Videos", key: "video" },
       { label: "Digital", key: "web" },
       // { label: "Digital", key: "data" },
     ],
@@ -47,7 +47,7 @@ export const PAYLOADS: Record<string, any> = {
       { label: "Integrated Annual Report", key: "integrated" },
       { label: "Presentations", key: "presentations" },
       { label: "Branding and Activation", key: "branding" },
-      { label: "Videos", key: "videos" },
+      { label: "Videos", key: "video" },
       { label: "Digital", key: "web" },
 
       // { label: "Digital", key: "data" },
@@ -72,7 +72,7 @@ export const PAYLOADS: Record<string, any> = {
       { label: "Sustainability and ESG reports", key: "sustainability" },
       { label: "Presentations", key: "presentations" },
       { label: "Branding and Activation", key: "branding" },
-      { label: "Videos", key: "videos" },
+      { label: "Videos", key: "video" },
       // { label: "Digital", key: "data" },
     ],
 
@@ -92,7 +92,7 @@ export const PAYLOADS: Record<string, any> = {
       { label: "Integrated Annual Report", key: "integrated" },
       { label: "Sustainability and ESG reports", key: "sustainability" },
       { label: "Branding and Activation", key: "branding" },
-      { label: "Videos", key: "videos" },
+      { label: "Videos", key: "video" },
       { label: "Digital", key: "web" },
 
       // { label: "Digital", key: "data" },
@@ -113,7 +113,7 @@ export const PAYLOADS: Record<string, any> = {
       { label: "Integrated Annual Report", key: "integrated" },
       { label: "Sustainability and ESG reports", key: "sustainability" },
       { label: "Presentations", key: "presentations" },
-      { label: "Videos", key: "videos" },
+      { label: "Videos", key: "video" },
       { label: "Digital", key: "web" },
 
       // { label: "Digital", key: "data" },
@@ -221,7 +221,7 @@ export const PAYLOADS: Record<string, any> = {
     { label: "Web Development", key: "web" },
     { label: "Presentations", key: "presentations" },
     { label: "Branding and Activation", key: "branding" },
-    { label: "Videos", key: "videos" },
+    { label: "Videos", key: "video" },
     ],
   },
 };
