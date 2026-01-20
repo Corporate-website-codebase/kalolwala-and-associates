@@ -62,7 +62,7 @@ const Navbar = () => {
           duration: 0.8, 
           ease: [0.33, 1, 0.68, 1] 
         }}
-        className="sticky top-0 left-0 w-full z-50"
+        className="sticky top-0 left-0 w-[100vw] md:w-full z-50 "
       >
         <motion.nav
           animate={{ y: isVisible ? 0 : "-100%" }}
@@ -71,8 +71,10 @@ const Navbar = () => {
             isScrolled || isMobileMenuOpen ? "bg-black shadow-md" : "bg-black md:bg-transparent"
           }`}
         >
-          <div className="w-[95vw] mx-auto flex items-center justify-between py-3 md:py-4">
-            
+          {/* <div className="w-[95vw] mx-auto flex items-center justify-between py-3 md:py-4">
+           */}
+          <div className="w-full px-4 md:px-8 mx-auto flex items-center justify-between py-3 md:py-4">
+
             {/* LOGO */}
             <Link href="/" className="relative z-50">
               <motion.div className="w-[80px] h-[40px] md:w-[100px] md:h-[60px] cursor-pointer relative select-none">
@@ -135,7 +137,7 @@ const Navbar = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-black pt-24 px-6 md:hidden flex flex-col items-center"
+            className="fixed inset-0 z-40 bg-black pt-24 px-6 md:hidden flex flex-col items-center w-[100vw]"
           >
             <div className="flex flex-col items-center space-y-6 w-full">
               {navLinks.map((link, i) => {
@@ -176,3 +178,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+

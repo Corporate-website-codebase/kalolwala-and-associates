@@ -137,15 +137,25 @@ Haryana 122002`,
   },
   {
     title: "Hyderabad",
-    text: `1st Floor, Workafella Western Pearl,
-Hitech City Rd, Kondapur,
-Hyderabad, Telangana 500084`,
+//     text: `1st Floor, Workafella Western Pearl,
+// Hitech City Rd, Kondapur,
+// Hyderabad, Telangana 500084`,
+text: `1st Floor, 
+Workafella Western Pearl,
+Hitech City Rd, 
+Kondapur,Hyderabad, 
+Telangana 500084`,
     lat: 17.458297209966894,
     lng: 78.37347767482315,
   },
   {
     title: "Bengaluru",
-    text: `1st Floor, Anthill IQ,
+//     text: `1st Floor, Anthill IQ,
+// 20, Cunningham Rd,
+// Vasanth Nagar, Bengaluru,
+// Karnataka 560001`,
+text: `1st Floor, 
+Anthill IQ,
 20, Cunningham Rd,
 Vasanth Nagar, Bengaluru,
 Karnataka 560001`,
@@ -163,6 +173,8 @@ export default function LetsTalk() {
   const sectionRef = useRef<HTMLElement | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
   const gridRef = useRef<HTMLDivElement | null>(null);
+  const mapRef = useRef<HTMLDivElement | null>(null); // 1. Added Ref for Map
+
 
   const [activeLocation, setActiveLocation] = useState<[number, number]>([
     locations[0].lat,
@@ -226,6 +238,13 @@ export default function LetsTalk() {
     };
   }, []);
 
+  const handleLocationClick = (lat: number, lng: number) => {
+    setActiveLocation([lat, lng]);
+    // Smooth scroll to the map, centered in the viewport
+    mapRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+
+
   return (
     <div className="py-12 bg-black">
       <section
@@ -272,7 +291,7 @@ export default function LetsTalk() {
               return (
                 <div
                   key={i}
-                  onClick={() => setActiveLocation([loc.lat, loc.lng])}
+                  onClick={() => handleLocationClick(loc.lat, loc.lng)}
                   // ADDED 'opacity-0' here so they animate in individually
                   className={`
                     opacity-0 
@@ -301,7 +320,9 @@ export default function LetsTalk() {
           </div>
 
           {/* 🌍 MAP */}
-          <div className="w-full h-[350px] md:h-[450px] lg:h-[550px] rounded-xl overflow-hidden shadow-2xl border border-white/10 relative z-0">
+          <div
+                      ref={mapRef} 
+ className="w-full h-[350px] md:h-[450px] lg:h-[550px] rounded-xl overflow-hidden shadow-2xl border border-white/10 relative z-0">
             <MapContainer
               center={activeLocation}
               zoom={12}

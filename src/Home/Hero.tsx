@@ -73,7 +73,7 @@ const Hero = () => {
   const letterVariants: Variants = {
     hidden: { opacity: 0, color: "transparent", WebkitTextStroke: "1.75px white" },
     outline: (i: number) => ({
-      opacity: 1, color: "transparent", WebkitTextStroke: "1.75px white",
+      opacity: 1, color: "transparent", WebkitTextStroke: "2.75px white",
       transition: { delay: i * 0.12, duration: 0.4, ease: "easeInOut" },
     }),
     fill: (i: number) => ({

@@ -18,11 +18,12 @@
 import { useSearchParams, redirect } from "next/navigation";
 import { PAYLOADS } from "@/data/payloads";
 import ReportShowcase from "@/components/services/ReportShowcase";
+import { useEffect } from "react";
 
 export default function ReportShowcaseWrapper() {
   const params = useSearchParams();
   const rawKey = params.get("key");
-
+  
   // 1. Check if the key exists and is present in your PAYLOADS data
   const isValid = rawKey && Object.prototype.hasOwnProperty.call(PAYLOADS, rawKey);
 
