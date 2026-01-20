@@ -16,9 +16,9 @@ export async function POST(req: Request) {
 
     // 2. Configure Email
     const mailOptions = {
-      from: process.env.GMAIL_USER, // Sent FROM you
-      to: process.env.GMAIL_USER,   // Sent TO you (so you get the alert)
-      replyTo: email,               // <--- CRITICAL: Replies go to the VISITOR
+      from: process.env.GMAIL_USER, 
+      to: process.env.GMAIL_USER,   
+      replyTo: email,            
       subject: `🎥 Video Request: ${name} - ${videoTitle}`,
       html: `
         <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #eee; max-width: 600px;">
