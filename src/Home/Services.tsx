@@ -5,7 +5,6 @@ import { ArrowUpRight } from "lucide-react"; // Changed to Lucide
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import AestheticDot from "@/components/AestheticDot";
-import Link from "next/link";
 import { PassLink } from "@/components/StackedCurtainTransition";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
@@ -17,7 +16,7 @@ const services = [
   { title: "Sustainability and ESG", key: "sustainability" },
   { title: "Presentations", key: "presentations" },
   { title: "Branding", key: "branding" },
-  { title: "Corporate Films", key: "video" },
+  { title: "Videos", key: "video" },
   { title: "Digital", key: "web" },
 ];
 

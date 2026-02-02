@@ -42,6 +42,7 @@ export const PAYLOADS: Record<string, any> = {
       { title: "Bharat Forge Limited", image: "/images/offerings/sr/Bharat Forge.jpg", subtitle: "DISCOVER MORE", link: "/docs/offerings/sr/BFL-Sustainability-Report-2024-25.pdf" },
       { title: "Embassy Developments Limited", image: "/images/offerings/sr/EMBASSY.jpg", subtitle: "DISCOVER MORE", link: "/docs/offerings/sr/Embassy REIT.pdf" },
       { title: "Nxtra by Airtel", image: "/images/offerings/sr/Nxtra.jpg", subtitle: "DISCOVER MORE", link: "/docs/offerings/sr/Nxtra SR.pdf" },
+      { title: "360 ONE WAM Limited", image: "/images/services/360 one.jpg", subtitle: "DISCOVER MORE", link: "/docs/offerings/sr/360_ONE_Sustainability_Report_FY_2024_25.pdf" },
     ],
     stack: [
       { label: "Integrated Annual Report", key: "integrated" },
@@ -127,29 +128,43 @@ export const PAYLOADS: Record<string, any> = {
   cards: [
     // --- Subcategory: Corporate Film (type: "corporate") ---
     { 
-      title: "KOTAK MAHINDRA BANK LIMITED", 
-      image: "/images/services/tata.png", 
+      title: "Ekkaa Electronics Industries PVT LTD", 
+      image: "/images/services/ekkaa.png", 
       subtitle: "DISCOVER MORE",
       type: "corporate",       // 👈 This separates it
       category: "Corporate Film" // Optional: For display tags
     },
     { 
-      title: "tata consumer products", 
-      image: "/images/services/tata.png", 
+      title: "INOX GFL", 
+      image: "/images/services/inoxgfl.png", 
       subtitle: "DISCOVER MORE",
       type: "corporate",
       category: "Corporate Film"
     },
     { 
-      title: "marico limited", 
-      image: "/images/services/marico.png", 
+      title: "Kanpur Plastipack Ltd", 
+      image: "/images/services/kpl.png", 
       subtitle: "DISCOVER MORE",
       type: "corporate",
       category: "Corporate Film"
     },
     { 
-      title: "Bajaj Electricals", 
-      image: "/images/services/bajaj.png", 
+      title: "Rajratan Global Wire Ltd", 
+      image: "/images/services/rajratan.png", 
+      subtitle: "DISCOVER MORE",
+      type: "corporate",
+      category: "Corporate Film"
+    },
+    { 
+      title: "Teamlease Services Ltd", 
+      image: "/images/services/teamlease.png", 
+      subtitle: "DISCOVER MORE",
+      type: "corporate",
+      category: "Corporate Film"
+    },
+    { 
+      title: "Cipla Ltd", 
+      image: "/images/services/cipla t.png", 
       subtitle: "DISCOVER MORE",
       type: "corporate",
       category: "Corporate Film"

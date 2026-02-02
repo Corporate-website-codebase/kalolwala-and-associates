@@ -170,7 +170,7 @@ const Hero = () => {
                               </motion.span>
                             ) : null
                           ))}
-                        </h1>
+                        </h1>  
                       </div>
                     </div>
                   </>

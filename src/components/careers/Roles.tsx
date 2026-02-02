@@ -5,7 +5,7 @@ import { ChevronDown, Upload, X, Loader2, CheckCircle, AlertCircle } from "lucid
 import { motion, AnimatePresence } from "framer-motion";
 
 const LOCATIONS = ["Kolkata", "Mumbai", "Delhi", "Hyderabad", "Bengaluru"];
-const DEPARTMENTS = ["Research Analyst", "Editor", "Post Print Production", "Designer", "Digital"];
+const DEPARTMENTS = ["Business Development","Project Management","Research Analyst", "Editorial", "Design", "Digital", "Post Print Production"];
 
 export default function ApplicationForm() {
   const [name, setName] = useState("");

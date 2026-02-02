@@ -6,7 +6,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 
-// Safely register GSAP plugin
+// 1. Register Plugin Safe Check
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
@@ -25,15 +25,13 @@ const textChildVariant: Variants = {
 const CircuitBackground = ({ scrollContainerRef }: { scrollContainerRef: React.RefObject<HTMLDivElement | null> }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  useEffect(() => {
+  useGSAP(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     let animId: number;
-    let trigger: ScrollTrigger;
-
     const dpr = window.devicePixelRatio || 1;
     let width = window.innerWidth;
     let height = window.innerHeight;
@@ -44,6 +42,7 @@ const CircuitBackground = ({ scrollContainerRef }: { scrollContainerRef: React.R
 
     const scrollState = { current: 0, target: 0, isInitialized: false };
 
+    // --- AGENT CLASS (Visual Logic) ---
     class Agent {
       x: number; y: number; vx!: number; vy!: number;
       path: { x: number, y: number }[]; color: string; lineWidth: number;
@@ -132,14 +131,16 @@ const CircuitBackground = ({ scrollContainerRef }: { scrollContainerRef: React.R
       initAgents();
     };
 
-    // Initial setup
     handleResize();
 
-    // Scroll Trigger Logic
-    trigger = ScrollTrigger.create({
+    // --- FIX: SCROLL TRIGGER LOGIC ---
+    // We use a lower refreshPriority (-1) here.
+    // This ensures this trigger calculates AFTER the parent has finished pinning/spacing the container.
+    ScrollTrigger.create({
       trigger: scrollContainerRef.current || document.body,
-      start: "top top",
-      end: "+=5000",
+      start: "top top", 
+      end: "+=5000",    // Must match the Parent's duration exactly
+      refreshPriority: -1, // <--- CRITICAL FIX: Run calculation after parent pins
       onUpdate: (self) => {
         if (!scrollState.isInitialized) {
           scrollState.current = self.progress;
@@ -153,6 +154,7 @@ const CircuitBackground = ({ scrollContainerRef }: { scrollContainerRef: React.R
 
     const render = () => {
       const diff = scrollState.target - scrollState.current;
+      // Performance optimization: Stop rendering if movement is tiny
       if (Math.abs(diff) > 0.00001) {
         const ease = 0.1;
         const move = diff * ease;
@@ -160,7 +162,7 @@ const CircuitBackground = ({ scrollContainerRef }: { scrollContainerRef: React.R
         ctx.clearRect(0, 0, width, height);
         agents.forEach(agent => { agent.step(move); agent.draw(ctx); });
       } else if (scrollState.isInitialized) {
-        // Redraw static state if initialized but not scrolling heavily
+        // Just redraw static state
         ctx.clearRect(0, 0, width, height);
         agents.forEach(agent => agent.draw(ctx));
       }
@@ -169,7 +171,6 @@ const CircuitBackground = ({ scrollContainerRef }: { scrollContainerRef: React.R
 
     animId = requestAnimationFrame(render);
 
-    // Optimized Resize Listener
     let resizeTimeout: NodeJS.Timeout;
     const onResize = () => {
       clearTimeout(resizeTimeout);
@@ -180,9 +181,8 @@ const CircuitBackground = ({ scrollContainerRef }: { scrollContainerRef: React.R
     return () => {
       window.removeEventListener('resize', onResize);
       cancelAnimationFrame(animId);
-      trigger?.kill();
     };
-  }, [scrollContainerRef]);
+  }, { scope: canvasRef, dependencies: [scrollContainerRef] });
 
   return <canvas ref={canvasRef} className="absolute inset-0 z-0 h-full w-full pointer-events-none opacity-50" />;
 };
@@ -210,15 +210,11 @@ const Portfolio = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   
-  // Slider State
   const [mobileIndex, setMobileIndex] = useState(0);
   const [isTablet, setIsTablet] = useState(false);
 
-  // --- DETECT TABLET vs MOBILE ---
-  // Using 1280px (xl) as the breakpoint for Desktop logic
   useEffect(() => {
     const handleResize = () => {
-      // Logic: Tablet is >= 640px AND < 1280px
       setIsTablet(window.innerWidth >= 640 && window.innerWidth < 1280);
     };
     handleResize(); 
@@ -227,15 +223,23 @@ const Portfolio = () => {
   }, []);
 
   // --- GSAP FOR DESKTOP ONLY ---
-  useGSAP(() => {
+// Inside Portfolio.tsx
+
+useGSAP(() => {
     const container = containerRef.current;
     const track = trackRef.current;
-    if (!container || !track) return;
+    
+    if (window.innerWidth < 1280 || !container || !track) return;
+
+    // --- DELETE THIS LINE ---
+    // ScrollTrigger.getAll().forEach(t => t.kill()); 
+    // ------------------------
 
     const mm = gsap.matchMedia();
 
-    // Changed breakpoint to min-width: 1280px (xl) to catch iPads in portrait
     mm.add("(min-width: 1280px)", () => {
+      
+      // 1. Background Color
       gsap.to(container, {
         backgroundColor: "#E8E6E1",
         ease: "none",
@@ -247,6 +251,7 @@ const Portfolio = () => {
         }
       });
 
+      // 2. Horizontal Scroll Pin
       const getScrollAmount = () => -(track.scrollWidth - window.innerWidth);
       
       gsap.to(track, {
@@ -258,10 +263,12 @@ const Portfolio = () => {
           end: "+=5000",
           pin: true,
           scrub: 1,
+          anticipatePin: 1, 
           invalidateOnRefresh: true,
         },
       });
 
+      // 3. Parallax Cards
       const cards = gsap.utils.toArray<HTMLElement>(".portfolio-card");
       cards.forEach((card) => {
         const speed = parseFloat(card.dataset.speed || "1");
@@ -273,26 +280,27 @@ const Portfolio = () => {
             start: "top top",
             end: "+=5000",
             scrub: 1,
+            invalidateOnRefresh: true,
           }
         });
       });
     });
 
-    return () => mm.revert();
-  }, { scope: containerRef });
+    // Keep this refresh to ensure layout sync
+    const timer = setTimeout(() => {
+        ScrollTrigger.refresh();
+    }, 100);
+
+    return () => {
+        clearTimeout(timer);
+        mm.revert();
+    };
+}, { scope: containerRef, dependencies: [isTablet] });
 
 
-  // --- MOBILE NAVIGATION ---
-  const handlePrev = () => {
-    setMobileIndex((prev) => (prev > 0 ? prev - 1 : prev));
-  };
-  const handleNext = () => {
-    setMobileIndex((prev) => (prev < items.length - 1 ? prev + 1 : prev));
-  };
-
-  // --- RESPONSIVE MATH ---
-  // Tablet (iPad Portrait): 60vw
-  // Mobile: 85vw
+  // --- MOBILE NAVIGATION HELPERS ---
+  const handlePrev = () => setMobileIndex((prev) => (prev > 0 ? prev - 1 : prev));
+  const handleNext = () => setMobileIndex((prev) => (prev < items.length - 1 ? prev + 1 : prev));
   const slideWidth = isTablet ? 60 : 85; 
   const offset = (100 - slideWidth) / 2; 
 
@@ -300,15 +308,11 @@ const Portfolio = () => {
     <div className="relative w-full">
       <section
         ref={containerRef}
-        // Changed lg: to xl: for breakpoint consistency
         className="relative z-20 w-full overflow-hidden bg-[#E8E6E1] xl:bg-black xl:h-screen text-[#1a1a1a]"
       >
         <CircuitBackground scrollContainerRef={containerRef} />
 
-        {/* =========================================================
-            DESKTOP VIEW (Horizontal Scroll + Parallax)
-            Hidden on Mobile/Tablet (< xl / 1280px)
-           ========================================================= */}
+        {/* DESKTOP TRACK */}
         <div
           ref={trackRef}
           className="hidden xl:flex h-full w-fit pt-[25vh] px-[5vw] will-change-transform relative z-10"
@@ -348,7 +352,7 @@ const Portfolio = () => {
                       <img
                         src={item.src}
                         alt={item.label}
-                        className="parallax-img w-full h-full object-cover grayscal group-hover:grayscale-0 transition-all duration-700 ease-in-out"
+                        className="parallax-img w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out"
                       />
                     </div>
                   </div>
@@ -358,20 +362,14 @@ const Portfolio = () => {
           ))}
         </div>
 
-
-        {/* =========================================================
-            MOBILE/TABLET VIEW (Slider / Carousel)
-            Visible on Mobile/Tablet/iPad (< xl / 1280px)
-           ========================================================= */}
+        {/* MOBILE/TABLET SLIDER */}
         <div className="xl:hidden w-full h-[85vh] flex flex-col justify-center relative z-10 py-10">
-          
           <motion.div 
             className="flex items-center h-[60vh] md:h-[65vh]"
-            // Smooth Spring Animation with Dynamic Offset
             animate={{ x: `calc(-${mobileIndex * slideWidth}vw + ${offset}vw)` }}
             transition={{ type: "spring", stiffness: 200, damping: 25, mass: 1 }}
           >
-            {items.map((item, index) => (
+            {items.map((item) => (
               <div 
                 key={item.id}
                 style={{ width: `${slideWidth}vw`, minWidth: `${slideWidth}vw` }}
@@ -385,19 +383,15 @@ const Portfolio = () => {
                   </div>
                 ) : (
                   <div className="w-full h-full relative flex flex-col group">
-                    {/* IMAGE CONTAINER */}
                     <div className="relative w-full flex-1 overflow-hidden flex items-center justify-center p-4 md:p-8">
-                      <div className="relative w-full h-full shadow-">
+                      <div className="relative w-full h-full shadow-lg">
                          <img
                           src={item.src}
                           alt={item.label}
-                          // Object Contain ensures covers fit perfectly without cropping
                           className="w-full h-full object-contain"
                         />
                       </div>
                     </div>
-                    
-                    {/* LABEL */}
                     <div className="mt-6 flex flex-col items-center text-center w-full min-h-[60px]">
                        <p className="text-xs md:text-sm font-bold uppercase tracking-widest text-neutral-800 line-clamp-2">
                          {item.label}
@@ -410,7 +404,7 @@ const Portfolio = () => {
             ))}
           </motion.div>
 
-          {/* NAVIGATION ARROWS */}
+          {/* Navigation Controls */}
           <div className="absolute top-1/2 left-0 w-full flex justify-between px-4 -translate-y-1/2 pointer-events-none z-20">
             <button 
               onClick={handlePrev}
@@ -421,7 +415,6 @@ const Portfolio = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
               </svg>
             </button>
-
             <button 
               onClick={handleNext}
               disabled={mobileIndex === items.length - 1}
@@ -432,9 +425,7 @@ const Portfolio = () => {
               </svg>
             </button>
           </div>
-
         </div>
-
       </section>
     </div>
   );

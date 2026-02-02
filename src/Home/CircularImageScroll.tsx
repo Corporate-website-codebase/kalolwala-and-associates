@@ -15,7 +15,6 @@ const CircularImageScroll: React.FC = () => {
     offset: ["start end", "end start"],
   });
 
-  // 🖼️ Replace with your own image URLs and destinations
   const images: ImageData[] = [
     { src: "/images/discover.png", url: "https://www.google.com" },
     { src: "/images/discover.png", url: "https://www.apple.com" },
@@ -27,11 +26,10 @@ const CircularImageScroll: React.FC = () => {
     { src: "/images/discover.png", url: "https://www.spotify.com" },
   ];
 
-  // 🌐 Generate random starting positions near viewport edges
   const [startPositions] = useState(() =>
     images.map(() => {
       const side = Math.floor(Math.random() * 4);
-      const offset = 100; // push off-screen slightly
+      const offset = 100; 
       const vw = window.innerWidth;
       const vh = window.innerHeight;
 
@@ -48,7 +46,6 @@ const CircularImageScroll: React.FC = () => {
     })
   );
 
-  // 🎯 Fixed circular arrangement (target positions)
   const circleRadius = 250;
   const circlePositions = images.map((_, i) => {
     const angle = (i / images.length) * 2 * Math.PI;
@@ -58,7 +55,6 @@ const CircularImageScroll: React.FC = () => {
     };
   });
 
-  // 🎞️ Framer Motion interpolations
   const progress = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   return (
@@ -103,7 +99,6 @@ const CircularImageScroll: React.FC = () => {
           })}
         </div>
 
-        {/* Text instructions */}
         <motion.div
           className="absolute bottom-10 left-1/2 -translate-x-1/2 text-sm text-gray-400"
           style={{ opacity: useTransform(progress, [0, 0.1, 0.9, 1], [1, 0.6, 0.6, 1]) }}

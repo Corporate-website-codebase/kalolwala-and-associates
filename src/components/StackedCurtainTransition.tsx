@@ -11,7 +11,7 @@ import {
 } from "react";
 import { useRouter } from "next/navigation";
 import Link, { LinkProps } from "next/link";
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useReducedMotion, Variants } from "framer-motion";
 
 /* ============================================================================
    TYPES & CONTEXT
@@ -171,7 +171,7 @@ function PassOverlay({
       {colors.map((color, index) => {
         const delay = index * delayPerLayer;
 
-        const variants = prefersReducedMotion
+        const variants: Variants = prefersReducedMotion
           ? {
               idle: { opacity: 0, display: "none" },
               enter: { opacity: 1, display: "block" },

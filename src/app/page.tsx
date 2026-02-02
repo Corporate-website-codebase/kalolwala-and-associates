@@ -6,7 +6,7 @@ import StatsTop from "@/Home/StatsTop";
 import Portfolio from "@/Home/Portfolio";
 import Footers from "@/components/Footers";
 import Stats from "@/Home/Stats";
-import Founders from "@/Home/Founders";
+// import Founders from "@/Home/Founders";
 
 export default function Home() {
   return (

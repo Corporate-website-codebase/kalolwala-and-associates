@@ -6,7 +6,7 @@ import { Anton } from "next/font/google";
 import { Noto_Sans } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import SmoothScroll from "@/components/SmoothScroll";
-import { PassTransitionProvider, StackTransitionProvider } from "@/components/StackedCurtainTransition";
+import { PassTransitionProvider } from "@/components/StackedCurtainTransition";
 
 const anton = Anton({
   weight: "400",
@@ -36,6 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <meta name="google-site-verification" content="nZdF0YGHOkhdaZjvtTM7t5y7tvx23ggkUuKt3HwUopM" />
         <link rel="stylesheet" href="https://use.typekit.net/zmg6oqe.css" />
       </head>
       <body className={`${anton.variable} ${noto.variable}  antialiased`}>

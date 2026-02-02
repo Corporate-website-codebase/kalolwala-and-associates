@@ -30,42 +30,41 @@ const Footer = () => {
           {/* Pentagon + Label */}
           <div className="flex items-center gap-2">
             {/* Pentagon Icon */}
-{/* Pentagon Icon */}
-{/* Pentagon Icon + Trail (Fully Synced with Forward & Return) */}
-<motion.div
-  initial={{ opacity: 0, scale: 0.5, rotate: -45, y: 20 }}
-  animate={
-    isInView
-      ? {
-          opacity: [0, 1, 1, 1],
-          scale: [0.5, 1.2, 1, 1],
-          rotate: [-45, 72, 0, 0],
-          y: [20, 0, 0, 0],
-          clipPath: [
-            "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)",
-            "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)",
-            "circle(50% at center)",
-            "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)",
-          ],
-          x: [0, 0, 100, 0],
-          transition: {
-            duration: 4,
-            ease: [0.42, 0, 0.58, 1],
-            repeat: Infinity,
-            repeatDelay: 1.5,
-            times: [0, 0.25, 0.75, 1],
-          },
-        }
-      : { opacity: 0, scale: 0.5, rotate: 0 }
-  }
-  className="w-8 h-8 bg-[#f5c518] relative z-10"
-  style={{
-    clipPath: "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)",
-  }}
-></motion.div>
-
-
-</div><div>
+            {/* Pentagon Icon */}
+            {/* Pentagon Icon + Trail (Fully Synced with Forward & Return) */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.5, rotate: -45, y: 20 }}
+              animate={
+                isInView
+                  ? {
+                    opacity: [0, 1, 1, 1],
+                    scale: [0.5, 1.2, 1, 1],
+                    rotate: [-45, 72, 0, 0],
+                    y: [20, 0, 0, 0],
+                    clipPath: [
+                      "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)",
+                      "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)",
+                      "circle(50% at center)",
+                      "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)",
+                    ],
+                    x: [0, 0, 100, 0],
+                    transition: {
+                      duration: 4,
+                      ease: [0.42, 0, 0.58, 1],
+                      repeat: Infinity,
+                      repeatDelay: 1.5,
+                      times: [0, 0.25, 0.75, 1],
+                    },
+                  }
+                  : { opacity: 0, scale: 0.5, rotate: 0 }
+              }
+              className="w-8 h-8 bg-[#f5c518] relative z-10"
+              style={{
+                clipPath: "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)",
+              }}
+            ></motion.div>
+          </div>
+          <div>
             {/* Supporting Label */}
             <motion.span
               initial={{ opacity: 0, y: 10 }}
@@ -86,10 +85,10 @@ const Footer = () => {
             animate={
               isInView
                 ? {
-                    opacity: 1,
-                    y: 0,
-                    transition: { duration: 1.2, delay: 0.8, ease: "easeOut" },
-                  }
+                  opacity: 1,
+                  y: 0,
+                  transition: { duration: 1.2, delay: 0.8, ease: "easeOut" },
+                }
                 : { opacity: 0, y: 40 }
             }
             className="text-4xl md:text-6xl lg:text-7xl leading-tight font-light"
@@ -102,9 +101,9 @@ const Footer = () => {
               animate={
                 highlight
                   ? {
-                      color: "#f5c518",
-                      transition: { duration: 0.8, ease: "easeInOut" },
-                    }
+                    color: "#f5c518",
+                    transition: { duration: 0.8, ease: "easeInOut" },
+                  }
                   : { color: "#ffffff" }
               }
             >
@@ -115,40 +114,40 @@ const Footer = () => {
 
         {/* Right Side - NEXT Button */}
         {/* Right Side - NEXT Button */}
-<motion.div
-  initial={{ opacity: 0, x: 50 }}
-  animate={
-    isInView
-      ? { opacity: 1, x: 0, transition: { delay: 1.4 } }
-      : { opacity: 0, x: 50 }
-  }
-  className="flex flex-col items-center gap-3 mt-6 md:mt-0"
->
-  <span className="uppercase text-lg tracking-widest text-gray-400">
-    Next
-  </span>
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          animate={
+            isInView
+              ? { opacity: 1, x: 0, transition: { delay: 1.4 } }
+              : { opacity: 0, x: 50 }
+          }
+          className="flex flex-col items-center gap-3 mt-6 md:mt-0"
+        >
+          <span className="uppercase text-lg tracking-widest text-gray-400">
+            Next
+          </span>
 
-  <motion.div
-    whileHover={{ rotate: 45, scale: 1.1 }}
-    transition={{ duration: 0.3, ease: "easeInOut" }}
-    className="w-10 h-10 rounded-full bg-[#2b2b2b] flex items-center justify-center cursor-pointer"
-  >
-    {/* Top-right arrow icon */}
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="white"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="w-5 h-5"
-    >
-      <path d="M7 17L17 7" />          {/* diagonal line (↗) */}
-      <path d="M8 7h9v9" />           {/* arrow base */}
-    </svg>
-  </motion.div>
-</motion.div>
+          <motion.div
+            whileHover={{ rotate: 45, scale: 1.1 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="w-10 h-10 rounded-full bg-[#2b2b2b] flex items-center justify-center cursor-pointer"
+          >
+            {/* Top-right arrow icon */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="w-5 h-5"
+            >
+              <path d="M7 17L17 7" />          {/* diagonal line (↗) */}
+              <path d="M8 7h9v9" />           {/* arrow base */}
+            </svg>
+          </motion.div>
+        </motion.div>
       </div>
 
       {/* === DIVIDER LINE === */}
@@ -157,9 +156,9 @@ const Footer = () => {
         animate={
           isInView
             ? {
-                scaleX: 1,
-                transition: { delay: 1.8, duration: 1, ease: "easeInOut" },
-              }
+              scaleX: 1,
+              transition: { delay: 1.8, duration: 1, ease: "easeInOut" },
+            }
             : { scaleX: 0 }
         }
         className="w-full h-[1px] bg-gray-700 mt-12 origin-left"
