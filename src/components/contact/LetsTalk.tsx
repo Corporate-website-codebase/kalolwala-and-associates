@@ -127,7 +127,7 @@ Maharashtra 400080`,
   },
   {
     title: "Gurugram",
-    text: `Unit no - 1501 st Floor,
+    text: `Unit no - 150 1st Floor,
 Centrum Plaza,
 Golf Course Road,
 Sector -53, Gurugram,
