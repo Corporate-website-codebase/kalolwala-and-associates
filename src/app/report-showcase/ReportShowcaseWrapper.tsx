@@ -29,7 +29,7 @@ export default function ReportShowcaseWrapper() {
 
   // 2. If the key is missing or invalid, redirect to the Base URL (Home)
   if (!isValid) {
-    redirect("/"); // 👈 Redirects to localhost:3000/
+    redirect("/offerings"); // 👈 Redirects to localhost:3000/
     // If you want to redirect to the default report instead, use:
     // redirect("/report-showcase?key=integrated");
   }
