@@ -24,8 +24,16 @@ const noto = Noto_Sans({
   variable: "--font-noto-sans",
 });
 export const metadata: Metadata = {
+  metadataBase: new URL("https://kalolwala.com"),
   title: "K&A - India's largest independent stakeholder communication agency",
   description: "India's largest independent stakeholder communication agency",
+  alternates: {
+    canonical: "/",
+    languages: {
+      "en": "https://kalolwala.com/",
+      "x-default": "https://kalolwala.com/",
+    },
+  },
 };
 
 export default function RootLayout({

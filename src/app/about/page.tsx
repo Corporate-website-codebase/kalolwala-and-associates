@@ -1,10 +1,4 @@
-// 'use client';
-// import BenchmarkSection from "@/components/AboutUs/BenchmarkSection";
-// import CapabilityCards from "@/components/AboutUs/CapabilityCards";
-// import Header from "@/components/AboutUs/Header";
-// import SlowMarquee from "@/components/AboutUs/SlowMarquee";
-// import { marqueeImages } from "@/components/marquee-images";
-
+import type { Metadata } from "next";
 import BenchmarkSection from "@/components/about/BenchmarkSection";
 import CapabilityCards from "@/components/about/CapabilityCards";
 import Header from "@/components/about/Header";
@@ -14,6 +8,13 @@ import SuccessStoriesSlider from "@/components/about/VerticalSuccessStories";
 import Footers from "@/components/Footers";
 import { marqueeImages } from "@/components/marquee-images";
 import Founders from "@/Home/Founders";
+
+export const metadata: Metadata = {
+  title: "About Us | K&A",
+  alternates: {
+    canonical: "/about",
+  },
+};
 
 const storiesList = [
   {

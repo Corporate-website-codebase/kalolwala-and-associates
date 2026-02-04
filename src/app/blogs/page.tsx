@@ -1,8 +1,14 @@
-'use client';
-
+import type { Metadata } from "next";
 import CarouselSection from "@/components/blogs/CarouselSection";
 import Header from "@/components/blogs/Header";
 import Footers from "@/components/Footers";
+
+export const metadata: Metadata = {
+  title: "Blogs | K&A",
+  alternates: {
+    canonical: "/blogs",
+  },
+};
 
 
 const Blogs = () => {
