@@ -5,7 +5,7 @@ import { ArrowUpRight, ArrowRight, ChevronLeft, Play } from "lucide-react";
 import Footers from "../Footers";
 import Link from "next/link";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import VideoRequestModal from "./VideoRequestModal"; 
+import VideoRequestModal from "./VideoRequestModal";
 import { useLenis } from "lenis/react";
 import { PassLink } from "../StackedCurtainTransition";
 
@@ -90,10 +90,10 @@ function ReportShowcaseContent({
   }, [activeKey, lenis]);
 
   // --- Data Selection ---
-  // REMOVED: VIDEO_DATA constant. 
-  // LOGIC: We now strictly use props. If the parent component passes Video Data, 
-  // this component renders it. 
-  
+  // REMOVED: VIDEO_DATA constant.
+  // LOGIC: We now strictly use props. If the parent component passes Video Data,
+  // this component renders it.
+
   const currentData = {
     title: propTitle || "Quarterly Insights",
     paragraph: propParagraph || "Explore our latest findings...",
@@ -118,9 +118,9 @@ function ReportShowcaseContent({
   const filteredCards = (cards || []).filter((card) => {
     if (activeKey === "video") {
       if (activeType) return card.type === activeType;
-      // If we are in video mode but no sub-type is selected yet, we might want to hide the grid 
+      // If we are in video mode but no sub-type is selected yet, we might want to hide the grid
       // (because the big selection cards are shown), or return false.
-      return false; 
+      return false;
     }
     return true;
   });
@@ -145,7 +145,7 @@ function ReportShowcaseContent({
       displayTitle = TYPE_TITLES[activeType];
     } else {
       // If no specific type selected, default to the Prop Title (e.g., "Videos")
-      displayTitle = title; 
+      displayTitle = title;
     }
   }
 
@@ -323,7 +323,7 @@ function ReportShowcaseContent({
             {(stack || []).map((item, i) => (
               <PassLink
                 key={i}
-                href={`/report-showcase?key=${item.key}`}
+                href={`/offerings/report-showcase?key=${item.key}`}
                 scroll={true}
                 onClick={() => {
                   handleInternalNav();
