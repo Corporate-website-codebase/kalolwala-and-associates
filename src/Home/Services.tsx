@@ -71,7 +71,7 @@ const Services = () => {
           },
         });
 
-        const CARD_HEIGHT = 100;
+        const CARD_HEIGHT = (window.innerHeight * 0.8) / 6;
 
         cards.forEach((card, i) => {
           tl.to(card, {
@@ -139,7 +139,7 @@ const Services = () => {
                       ref={(el) => { if (el) cardsRef.current[index] = el; }}
                       className="
                         group w-full bg-black will-change-transform
-                        relative border-b border-white/10 last:border-0
+                        relative border-b border-white/10
                         lg:landscape:absolute lg:landscape:top-0 lg:landscape:border-t lg:landscape:border-b-0 lg:landscape:border-white/20 lg:landscape:flex lg:landscape:justify-center
                       "
                       style={{ zIndex: index + 1 }}
@@ -148,7 +148,7 @@ const Services = () => {
                       {/* INNER ITEM LAYOUT */}
                       <PassLink
                         href={{
-                          pathname: "/report-showcase",
+                          pathname: "/offerings/report-showcase",
                           query: { key: item.key },
 
                         }}
@@ -158,7 +158,7 @@ const Services = () => {
                       <div className="
                         w-full flex items-center justify-between cursor-pointer
                         min-h-[100px] py-4
-                        lg:landscape:min-h-0 lg:landscape:h-[100px] lg:landscape:py-0 lg:landscape:px-0
+                        lg:landscape:min-h-0 lg:landscape:h-[calc(80vh/6)] lg:landscape:py-0 lg:landscape:px-0
                         transition-opacity active:opacity-60 lg:landscape:active:opacity-100
                       ">
 
