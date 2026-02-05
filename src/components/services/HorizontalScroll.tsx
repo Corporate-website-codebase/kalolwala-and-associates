@@ -162,7 +162,7 @@ export function HorizontalScroll() {
           <PassLink
             key={index}
             href={{
-              pathname: "/report-showcase",
+              pathname: "/offerings/report-showcase",
               query: { key: card.key },
             }}
             scroll={true} // Tries to scroll native
