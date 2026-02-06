@@ -1,0 +1,5 @@
+- [ ] Remove the trailing line div behind the pentagon
+- [ ] Reduce gap between pentagon and "We’re here to help" text
+- [ ] Update pentagon animation: keep entry, then morph to circle, bounce x-axis, return, morph back, loop
+- [ ] Add fade-in animation for vertical dividing lines in grid
+- [ ] Add swipe-in animation for each grid column on entry, reverse on exit
