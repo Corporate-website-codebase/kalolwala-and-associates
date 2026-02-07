@@ -1,14 +1,9 @@
-import type { Metadata } from "next";
 import CarouselSection from "@/components/blogs/CarouselSection";
 import Header from "@/components/blogs/Header";
 import Footers from "@/components/Footers";
+import { getMetadata } from "@/data/metadata";
 
-export const metadata: Metadata = {
-  title: "Blogs | K&A",
-  alternates: {
-    canonical: "/blogs",
-  },
-};
+export const metadata = getMetadata("blogs");
 
 
 const Blogs = () => {

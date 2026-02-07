@@ -1,15 +1,10 @@
-import type { Metadata } from "next";
 import Departments from "@/components/careers/Departments";
 import Header from "@/components/careers/Header";
 import OpenRoles from "@/components/careers/Roles";
 import Footers from "@/components/Footers";
+import { getMetadata } from "@/data/metadata";
 
-export const metadata: Metadata = {
-  title: "Careers | K&A",
-  alternates: {
-    canonical: "/careers",
-  },
-};
+export const metadata = getMetadata("careers");
 
 const Career = () => {
 

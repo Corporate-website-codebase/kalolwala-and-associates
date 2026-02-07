@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import BenchmarkSection from "@/components/about/BenchmarkSection";
 import CapabilityCards from "@/components/about/CapabilityCards";
 import Header from "@/components/about/Header";
@@ -8,13 +7,9 @@ import SuccessStoriesSlider from "@/components/about/VerticalSuccessStories";
 import Footers from "@/components/Footers";
 import { marqueeImages } from "@/components/marquee-images";
 import Founders from "@/Home/Founders";
+import { getMetadata } from "@/data/metadata";
 
-export const metadata: Metadata = {
-  title: "About Us | K&A",
-  alternates: {
-    canonical: "/about",
-  },
-};
+export const metadata = getMetadata("about");
 
 const storiesList = [
   {

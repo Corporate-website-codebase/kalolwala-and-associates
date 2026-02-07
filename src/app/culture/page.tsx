@@ -1,14 +1,9 @@
-import type { Metadata } from "next";
 import Zoomer from "@/components/zoomer";
 import TeamSection from "@/components/culture/TeamSection/page";
 import Footers from "@/components/Footers";
+import { getMetadata } from "@/data/metadata";
 
-export const metadata: Metadata = {
-  title: "Culture | K&A",
-  alternates: {
-    canonical: "/culture",
-  },
-};
+export const metadata = getMetadata("culture");
 
 export default function CulturePage() {
   return (

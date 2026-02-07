@@ -1,14 +1,9 @@
-import type { Metadata } from "next";
 import LetsTalk from "@/components/contact/LetsTalk";
 import Footers from "@/components/Footers";
 import "leaflet/dist/leaflet.css";
+import { getMetadata } from "@/data/metadata";
 
-export const metadata: Metadata = {
-  title: "Contact | K&A",
-  alternates: {
-    canonical: "/contact",
-  },
-};
+export const metadata = getMetadata("contact");
 
 
 const Contact = () => {

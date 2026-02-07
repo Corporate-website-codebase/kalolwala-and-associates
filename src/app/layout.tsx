@@ -8,6 +8,7 @@ import { Noto_Sans } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import SmoothScroll from "@/components/SmoothScroll";
 import { PassTransitionProvider } from "@/components/StackedCurtainTransition";
+import { PAGE_METADATA } from "@/data/metadata";
 
 const anton = Anton({
   weight: "400",
@@ -24,15 +25,17 @@ const noto = Noto_Sans({
   subsets: ["latin"],
   variable: "--font-noto-sans",
 });
+
+const home = PAGE_METADATA.home;
 export const metadata: Metadata = {
-  metadataBase: new URL("https://kalolwala.com"),
-  title: "K&A - India's largest independent stakeholder communication agency",
-  description: "India's largest independent stakeholder communication agency",
+  metadataBase: new URL(process.env.SITE_URL || ""),
+  title: home.title,
+  description: home.description,
   alternates: {
-    canonical: "/",
+    canonical: home.canonical,
     languages: {
-      en: "https://kalolwala.com/",
-      "x-default": "https://kalolwala.com/",
+      en: process.env.SITE_URL || "",
+      "x-default": process.env.SITE_URL || "",
     },
   },
 };

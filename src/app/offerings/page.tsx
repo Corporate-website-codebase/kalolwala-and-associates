@@ -1,15 +1,10 @@
-import type { Metadata } from "next";
 import Footers from "@/components/Footers";
 import Header from "@/components/services/Header";
 import { HorizontalScroll } from "@/components/services/HorizontalScroll";
 import ImpactSection from "@/components/services/ImpactSection";
+import { getMetadata } from "@/data/metadata";
 
-export const metadata: Metadata = {
-  title: "Offerings | K&A",
-  alternates: {
-    canonical: "/offerings",
-  },
-};
+export const metadata = getMetadata("offerings");
 
 const serviceSchema = {
   "@context": "https://schema.org",
