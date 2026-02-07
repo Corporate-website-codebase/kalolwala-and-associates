@@ -99,6 +99,7 @@ export const PAYLOADS: Record<string, any> = {
       // { label: "Digital", key: "data" },
     ],
     seo: {
+      slug: "integrated-annual-reporting",
       title: "Integrated Annual Reporting Services | K&A",
       description:
         "K&A’s integrated annual reporting solutions translate strategy, performance, ESG and governance into clear, decision-ready stakeholder communication.",
@@ -147,8 +148,10 @@ export const PAYLOADS: Record<string, any> = {
       // { label: "Digital", key: "data" },
     ],
     seo: {
+      slug: "sustainability-esg-reporting",
       title: "Sustainability & ESG Reporting | K&A",
-      description: "Explore K&A’s sustainability and ESG reporting solutions designed to communicate impact, meet compliance standards and reinforce long-term value creation.",
+      description:
+        "Explore K&A’s sustainability and ESG reporting solutions designed to communicate impact, meet compliance standards and reinforce long-term value creation.",
     },
   },
 
@@ -194,8 +197,10 @@ export const PAYLOADS: Record<string, any> = {
       // { label: "Digital", key: "data" },
     ],
     seo: {
+      slug: "corporate-websites",
       title: "Corporate Website & Digital Communication | K&A",
-      description: "Transform your digital presence with K&A’s corporate website and communication solutions, articulated to engage stakeholders through compelling storytelling and seamless usability.",
+      description:
+        "Transform your digital presence with K&A's corporate website and communication solutions, articulated to engage stakeholders through compelling storytelling and seamless usability.",
     },
   },
   presentations: {
@@ -240,8 +245,10 @@ export const PAYLOADS: Record<string, any> = {
       // { label: "Digital", key: "data" },
     ],
     seo: {
+      slug: "investor-corporate-presentations",
       title: "Investor & Corporate Presentation Design Services",
-      description: "Investor and corporate presentation designs by K&A are crafted to ensure clarity, consistency and maximum impact with stakeholders.",
+      description:
+        "Investor and corporate presentation designs by K&A are crafted to ensure clarity, consistency and maximum impact with stakeholders.",
     },
   },
   branding: {
@@ -278,8 +285,10 @@ export const PAYLOADS: Record<string, any> = {
       // { label: "Digital", key: "data" },
     ],
     seo: {
+      slug: "corporate-branding-design",
       title: "Corporate Branding & Design Services | K&A",
-      description: "K&A delivers corporate branding and design solutions that shape powerful visual identities and unified brand communication.",
+      description:
+        "K&A delivers corporate branding and design solutions that shape powerful visual identities and unified brand communication.",
     },
   },
   video: {
@@ -378,8 +387,10 @@ export const PAYLOADS: Record<string, any> = {
       { label: "Digital", key: "web" },
     ],
     seo: {
+      slug: "corporate-films-video-reports",
       title: "Corporate Films & Video Report Service | K&A",
-      description: "K&A creates compelling corporate films and video reports that translate complex business narratives into engaging, investor-focused visual experiences.",
+      description:
+        "K&A creates compelling corporate films and video reports that translate complex business narratives into engaging, investor-focused visual experiences.",
     },
   },
   data: {
@@ -444,8 +455,10 @@ export const PAYLOADS: Record<string, any> = {
       { label: "Videos", key: "video" },
     ],
     seo: {
+      slug: "corporate-websites",
       title: "Corporate Website & Digital Communication | K&A",
-      description: "Transform your digital presence with K&A’s corporate website and communication solutions, articulated to engage stakeholders through compelling storytelling and seamless usability.",
+      description:
+        "Transform your digital presence with K&A's corporate website and communication solutions, articulated to engage stakeholders through compelling storytelling and seamless usability.",
     },
   },
 };

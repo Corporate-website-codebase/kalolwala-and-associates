@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next'
 import fs from 'fs'
 import path from 'path'
+import { PAYLOADS } from '@/data/payloads'
 
 function getRoutes(dir: string, basePath: string = ''): string[] {
   const routes: string[] = []
@@ -21,6 +22,16 @@ function getRoutes(dir: string, basePath: string = ''): string[] {
       entry.name.startsWith('_') ||
       entry.name.startsWith('(')
     ) continue
+
+    // Handle dynamic [slug] routes using payload data
+    if (entry.name === '[slug]') {
+      const slugRoutes = Object.values(PAYLOADS)
+        .map((payload: any) => payload.seo?.slug)
+        .filter(Boolean)
+        .map((slug: string) => `${basePath}/${slug}`)
+      routes.push(...slugRoutes)
+      continue
+    }
 
     const nestedRoutes = getRoutes(
       path.join(dir, entry.name),
