@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CANONICALS, PAGE_TITLES, PAGE_DESCRIPTIONS } from "@/constants/seo";
 import BenchmarkSection from "@/components/about/BenchmarkSection";
 import CapabilityCards from "@/components/about/CapabilityCards";
 import Header from "@/components/about/Header";
@@ -10,9 +11,10 @@ import { marqueeImages } from "@/components/marquee-images";
 import Founders from "@/Home/Founders";
 
 export const metadata: Metadata = {
-  title: "About Us | K&A",
+  title: PAGE_TITLES.about,
+  description: PAGE_DESCRIPTIONS.about,
   alternates: {
-    canonical: "/about",
+    canonical: CANONICALS.about,
   },
 };
 

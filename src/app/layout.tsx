@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
+import { CANONICALS, PAGE_TITLES, PAGE_DESCRIPTIONS } from "@/constants/seo";
 // import { Dosis } from "next/font/google";
 import { Anton } from "next/font/google";
 import { Noto_Sans } from "next/font/google";
@@ -25,14 +26,14 @@ const noto = Noto_Sans({
   variable: "--font-noto-sans",
 });
 export const metadata: Metadata = {
-  metadataBase: new URL("https://kalolwala.com"),
-  title: "K&A - India's largest independent stakeholder communication agency",
-  description: "India's largest independent stakeholder communication agency",
+  metadataBase: new URL(process.env.SITE_URL || ""),
+  title: PAGE_TITLES.home,
+  description: PAGE_DESCRIPTIONS.home,
   alternates: {
-    canonical: "/",
+    canonical: CANONICALS.home,
     languages: {
-      en: "https://kalolwala.com/",
-      "x-default": "https://kalolwala.com/",
+      en: process.env.SITE_URL || "",
+      "x-default": process.env.SITE_URL || "",
     },
   },
 };

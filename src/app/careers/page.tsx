@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
+import { CANONICALS, PAGE_TITLES, PAGE_DESCRIPTIONS } from "@/constants/seo";
 import Departments from "@/components/careers/Departments";
 import Header from "@/components/careers/Header";
 import OpenRoles from "@/components/careers/Roles";
 import Footers from "@/components/Footers";
 
 export const metadata: Metadata = {
-  title: "Careers | K&A",
+  title: PAGE_TITLES.careers,
+  description: PAGE_DESCRIPTIONS.careers,
   alternates: {
-    canonical: "/careers",
+    canonical: CANONICALS.careers,
   },
 };
 

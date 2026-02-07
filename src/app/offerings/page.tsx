@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
+import { CANONICALS, PAGE_TITLES, PAGE_DESCRIPTIONS } from "@/constants/seo";
 import Footers from "@/components/Footers";
 import Header from "@/components/services/Header";
 import { HorizontalScroll } from "@/components/services/HorizontalScroll";
 import ImpactSection from "@/components/services/ImpactSection";
 
 export const metadata: Metadata = {
-  title: "Offerings | K&A",
+  title: PAGE_TITLES.offerings,
+  description: PAGE_DESCRIPTIONS.offerings,
   alternates: {
-    canonical: "/offerings",
+    canonical: CANONICALS.offerings,
   },
 };
 
