@@ -28,8 +28,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
-    title: `${payload.title} | Offerings | K&A`,
-    description: payload.paragraph?.slice(0, 160),
+    title: payload.seo.title,
+    description: payload.seo.description,
     alternates: {
       canonical: `/offerings/${slug}`,
     },
