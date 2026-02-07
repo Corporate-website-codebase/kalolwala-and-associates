@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useEffect, useState, useMemo, useRef } from "react";
 import { ChevronLeft, ChevronRight, ArrowUpRight, Minus } from "lucide-react";
 import { BLOG_DATA, type BlogPost } from "@/data/blogs";
