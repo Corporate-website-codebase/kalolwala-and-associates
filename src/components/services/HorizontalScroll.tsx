@@ -120,7 +120,7 @@ export function HorizontalScroll() {
   };
 
   return (
-    <div ref={wrapperRef} className="bg--100 relative w-full">
+    <div ref={wrapperRef} className="pt-26 relative w-full">
       <style jsx>{`
         .hide-scrollbar::-webkit-scrollbar {
           display: none;
@@ -152,7 +152,6 @@ export function HorizontalScroll() {
         ref={sectionRef}
         className={`
           flex md:items-center pt-16 md:pt-0
-          h-screen
           gap-6 px-8
           overflow-x-auto overflow-y-hidden snap-x snap-mandatory hide-scrollbar
           lg:overflow-visible lg:w-max

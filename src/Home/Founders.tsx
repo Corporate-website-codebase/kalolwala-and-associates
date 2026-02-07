@@ -9,7 +9,7 @@ const foundersData = [
   {
     id: "ceo",
     name: "Hussain Kalolwala",
-    role: "Chief Executive Officer, Director",
+    role: "Managing Director",
     img: "/images/H.webp",
     message:
       "The global communication landscape is changing at the blink of an eye, driven by high-tech innovation. Amid the whirlwind of change around us, our philosophy is to stay true to our core values, navigate the change with strategic foresight and craft authentic communication for our clients that stands the test of time.",
