@@ -8,6 +8,11 @@ const Footer = () => {
   const isInView = useInView(ref, { amount: 0.5, once: false });
   const [highlight, setHighlight] = useState(false);
 
+  const date = new Date();
+  const year = date.getFullYear();
+
+
+
   // Trigger yellow highlight after animation finishes
   useEffect(() => {
     if (isInView) {
@@ -252,7 +257,7 @@ const Footer = () => {
 
       {/* Footer credits */}
       <p className="text-gray-600 text-xs mt-10">
-        © Kalolwala & Associates Private Limited © 2025. All rights reserved.
+        © Kalolwala & Associates Private Limited © {year}. All rights reserved.
       </p>
     </section>
   );
