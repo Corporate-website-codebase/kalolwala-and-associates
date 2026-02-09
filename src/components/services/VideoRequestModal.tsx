@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { X, Loader2, CheckCircle } from "lucide-react";
 
 interface VideoRequestModalProps {
@@ -12,6 +12,19 @@ interface VideoRequestModalProps {
 export default function VideoRequestModal({ isOpen, onClose, videoTitle }: VideoRequestModalProps) {
   const [formData, setFormData] = useState({ name: "", email: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const formStartedRef = useRef(false);
+
+  const handleFormStart = () => {
+    if (!formStartedRef.current) {
+      formStartedRef.current = true;
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "form_start",
+        form_name: "video_request",
+        form_location: "services_page",
+      });
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -27,6 +40,13 @@ export default function VideoRequestModal({ isOpen, onClose, videoTitle }: Video
       });
 
       if (res.ok) {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: "form_submit",
+          form_name: "video_request",
+          form_location: "services_page",
+        });
+        formStartedRef.current = false;
         setStatus("success");
       } else {
         setStatus("error");
@@ -72,7 +92,7 @@ export default function VideoRequestModal({ isOpen, onClose, videoTitle }: Video
               To watch <span className="font-semibold text-black">"{videoTitle}"</span>, please enter your details. Access is granted manually via email.
             </p>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} onFocus={handleFormStart} className="space-y-4">
               <div>
                 <label className="block text-xs font-bold uppercase text-gray-500 mb-1">Full Name</label>
                 <input

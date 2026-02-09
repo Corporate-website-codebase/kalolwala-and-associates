@@ -203,6 +203,19 @@ const Footers = ({
     message: ""
   });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const formStartedRef = useRef(false);
+
+  const handleFormStart = () => {
+    if (!formStartedRef.current) {
+      formStartedRef.current = true;
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "form_start",
+        form_name: "contact_form",
+        form_location: "footer",
+      });
+    }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -228,6 +241,13 @@ const Footers = ({
 
       if (res.ok) {
         setStatus("success");
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: "form_submit",
+          form_name: "contact_form",
+          form_location: "footer",
+        });
+        formStartedRef.current = false;
         setFormData({ firstName: "", lastName: "", email: "", phone: "", org: "", message: "" });
         setTimeout(() => setStatus("idle"), 3000);
       } else {
@@ -416,6 +436,7 @@ const Footers = ({
               variants={textRevealVariants}
               className="flex flex-col gap-3 h-full"
               onSubmit={handleSubmit}
+              onFocus={handleFormStart}
             >
               <div className="flex flex-col sm:flex-row gap-3">
                 <Input 

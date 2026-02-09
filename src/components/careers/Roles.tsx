@@ -26,6 +26,19 @@ export default function ApplicationForm() {
   const locationRef = useRef<HTMLDivElement | null>(null);
   const deptRef = useRef<HTMLDivElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const formStartedRef = useRef(false);
+
+  const handleFormStart = () => {
+    if (!formStartedRef.current) {
+      formStartedRef.current = true;
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "form_start",
+        form_name: "job_application",
+        form_location: "careers_page",
+      });
+    }
+  };
 
   // Close dropdowns on outside click
   useEffect(() => {
@@ -79,6 +92,13 @@ export default function ApplicationForm() {
       const data = await response.json();
 
       if (response.ok) {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: "form_submit",
+          form_name: "job_application",
+          form_location: "careers_page",
+        });
+        formStartedRef.current = false;
         setStatus({ type: 'success', message: `Application successfully submitted for ${name}!` });
         // Reset form
         setName("");
@@ -122,7 +142,7 @@ export default function ApplicationForm() {
             Apply Now
           </h2>
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-8">
+          <form onSubmit={handleSubmit} onFocus={handleFormStart} className="flex flex-col gap-8">
             
             {/* 1. NAME INPUT */}
             <div className="flex flex-col gap-3">
@@ -149,6 +169,7 @@ export default function ApplicationForm() {
                   type="button"
                   disabled={isSubmitting}
                   onClick={() => {
+                    handleFormStart();
                     setShowLocation(!showLocation);
                     setShowDept(false);
                   }}
@@ -196,6 +217,7 @@ export default function ApplicationForm() {
                   type="button"
                   disabled={isSubmitting}
                   onClick={() => {
+                    handleFormStart();
                     setShowDept(!showDept);
                     setShowLocation(false);
                   }}
@@ -251,7 +273,7 @@ export default function ApplicationForm() {
               
               {!resume ? (
                 <div 
-                  onClick={() => !isSubmitting && fileInputRef.current?.click()}
+                  onClick={() => { handleFormStart(); !isSubmitting && fileInputRef.current?.click(); }}
                   className={`
                     group w-full h-32 border-2 border-yellow-500/30 
                     bg-neutral-900 hover:bg-neutral-800 hover:border-yellow-400 
