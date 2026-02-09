@@ -5,6 +5,8 @@ import { motion, useInView, Variants, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 
 // === TYPES & INTERFACES === //
+  const date = new Date();
+  const year = date.getFullYear();
 
 // 1. UPDATED INTERFACE to accept flat props
 interface FooterProps {
@@ -496,7 +498,7 @@ const Footers = ({
             variants={textRevealVariants}
             className="text-gray-300 text-xs"
           >
-            © Kalolwala & Associates Pvt Ltd 2025.
+            © Kalolwala & Associates Pvt Ltd {year}.
           </motion.p>
 
           <motion.div
