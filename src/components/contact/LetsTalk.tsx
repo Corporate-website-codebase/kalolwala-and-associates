@@ -271,7 +271,7 @@ export default function LetsTalk() {
             </a>
 
             <a
-              href="tel:+919051333444"
+              href="tel:03340077794"
               className="group flex items-center gap-3 hover:text-[#F4C016] transition-colors"
             >
               <div className="p-2.5 bg-zinc-800 rounded-full group-hover:bg-[#F4C016]/20 transition-colors">
