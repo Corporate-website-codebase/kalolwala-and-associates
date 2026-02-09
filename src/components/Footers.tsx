@@ -269,12 +269,12 @@ const Footers = ({
           <div className="flex items-center gap-4">
             <AestheticDot />
             <div className="overflow-hidden">
-              <motion.span
+              <motion.h2
                 variants={textRevealVariants}
                 className="block uppercase tracking-[0.2em] text-xs md:text-sm text-gray-300 font-medium"
               >
                 We're here to help
-              </motion.span>
+              </motion.h2>
             </div>
           </div>
 

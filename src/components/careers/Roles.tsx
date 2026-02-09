@@ -118,9 +118,9 @@ export default function ApplicationForm() {
         
         {/* LEFT COLUMN: FORM */}
         <div className="w-full">
-          <h1 className="mb-8 text-5xl font-light text-yellow-500 mt-4">
+          <h2 className="mb-8 text-5xl font-light text-yellow-500 mt-4">
             Apply Now
-          </h1>
+          </h2>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-8">
             

@@ -61,7 +61,7 @@ export default function BenchmarkSection() {
             {["We set the", "benchmark in", "integrated", "communication"].map(
               (line, i) => (
                 <span key={i} className="block overflow-hidden">
-                  <motion.span
+                  <motion.h2
                     className="block"
                     initial={{ y: "100%" }}
                     animate={inView ? { y: "0%" } : { y: "100%" }}
@@ -72,7 +72,7 @@ export default function BenchmarkSection() {
                     }}
                   >
                     {line}
-                  </motion.span>
+                  </motion.h2>
                 </span>
               )
             )}

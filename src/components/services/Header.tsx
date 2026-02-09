@@ -22,7 +22,7 @@ export default function Header() {
       "
     >
       <div className="w-full">
-        <motion.h2
+        <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={
             isInView
@@ -37,7 +37,7 @@ export default function Header() {
           Propeling your <br />
           ambition into a <br />
           powerful brand.
-        </motion.h2>
+        </motion.h1>
 
       </div>
     </section>

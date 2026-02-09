@@ -254,7 +254,7 @@ export default function StatsSection() {
         {/* Header (Animates immediately upon seeing the section, independent of numbers) */}
         <div className="flex items-center gap-2 md:gap-4 mb-3 md:mb-3 lg:mb-10 px-6 md:px-0 max-w-7x mx-auto">
           <AestheticDot />
-          <motion.span 
+          <motion.h2 
             whileInView={{ opacity: 1, x: 0 }}
             initial={{ opacity: 0, x: -20 }}
             viewport={{ once: true }}
@@ -262,7 +262,7 @@ export default function StatsSection() {
             className="uppercase tracking-widest font-noto-sans text-[10px] md:text-lg text-gray-400"
           >
             Our Impact
-          </motion.span>
+          </motion.h2>
         </div>
 
         {/* Flex Container - Ref attached here to track numbers section specifically */}

@@ -50,9 +50,9 @@ export default function BlogPaginatedList({ cards = BLOG_DATA }: { cards?: BlogP
         
         {/* --- HEADER --- */}
         <div className="mb- border-b border-white/10 pb-10">
-           <h1 className="text-white font-noto-sans text-[clamp(32px,5vw,60px)] font-thin leading-tight tracking-tight">
+           <h2 className="text-white font-noto-sans text-[clamp(32px,5vw,60px)] font-thin leading-tight tracking-tight">
              Finding the story in the<br />subtle space between words.
-          </h1>
+          </h2>
         </div>
 
         {/* --- SCROLL ANCHOR --- */}

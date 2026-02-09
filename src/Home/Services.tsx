@@ -122,7 +122,7 @@ const Services = () => {
             <div className="w-full mx-auto">
               <div className="flex items-center gap-3 text-sm md:text-xl uppercase tracking-widest text-gray-500">
                 <AestheticDot/>
-                <span className="font-medium font-dosis">On the K&A Menu</span>
+                <h2 className="font-medium font-dosis">On the K&A Menu</h2>
               </div>
             </div>
         </div>

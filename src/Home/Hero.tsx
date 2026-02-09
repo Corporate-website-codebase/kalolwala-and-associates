@@ -139,7 +139,7 @@ const Hero = () => {
                   <>
                     {/* LEFT SIDE (Black Bg) */}
                     <div className="relative z-30 bg-black flex items-center justify-end lg:justify-start w-1/2 lg:w-auto h-[65%]">
-                      <h1 className="leading-none tracking-tight whitespace-nowrap font-anton notranslate" 
+                      <h2 className="leading-none tracking-tight whitespace-nowrap font-anton notranslate" 
                           style={{ fontSize: getFontSize(layer.text), lineHeight: "1" }}>
                         {layer.text.split("").map((char, i) => (
                           layer.fillIndices.includes(i) ? (
@@ -148,7 +148,7 @@ const Hero = () => {
                             </motion.span>
                           ) : null
                         ))}
-                      </h1>
+                      </h2>
                     </div>
                     
                     {/* RIGHT SIDE (Video) */}

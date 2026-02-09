@@ -109,14 +109,14 @@ const Locations = () => {
             {/* Label */}
             <div className="flex items-center gap-2 md:gap-4 mb-6 md:mb-8 lg:mb-10 max-w-7xl">
               <AestheticDot />
-              <motion.span
+              <motion.h2
                 initial={{ opacity: 0, x: -20 }}
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.8, delay: 0.1 }}
                 className="uppercase tracking-widest font-noto-sans text-[10px] md:text-sm text-gray-400"
               >
                 Our Presence
-              </motion.span>
+              </motion.h2>
             </div>
 
             {/* Paragraph Text */}
@@ -164,9 +164,9 @@ const Locations = () => {
           <div className="w-full py-8 md:py-10 flex items-center justify-between hover:px-4 transition-all duration-500 ease-out">
             
             {/* Left: Text */}
-            <span className="text-2xl md:text-4xl font-thin uppercas tracking-widest text-white group-hover:text-white/80 transition-colors">
+            <h2 className="text-2xl md:text-4xl font-thin uppercas tracking-widest text-white group-hover:text-white/80 transition-colors">
               Explore Our Team
-            </span>
+            </h2>
 
             {/* Right: Interaction Dot */}
             <div className="relative flex items-center justify-center w-12 h-12 md:w-16 md:h-16">

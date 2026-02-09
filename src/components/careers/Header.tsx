@@ -23,7 +23,7 @@ export default function Header() {
       <div className="w-full font-noto-sans">
 
         {/* LINE 1 */}
-        <motion.h2
+        <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={
             isInView
@@ -41,7 +41,7 @@ export default function Header() {
           "
         >
           Access the Expertise of
-        </motion.h2>
+        </motion.h1>
 
         {/* LINE 2 */}
         <motion.h2

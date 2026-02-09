@@ -73,13 +73,13 @@ const StatsTop = () => {
 
             <div className="flex items-center gap-3 mb-4">
               <AestheticDot/>
-              <motion.span
+              <motion.h2
                 initial={{ y: 10 }}
                 animate={isInView ? { y: 0, transition: { delay: 0.6 } } : { y: 10 }}
                 className="uppercase font-noto-sans tracking-widest text-sm md:text-2xl text-gray-300 font-medium"
               >
                 Why K&A?
-              </motion.span>
+              </motion.h2>
             </div>
 
             <motion.h2

@@ -414,10 +414,10 @@ export default function CultureComplete() {
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 text-center pointer-events-none mix-blend-difference text-white"
           style={{ width: '50vw' }}
         >
-          <h2 className="text-lg  md:text-5xl font-bold leading-[0.9] md:mb-6 mb-2">
+          <h1 className="text-lg  md:text-5xl font-bold leading-[0.9] md:mb-6 mb-2">
             <span className="block culture-text-el opacity-0">Culture That</span>
             <span className="block culture-text-el opacity-0">Drives Performance</span>
-          </h2>
+          </h1>
           <p className="culture-text-e opacity-0 text-[10px] md:text-sm opacity-70 max-w-md mx-auto font-light leading-relaxed ">
             Culture is the intangible that produces tangible impact at K&A. We challenge conventions, think afresh and break the glass ceiling of creativity — together. Our cultural diversity, multilingual workforce and upskilling exercises come together to ignite creativity that is impactful.
           </p>
