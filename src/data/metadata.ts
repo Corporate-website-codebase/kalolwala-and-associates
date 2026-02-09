@@ -24,8 +24,9 @@ export const PAGE_METADATA: Record<string, PageMetadata> = {
     canonical: "/about",
   },
   careers: {
-    title: "Careers | K&A",
-    canonical: "/careers",
+    title: "Explore Careers | K&A",
+    canonical:
+      "Explore careers at Kalolwala & Associates, grow creatively with roles in business development, research, editorial, design & digital. Apply now to be part of our team.",
   },
   contact: {
     title: "Contact Us | K&A",
@@ -46,7 +47,9 @@ export const PAGE_METADATA: Record<string, PageMetadata> = {
     canonical: "/offerings",
   },
   blogs: {
-    title: "Blogs | K&A",
+    title: "Read Our Blogs | K&A",
+    description:
+      "Read expert articles on stakeholder communication, ESG, annual reports & corporate storytelling, insights from Kalolwala to inform and inspire your brand strategy.",
     canonical: "/blogs",
   },
 };
