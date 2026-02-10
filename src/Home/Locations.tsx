@@ -3,6 +3,7 @@ import React, { useRef } from "react";
 import { motion, useInView, Variants } from "framer-motion";
 import { Navigation, ArrowUpRight } from "lucide-react";
 import AestheticDot from "@/components/AestheticDot";
+import Link from "next/link";
 
 /* ----------------------------------------
    HELPER: WIPE REVEAL COMPONENT
@@ -155,36 +156,33 @@ const Locations = () => {
         </div>
 
         {/* === BOTTOM ACTION BAR === */}
-        <motion.div
-          initial={{ scaleX: 0, opacity: 0 }}
-          animate={isInView ? { scaleX: 1, opacity: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.5, ease: "circOut" }}
-          className="w-full border-t border-b border-white/20 group cursor-pointer"
-        >
-          <div className="w-full py-8 md:py-10 flex items-center justify-between hover:px-4 transition-all duration-500 ease-out">
-            
-            {/* Left: Text */}
-            <h2 className="text-2xl md:text-4xl font-thin uppercas tracking-widest text-white group-hover:text-white/80 transition-colors">
-              Explore Our Team
-            </h2>
+        <Link href="/culture#team" scroll={false}> 
+  <motion.div
+    initial={{ scaleX: 0, opacity: 0 }}
+    animate={isInView ? { scaleX: 1, opacity: 1 } : {}}
+    transition={{ duration: 0.8, delay: 0.5, ease: "circOut" }}
+    className="w-full border-t border-b border-white/20 group cursor-pointer"
+  >
+    <div className="w-full py-8 md:py-10 flex items-center justify-between hover:px-4 transition-all duration-500 ease-out">
+      
+      {/* Left: Text */}
+      <h2 className="text-2xl md:text-4xl font-thin tracking-widest text-white group-hover:text-white/80 transition-colors">
+        Explore Our Team
+      </h2>
 
-            {/* Right: Interaction Dot */}
-            <div className="relative flex items-center justify-center w-12 h-12 md:w-16 md:h-16">
-              
-              {/* The Dot: Expands on Group Hover */}
-              <div className="absolute h-2 w-2 md:h-3 md:w-3 rounded-full bg-white transition-all duration-300 ease-out group-hover:h-full group-hover:w-full" />
-              
-              {/* The Arrow: Slides in */}
-              <ArrowUpRight 
-                className="relative z-10 h-5 w-5 md:h-6 md:w-6 text-black 
-                           opacity-0 translate-y-4 -translate-x-4 
-                           transition-all duration-300 ease-out 
-                           group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0" 
-              />
-            </div>
-
-          </div>
-        </motion.div>
+      {/* Right: Interaction Dot (keep existing logic) */}
+      <div className="relative flex items-center justify-center w-12 h-12 md:w-16 md:h-16">
+        <div className="absolute h-2 w-2 md:h-3 md:w-3 rounded-full bg-white transition-all duration-300 ease-out group-hover:h-full group-hover:w-full" />
+        <ArrowUpRight 
+          className="relative z-10 h-5 w-5 md:h-6 md:w-6 text-black 
+                     opacity-0 translate-y-4 -translate-x-4 
+                     transition-all duration-300 ease-out 
+                     group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0" 
+        />
+      </div>
+    </div>
+  </motion.div>
+</Link>
 
       </motion.div>
     </section>

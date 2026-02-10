@@ -284,6 +284,26 @@ const TeamSection: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    // 1. Check if there is a hash in the URL
+    const hash = window.location.hash;
+    
+    if (hash) {
+      // 2. We use a small timeout to ensure the DOM has fully rendered
+      const timer = setTimeout(() => {
+        const element = document.getElementById(hash.replace("#", ""));
+        if (element) {
+          element.scrollIntoView({ 
+            behavior: "smooth", 
+            block: "start" 
+          });
+        }
+      }, 300); // 300ms is usually enough for Next.js to mount the components
+
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
   const MemberCard = ({ member, index, isLeader = false }: { member: TeamMember, index: number, isLeader?: boolean }) => {
     return (
       <div
@@ -322,7 +342,7 @@ const TeamSection: React.FC = () => {
   };
 
   return (
-    <section ref={sectionRef} className="bg-[#191818] font-noto-sans min-h-screen py-20 relative flex flex-col items-center overflow-hidden">
+    <section ref={sectionRef} id="team" className="bg-[#191818] font-noto-sans min-h-screen py-20 relative flex flex-col items-center overflow-hidden">
       <div className="mx-auto marginal relative z-10">
         <p className='text-white md:text-4xl text-2xl leading-tight md:w-3/4 mb-14 font-noto-sans font-light mx-auto text-center'>
           We transform ideas into powerful brand moments. Crafted with intelligence, sharpened by design and delivered through technology that resonates.
