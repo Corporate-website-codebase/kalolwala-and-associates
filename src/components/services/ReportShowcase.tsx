@@ -163,6 +163,17 @@ function ReportShowcaseContent({
   const handleCardClick = (card: ImageCard, e: React.MouseEvent) => {
     if (isVideoMode) {
       e.preventDefault();
+
+      // GTM Tracking (Matching Modal Pattern)
+      if (typeof window !== "undefined") {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: "video_select",
+          video_title: card.title,
+          category: activeType,
+        });
+      }
+
       setSelectedVideo(card.title);
       setIsModalOpen(true);
     }
@@ -271,7 +282,19 @@ function ReportShowcaseContent({
 
                 {/* Card 2: Annual Report - Normal Selection behavior now (opens grid on new page) */}
                 <div
-                  onClick={() => handleSelection("annual")}
+                  onClick={() => {
+                    // GTM Tracking
+                    if (typeof window !== "undefined") {
+                      window.dataLayer = window.dataLayer || [];
+                      window.dataLayer.push({
+                        event: "video_select",
+                        video_title: "Annual Report Videos",
+                        category: "annual",
+                      });
+                    }
+                    setSelectedVideo("Annual Report Videos");
+                    setIsModalOpen(true);
+                  }}
                   className="group relative w-full md:w-1/2 h-[450px] md:h-[550px] rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-2xl transition-all duration-500 ease-out"
                 >
                   <video
