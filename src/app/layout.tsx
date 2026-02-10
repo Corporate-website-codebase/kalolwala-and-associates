@@ -28,14 +28,14 @@ const noto = Noto_Sans({
 
 const home = PAGE_METADATA.home;
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.SITE_URL || ""),
+  metadataBase: new URL(process.env.SITE_URL || "http://localhost:3000/"),
   title: home.title,
   description: home.description,
   alternates: {
     canonical: home.canonical,
     languages: {
-      en: process.env.SITE_URL || "",
-      "x-default": process.env.SITE_URL || "",
+      en: process.env.SITE_URL || "http://localhost:3000/",
+      "x-default": process.env.SITE_URL || "http://localhost:3000/",
     },
   },
 };
