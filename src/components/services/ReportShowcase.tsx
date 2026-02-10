@@ -32,20 +32,39 @@ interface ReportShowcaseProps {
   rightTextItems?: string[];
   cards?: ImageCard[];
   stack?: StackItem[];
+  // New props for routing control
+  activeKey?: string;
+  activeType?: string | null;
+  onCategorySelect?: (type: string) => void;
+  onBack?: () => void;
 }
 
 // --- Defaults (Fallback only) ---
 const DEFAULT_CARDS: ImageCard[] = [
-  { title: "Financial Overview", image: "/images/services/Maskgroup07.png", subtitle: "Read Report", category: "Finance" },
+  {
+    title: "Financial Overview",
+    image: "/images/services/Maskgroup07.png",
+    subtitle: "Read Report",
+    category: "Finance",
+  },
 ];
 const DEFAULT_STACK: StackItem[] = [
   { label: "Videos", key: "video" },
   { label: "Detailed Analytics", key: "analytics" },
 ];
 
+const URL_MAPPING: Record<string, string> = {
+  video: "/offerings/video",
+  integrated: "/offerings/integrated-annual-reporting",
+  sustainability: "/offerings/sustainability-esg-reporting",
+  web: "/offerings/corporate-websites",
+  presentations: "/offerings/investor-corporate-presentations",
+  branding: "/offerings/corporate-branding-design",
+};
+
 const TYPE_TITLES: Record<string, string> = {
   corporate: "Corporate Film",
-  annual: "Annual Report Videos"
+  annual: "Annual Report Videos",
 };
 
 function ReportShowcaseContent({
@@ -55,15 +74,20 @@ function ReportShowcaseContent({
   rightTextItems: propRightTextItems,
   cards: propCards,
   stack: propStack,
+  activeKey: propActiveKey,
+  activeType: propActiveType,
+  onCategorySelect,
+  onBack,
 }: ReportShowcaseProps) {
-
   // --- Hooks ---
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  const activeKey = searchParams.get("key");
-  const activeType = searchParams.get("type");
   const lenis = useLenis();
+
+  // Prefer props over searchParams
+  const activeKey = propActiveKey ?? searchParams.get("key");
+  const activeType = propActiveType ?? searchParams.get("type");
 
   // --- Modal State ---
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -87,7 +111,7 @@ function ReportShowcaseContent({
     }, 50);
 
     return () => clearTimeout(timeout);
-  }, [activeKey, lenis]);
+  }, [activeKey, activeType, lenis]);
 
   // --- Data Selection ---
   // REMOVED: VIDEO_DATA constant.
@@ -103,9 +127,15 @@ function ReportShowcaseContent({
     stack: propStack || DEFAULT_STACK,
   };
 
-  const { title, paragraph, rightTextTitle, rightTextItems, cards, stack } = currentData;
+  const { title, paragraph, rightTextTitle, rightTextItems, cards, stack } =
+    currentData;
 
   const handleSelection = (type: string | null) => {
+    if (onCategorySelect && type) {
+      onCategorySelect(type);
+      return;
+    }
+
     scrollToTop();
     const params = new URLSearchParams(searchParams.toString());
     if (type) params.set("type", type);
@@ -140,7 +170,7 @@ function ReportShowcaseContent({
 
   // --- Dynamic Title Logic ---
   let displayTitle = title;
-  if (activeKey === 'video') {
+  if (activeKey === "video") {
     if (activeType && TYPE_TITLES[activeType]) {
       displayTitle = TYPE_TITLES[activeType];
     } else {
@@ -165,28 +195,48 @@ function ReportShowcaseContent({
 
       <div className="bg-[#d4d4d4]">
         <div className="w-full min-h-screen marginal font-noto-sans py-20">
-
           {/* HEADER */}
           <div className="flex flex-col lg:flex-row justify-between items-start md:items-end gap-12 pt-[clamp(40px,8vw,80px)] mb-10">
             <div className="max-w-5xl">
-              <h1 className="leading-[1.1] mb-6 whitespace-pre-line text-black tracking-tight" style={{ fontSize: "clamp(32px, 4vw, 56px)" }}>
+              <h1
+                className="leading-[1.1] mb-6 whitespace-pre-line text-black tracking-tight"
+                style={{ fontSize: "clamp(32px, 4vw, 56px)" }}
+              >
                 {displayTitle}
               </h1>
-              <p className="text-neutral-800 whitespace-pre-line md:w-5xl" style={{ fontSize: "clamp(14px, 1.2vw, 18px)" }}>
-                {showVideoSelection ? "Choose a category to view related videos." : paragraph}
+              <p
+                className="text-neutral-800 whitespace-pre-line md:w-5xl"
+                style={{ fontSize: "clamp(14px, 1.2vw, 18px)" }}
+              >
+                {showVideoSelection
+                  ? "Choose a category to view related videos."
+                  : paragraph}
               </p>
             </div>
-            {!showVideoSelection && Array.isArray(rightTextItems) && rightTextItems.length > 0 && (
-              <div className="flex flex-col gap-3 lg:mt-4 min-w-[200px] border-l-2 border-black/10 pl-6 lg:border-l-0 lg:pl-0">
-                {rightTextTitle?.trim() && <p className="uppercase tracking-widest font-bold" style={{ fontSize: "11px", color: "#000", opacity: 0.6 }}>{rightTextTitle}</p>}
-                {rightTextItems.map((item, i) => (
-                  <div key={i} className="flex items-center gap-3" style={{ fontSize: "13px", color: "#000" }}>
-                    <span className="w-1.5 h-1.5 bg-yellow-600 rounded-full" />
-                    <span className="font-medium opacity-80">{item}</span>
-                  </div>
-                ))}
-              </div>
-            )}
+            {!showVideoSelection &&
+              Array.isArray(rightTextItems) &&
+              rightTextItems.length > 0 && (
+                <div className="flex flex-col gap-3 lg:mt-4 min-w-[200px] border-l-2 border-black/10 pl-6 lg:border-l-0 lg:pl-0">
+                  {rightTextTitle?.trim() && (
+                    <p
+                      className="uppercase tracking-widest font-bold"
+                      style={{ fontSize: "11px", color: "#000", opacity: 0.6 }}
+                    >
+                      {rightTextTitle}
+                    </p>
+                  )}
+                  {rightTextItems.map((item, i) => (
+                    <div
+                      key={i}
+                      className="flex items-center gap-3"
+                      style={{ fontSize: "13px", color: "#000" }}
+                    >
+                      <span className="w-1.5 h-1.5 bg-yellow-600 rounded-full" />
+                      <span className="font-medium opacity-80">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
           </div>
 
           {/* SELECTION GRID (Video Logic Phase 1) */}
@@ -194,7 +244,6 @@ function ReportShowcaseContent({
           {showVideoSelection ? (
             <div className="w-full mt-10">
               <div className="flex flex-col md:flex-row gap-6">
-
                 {/* Card 1: Corporate Film - Normal Selection Behavior */}
                 <div
                   onClick={() => handleSelection("corporate")}
@@ -220,13 +269,9 @@ function ReportShowcaseContent({
                   </div>
                 </div>
 
-                {/* Card 2: Annual Report - Opens Modal Immediately */}
+                {/* Card 2: Annual Report - Normal Selection behavior now (opens grid on new page) */}
                 <div
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setSelectedVideo("Annual Report Videos");
-                    setIsModalOpen(true);
-                  }}
+                  onClick={() => handleSelection("annual")}
                   className="group relative w-full md:w-1/2 h-[450px] md:h-[550px] rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-2xl transition-all duration-500 ease-out"
                 >
                   <video
@@ -250,14 +295,19 @@ function ReportShowcaseContent({
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
           ) : (
             /* DATA GRID (Videos or Reports) - Populated by PROPS now */
             <>
               {isVideoMode && (
-                <button onClick={() => handleSelection(null)} className="mb-8 flex cursor-pointer items-center gap-2 text-neutral-700 hover:text-black font-medium transition-colors">
+                <button
+                  onClick={() => {
+                    if (onBack) onBack();
+                    else handleSelection(null);
+                  }}
+                  className="mb-8 flex cursor-pointer items-center gap-2 text-neutral-700 hover:text-black font-medium transition-colors"
+                >
                   <ChevronLeft className="w-5 h-5" /> Back to Categories
                 </button>
               )}
@@ -276,31 +326,37 @@ function ReportShowcaseContent({
                       key={idx}
                       {...wrapperProps}
                       className={`group relative flex flex-col h-full overflow-hidden rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer
-                        ${isVideoMode ? 'bg-white/60 backdrop-blur-xl border border-white' : 'bg-white/60 backdrop-blur-xl border border-white'}`}
+                        ${isVideoMode ? "bg-white/60 backdrop-blur-xl border border-white" : "bg-white/60 backdrop-blur-xl border border-white"}`}
                     >
                       <div className="relative w-full overflow-hidden">
                         <img
                           src={card.image}
                           alt={card.title}
-                          className={`w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105 ${isVideoMode ? 'opacity-80 group-hover:opacity-100' : ''}`}
+                          className={`w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105 ${isVideoMode ? "opacity-80 group-hover:opacity-100" : ""}`}
                         />
                         {/* Play Button Overlay */}
                         {isVideoMode && (
                           <div className="absolute inset-0 flex items-center justify-center z-10">
                             <div className="absolute bottom-1/2 right-1/2 transform translate-1/2 w-14 h-14 bg-white/10 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center ">
-                      <Play className="w-6 h-6 text-white" />
-                    </div>
+                              <Play className="w-6 h-6 text-white" />
+                            </div>
                           </div>
                         )}
                       </div>
 
                       <div className="flex flex-col justify-between flex-grow p-6">
-                        <h3 className="leading-tight font-noto-sans uppercase mb-2 transition-colors text-neutral-900 group-hover:text-black" style={{ fontSize: "clamp(16px, 1.5vw, 20px)" }}>
+                        <h3
+                          className="leading-tight font-noto-sans uppercase mb-2 transition-colors text-neutral-900 group-hover:text-black"
+                          style={{ fontSize: "clamp(16px, 1.5vw, 20px)" }}
+                        >
                           {card.title}
                         </h3>
                         {card.subtitle && (
                           <div className="mt-6 pt-4 border-t flex justify-between items-center border-neutral-900/10">
-                            <p className="font-noto-sans uppercase tracking-widest font-bold transition-colors duration-300 text-neutral-600 group-hover:text-neutral-900" style={{ fontSize: "10px" }}>
+                            <p
+                              className="font-noto-sans uppercase tracking-widest font-bold transition-colors duration-300 text-neutral-600 group-hover:text-neutral-900"
+                              style={{ fontSize: "10px" }}
+                            >
                               {isVideoMode ? "REQUEST ACCESS" : card.subtitle}
                             </p>
                             {!isVideoMode && (
@@ -320,36 +376,38 @@ function ReportShowcaseContent({
 
           {/* STACK NAV */}
           <div className="mt-10 border-t border-black/10">
-            {(stack || []).map((item, i) => (
-              <PassLink
-                key={i}
-                href={`/offerings/${
-                  {
-                    video: "corporate-films-video-reports",
-                    integrated: "integrated-annual-reporting",
-                    sustainability: "sustainability-esg-reporting",
-                    web: "corporate-websites",
-                    presentations: "investor-corporate-presentations",
-                    branding: "corporate-branding-design",
-                  }[item.key] || item.key
-                }`}
-                scroll={true}
-                onClick={() => {
-                  handleInternalNav();
-                  if (item.key === 'video') handleSelection(null);
-                }}
-                className="group flex justify-between items-center py-6 border-b border-black/10 hover:bg-black hover:px-6 transition-all duration-300 cursor-pointer"
-              >
-                <h2 className="text-black group-hover:text-white transition-colors duration-300" style={{ fontSize: "clamp(20px, 2.5vw, 28px)", fontWeight: 600 }}>
-                  {item.label}
-                </h2>
-                <span className="text-black group-hover:text-white group-hover:translate-x-2 transition-all duration-300">
-                  <ArrowRight className="w-6 h-6 sm:w-8 sm:h-8" />
-                </span>
-              </PassLink>
-            ))}
-          </div>
+            {(stack || []).map((item, i) => {
+              const href =
+                URL_MAPPING[item.key] ||
+                `/offerings/report-showcase?key=${item.key}`;
 
+              return (
+                <PassLink
+                  key={i}
+                  href={href}
+                  scroll={true}
+                  onClick={() => {
+                    handleInternalNav();
+                    if (item.key === "video") handleSelection(null);
+                  }}
+                  className="group flex justify-between items-center py-6 border-b border-black/10 hover:bg-black hover:px-6 transition-all duration-300 cursor-pointer"
+                >
+                  <h2
+                    className="text-black group-hover:text-white transition-colors duration-300"
+                    style={{
+                      fontSize: "clamp(20px, 2.5vw, 28px)",
+                      fontWeight: 600,
+                    }}
+                  >
+                    {item.label}
+                  </h2>
+                  <span className="text-black group-hover:text-white group-hover:translate-x-2 transition-all duration-300">
+                    <ArrowRight className="w-6 h-6 sm:w-8 sm:h-8" />
+                  </span>
+                </PassLink>
+              );
+            })}
+          </div>
         </div>
       </div>
       <Footers nextPageName="About Us" nextPageLink="/about" />

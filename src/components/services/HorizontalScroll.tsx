@@ -66,7 +66,7 @@ export function HorizontalScroll() {
 
     const ctx = gsap.context(() => {
       ScrollTrigger.matchMedia({
-        "(min-width: 1024px)": function() {
+        "(min-width: 1024px)": function () {
           if (!section || !wrapper) return;
 
           gsap.to(section, {
@@ -82,19 +82,19 @@ export function HorizontalScroll() {
               invalidateOnRefresh: true,
             },
           });
-        }
+        },
       });
     }, wrapperRef);
 
     return () => ctx.revert();
   }, []);
 
-  const handleScroll = (direction: 'left' | 'right') => {
+  const handleScroll = (direction: "left" | "right") => {
     if (sectionRef.current) {
       const scrollAmount = window.innerWidth * 0.85;
       sectionRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth'
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
       });
     }
   };
@@ -133,14 +133,14 @@ export function HorizontalScroll() {
 
       <div className="absolute top-4 right-4 z-20 flex gap-2 lg:hidden">
         <button
-          onClick={() => handleScroll('left')}
+          onClick={() => handleScroll("left")}
           className="p-2 bg-black/50 hover:bg-black/70 text-white rounded-full backdrop-blur-sm transition-colors border border-white/20"
           aria-label="Scroll Left"
         >
           <ChevronLeft size={24} />
         </button>
         <button
-          onClick={() => handleScroll('right')}
+          onClick={() => handleScroll("right")}
           className="p-2 bg-black/50 hover:bg-black/70 text-white rounded-full backdrop-blur-sm transition-colors border border-white/20"
           aria-label="Scroll Right"
         >
@@ -162,7 +162,7 @@ export function HorizontalScroll() {
             key={index}
             href={`/offerings/${
               {
-                video: "corporate-films-video-reports",
+                video: "video",
                 integrated: "integrated-annual-reporting",
                 sustainability: "sustainability-esg-reporting",
                 web: "corporate-websites",
