@@ -2,7 +2,7 @@
 
 import { useRef, useState, useEffect } from "react";
 import { motion, useInView, Variants, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
+import { Play, X } from "lucide-react";
 import Image from "next/image";
 
 // === TYPES & INTERFACES === //
@@ -122,9 +122,8 @@ const NextPageButton = ({ name, href }: { name: string; href: string }) => {
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={`w-5 h-5 md:w-6 md:h-6 transition-colors duration-300 ${
-            isHovered ? "text-black" : "text-white"
-          }`}
+          className={`w-5 h-5 md:w-6 md:h-6 transition-colors duration-300 ${isHovered ? "text-black" : "text-white"
+            }`}
         >
           <path d="M5 12h14" />
           <path d="M12 5l7 7-7 7" />
@@ -367,32 +366,26 @@ const Footers = ({
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-60 group-hover:opacity-40"
               />
 
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-14 h-14 md:w-16 md:h-16 rounded-full border border-white/30 bg-white/10 backdrop-blur-sm flex items-center justify-center group-hover:bg-[#f5c518] group-hover:border-[#f5c518] transition-all duration-300">
-                  <svg
-                    className="w-5 h-5 md:w-6 md:h-6 text-white group-hover:text-black ml-1 transition-colors duration-300"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
+              <div className="absolute inset-0 flex items-center justify-center z-10">
+                <div className="absolute bottom-1/2 right-1/2 transform translate-1/2 w-14 h-14 bg-white/10 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center ">
+                  <Play className="w-6 h-6 text-white" />
                 </div>
               </div>
             </motion.div>
             <motion.div
-            variants={textRevealVariants}
-             className="flex items-start flex-col  space-y-5 mt-10">
+              variants={textRevealVariants}
+              className="flex items-start flex-col  space-y-5 mt-10">
 
-                <Image
-                  src="/popup/IFRS Sustainability Alliance logo - white background.jpg"
-                  alt="IFRS Sustainability Alliance"
-                  width={200}
-                  height={200}
-                  priority
-                />
+              <Image
+                src="/popup/IFRS Sustainability Alliance logo - white background.jpg"
+                alt="IFRS Sustainability Alliance"
+                width={200}
+                height={200}
+                priority
+              />
 
-                <p className="text-sm font-normal text-gray-400 font-noto-sans ">We are proud to be an organisational member of the IFRS Sustainability Alliance.</p>
-                <a  href="#" className="text-sm font-noto-sans font-normal text-[#f5c518] underline ">View Official Listing</a>
+              <p className="text-sm font-normal text-gray-400 font-noto-sans ">We are proud to be an organisational member of the IFRS Sustainability Alliance.</p>
+              <a href="#" className="text-sm font-noto-sans font-normal text-[#f5c518] underline ">View Official Listing</a>
 
             </motion.div>
           </div>
