@@ -8,6 +8,7 @@ import { Noto_Sans } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import SmoothScroll from "@/components/SmoothScroll";
 import { PassTransitionProvider } from "@/components/StackedCurtainTransition";
+import Popup from "@/components/Popup";
 import { PAGE_METADATA } from "@/data/metadata";
 
 const anton = Anton({
@@ -79,6 +80,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           <SmoothScroll>
             <main className="relative w-full h-full">{children}</main>
           </SmoothScroll>
+          <Popup />
         </PassTransitionProvider>
       </body>
     </html>

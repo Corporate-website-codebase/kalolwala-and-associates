@@ -3,10 +3,11 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, useInView, Variants, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
+import Image from "next/image";
 
 // === TYPES & INTERFACES === //
-  const date = new Date();
-  const year = date.getFullYear();
+const date = new Date();
+const year = date.getFullYear();
 
 // 1. UPDATED INTERFACE to accept flat props
 interface FooterProps {
@@ -144,9 +145,9 @@ const Input = ({ placeholder, type = "text", ...props }: InputProps) => (
 
 // === SOCIAL ICONS DATA === //
 const socialIcons = [
-    {
+  {
     name: "LinkedIn",
-    href: "https://in.linkedin.com/company/kalolwala-associates-private-limited", 
+    href: "https://in.linkedin.com/company/kalolwala-associates-private-limited",
     path: (
       <>
         <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
@@ -155,9 +156,9 @@ const socialIcons = [
       </>
     ),
   },
-    {
+  {
     name: "Instagram",
-    href: "https://www.instagram.com/kalolwalaassociates/?hl=en", 
+    href: "https://www.instagram.com/kalolwalaassociates/?hl=en",
     path: (
       <>
         <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
@@ -168,7 +169,7 @@ const socialIcons = [
   },
   {
     name: "Facebook",
-    href: "https://www.facebook.com/kalolwalaassociates/", 
+    href: "https://www.facebook.com/kalolwalaassociates/",
     path: (
       <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
     ),
@@ -185,12 +186,12 @@ const socialIcons = [
 // === MAIN COMPONENT === //
 
 // 2. UPDATED COMPONENT SIGNATURE
-const Footers = ({ 
-  nextPageName = "Home", 
-  nextPageLink = "/" 
+const Footers = ({
+  nextPageName = "Home",
+  nextPageLink = "/",
 }: FooterProps) => {
   const ref = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null); 
+  const videoRef = useRef<HTMLVideoElement>(null);
   const isInView = useInView(ref, { amount: 0.1, once: true });
   const [isVideoOpen, setIsVideoOpen] = useState(false);
 
@@ -200,9 +201,11 @@ const Footers = ({
     email: "",
     phone: "",
     org: "",
-    message: ""
+    message: "",
   });
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
   const formStartedRef = useRef(false);
 
   const handleFormStart = () => {
@@ -217,7 +220,9 @@ const Footers = ({
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = e.target;
 
     if (name === "phone") {
@@ -226,17 +231,17 @@ const Footers = ({
       if (!/^\d*$/.test(value)) return;
     }
 
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("loading");
 
     try {
-      const res = await fetch('/api/send-email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+      const res = await fetch("/api/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
 
       if (res.ok) {
@@ -248,7 +253,14 @@ const Footers = ({
           form_location: "footer",
         });
         formStartedRef.current = false;
-        setFormData({ firstName: "", lastName: "", email: "", phone: "", org: "", message: "" });
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          org: "",
+          message: "",
+        });
         setTimeout(() => setStatus("idle"), 3000);
       } else {
         setStatus("error");
@@ -269,7 +281,7 @@ const Footers = ({
 
   useEffect(() => {
     if (isVideoOpen && videoRef.current) {
-      videoRef.current.volume = 1.0; 
+      videoRef.current.volume = 1.0;
       videoRef.current.play().catch((e) => console.log("Playback error:", e));
     }
   }, [isVideoOpen]);
@@ -282,7 +294,6 @@ const Footers = ({
       variants={containerVariants}
       className="relative w-full marginal font-noto-sans bg-black text-white py-12 md:py-16 px-6 md:px-12 flex flex-col justify-between overflow-hidden"
     >
-      
       {/* === TOP SECTION === */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative z-10">
         <div className="flex flex-col gap-4 md:gap-6 md:w-2/3">
@@ -326,7 +337,6 @@ const Footers = ({
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 relative mt-10 gap-10 md:gap-x-8 md:gap-y-12">
-          
           <motion.div
             variants={verticalLineVariants}
             className="hidden lg:block absolute top-[-40px] bottom-0 left-1/3 w-[1px] bg-gray-800"
@@ -368,6 +378,22 @@ const Footers = ({
                   </svg>
                 </div>
               </div>
+            </motion.div>
+            <motion.div
+            variants={textRevealVariants}
+             className="flex items-start flex-col  space-y-5 mt-10">
+
+                <Image
+                  src="/popup/IFRS Sustainability Alliance logo - white background.jpg"
+                  alt="IFRS Sustainability Alliance"
+                  width={200}
+                  height={200}
+                  priority
+                />
+
+                <p className="text-sm font-normal text-gray-400 font-noto-sans ">We are proud to be an organisational member of the IFRS Sustainability Alliance.</p>
+                <a  href="#" className="text-sm font-noto-sans font-normal text-[#f5c518] underline ">View Official Listing</a>
+
             </motion.div>
           </div>
 
@@ -439,46 +465,46 @@ const Footers = ({
               onFocus={handleFormStart}
             >
               <div className="flex flex-col sm:flex-row gap-3">
-                <Input 
-                  name="firstName" 
-                  placeholder="First Name" 
-                  value={formData.firstName} 
-                  onChange={handleChange} 
+                <Input
+                  name="firstName"
+                  placeholder="First Name"
+                  value={formData.firstName}
+                  onChange={handleChange}
                   required
                 />
-                <Input 
-                  name="lastName" 
-                  placeholder="Last Name" 
-                  value={formData.lastName} 
-                  onChange={handleChange} 
+                <Input
+                  name="lastName"
+                  placeholder="Last Name"
+                  value={formData.lastName}
+                  onChange={handleChange}
                   required
                 />
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3">
-                <Input 
-                  name="email" 
-                  placeholder="Email Address" 
-                  type="email" 
-                  value={formData.email} 
-                  onChange={handleChange} 
+                <Input
+                  name="email"
+                  placeholder="Email Address"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   required
                 />
-                <Input 
-                  name="phone" 
-                  placeholder="Phone Number" 
-                  type="tel" 
+                <Input
+                  name="phone"
+                  placeholder="Phone Number"
+                  type="tel"
                   inputMode="numeric"
-                  value={formData.phone} 
-                  onChange={handleChange} 
+                  value={formData.phone}
+                  onChange={handleChange}
                 />
               </div>
 
-              <Input 
-                name="org" 
-                placeholder="Organization / Company" 
-                value={formData.org} 
-                onChange={handleChange} 
+              <Input
+                name="org"
+                placeholder="Organization / Company"
+                value={formData.org}
+                onChange={handleChange}
               />
 
               <textarea
@@ -489,7 +515,7 @@ const Footers = ({
                 required
                 className="w-full bg-[#111] border border-gray-800 px-4 py-3 text-sm text-white placeholder-gray-400 focus:outline-none focus:border-[#f5c518] transition-colors rounded-none flex-1 min-h-[160px] md:min-h-[200px] resize-none"
               />
-              <button 
+              <button
                 type="submit"
                 disabled={status === "loading" || status === "success"}
                 className={`w-full text-gray-500 border border-gray-800 font-bold uppercase tracking-widest py-4 text-xs transition-colors duration-300
@@ -529,9 +555,9 @@ const Footers = ({
             {socialIcons.map((social) => (
               <a
                 key={social.name}
-                href={social.href} 
-                target="_blank"    
-                rel="noopener noreferrer" 
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="hover:text-[#f5c518] transition-colors duration-300"
                 aria-label={social.name}
               >
