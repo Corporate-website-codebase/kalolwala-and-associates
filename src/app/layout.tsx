@@ -8,6 +8,7 @@ import { Noto_Sans } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import SmoothScroll from "@/components/SmoothScroll";
 import { PassTransitionProvider } from "@/components/StackedCurtainTransition";
+import Popup from "@/components/Popup";
 import { PAGE_METADATA } from "@/data/metadata";
 
 const anton = Anton({
@@ -28,14 +29,14 @@ const noto = Noto_Sans({
 
 const home = PAGE_METADATA.home;
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.SITE_URL || ""),
+  metadataBase: new URL(process.env.SITE_URL || "http://localhost:3000/"),
   title: home.title,
   description: home.description,
   alternates: {
     canonical: home.canonical,
     languages: {
-      en: process.env.SITE_URL || "",
-      "x-default": process.env.SITE_URL || "",
+      en: process.env.SITE_URL || "http://localhost:3000/",
+      "x-default": process.env.SITE_URL || "http://localhost:3000/",
     },
   },
 };
@@ -79,6 +80,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           <SmoothScroll>
             <main className="relative w-full h-full">{children}</main>
           </SmoothScroll>
+          <Popup />
         </PassTransitionProvider>
       </body>
     </html>

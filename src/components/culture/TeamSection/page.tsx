@@ -155,9 +155,6 @@ const teamData: TeamMember[] = [
 
 const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
-
-
-
 const TeamSection: React.FC = () => {
   const [activeMember, setActiveMember] = useState<TeamMember | null>(null);
   const [startRect, setStartRect] = useState<DOMRect | null>(null);
@@ -166,41 +163,46 @@ const TeamSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
-  // Modal refs
   const modalRef = useRef<HTMLDivElement>(null);
   const modalContentRef = useRef<HTMLDivElement>(null);
-  // We need a ref for the temporary image in the modal for the crossfade
   const modalImageLayerRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
 
-  // Split Data
   const leaders = teamData.slice(0, 2);
   const teamMembers = teamData.slice(2);
 
-  // 1. ENTRY ANIMATION
-  useEffect(() => {
-    const validCards = cardsRef.current.filter((el): el is HTMLDivElement => el !== null);
-    if (validCards.length > 0 && sectionRef.current) {
-      ScrollTrigger.batch(validCards, {
-        onEnter: (batch) => {
-          gsap.fromTo(
-            batch,
-            { y: 60, opacity: 0, scale: 0.95 },
-            {
-              y: 0, opacity: 1, scale: 1,
-              duration: 0.8, stagger: 0.05, ease: 'power3.out'
-            }
-          );
-        },
-        start: "top 90%",
-        once: true
-      });
-    }
+  // 1. REFINED ENTRY ANIMATION
+  useIsomorphicLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      const validCards = cardsRef.current.filter((el): el is HTMLDivElement => el !== null);
+      
+      if (validCards.length > 0) {
+        // Ensure starting state is locked in
+        gsap.set(validCards, { y: 50, opacity: 0, scale: 0.95 });
+
+        ScrollTrigger.batch(validCards, {
+          onEnter: (batch) => {
+            gsap.to(batch, {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: 1.2,
+              stagger: 0.15,
+              ease: 'expo.out',
+              overwrite: true
+            });
+          },
+          start: "top 85%", 
+          once: true
+        });
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
   }, []);
 
-  // 2. CLICK HANDLER
+  // 2. MODAL LOGIC
   const handleCardClick = (member: TeamMember, index: number) => {
-    // Find the actual card container (the child of the wrapper that has the ref)
     const cardWrapper = cardsRef.current[index];
     const cardElement = cardWrapper?.querySelector('.card-container') as HTMLElement;
 
@@ -213,21 +215,16 @@ const TeamSection: React.FC = () => {
     }
   };
 
-  // 3. EXPAND ANIMATION (The Crossfade Magic)
   useIsomorphicLayoutEffect(() => {
     if (activeMember && startRect && modalRef.current && overlayRef.current && modalImageLayerRef.current) {
-
       const ctx = gsap.context(() => {
         const tl = gsap.timeline();
 
-        // 1. Hide Original Card
         if (activeIndex !== null && cardsRef.current[activeIndex]) {
-          // Hide the inner container, keep the wrapper for layout spacing
           const cardElement = cardsRef.current[activeIndex]?.querySelector('.card-container');
           if (cardElement) gsap.set(cardElement, { opacity: 0 });
         }
 
-        // 2. Setup Initial Modal State (LOOKS EXACTLY LIKE THE CARD)
         gsap.set(modalRef.current, {
           top: startRect.top,
           left: startRect.left,
@@ -236,49 +233,28 @@ const TeamSection: React.FC = () => {
           opacity: 1,
           zIndex: 100,
           backgroundColor: '#18181b',
-          border: '1px solid rgba(255,255,255,0.05)'
         });
 
-        // Ensure the temporary image layer is visible initially
         gsap.set(modalImageLayerRef.current, { opacity: 1 });
-        // Ensure new text content is hidden initially
-        if (modalContentRef.current) gsap.set(modalContentRef.current, { opacity: 0, y: 20 });
+        if (modalContentRef.current) gsap.set(modalContentRef.current, { opacity: 0, y: 30 });
 
-        tl.to(overlayRef.current, { opacity: 1, pointerEvents: 'auto', duration: 0.4, ease: 'power1.out' }, 0);
-
-        // 4. Calculate Center Position
-        const targetWidth = Math.min(900, window.innerWidth * 0.95); 
-        const targetHeight = Math.min(700, window.innerHeight * 0.9);
-          
-        const targetLeft = (window.innerWidth - targetWidth) / 2;
-        const targetTop = (window.innerHeight - targetHeight) / 2;
-
-        tl.to(modalRef.current, {
-          top: targetTop,
-          left: targetLeft,
-          width: targetWidth,
-          height: targetHeight,
-          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
-          border: '1px solid rgba(234,179,8,0.3)', // Yellow tint border on expand
-          duration: 0.6,
-          ease: 'expo.inOut'
-        }, 0);
-
-        // FADE OUT Image Layer during expansion
-        tl.to(modalImageLayerRef.current, { opacity: 0, duration: 0.4, ease: 'power2.in' }, 0);
-
-        // FADE IN Text Content slightly later
-        if (modalContentRef.current) {
-          tl.to(modalContentRef.current, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, 0.2);
-        }
+        tl.to(overlayRef.current, { opacity: 1, pointerEvents: 'auto', duration: 0.4 }, 0)
+          .to(modalRef.current, {
+            top: (window.innerHeight - Math.min(700, window.innerHeight * 0.9)) / 2,
+            left: (window.innerWidth - Math.min(900, window.innerWidth * 0.95)) / 2,
+            width: Math.min(900, window.innerWidth * 0.95),
+            height: Math.min(700, window.innerHeight * 0.9),
+            duration: 0.7,
+            ease: 'expo.inOut'
+          }, 0)
+          .to(modalImageLayerRef.current, { opacity: 0, duration: 0.5 }, 0.1)
+          .to(modalContentRef.current, { opacity: 1, y: 0, duration: 0.6 }, 0.3);
 
       }, sectionRef);
-
       return () => ctx.revert();
     }
   }, [activeMember, startRect, activeIndex]);
 
-  // 4. CLOSE HANDLER (Reverse Crossfade)
   const handleCloseModal = () => {
     if (modalRef.current && overlayRef.current && startRect && modalImageLayerRef.current) {
       const tl = gsap.timeline({
@@ -294,45 +270,51 @@ const TeamSection: React.FC = () => {
         }
       });
 
-      // Fade OUT text content
-      tl.to(modalContentRef.current, { opacity: 0, y: 10, duration: 0.2 }, 0);
-
-      // Fade IN image layer while shrinking
-      tl.to(modalImageLayerRef.current, { opacity: 1, duration: 0.3, ease: 'power2.out' }, 0.1);
-
-      // Shrink Box back to card rect
-      tl.to(modalRef.current, {
-        top: startRect.top,
-        left: startRect.left,
-        width: startRect.width,
-        height: startRect.height,
-        border: '1px solid rgba(255,255,255,0.05)',
-        boxShadow: 'none',
-        duration: 0.5,
-        ease: 'power4.inOut' // Snappier ease for exit
-      }, 0);
-
-      // ADDED: pointerEvents: 'none' to disable clicking when hidden
-      tl.to(overlayRef.current, { opacity: 0, pointerEvents: 'none', duration: 0.3 }, "-=0.2");
+      tl.to(modalContentRef.current, { opacity: 0, duration: 0.2 }, 0)
+        .to(modalRef.current, {
+          top: startRect.top,
+          left: startRect.left,
+          width: startRect.width,
+          height: startRect.height,
+          duration: 0.5,
+          ease: 'power4.inOut'
+        }, 0)
+        .to(modalImageLayerRef.current, { opacity: 1, duration: 0.3 }, 0.1)
+        .to(overlayRef.current, { opacity: 0, pointerEvents: 'none', duration: 0.3 }, "-=0.2");
     }
   };
 
-  // --- CARD COMPONENT ---
+  useEffect(() => {
+    // 1. Check if there is a hash in the URL
+    const hash = window.location.hash;
+    
+    if (hash) {
+      // 2. We use a small timeout to ensure the DOM has fully rendered
+      const timer = setTimeout(() => {
+        const element = document.getElementById(hash.replace("#", ""));
+        if (element) {
+          element.scrollIntoView({ 
+            behavior: "smooth", 
+            block: "start" 
+          });
+        }
+      }, 300); // 300ms is usually enough for Next.js to mount the components
+
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
   const MemberCard = ({ member, index, isLeader = false }: { member: TeamMember, index: number, isLeader?: boolean }) => {
     return (
-      // Outer wrapper holds the ref and space, and the abstract bg
       <div
         ref={(el) => { cardsRef.current[index] = el; }}
         className={`relative group flex-shrink-0 ${isLeader ? 'w-full max-w-[380px] h-[500px]' : 'w-full max-w-[300px] h-[380px]'}`}
+        style={{ opacity: 0, transform: 'translateY(50px)' }} 
       >
-        {/* --- NEW ABSTRACT YELLOW BEHIND IMAGE --- */}
-
-        {/* --- THE ACTUAL CARD CONTAINER (This is what visually expands) --- */}
         <div
           onClick={() => handleCardClick(member, index)}
-          className="card-container relative h-full w-full cursor-pointer bg-zinc-900 border border-white/5 overflow-hidden transition-transform duration-500 ease-out "
+          className="card-container relative h-full w-full cursor-pointer bg-zinc-900 border border-white/5 overflow-hidden"
         >
-          {/* IMAGE LAYER */}
           <div className="absolute inset-0 z-0">
             <Image
               src={member.imageSrc}
@@ -340,21 +322,18 @@ const TeamSection: React.FC = () => {
               fill
               className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-out group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/50 to-transparent opacity-90 transition-opacity duration-300"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/50 to-transparent opacity-90"></div>
           </div>
 
-          {/* TEXT CONTENT (Always Visible) */}
           <div className="absolute bottom-0 left-0 w-full p-6 z-20 flex flex-col justify-end h-full pointer-events-none">
-            <div className="translate-y-2 transition-transform duration-500 group-hover:translate-y-0">
-              <h3 className={`font-bold text-white leading-tight mb-2 ${isLeader ? 'text-2xl' : 'text-xl'}`}>
-                {member.name}
-              </h3>
-              <div className="flex items-center gap-3">
-                <div className="w-6 h-[2px] bg-yellow-500 transition-all duration-300 group-hover:w-10"></div>
-                <p className="text-[11px] font-bold text-zinc-300 uppercase tracking-widest group-hover:text-yellow-500 transition-colors duration-300 truncate">
-                  {member.role.split(',')[0]}
-                </p>
-              </div>
+            <h3 className={`font-bold text-white leading-tight mb-2 ${isLeader ? 'text-2xl' : 'text-xl'}`}>
+              {member.name}
+            </h3>
+            <div className="flex items-center gap-3">
+              <div className="w-6 h-[2px] bg-yellow-500 transition-all duration-300 group-hover:w-10"></div>
+              <p className="text-[11px] font-bold text-zinc-300 uppercase tracking-widest group-hover:text-yellow-500 truncate">
+                {member.role.split(',')[0]}
+              </p>
             </div>
           </div>
         </div>
@@ -363,20 +342,16 @@ const TeamSection: React.FC = () => {
   };
 
   return (
-    <section ref={sectionRef} className="bg-[#191818] font-noto-sans min-h-scree py-10 relative flex flex-col items-center overflow-hidden">
-
-
+    <section ref={sectionRef} id="team" className="bg-[#191818] font-noto-sans min-h-screen py-20 relative flex flex-col items-center overflow-hidden">
       <div className="mx-auto marginal relative z-10">
-        <p className='text-white md:text-4xl text-2xl leading-tight md:w-1/2 mb-14 font-noto-sans font-light mx-auto text-center'>
+        <p className='text-white md:text-4xl text-2xl leading-tight md:w-3/4 mb-14 font-noto-sans font-light mx-auto text-center'>
           We transform ideas into powerful brand moments. Crafted with intelligence, sharpened by design and delivered through technology that resonates.
         </p>
-        {/* Leaders */}
-        <div className="flex flex-wrap justify-center gap-6 mb-6">
+        <div className="flex flex-wrap justify-center gap-8 mb-8">
           {leaders.map((member, i) => (
             <MemberCard key={member.id} member={member} index={i} isLeader={true} />
           ))}
         </div>
-        {/* Team */}
         <div className="flex flex-wrap justify-center gap-6">
           {teamMembers.map((member, i) => (
             <MemberCard key={member.id} member={member} index={i + leaders.length} />
@@ -386,90 +361,35 @@ const TeamSection: React.FC = () => {
 
       <div ref={overlayRef} className="fixed inset-0 bg-black/80 backdrop-blur-sm opacity-0 pointer-events-none z-40" onClick={handleCloseModal} />
 
-      {/* --- MODAL --- */}
       {activeMember && (
-        <div
-          ref={modalRef}
-          className="fixed z-50 overflow-hidden"
-          style={{ opacity: 0 }}
-        >
-          {/* --- TEMPORARY IMAGE LAYER FOR SMOOTH TRANSITION --- */}
-          {/* This layer is visible initially and fades out as it expands */}
+        <div ref={modalRef} className="fixed z-50 overflow-hidden shadow-2xl" style={{ opacity: 0 }}>
           <div ref={modalImageLayerRef} className="absolute inset-0 z-0 pointer-events-none">
-            <Image
-              src={activeMember.imageSrc}
-              alt={activeMember.name}
-              fill
-              className="object-cover grayscale opacity-60" // Keep it styled like the inactive card
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/50 to-transparent opacity-90"></div>
-            {/* Mimic bottom text for seamless start */}
-            <div className="absolute bottom-0 left-0 w-full p-6 z-20 flex flex-col justify-end h-full">
-              <h3 className="font-bold text-white leading-tight mb-2 text-xl">{activeMember.name}</h3>
-            </div>
+            <Image src={activeMember.imageSrc} alt={activeMember.name} fill className="object-cover grayscale opacity-60" />
+            <div className="absolute inset-0 bg-linear-to-t from-zinc-950 via-zinc-950/50 to-transparent opacity-90"></div>
           </div>
 
+          <button onClick={handleCloseModal} className="absolute top-6 right-6 text-white hover:text-yellow-500 transition-colors z-[60] bg-black/40 rounded-full p-2">
+            <X size={24} />
+          </button>
 
-          {/* --- CLOSE BUTTON --- */}
-          {/* Moved button here (outside scrollable area) and changed to absolute */}
-          <button
-              onClick={handleCloseModal}
-              className="absolute top-4 right-4 text-white hover:text-yellow-500 transition-colors z-[60] bg-black/40 rounded-full p-2"
-            >
-              <X size={24} />
-            </button>
-
-
-          {/* --- ACTUAL MODAL CONTENT (Fades IN) --- */}
-          <div
-            className="relative z-10 w-full h-full p-8 md:p-12 overflow-y-auto custom-scrollbar bg-zinc-900/90"
-            data-lenis-prevent // Added to prevent lenis scroll hijacking
-            onWheel={(e) => e.stopPropagation()} // Added extra safety for mouse wheel
-            onTouchMove={(e) => e.stopPropagation()} // Added extra safety for touch
-          >
-           
-            <div ref={modalContentRef} className="opacity-0">
-              {/* Name */}
-              <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-3 tracking-tight">
-                {activeMember.name}
-              </h2>
-
-              {/* Designation */}
-              <p className="text-yellow-500 font-semibold uppercase tracking-[0.18em] text-xs mb-1">
-                {activeMember.role}
-              </p>
-
-              {/* Qualification */}
-              <p className="text-zinc-400 text-sm italic mb-5">
-                {activeMember.qual}
-              </p>
-
-              {/* Divider */}
-              <div className="w-14 h-[2px] bg-yellow-500/60 mb-8"></div>
-
-              {/* Message */}
+          <div className="relative z-10 w-full h-full p-8 md:p-12 overflow-y-auto custom-scrollbar bg-zinc-900/90" data-lenis-prevent>
+            <div ref={modalContentRef}>
+              <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-3 tracking-tight">{activeMember.name}</h2>
+              <p className="text-yellow-500 font-semibold uppercase tracking-[0.18em] text-sm mb-1">{activeMember.role}</p>
+              <p className="text-zinc-400 text-sm italic mb-6">{activeMember.qual}</p>
+              <div className="w-16 h-2px bg-yellow-500 mb-8"></div>
               <div className="prose prose-invert prose-lg max-w-none">
-                <p className="text-zinc-200 font-noto-sans font-light leading-relaxe whitespace-pre-line text-lg">
-                  {activeMember.message}
-                </p>
+                <p className="text-zinc-200 font-light leading-relaxed whitespace-pre-line text-lg">{activeMember.message}</p>
               </div>
             </div>
-
           </div>
         </div>
       )}
 
       <style jsx global>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: #3f3f46;
-          border-radius: 2px;
-        }
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
       `}</style>
     </section>
   );

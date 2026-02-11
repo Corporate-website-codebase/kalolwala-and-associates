@@ -1,6 +1,3 @@
-import { link } from "fs";
-import { title } from "process";
-
 export const PAYLOADS: Record<string, any> = {
   integrated: {
     title: "Integrated Annual Report",

@@ -60,9 +60,9 @@ export default function VideoRequestModal({ isOpen, onClose, videoTitle }: Video
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
       <div className="relative w-full max-w-md bg-white rounded-2xl p-8 shadow-2xl">
-        
+
         {/* Close Button */}
-        <button 
+        <button
           onClick={onClose}
           className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 transition-colors"
         >
@@ -78,7 +78,7 @@ export default function VideoRequestModal({ isOpen, onClose, videoTitle }: Video
             <p className="text-gray-600 mb-6">
               Your request has been sent to the admin. If approved, you will receive the video link at <strong>{formData.email}</strong> shortly.
             </p>
-            <button 
+            <button
               onClick={onClose}
               className="w-full py-3 bg-black text-white rounded-lg font-medium hover:bg-gray-800 transition-colors"
             >
