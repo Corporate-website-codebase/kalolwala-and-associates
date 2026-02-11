@@ -161,7 +161,7 @@ const Hero = () => {
                       </motion.div>
                       
                       <div className="relative z-30 flex items-center justify-start h-full" style={{ mixBlendMode: "screen" }}>
-                        <h1 className="leading-none tracking-tight whitespace-nowrap font-anton" 
+                        <h2 className="leading-none tracking-tight whitespace-nowrap font-anton" 
                             style={{ fontSize: getFontSize(layer.text), lineHeight: "1" }}>
                           {layer.text.split("").map((char, i) => (
                             !layer.fillIndices.includes(i) ? (
@@ -170,7 +170,7 @@ const Hero = () => {
                               </motion.span>
                             ) : null
                           ))}
-                        </h1>  
+                        </h2>  
                       </div>
                     </div>
                   </>
@@ -186,7 +186,7 @@ const Hero = () => {
                       </motion.div>
                       
                       <div className="relative z-30 flex items-center justify-end h-full" style={{ mixBlendMode: "screen" }}>
-                        <h1 className="leading-none tracking-tight whitespace-nowrap font-anton text-right" 
+                        <h2 className="leading-none tracking-tight whitespace-nowrap font-anton text-right" 
                             style={{ fontSize: getFontSize(layer.text), lineHeight: "1" }}>
                           {layer.text.split("").map((char, i) => (
                             !layer.fillIndices.includes(i) ? (
@@ -195,13 +195,13 @@ const Hero = () => {
                               </motion.span>
                             ) : null
                           ))}
-                        </h1>
+                        </h2>
                       </div>
                     </div>
                     
                     {/* RIGHT SIDE (Black Bg) */}
                     <div className="relative z-30 bg-black flex items-center justify-start lg:justify-end w-1/2 lg:w-auto h-[65%]">
-                      <h1 className="leading-none tracking-tight whitespace-nowrap font-anton text-right" 
+                      <h2 className="leading-none tracking-tight whitespace-nowrap font-anton text-right" 
                           style={{ fontSize: getFontSize(layer.text), lineHeight: "1" }}>
                         {layer.text.split("").map((char, i) => (
                           layer.fillIndices.includes(i) ? (
@@ -210,7 +210,7 @@ const Hero = () => {
                             </motion.span>
                           ) : null
                         ))}
-                      </h1>
+                      </h2>
                     </div>
                   </>
                 )}
