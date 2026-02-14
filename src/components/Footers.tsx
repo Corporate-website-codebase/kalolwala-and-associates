@@ -385,7 +385,7 @@ const Footers = ({
               />
 
               <p className="text-sm font-normal text-gray-400 font-noto-sans ">We are proud to be an organisational member of the IFRS Sustainability Alliance.</p>
-              <a href="#" className="text-sm font-noto-sans font-normal text-[#f5c518] underline ">View Official Listing</a>
+              <a href="https://sustainabilityalliance.ifrs.org/member-organisations/ " target="_blank" className="text-sm font-noto-sans font-normal text-[#f5c518] underline ">View Official Listing</a>
 
             </motion.div>
           </div>

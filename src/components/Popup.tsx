@@ -74,7 +74,8 @@ const Popup = () => {
               </p>
 
               <a
-                href="#"
+                href="https://sustainabilityalliance.ifrs.org/member-organisations/"
+                target="_blank"
                 className="inline-flex border px-3 py-1  items-center gap-1 font-noto-sans text-sm font-medium text-red-700 hover:text-black transition-colors uppercase tracking-widest mt-2"
               >
                 View Official Listing
