@@ -361,7 +361,7 @@ const Footers = ({
               onClick={() => setIsVideoOpen(true)}
             >
               <img
-                src="/images/Office shoot B&W Thumbnail.png"
+                src="/images/Office shoot B&W Thumbnail.webp"
                 alt="Corporate Video"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-60 group-hover:opacity-40"
               />
