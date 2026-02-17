@@ -8,6 +8,44 @@ import { motion, AnimatePresence } from "framer-motion";
 const Popup = () => {
   const [showPopup, setShowPopup] = useState(false);
 
+   useEffect(() => {
+      const scrollKeys = ["html", "body"];
+      
+      if (showPopup) {
+        scrollKeys.forEach((el) => {
+          const element = document.querySelector(el) as HTMLElement | null;
+          if (element) {
+            // important ensures it overrides any other CSS classes
+            element.style.setProperty("overflow", "hidden", "important");
+            element.style.setProperty("height", "100%", "important");
+            element.style.setProperty("touch-action", "none", "important"); // Prevents mobile touch-scroll
+          }
+        });
+      } else {
+        scrollKeys.forEach((el) => {
+          const element = document.querySelector(el) as HTMLElement | null;
+          if (element) {
+            element.style.removeProperty("overflow");
+            element.style.removeProperty("height");
+            element.style.removeProperty("touch-action");
+          }
+        });
+      }
+  
+      // Cleanup ensures scrolling is restored if the component unmounts
+      return () => {
+        scrollKeys.forEach((el) => {
+          const element = document.querySelector(el) as HTMLElement | null;
+          if (element) {
+            element.style.removeProperty("overflow");
+            element.style.removeProperty("height");
+            element.style.removeProperty("touch-action");
+          }
+        });
+      };
+    }, [showPopup]);
+
+
   useEffect(() => {
     const lastClosed = localStorage.getItem("popupClosedAt");
 
@@ -42,6 +80,7 @@ const Popup = () => {
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-[0.5px] p-4"
         >
           <motion.div
+            onClick={(e) => e.stopPropagation()} 
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 20 }}
