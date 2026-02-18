@@ -17,7 +17,7 @@ const services = [
   { title: "Presentations", key: "presentations" },
   { title: "Branding", key: "branding" },
   { title: "Videos", key: "video" },
-  { title: "Digital", key: "web" },
+  { title: "Digital & Software Development", key: "web" },
 ];
 
 const Services = () => {

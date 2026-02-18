@@ -92,7 +92,7 @@ export const PAYLOADS: Record<string, any> = {
       { label: "Presentations", key: "presentations" },
       { label: "Branding and Activation", key: "branding" },
       { label: "Videos", key: "video" },
-      { label: "Digital", key: "web" },
+      { label: "Digital & Software Development", key: "web" },
       // { label: "Digital", key: "data" },
     ],
     seo: {
@@ -140,7 +140,7 @@ export const PAYLOADS: Record<string, any> = {
       { label: "Presentations", key: "presentations" },
       { label: "Branding and Activation", key: "branding" },
       { label: "Videos", key: "video" },
-      { label: "Digital", key: "web" },
+      { label: "Digital & Software Development", key: "web" },
 
       // { label: "Digital", key: "data" },
     ],
@@ -153,7 +153,7 @@ export const PAYLOADS: Record<string, any> = {
   },
 
   web: {
-    title: "Digital",
+    title: "Digital & Software Development",
     // paragraph:"A website is more than an online presence. It is an extension of a brand’s identity, ethos and strategic intent. Our web development initiatives blend thoughtful storytelling with intelligent design and seamless functionality to create digital platforms that resonate with stakeholders. \n Our interactive websites enable our esteemed clients to enhance their brand reputation and recall. At K&A, our web solutions help build credibility, strengthen engagement and elevate brand leadership of our clients in an increasingly digital world.",
     paragraph:
       "Our entire operational fabric is integrated and digitalised, so that work processes can be properly streamlined and deadlines can be met with agility and precision across 5 cities in India. We have built a huge repository of economic data and industry insights from authentic sources, which is updated regularly by our analysts. In addition, we have recently introduced an automated BRSR documenting tool to help clients manage their BRSR documentation with absolute clarity, zero errors and non-compliances.",
@@ -237,7 +237,7 @@ export const PAYLOADS: Record<string, any> = {
       { label: "Sustainability and ESG reports", key: "sustainability" },
       { label: "Branding and Activation", key: "branding" },
       { label: "Videos", key: "video" },
-      { label: "Digital", key: "web" },
+      { label: "Digital & Software Development", key: "web" },
 
       // { label: "Digital", key: "data" },
     ],
@@ -277,7 +277,7 @@ export const PAYLOADS: Record<string, any> = {
       { label: "Sustainability and ESG reports", key: "sustainability" },
       { label: "Presentations", key: "presentations" },
       { label: "Videos", key: "video" },
-      { label: "Digital", key: "web" },
+      { label: "Digital & Software Development", key: "web" },
 
       // { label: "Digital", key: "data" },
     ],
@@ -381,7 +381,7 @@ export const PAYLOADS: Record<string, any> = {
       { label: "Sustainability and ESG reports", key: "sustainability" },
       { label: "Presentations", key: "presentations" },
       { label: "Branding and Activation", key: "branding" },
-      { label: "Digital", key: "web" },
+      { label: "Digital & Software Development", key: "web" },
     ],
     seo: {
       slug: "corporate-films-video-reports",
@@ -391,7 +391,7 @@ export const PAYLOADS: Record<string, any> = {
     },
   },
   data: {
-    title: "Digital",
+    title: "Digital & Software Development",
     paragraph:
       "Our entire operational fabric is integrated and digitalised, so that work processes can be properly streamlined and deadlines can be met with agility and precision across 5 cities in India. We have built a huge repository of economic data and industry insights from authentic sources, which is updated regularly by our analysts. In addition, we have recently introduced an automated BRSR documenting tool to help clients manage their BRSR documentation with absolute clarity, zero errors and non-compliances.",
     rightTextTitle: "Data",
