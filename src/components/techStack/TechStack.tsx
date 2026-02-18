@@ -58,7 +58,7 @@ export default function TechStack() {
       <motion.header
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
+        viewport={{ once: false, margin: "-100px" }}
         variants={sectionVariants}
         className="space-y-[20px]"
       >
@@ -104,7 +104,7 @@ export default function TechStack() {
       <motion.div
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-50px" }}
+        viewport={{ once: false, margin: "-50px" }}
         variants={{
           visible: {
             transition: { staggerChildren: 0.05, delayChildren: 0.4 },
