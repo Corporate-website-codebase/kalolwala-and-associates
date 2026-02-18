@@ -8,6 +8,7 @@ import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import VideoRequestModal from "./VideoRequestModal";
 import { useLenis } from "lenis/react";
 import { PassLink } from "../StackedCurtainTransition";
+import TechStack from "../techStack/TechStack";
 
 // --- Interfaces ---
 export interface ImageCard {
@@ -396,6 +397,9 @@ function ReportShowcaseContent({
               </div>
             </>
           )}
+
+          {/* Tech Stack Integration */}
+          {pathname.includes("corporate-websites") && <TechStack />}
 
           {/* STACK NAV */}
           <div className="mt-10 border-t border-black/10">

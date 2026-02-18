@@ -21,7 +21,8 @@
     "react-dom": "19.2.0",
     "react-icons": "^5.5.0",
     "react-intersection-observer": "^10.0.0",
-    "react-leaflet": "^5.0.0"
+    "react-leaflet": "^5.0.0",
+    "tech-stack-icons": "^3.5.8"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.16",

@@ -1,6 +1,7 @@
 "use client"
 import ReportShowcase from '@/components/services/ReportShowcase'
 import VideoRequestModal from '@/components/services/VideoRequestModal'
+import TechStack from '@/components/techStack/TechStack'
 import React from 'react'
 
 type Props = {}
@@ -8,8 +9,7 @@ type Props = {}
 const page = (props: Props) => {
   return (
     <>
-    <ReportShowcase/>
-    <VideoRequestModal isOpen={false} onClose={() => {}} videoTitle="hello"/>
+    <TechStack/>
     </>
   )
 }
