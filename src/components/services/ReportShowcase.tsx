@@ -240,17 +240,26 @@ function ReportShowcaseContent({
                 specializations &&
                 specializations.length > 0 && (
                   <div>
-                    <h3 className="text-neutral-800 mt-3" style={{ fontSize: "clamp(14px, 1.2vw, 18px)" }}>We specialize in : </h3>
+                    <h3
+                      className="text-neutral-800 mt-3"
+                      style={{ fontSize: "clamp(14px, 1.2vw, 18px)" }}
+                    >
+                      We specialize in :{" "}
+                    </h3>
                     <div className="flex flex-wrap gap-2 mt-4 max-w-3xl">
                       {specializations.map((item, i) => (
-                        <span key={i} className="px-3 py-1 bg-[#eeeeee] rounded-full text-neutral-800 text-sm">{item.label}</span>
+                        <span
+                          key={i}
+                          className="px-3 py-1 bg-[#eeeeee] rounded-full text-neutral-800 text-sm"
+                        >
+                          {item.label}
+                        </span>
                       ))}
                     </div>
-
-
                   </div>
                 )}
             </div>
+
             {!showVideoSelection &&
               Array.isArray(rightTextItems) &&
               rightTextItems.length > 0 && (
@@ -275,6 +284,13 @@ function ReportShowcaseContent({
                   ))}
                 </div>
               )}
+          </div>
+
+          <div className=" flex w-full  gap-8 px-3 pb-8">
+            <button className="border-2 font-semibold border-neutral-800 w-1/4 py-3 hover:bg-neutral-800 hover:text-yellow-400 transition-all duration-200 text-xl  rounded-full ">CORPORATE WEBSITES</button>
+            <button className="border-2 font-semibold border-neutral-800 w-1/4 py-3 hover:bg-neutral-800 hover:text-yellow-400 transition-all duration-200 text-xl  rounded-full ">CORPORATE MICROSITES</button>
+            <button className="border-2 font-semibold border-neutral-800 w-1/4 py-3 hover:bg-neutral-800 hover:text-yellow-400 transition-all duration-200 text-xl  rounded-full ">SUSTAINABILITY TOOLS</button>
+            <button className="border-2 font-semibold border-neutral-800 w-1/4  py-3 hover:bg-neutral-800 hover:text-yellow-400 transition-all duration-200 text-xl rounded-full ">K&A STUDIO</button>
           </div>
 
           {/* SELECTION GRID (Video Logic Phase 1) */}
