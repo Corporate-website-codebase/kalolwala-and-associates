@@ -536,7 +536,7 @@ const Footers = ({
         <div className="flex flex-col-reverse md:flex-row justify-between items-start md:items-center gap-6 md:gap-4">
           <motion.p
             variants={textRevealVariants}
-            className="text-gray-300 text-xs"
+            className="text-gray-300 text-xs hover:text-yellow-400"
           >
             © Kalolwala & Associates Pvt Ltd {year}.
           </motion.p>

@@ -78,7 +78,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <PassTransitionProvider colors={["#555555", "#3D3D3D", "#252525"]}>
           <Navbar />
           <SmoothScroll>
-            <main className="relative w-full h-full">{children}</main>
+            <main className="relative w-full h-full selection:bg-yellow-400/15">{children}</main>
           </SmoothScroll>
           <Popup />
         </PassTransitionProvider>

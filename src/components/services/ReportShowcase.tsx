@@ -241,18 +241,13 @@ function ReportShowcaseContent({
                 specializations.length > 0 && (
                   <div>
                     <h3 className="text-neutral-800 mt-3" style={{ fontSize: "clamp(14px, 1.2vw, 18px)" }}>We specialize in : </h3>
-                  <ul className="mt-3 space-y-1">
-                    {specializations.map((item, i) => (
-                      <li
-                        key={item.key || i}
-                        className="flex items-start  gap-3 text-neutral-800"
-                        style={{ fontSize: "clamp(14px, 1.2vw, 18px)" }}
-                      >
-                        <span className="mt-2.5 w-1.5 h-1.5 bg-neutral-800 rounded-full flex-shrink-0" />
-                        <span>{item.label}</span>
-                      </li>
-                    ))}
-                  </ul>
+                    <div className="flex flex-wrap gap-2 mt-4 max-w-3xl">
+                      {specializations.map((item, i) => (
+                        <span key={i} className="px-3 py-1 bg-[#eeeeee] rounded-full text-neutral-800 text-sm">{item.label}</span>
+                      ))}
+                    </div>
+
+
                   </div>
                 )}
             </div>
@@ -430,7 +425,7 @@ function ReportShowcaseContent({
           )}
 
           {/* Tech Stack Integration */}
-          {pathname.includes("corporate-websites") && <TechStack />}
+          {pathname.includes("corporate-websites") && <TechStackCarousel />}
 
           {/* STACK NAV */}
           <div className="mt-10 border-t border-black/10">

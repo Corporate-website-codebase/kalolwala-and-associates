@@ -1,23 +1,23 @@
 export const WEB_SPECIALIZATIONS = [
   {
-    label: "AI-powered chat bots for intelligent customer interaction",
+    label: "AI-Powered Chatbots",
     key: "ai-chatbots",
   },
   {
-    label: "Strong security implementation and data protection",
+    label: "Enterprise Security Solutions",
     key: "security",
   },
   {
-    label: "Efficient data management systems for investors and stakeholders",
+    label: "Investor Data Management",
     key: "data-management",
   },
   {
-    label: "Structured handling of products data and enterprise information",
+    label: "Investor Data Management",
     key: "data-handling",
   },
-  { label: "Clean and scalable deployment environments", key: "deployment" },
+  { label: "Scalable Cloud Deployments", key: "deployment" },
   {
-    label: "Continuous post-production change services and technical support",
+    label: "Post-Production Support Services",
     key: "post-production",
   },
 ];
