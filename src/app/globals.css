@@ -198,3 +198,17 @@ body {
   height: 100vh !important;
   touch-action: none !important; /* Disables swipe-to-scroll on mobile */
 }
+
+/* Tech-stack infinite marquee carousel */
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee-scroll {
+  animation: marquee-scroll 30s linear infinite;
+}

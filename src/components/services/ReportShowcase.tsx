@@ -9,6 +9,7 @@ import VideoRequestModal from "./VideoRequestModal";
 import { useLenis } from "lenis/react";
 import { PassLink } from "../StackedCurtainTransition";
 import TechStack from "../techStack/TechStack";
+import TechStackCarousel from "../techStack/TechStackCarousel";
 
 // --- Interfaces ---
 export interface ImageCard {
@@ -33,6 +34,7 @@ interface ReportShowcaseProps {
   rightTextItems?: string[];
   cards?: ImageCard[];
   stack?: StackItem[];
+  specializations?: { label: string; key: string }[];
   // New props for routing control
   activeKey?: string;
   activeType?: string | null;
@@ -75,6 +77,7 @@ function ReportShowcaseContent({
   rightTextItems: propRightTextItems,
   cards: propCards,
   stack: propStack,
+  specializations: propSpecializations,
   activeKey: propActiveKey,
   activeType: propActiveType,
   onCategorySelect,
@@ -126,10 +129,18 @@ function ReportShowcaseContent({
     rightTextItems: propRightTextItems || [],
     cards: propCards || DEFAULT_CARDS,
     stack: propStack || DEFAULT_STACK,
+    specializations: propSpecializations,
   };
 
-  const { title, paragraph, rightTextTitle, rightTextItems, cards, stack } =
-    currentData;
+  const {
+    title,
+    paragraph,
+    rightTextTitle,
+    rightTextItems,
+    cards,
+    stack,
+    specializations,
+  } = currentData;
 
   const handleSelection = (type: string | null) => {
     if (onCategorySelect && type) {
@@ -224,6 +235,26 @@ function ReportShowcaseContent({
                   ? "Choose a category to view related videos."
                   : paragraph}
               </p>
+
+              {!showVideoSelection &&
+                specializations &&
+                specializations.length > 0 && (
+                  <div>
+                    <h3 className="text-neutral-800 mt-3" style={{ fontSize: "clamp(14px, 1.2vw, 18px)" }}>We specialize in : </h3>
+                  <ul className="mt-3 space-y-1">
+                    {specializations.map((item, i) => (
+                      <li
+                        key={item.key || i}
+                        className="flex items-start  gap-3 text-neutral-800"
+                        style={{ fontSize: "clamp(14px, 1.2vw, 18px)" }}
+                      >
+                        <span className="mt-2.5 w-1.5 h-1.5 bg-neutral-800 rounded-full flex-shrink-0" />
+                        <span>{item.label}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  </div>
+                )}
             </div>
             {!showVideoSelection &&
               Array.isArray(rightTextItems) &&

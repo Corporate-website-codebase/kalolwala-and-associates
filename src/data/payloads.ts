@@ -1,3 +1,27 @@
+export const WEB_SPECIALIZATIONS = [
+  {
+    label: "AI-powered chat bots for intelligent customer interaction",
+    key: "ai-chatbots",
+  },
+  {
+    label: "Strong security implementation and data protection",
+    key: "security",
+  },
+  {
+    label: "Efficient data management systems for investors and stakeholders",
+    key: "data-management",
+  },
+  {
+    label: "Structured handling of products data and enterprise information",
+    key: "data-handling",
+  },
+  { label: "Clean and scalable deployment environments", key: "deployment" },
+  {
+    label: "Continuous post-production change services and technical support",
+    key: "post-production",
+  },
+];
+
 export const PAYLOADS: Record<string, any> = {
   integrated: {
     title: "Integrated Annual Report",
@@ -156,16 +180,23 @@ export const PAYLOADS: Record<string, any> = {
     title: "Digital & Software Development",
     // paragraph:"A website is more than an online presence. It is an extension of a brand’s identity, ethos and strategic intent. Our web development initiatives blend thoughtful storytelling with intelligent design and seamless functionality to create digital platforms that resonate with stakeholders. \n Our interactive websites enable our esteemed clients to enhance their brand reputation and recall. At K&A, our web solutions help build credibility, strengthen engagement and elevate brand leadership of our clients in an increasingly digital world.",
     paragraph:
-      "Our entire operational fabric is integrated and digitalised, so that work processes can be properly streamlined and deadlines can be met with agility and precision across 5 cities in India. We have built a huge repository of economic data and industry insights from authentic sources, which is updated regularly by our analysts. In addition, we have recently introduced an automated BRSR documenting tool to help clients manage their BRSR documentation with absolute clarity, zero errors and non-compliances.",
+      "We build scalable, secure, and performance-driven digital solutions tailored to modern enterprises. Our expertise spans across the development of corporate websites and corporate microsites, engineered with robust frontend and backend architectures. From intuitive user interfaces to powerful server-side systems, we ensure seamless functionality across all layers of development.",
     rightTextTitle: "Digital",
     rightTextItems: [],
     cards: [
       {
-        title: "EKKAA Electronics",
-        image: "/images/offerings/web/ekkaa.jpg",
+        title: "MARICO",
+        image: "/images/offerings/web/Marico-banner.png",
         subtitle: "DISCOVER MORE",
-        link: "https://ekkaa.com/",
+        link: "https://marico.com/",
       },
+      {
+        title: "Tata Communications Sustainability",
+        image: "/images/offerings/web/tata communications sustainability.jpg",
+        subtitle: "DISCOVER MORE",
+        link: "https://sustainability.tatacommunications.com/",
+      },
+
       {
         title: "Pitti Engineering Limited",
         image: "/images/offerings/web/PITTI.jpg",
@@ -179,10 +210,17 @@ export const PAYLOADS: Record<string, any> = {
         link: "https://solargroup.com/",
       },
       {
-        title: "Tata Communications Sustainability",
-        image: "/images/offerings/web/tata communications sustainability.jpg",
+        title: "EKKAA Electronics",
+        image: "/images/offerings/web/ekkaa.jpg",
         subtitle: "DISCOVER MORE",
-        link: "https://sustainability.tatacommunications.com/",
+        link: "https://ekkaa.com/",
+      },
+
+      {
+        title: "SBKG ROPES",
+        image: "/images/offerings/web/SBKG.png",
+        subtitle: "DISCOVER MORE",
+        link: "https://sbkgropes.com/",
       },
     ],
     stack: [
@@ -199,6 +237,7 @@ export const PAYLOADS: Record<string, any> = {
       description:
         "Transform your digital presence with K&A's corporate website and communication solutions, articulated to engage stakeholders through compelling storytelling and seamless usability.",
     },
+    specializations: WEB_SPECIALIZATIONS,
   },
   presentations: {
     title: "Presentations",
