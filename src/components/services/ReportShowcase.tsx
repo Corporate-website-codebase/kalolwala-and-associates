@@ -96,6 +96,8 @@ function ReportShowcaseContent({
   // --- Modal State ---
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState<string>("");
+  const [activeWebTab, setActiveWebTab] =
+    useState<string>("corporate-websites");
 
   const scrollToTop = () => {
     if (lenis) {
@@ -163,6 +165,9 @@ function ReportShowcaseContent({
       // If we are in video mode but no sub-type is selected yet, we might want to hide the grid
       // (because the big selection cards are shown), or return false.
       return false;
+    }
+    if (activeKey === "web" || pathname.includes("corporate-websites")) {
+      return card.type === activeWebTab;
     }
     return true;
   });
@@ -286,12 +291,29 @@ function ReportShowcaseContent({
               )}
           </div>
 
-          <div className=" flex w-full  gap-8 px-3 pb-8">
-            <button className="border-2 font-semibold border-neutral-800 w-1/4 py-3 hover:bg-neutral-800 hover:text-yellow-400 transition-all duration-200 text-xl  rounded-full ">CORPORATE WEBSITES</button>
-            <button className="border-2 font-semibold border-neutral-800 w-1/4 py-3 hover:bg-neutral-800 hover:text-yellow-400 transition-all duration-200 text-xl  rounded-full ">CORPORATE MICROSITES</button>
-            <button className="border-2 font-semibold border-neutral-800 w-1/4 py-3 hover:bg-neutral-800 hover:text-yellow-400 transition-all duration-200 text-xl  rounded-full ">SUSTAINABILITY TOOLS</button>
-            <button className="border-2 font-semibold border-neutral-800 w-1/4  py-3 hover:bg-neutral-800 hover:text-yellow-400 transition-all duration-200 text-xl rounded-full ">K&A STUDIO</button>
-          </div>
+          {/* WEB TABS */}
+          {(activeKey === "web" || pathname.includes("corporate-websites")) && (
+            <div className="flex w-full gap-4 lg:gap-8 px-3 pb-8 flex-wrap lg:flex-nowrap">
+              {[
+                { id: "corporate-websites", label: "CORPORATE WEBSITES" },
+                { id: "corporate-microsites", label: "CORPORATE MICROSITES" },
+                { id: "sustainability-tools", label: "SUSTAINABILITY TOOLS" },
+                { id: "ka-studio", label: "K&A STUDIO" },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveWebTab(tab.id)}
+                  className={`border-2 cursor-pointer font-semibold border-neutral-800 w-full lg:w-1/4 py-3 transition-all duration-200 text-sm lg:text-xl rounded-full ${
+                    activeWebTab === tab.id
+                      ? "bg-neutral-800 text-yellow-400"
+                      : "hover:bg-neutral-800 hover:text-yellow-400 text-neutral-800 bg-transparent"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+          )}
 
           {/* SELECTION GRID (Video Logic Phase 1) */}
           {/* Note: These are UI elements for navigation, not data-driven cards */}
@@ -390,6 +412,7 @@ function ReportShowcaseContent({
                     // @ts-ignore
                     <Wrapper
                       key={idx}
+                      target="_blank"
                       {...wrapperProps}
                       className={`group relative flex flex-col h-full overflow-hidden rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer
                         ${isVideoMode ? "bg-white/60 backdrop-blur-xl border border-white" : "bg-white/60 backdrop-blur-xl border border-white"}`}

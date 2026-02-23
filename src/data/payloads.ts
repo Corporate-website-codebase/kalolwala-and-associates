@@ -12,7 +12,7 @@ export const WEB_SPECIALIZATIONS = [
     key: "data-management",
   },
   {
-    label: "Investor Data Management",
+    label: "Product Information Systems",
     key: "data-handling",
   },
   { label: "Scalable Cloud Deployments", key: "deployment" },
@@ -189,12 +189,14 @@ export const PAYLOADS: Record<string, any> = {
         image: "/images/offerings/web/Marico-banner.png",
         subtitle: "DISCOVER MORE",
         link: "https://marico.com/",
+        type: "corporate-websites",
       },
       {
-        title: "Tata Communications Sustainability",
-        image: "/images/offerings/web/tata communications sustainability.jpg",
+        title: "Solar Industries Limited",
+        image: "/images/offerings/web/Solar.jpg",
         subtitle: "DISCOVER MORE",
-        link: "https://sustainability.tatacommunications.com/",
+        link: "https://solargroup.com/",
+        type: "corporate-websites",
       },
 
       {
@@ -202,18 +204,22 @@ export const PAYLOADS: Record<string, any> = {
         image: "/images/offerings/web/PITTI.jpg",
         subtitle: "DISCOVER MORE",
         link: "https://www.pitti.in/",
+        type: "corporate-websites",
       },
-      {
-        title: "Solar Industries Limited",
-        image: "/images/offerings/web/Solar.jpg",
-        subtitle: "DISCOVER MORE",
-        link: "https://solargroup.com/",
-      },
+
       {
         title: "EKKAA Electronics",
         image: "/images/offerings/web/ekkaa.jpg",
         subtitle: "DISCOVER MORE",
         link: "https://ekkaa.com/",
+        type: "corporate-websites",
+      },
+      {
+        title: "RajRatan",
+        image: "/images/offerings/web/sustainablity-tools/Raj_Ratan.png",
+        subtitle: "DISCOVER MORE",
+        link: "https://rajratan.co.in/",
+        type: "corporate-websites",
       },
 
       {
@@ -221,6 +227,75 @@ export const PAYLOADS: Record<string, any> = {
         image: "/images/offerings/web/SBKG.png",
         subtitle: "DISCOVER MORE",
         link: "https://sbkgropes.com/",
+        type: "corporate-websites",
+      },
+      // Dummy data for other
+            {
+        title: "Tata Communications Sustainability",
+        image: "/images/offerings/web/tata communications sustainability.jpg",
+        subtitle: "DISCOVER MORE",
+        link: "https://sustainability.tatacommunications.com/",
+        type: "corporate-microsites",
+      },
+            {
+        title: "Kotak",
+        image: "/images/offerings/web/microsite/Kotak.png",
+        subtitle: "DISCOVER MORE",
+        link: "https://www.balcoindia.com/annual-report/2024-25/",
+        type: "corporate-microsites",
+      },
+            {
+        title: "Tata Consumer Products",
+        image: "/images/offerings/web/microsite/Tata_Consumer_Products.png",
+        subtitle: "DISCOVER MORE",
+        link: "https://www.tataconsumer.com/iar-2024-25/",
+        type: "corporate-microsites",
+      },
+            {
+        title: "Indian Oil",
+        image: "/images/offerings/web/microsite/Indian-oil.png",
+        subtitle: "DISCOVER MORE",
+        link: "https://iocl.com/uploads/AnnualReport2024-25/index.html",
+        type: "corporate-microsites",
+      },
+      {
+        title: "Gulf Oil",
+        image: "/images/offerings/web/microsite/Gulf-oil.png",
+        subtitle: "DISCOVER MORE",
+        link: "https://gulf-oil-2025.vercel.app/",
+        type: "corporate-microsites",
+      },
+      {
+        title: "LT Foods Investor Relations",
+        image: "/images/offerings/web/microsite/LT-foods.png",
+        subtitle: "DISCOVER MORE",
+        link: "https://ltf.ltfoods.com/",
+        type: "corporate-microsites",
+      },
+
+
+
+      {
+        title: "Business reliablity & sustainability report (BRSR)",
+        image: "/images/offerings/web/sustainablity-tools/BRSR.png",
+        subtitle: "DISCOVER MORE",
+        link: "https://brsr.kalolwala.com/",
+        type: "sustainability-tools",
+      },
+
+      {
+        title: "K&A Studio Project 1",
+        image: "/images/offerings/web/ekkaa.jpg",
+        subtitle: "DISCOVER MORE",
+        link: "#",
+        type: "ka-studio",
+      },
+      {
+        title: "K&A Studio Project 2",
+        image: "/images/offerings/web/SBKG.png",
+        subtitle: "DISCOVER MORE",
+        link: "#",
+        type: "ka-studio",
       },
     ],
     stack: [
