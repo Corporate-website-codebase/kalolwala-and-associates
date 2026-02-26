@@ -162,7 +162,7 @@ export default function BlogDetailPage({ post }: BlogDetailPageProps) {
       <div className="marginal">
         <div
           ref={contentWrapperRef}
-          className="flex flex-col lg:flex-row gap-10 lg:gap-14 py-14 sm:py-20 lg:items-start"
+          className="flex flex-col lg:flex-row gap-10 lg:gap-14 lg:items-start"
         >
           {/* === LEFT COLUMN — 70% — CONTENT === */}
           <div ref={contentRef} className="invisible w-full lg:w-[70%] min-w-0">
@@ -182,7 +182,6 @@ export default function BlogDetailPage({ post }: BlogDetailPageProps) {
 
             <article
               className="
-                max-w-[820px]
                 text-gray-300 text-base sm:text-lg leading-[1.85] font-light
 
                 [&>h2]:text-white
@@ -200,8 +199,8 @@ export default function BlogDetailPage({ post }: BlogDetailPageProps) {
                 [&>p]:mb-6
 
                 [&>ul]:mb-6 [&>ul]:pl-5
-                [&>ul]:list-disc [&>ul]:marker:text-[#F4C016]/50
-                [&>ul>li]:mb-2 [&>ul>li]:text-gray-400
+                [&>ul]:list-disc [&>ul]:marker:text-[#F4C016]/80
+                [&>ul>li]:mb-2
 
                 [&>blockquote]:border-l-2
                 [&>blockquote]:border-[#F4C016]
@@ -221,6 +220,7 @@ export default function BlogDetailPage({ post }: BlogDetailPageProps) {
 
                 [&>strong]:text-white [&>strong]:font-medium
                 [&_strong]:text-white [&_strong]:font-medium
+
               "
               dangerouslySetInnerHTML={{ __html: post.content || "" }}
             />

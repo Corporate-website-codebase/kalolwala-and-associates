@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { BLOG_DATA, getBlogBySlug } from "@/data/blogs";
 import BlogDetailPage from "@/components/blogs/BlogDetailPage";
+import Footers from "@/components/Footers";
 
 // Static generation for known slugs
 export function generateStaticParams() {
@@ -41,5 +42,10 @@ export default async function BlogPostPage({ params }: Props) {
     notFound();
   }
 
-  return <BlogDetailPage post={post} />;
+  return (
+    <>
+      <BlogDetailPage post={post} />
+      <Footers nextPageName="Blogs" nextPageLink="/blogs" />
+    </>
+  );
 }
