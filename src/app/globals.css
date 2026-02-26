@@ -91,15 +91,14 @@ body {
 
 h1 span {
   display: inline-block;
-} */  
- /* @import url("https://use.typekit.net/zmg6oqe.css"); */
+} */
+/* @import url("https://use.typekit.net/zmg6oqe.css"); */
 
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
 
- @import "tailwindcss";
+@import "tailwindcss";
 
-
- /* 3. Configure the Font */
+/* 3. Configure the Font */
 /* @theme {
   --font-degular: "Degular", "sans-serif";
   --font-degular-display: "Degular Display", "sans-serif";
@@ -116,7 +115,6 @@ h1 span {
   --font-mono: "Courier New", monospace;
 } */
 
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -124,7 +122,7 @@ h1 span {
   --font-mono: var(--font-mono);
   /* --font-gotham: "Gotham", sans-serif; */
   --font-anton: "Anton", sans-serif;
-  --font-noto-sans: "Noto Sans", sans-serif;;
+  --font-noto-sans: "Noto Sans", sans-serif;
   /* --font-noto-sans: "Dosis", sans-serif; */
 }
 
@@ -145,23 +143,23 @@ h1 span {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 } */
- /* :root { */
-  /* 👇 CHANGE THIS LINE. Put "degular" at the very front. */
-  /* --font-sans: "degular", "Inter", sans-serif;  */
+/* :root { */
+/* 👇 CHANGE THIS LINE. Put "degular" at the very front. */
+/* --font-sans: "degular", "Inter", sans-serif;  */
 /* } */
 
- /* body {
+/* body {
   font-family: var(--font-sans);
   background: #000;
   color: #fff;
 } */
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
+  overflow-x: clip;
   background: #000;
 }
-
 
 .stroke-white {
   color: transparent;
@@ -178,9 +176,15 @@ body {
 }
 
 @keyframes rollX {
-  0%   { transform: translateX(0) rotate(0deg); }
-  50%  { transform: translateX(200px) rotate(360deg); }
-  100% { transform: translateX(0) rotate(720deg); }
+  0% {
+    transform: translateX(0) rotate(0deg);
+  }
+  50% {
+    transform: translateX(200px) rotate(360deg);
+  }
+  100% {
+    transform: translateX(0) rotate(720deg);
+  }
 }
 
 /* continuous smooth rolling */
@@ -188,10 +192,10 @@ body {
   animation: rollX 4s linear infinite;
 }
 .marginal {
-    width: 95vw;
-    /* max-width: 1500px; */
-    margin: auto;
-    padding: 2% 0;
+  width: 95vw;
+  /* max-width: 1500px; */
+  margin: auto;
+  padding: 2% 0;
 }
 .no-scroll {
   overflow: hidden !important;
