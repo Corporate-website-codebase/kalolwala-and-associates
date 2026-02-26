@@ -241,7 +241,7 @@ export const PAYLOADS: Record<string, any> = {
         title: "Kotak",
         image: "/images/offerings/web/microsite/Kotak.png",
         subtitle: "DISCOVER MORE",
-        link: "https://www.balcoindia.com/annual-report/2024-25/",
+        link: "https://www.kotak.com/bank/mailers/annualreport/",
         type: "corporate-microsites",
       },
             {
