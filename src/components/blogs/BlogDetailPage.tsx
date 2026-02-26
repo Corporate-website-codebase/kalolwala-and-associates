@@ -175,7 +175,7 @@ export default function BlogDetailPage({ post }: BlogDetailPageProps) {
                 <img
                   src={post.image}
                   alt={post.title}
-                  className="w-full h-[35vh] sm:h-[45vh] md:h-[50vh] object-cover"
+                  className="w-full h-auto max-h-[70vh] object-contain rounded-sm"
                 />
               </div>
             )}
