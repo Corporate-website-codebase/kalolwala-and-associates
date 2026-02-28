@@ -225,24 +225,33 @@ export default function BlogDetailPage({ post }: BlogDetailPageProps) {
               dangerouslySetInnerHTML={{ __html: post.content || "" }}
             />
 
-            {/* ─── VISIT ORIGINAL BLOG CTA ─── */}
-            <div className="mt-16 pt-10 border-t border-white/10">
+            {/* ─── PUBLISHER CTA ─── */}
+            <div className="mt-16 pt-10 border-t  border-white/10">
               <a
                 href={post.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="
-                  group inline-flex items-center gap-3
+                  group inline-flex items-center
                   text-gray-400 hover:text-[#F4C016]
                   transition-colors duration-300
                 "
               >
-                <span className="text-sm font-mono uppercase tracking-widest">
-                  Read original article
+
+                {post.publisherLogo && (
+                  <img
+                    src={post.publisherLogo}
+                    alt={post.publisher || "Publisher"}
+                    className="h-5 w-auto object-contain"
+                  />
+                )}
+
+                <span className="text-sm font-mono pl-4  tracking-widest ">
+                  Read Article
                 </span>
                 <ArrowUpRight
                   size={18}
-                  className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  className="transition-transform ml-1  duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                 />
               </a>
             </div>
@@ -316,7 +325,7 @@ export default function BlogDetailPage({ post }: BlogDetailPageProps) {
                   transition-colors duration-300
                 "
               >
-                <span className="text-xs font-mono uppercase tracking-widest">
+                <span className="text-xs font-mono tracking-widest">
                   View all articles
                 </span>
                 <ArrowUpRight

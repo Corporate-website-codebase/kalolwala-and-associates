@@ -1,5 +1,7 @@
 // blog-data.ts
 
+export type Publisher = "LinkedIn" | "Business Standard";
+
 export interface BlogPost {
   id: string;
   title: string;
@@ -14,6 +16,10 @@ export interface BlogPost {
   image?: string;
   /** Author name */
   author?: string;
+  /** Original publisher platform */
+  publisher?: Publisher;
+  /** Publisher logo image path */
+  publisherLogo?: string;
 }
 
 export const BLOG_DATA: BlogPost[] = [
@@ -27,6 +33,8 @@ export const BLOG_DATA: BlogPost[] = [
     slug: "clearer-climate-lens-issb-ifrs-s2",
     author: "Research by Navdip Patel · Edited by Shreya Sarkar",
     image: "/blogs/A_clearer_climate_lens.png",
+    publisher: "LinkedIn",
+    publisherLogo: "/blogs/publishers/linkedin.png",
     content: `
       <p>As global organisations move from stated ambition to actual delivery on climate reporting, the conversation is shifting. The question is no longer "What should we disclose?" but "How do we disclose it consistently, credibly and at scale?"</p>
 
@@ -102,6 +110,8 @@ export const BLOG_DATA: BlogPost[] = [
     slug: "not-a-perpetual-winner-like-james-bond",
     author: "Rajat Chakroborty · Head - Editorial, K&A",
     image: "/blogs/Not a perpetual winner like James Bond!.png",
+    publisher: "LinkedIn",
+    publisherLogo: "/blogs/publishers/linkedin.png",
     content: `
       <p>Most Indians have watched the iconic James Bond movies or at least heard of them, where the super hero always wins no matter what the odds. However, here we are dealing with a different type of bond.</p>
 
@@ -140,6 +150,8 @@ export const BLOG_DATA: BlogPost[] = [
     slug: "fmcg-innovation-led-marketing",
     author: "Pinku Shaw",
     image: "/blogs/FMCG - Innovation-led marketing.png",
+    publisher: "LinkedIn",
+    publisherLogo: "/blogs/publishers/linkedin.png",
     content: `
       <p>Pinku Shaw pens down why marketing in FMCG is game-changing.</p>
 
@@ -204,6 +216,8 @@ export const BLOG_DATA: BlogPost[] = [
     slug: "ai-vs-humans-client-relationship",
     author: "K&A Editorial",
     image: "/blogs/AI vs Humans - Client Relationship.jpeg",
+    publisher: "LinkedIn",
+    publisherLogo: "/blogs/publishers/linkedin.png",
     content: `
       <h2>The Human Edge: Why AI Can't Replace Emotional Intelligence in Project Management and Client Relationship</h2>
 
@@ -239,6 +253,8 @@ export const BLOG_DATA: BlogPost[] = [
     slug: "ai-vs-humans-battlefield-sales",
     author: "Naeem Kangroo",
     image: "/blogs/AI vs Humans - Battlefield - Sales.jpeg",
+    publisher: "LinkedIn",
+    publisherLogo: "/blogs/publishers/linkedin.png",
     content: `
       <p>A large corporation has an army of sales reps, a full-stack AI suite, and a CRM that can practically talk to clients. An agency has few people, a shared spreadsheet, and an inbox full of real conversations.</p>
       <p>Both are in the same market. Both are chasing growth. Who wins?</p>
@@ -296,6 +312,8 @@ export const BLOG_DATA: BlogPost[] = [
     slug: "key-updates-brsr-listed-entities",
     author: "K&A Research Desk",
     image: "/blogs/Key Updates on BRSR for Listed Entities.png",
+    publisher: "LinkedIn",
+    publisherLogo: "/blogs/publishers/linkedin.png",
     content: `
       <h2>Key Updates On BRSR for Listed Entities</h2>
 
@@ -323,6 +341,8 @@ export const BLOG_DATA: BlogPost[] = [
     slug: "unleashing-power-of-stakeholder-reporting",
     author: "K&A",
     image: "/images/media/Rectangle20.png",
+    publisher: "Business Standard",
+    publisherLogo: "/blogs/publishers/business-standard-logo-2.png",
     content: `
       <p>In the world of stakeholder reporting, revolutions are fought with the firepower of intellect and the intent to drive long-term positive change in society.</p>
 
