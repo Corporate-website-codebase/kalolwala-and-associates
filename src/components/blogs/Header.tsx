@@ -77,11 +77,11 @@ export default function Header() {
       {/* IMAGE */}
       <div ref={imageRef} className="opacity-0 mt-10 sm:mt-14 md:mt-16 w-full">
         <img
-          src="/images/media/Rectangle20.png"
+          src="/images/media/blog-banner.webp"
           alt="Hero"
           className="
             w-full 
-            h-[40vh] sm:h-[50vh] md:h-[60vh] lg:h-[65vh] 
+            h-[40vh] sm:h-[50vh] grayscale md:h-[60vh] lg:h-[65vh] 
             object-cover
           "
         />
