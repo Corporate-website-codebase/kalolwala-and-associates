@@ -26,11 +26,11 @@ export const BLOG_DATA: BlogPost[] = [
   // ── c1 ──────────────────────────────────────────────────
   {
     id: "c1",
-    title: "A Clearer Climate Lens: ISSB's Practical Reset for IFRS S2",
-    excerpt: "Design + content alignment",
+    title: "IFRS S2 Amendments 2025: ISSB Climate Disclosure Reset",
+    excerpt: "ISSB’s 2025 IFRS S2 amendments simplify Scope 3, financed emissions and GHG reporting, improving global climate disclosure consistency by 2027.",
     date: "DECEMBER 18, 2025",
     url: "https://www.linkedin.com/pulse/clearer-climate-lens-issbs-practical-cvy2c?trk=public_post_feed-article-content",
-    slug: "clearer-climate-lens-issb-ifrs-s2",
+    slug: "ifrs-s2-amendments-2025-issb-climate-disclosures",
     author: "Research by Navdip Patel · Edited by Shreya Sarkar",
     image: "/blogs/A_clearer_climate_lens.png",
     publisher: "LinkedIn",
@@ -103,11 +103,11 @@ export const BLOG_DATA: BlogPost[] = [
   // ── c2 ──────────────────────────────────────────────────
   {
     id: "c2",
-    title: "Not a Perpetual Winner Like James Bond!",
-    excerpt: "Crafting better narratives",
+    title: "Bond Yields in India: What It Means for Banks",
+    excerpt: "Rising bond yields in India are squeezing bank treasury income. Understand the inverse bond price-yield link, RBI impact and Q2 banking trends.",
     date: "NOVEMBER 04, 2025",
     url: "https://www.linkedin.com/pulse/perpetual-winner-like-james-bond-kalolwala-associates-private-limit-iyioc?trk=public_post_feed-article-content",
-    slug: "not-a-perpetual-winner-like-james-bond",
+    slug: "bond-yields-india-impact-on-banks",
     author: "Rajat Chakroborty · Head - Editorial, K&A",
     image: "/blogs/Not a perpetual winner like James Bond!.png",
     publisher: "LinkedIn",
@@ -143,11 +143,11 @@ export const BLOG_DATA: BlogPost[] = [
   // ── c3 ──────────────────────────────────────────────────
   {
     id: "c3",
-    title: "FMCG - Innovation-Led Marketing",
-    excerpt: "What to include in your next report",
+    title: "FMCG Innovation-Led Marketing in the Digital Era",
+    excerpt: "Innovation-led FMCG marketing is reshaping India’s consumer market through digital, influencers, quick commerce and AI-driven personalization.",
     date: "OCTOBER 27, 2025",
     url: "https://www.linkedin.com/pulse/fmcg-innovation-led-marketing-kalolwala-associates-private-limit-wfgkc?trk=public_post_feed-article-content",
-    slug: "fmcg-innovation-led-marketing",
+    slug: "innovation-led-marketing-in-indian-fmcg-industry",
     author: "Pinku Shaw",
     image: "/blogs/FMCG - Innovation-led marketing.png",
     publisher: "LinkedIn",
@@ -209,11 +209,11 @@ export const BLOG_DATA: BlogPost[] = [
   // ── c4 ──────────────────────────────────────────────────
   {
     id: "c4",
-    title: "AI vs Humans - Client Relationship",
-    excerpt: "Annual Report review and takeaways",
+    title: "AI vs Humans in Client Relationship Management",
+    excerpt: "AI can automate project management, but emotional intelligence drives trust in client relationships. Discover why humans still hold the edge.",
     date: "APRIL 30, 2025",
     url: "https://www.linkedin.com/pulse/ai-vs-humans-client-relationship-tbp5c?trk=public_post_feed-article-content",
-    slug: "ai-vs-humans-client-relationship",
+    slug: "ai-vs-humans-role-in-client-relationship-management",
     author: "K&A Editorial",
     image: "/blogs/AI vs Humans - Client Relationship.jpeg",
     publisher: "LinkedIn",
@@ -246,11 +246,11 @@ export const BLOG_DATA: BlogPost[] = [
   // ── c5 ──────────────────────────────────────────────────
   {
     id: "c5",
-    title: "AI vs Humans : Battlefield - Sales",
-    excerpt: "Strategic thoughts on leveraging technology for growth",
+    title: "Balance or AI to Build Client Relationship",
+    excerpt: "AI is transforming sales automation, but human intuition still drives trust and conversions. Discover how agencies can balance AI and human selling.",
     date: "APRIL 23, 2025",
     url: "https://www.linkedin.com/pulse/ai-vs-humans-battlefield-sales-kalolwala-associates-private-limit-qe8uc?trk=public_post_feed-article-content",
-    slug: "ai-vs-humans-battlefield-sales",
+    slug: "ai-vs-humans-sales-strategy-automation-balance",
     author: "Naeem Kangroo",
     image: "/blogs/AI vs Humans - Battlefield - Sales.jpeg",
     publisher: "LinkedIn",
@@ -305,11 +305,11 @@ export const BLOG_DATA: BlogPost[] = [
   // ── c6 ──────────────────────────────────────────────────
   {
     id: "c6",
-    title: "Key Updates on BRSR for Listed Entities",
-    excerpt: "Major Updates",
+    title: "BRSR Updates 2025: Key Changes for Listed Entities",
+    excerpt: "SEBI’s 2025 BRSR updates introduce green credit disclosure, flexible assurance options and revised ESG reporting norms for listed entities.",
     date: "APRIL 01, 2025",
     url: "https://www.linkedin.com/pulse/key-updates-brsr-listed-entities-kalolwala-associates-private-limit-xynlc?trk=public_post_feed-article-content",
-    slug: "key-updates-brsr-listed-entities",
+    slug: "brsr-updates-sebi-esg-disclosure-listed-entities",
     author: "K&A Research Desk",
     image: "/blogs/Key Updates on BRSR for Listed Entities.png",
     publisher: "LinkedIn",
