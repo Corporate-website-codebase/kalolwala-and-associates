@@ -310,7 +310,7 @@ export const PAYLOADS: Record<string, any> = {
       },
       {
         title: "Welcome Emailer",
-        image: "public/kna-studio/welcome-emailer.png",
+        image: "/kna-studio/welcome-emailer.png",
         subtitle: "DISCOVER MORE",
         link: "https://welcome-emailer-kalolwala.vercel.app/",
         type: "ka-studio",
