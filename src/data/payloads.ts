@@ -11,6 +11,11 @@ export const WEB_SPECIALIZATIONS = [
     label: "Investor Data Management",
     key: "data-management",
   },
+
+  {
+    label: "UI/UX Design",
+    key: "ui-ux",
+  },
   {
     label: "Product Information Systems",
     key: "data-handling",
@@ -230,28 +235,28 @@ export const PAYLOADS: Record<string, any> = {
         type: "corporate-websites",
       },
       // Dummy data for other
-            {
+      {
         title: "Tata Communications Sustainability",
         image: "/images/offerings/web/tata communications sustainability.jpg",
         subtitle: "DISCOVER MORE",
         link: "https://sustainability.tatacommunications.com/",
         type: "corporate-microsites",
       },
-            {
+      {
         title: "Kotak",
         image: "/images/offerings/web/microsite/Kotak.png",
         subtitle: "DISCOVER MORE",
         link: "https://www.kotak.com/bank/mailers/annualreport/",
         type: "corporate-microsites",
       },
-            {
+      {
         title: "Tata Consumer Products",
         image: "/images/offerings/web/microsite/Tata_Consumer_Products.png",
         subtitle: "DISCOVER MORE",
         link: "https://www.tataconsumer.com/iar-2024-25/",
         type: "corporate-microsites",
       },
-            {
+      {
         title: "Indian Oil",
         image: "/images/offerings/web/microsite/Indian-oil.png",
         subtitle: "DISCOVER MORE",
@@ -273,8 +278,6 @@ export const PAYLOADS: Record<string, any> = {
         type: "corporate-microsites",
       },
 
-
-
       {
         title: "Business reliablity & sustainability report (BRSR)",
         image: "/images/offerings/web/sustainablity-tools/BRSR.png",
@@ -284,17 +287,32 @@ export const PAYLOADS: Record<string, any> = {
       },
 
       {
-        title: "K&A Studio Project 1",
-        image: "/images/offerings/web/ekkaa.jpg",
+        title: "K&A Notes",
+        image: "/kna-studio/Kna-notes.png",
         subtitle: "DISCOVER MORE",
-        link: "#",
+        link: "https://kna-notes.vercel.app/",
         type: "ka-studio",
       },
       {
-        title: "K&A Studio Project 2",
-        image: "/images/offerings/web/SBKG.png",
+        title: "Postal Ballot",
+        image: "/kna-studio/Postal-Ballet.png",
         subtitle: "DISCOVER MORE",
-        link: "#",
+        link: "https://postal-app-one.vercel.app/",
+        type: "ka-studio",
+      },
+
+      {
+        title: "K&A Ui",
+        image: "/kna-studio/Kna-ui.png",
+        subtitle: "DISCOVER MORE",
+        link: "https://kna-ui.vercel.app/",
+        type: "ka-studio",
+      },
+      {
+        title: "K&A Mockup",
+        image: "/kna-studio/Kna-mockup.png",
+        subtitle: "DISCOVER MORE",
+        link: "https://knamockup.vercel.app/",
         type: "ka-studio",
       },
     ],

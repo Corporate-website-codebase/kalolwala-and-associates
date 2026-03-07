@@ -412,6 +412,7 @@ function ReportShowcaseContent({
                   { id: "corporate-websites", label: "CORPORATE WEBSITES" },
                   { id: "corporate-microsites", label: "CORPORATE MICROSITES" },
                   { id: "sustainability-tools", label: "SUSTAINABILITY TOOLS" },
+                  { id: "ka-studio", label: "K&A STUDIO" },
                 ].map((tab) => (
                   <button
                     key={tab.id}
@@ -513,6 +514,21 @@ function ReportShowcaseContent({
                   <ChevronLeft className="w-5 h-5" /> Back to Categories
                 </button>
               )}
+
+              {/* {activeWebTab === "ka-studio" && (
+                <motion.p
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
+                  className="text-neutral-800 whitespace-pre-line mb-8 max-w-3xl"
+                  style={{ fontSize: "clamp(16px, 1.2vw, 20px)" }}
+                >
+                  K&A Studio is our internal playground for building tools that
+                  simplify everyday work.
+                </motion.p>
+              )} */}
+
+              
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                 {filteredCards.map((card, idx) => {
