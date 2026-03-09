@@ -23,11 +23,52 @@ export interface BlogPost {
 }
 
 export const BLOG_DATA: BlogPost[] = [
+  // ── c0 ──────────────────────────────────────────────────
+  {
+    id: "c0",
+    title: 'Why Stakeholder Comms is the new "Marketing."',
+    excerpt:
+      "Conventional marketing is a monologue; Stakeholder Communication is a relationship. As we move into the next fiscal year, the brands that lead will be those that communicate with substance, not noise.",
+    date: "MARCH 09, 2026",
+    url: "https://www.linkedin.com/pulse/why-stakeholder-comms-new-marketing-qwrac?trk=public_post_feed-article-content",
+    slug: "why-stakeholder-comms-is-the-new-marketing",
+    author: "Thoughts penned down by Sucharita Mitra , Research & Content, K&A",
+    image: "/blogs/Stakeholder Comms.png",
+    publisher: "LinkedIn",
+    publisherLogo: "/blogs/publishers/linkedin.png",
+    content: `
+      <p>One Simple question: When you are scrolling through your feed, what actually makes you stop? Is it a rundown of Q2 data, or the story behind how those numbers were earned?</p>
+
+      <p>If your answer is the story, you are not alone. As humans, we are naturally attracted to the idea of winning. Data matters, but it is the story behind the numbers that creates the impact. Conventional marketing is lagging because it focuses on the ‘what’, while the world has already shifted to asking ‘how’ and ‘why’.</p>
+
+      <h2><strong>Information is Plenty, Connection is Rare</strong></h2>
+      <p>We have moved beyond the era where conventional media used to be a reliable gatekeeper of performance. Today, every metric is accessible. Every report is online. AI can already analyse and regurgitate publicly available data with remarkable efficiency.</p>
+
+      <p><strong>But what AI cannot replicate, and what people are desperately seeking, is human context.</strong> Whether it’s LinkedIn, TikTok, or YouTube, we are all navigating the same pool of media, and <strong>one thing consistently cuts through the noise: Storytelling!</strong></p>
+
+      <h2><strong>From Disclosure to Transparency</strong></h2>
+      <p>Our team has noticed a fundamental shift. Consumers no longer just want to know what a company sells; they want to understand how it responds to macroeconomic shifts, how it navigates disruption and what its future roadmap looks like.</p>
+
+      <p>Whether you are selling a consumer product or an investment banking service, the market gap isn't a lack of information- it’s a lack of real connection. The best brands have already realised that ingenuity is what separates a story from a spreadsheet. This move toward transparency, where brands surpass mere disclosure requirements to build credibility through narrative, will define stakeholder communication heading into FY26.</p>
+
+      <h2><strong>Beyond the Bottom Line</strong></h2>
+      <p>To lead the market today, brands must demonstrate they stand for something. It is no longer enough to harp on the gap your product fills; the market wants to understand the <strong>purpose</strong> behind your work, the philosophy that drives decisions, the intent behind strategy and the journey behind success.</p>
+
+      <p>And no, this isn't limited to CSR or community initiatives. It’s about the inherent idea that moves a company forward.</p>
+
+      <h2><strong>Human-Led Communication</strong></h2>
+      <p>If storytelling is the differentiator, then communication can no longer remain transactional. The mark of a great creative partner today isn't simply their ability to ‘sell’. It is their ability to be honest about the cause, to articulate the truth behind the brand and to amplify a voice that people actually trust.</p>
+
+      <p><strong>Conventional marketing is a monologue; Stakeholder Communication is a relationship.</strong> As we move into the next fiscal year, the brands that lead will be those that communicate with substance, not noise.</p>
+    `,
+  },
+
   // ── c1 ──────────────────────────────────────────────────
   {
     id: "c1",
     title: "IFRS S2 Amendments 2025: ISSB Climate Disclosure Reset",
-    excerpt: "ISSB’s 2025 IFRS S2 amendments simplify Scope 3, financed emissions and GHG reporting, improving global climate disclosure consistency by 2027.",
+    excerpt:
+      "ISSB’s 2025 IFRS S2 amendments simplify Scope 3, financed emissions and GHG reporting, improving global climate disclosure consistency by 2027.",
     date: "DECEMBER 18, 2025",
     url: "https://www.linkedin.com/pulse/clearer-climate-lens-issbs-practical-cvy2c?trk=public_post_feed-article-content",
     slug: "ifrs-s2-amendments-2025-issb-climate-disclosures",
@@ -104,7 +145,8 @@ export const BLOG_DATA: BlogPost[] = [
   {
     id: "c2",
     title: "Bond Yields in India: What It Means for Banks",
-    excerpt: "Rising bond yields in India are squeezing bank treasury income. Understand the inverse bond price-yield link, RBI impact and Q2 banking trends.",
+    excerpt:
+      "Rising bond yields in India are squeezing bank treasury income. Understand the inverse bond price-yield link, RBI impact and Q2 banking trends.",
     date: "NOVEMBER 04, 2025",
     url: "https://www.linkedin.com/pulse/perpetual-winner-like-james-bond-kalolwala-associates-private-limit-iyioc?trk=public_post_feed-article-content",
     slug: "bond-yields-india-impact-on-banks",
@@ -144,7 +186,8 @@ export const BLOG_DATA: BlogPost[] = [
   {
     id: "c3",
     title: "FMCG Innovation-Led Marketing in the Digital Era",
-    excerpt: "Innovation-led FMCG marketing is reshaping India’s consumer market through digital, influencers, quick commerce and AI-driven personalization.",
+    excerpt:
+      "Innovation-led FMCG marketing is reshaping India’s consumer market through digital, influencers, quick commerce and AI-driven personalization.",
     date: "OCTOBER 27, 2025",
     url: "https://www.linkedin.com/pulse/fmcg-innovation-led-marketing-kalolwala-associates-private-limit-wfgkc?trk=public_post_feed-article-content",
     slug: "innovation-led-marketing-in-indian-fmcg-industry",
@@ -210,7 +253,8 @@ export const BLOG_DATA: BlogPost[] = [
   {
     id: "c4",
     title: "AI vs Humans in Client Relationship Management",
-    excerpt: "AI can automate project management, but emotional intelligence drives trust in client relationships. Discover why humans still hold the edge.",
+    excerpt:
+      "AI can automate project management, but emotional intelligence drives trust in client relationships. Discover why humans still hold the edge.",
     date: "APRIL 30, 2025",
     url: "https://www.linkedin.com/pulse/ai-vs-humans-client-relationship-tbp5c?trk=public_post_feed-article-content",
     slug: "ai-vs-humans-role-in-client-relationship-management",
@@ -247,7 +291,8 @@ export const BLOG_DATA: BlogPost[] = [
   {
     id: "c5",
     title: "Balance or AI to Build Client Relationship",
-    excerpt: "AI is transforming sales automation, but human intuition still drives trust and conversions. Discover how agencies can balance AI and human selling.",
+    excerpt:
+      "AI is transforming sales automation, but human intuition still drives trust and conversions. Discover how agencies can balance AI and human selling.",
     date: "APRIL 23, 2025",
     url: "https://www.linkedin.com/pulse/ai-vs-humans-battlefield-sales-kalolwala-associates-private-limit-qe8uc?trk=public_post_feed-article-content",
     slug: "ai-vs-humans-sales-strategy-automation-balance",
@@ -306,7 +351,8 @@ export const BLOG_DATA: BlogPost[] = [
   {
     id: "c6",
     title: "BRSR Updates 2025: Key Changes for Listed Entities",
-    excerpt: "SEBI’s 2025 BRSR updates introduce green credit disclosure, flexible assurance options and revised ESG reporting norms for listed entities.",
+    excerpt:
+      "SEBI’s 2025 BRSR updates introduce green credit disclosure, flexible assurance options and revised ESG reporting norms for listed entities.",
     date: "APRIL 01, 2025",
     url: "https://www.linkedin.com/pulse/key-updates-brsr-listed-entities-kalolwala-associates-private-limit-xynlc?trk=public_post_feed-article-content",
     slug: "brsr-updates-sebi-esg-disclosure-listed-entities",
