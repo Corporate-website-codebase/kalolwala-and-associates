@@ -17,6 +17,7 @@ import { useLenis } from "lenis/react";
 import { PassLink } from "../StackedCurtainTransition";
 import TechStack from "../techStack/TechStack";
 import TechStackCarousel from "../techStack/TechStackCarousel";
+import SoftwareDevProcess from "./SoftwareDevProcess";
 
 // --- Interfaces ---
 export interface ImageCard {
@@ -292,27 +293,33 @@ function ReportShowcaseContent({
                 )}
             </div>
 
-            {!showVideoSelection && validRightTextItems.length > 0 && (
-              <div className="flex flex-col gap-3 lg:mt-4 min-w-[200px] border-l-2 border-black/10 pl-6 lg:border-l-0 lg:pl-0">
-                {rightTextTitle?.trim() && (
-                  <p
-                    className="uppercase tracking-widest font-bold"
-                    style={{ fontSize: "11px", color: "#000", opacity: 0.6 }}
-                  >
-                    {rightTextTitle}
-                  </p>
-                )}
-                {validRightTextItems.map((item, i) => (
-                  <div
-                    key={i}
-                    className="flex items-center gap-3"
-                    style={{ fontSize: "13px", color: "#000" }}
-                  >
-                    <span className="w-1.5 h-1.5 bg-yellow-600 rounded-full" />
-                    <span className="font-medium opacity-80">{item}</span>
-                  </div>
-                ))}
-              </div>
+            {!showVideoSelection &&
+            (activeKey === "web" || pathname.includes("corporate-websites")) ? (
+              <SoftwareDevProcess />
+            ) : (
+              !showVideoSelection &&
+              validRightTextItems.length > 0 && (
+                <div className="flex flex-col gap-3 lg:mt-4 min-w-[200px] border-l-2 border-black/10 pl-6 lg:border-l-0 lg:pl-0">
+                  {rightTextTitle?.trim() && (
+                    <p
+                      className="uppercase tracking-widest font-bold"
+                      style={{ fontSize: "11px", color: "#000", opacity: 0.6 }}
+                    >
+                      {rightTextTitle}
+                    </p>
+                  )}
+                  {validRightTextItems.map((item, i) => (
+                    <div
+                      key={i}
+                      className="flex items-center gap-3"
+                      style={{ fontSize: "13px", color: "#000" }}
+                    >
+                      <span className="w-1.5 h-1.5 bg-yellow-600 rounded-full" />
+                      <span className="font-medium opacity-80">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              )
             )}
           </div>
 
