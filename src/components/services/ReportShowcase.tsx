@@ -167,6 +167,10 @@ function ReportShowcaseContent({
     specializations,
   } = currentData;
 
+  const validRightTextItems = Array.isArray(rightTextItems)
+    ? rightTextItems.filter((item) => item && item.trim() !== "")
+    : [];
+
   const handleSelection = (type: string | null) => {
     if (onCategorySelect && type) {
       onCategorySelect(type);
@@ -288,30 +292,28 @@ function ReportShowcaseContent({
                 )}
             </div>
 
-            {!showVideoSelection &&
-              Array.isArray(rightTextItems) &&
-              rightTextItems.length > 0 && (
-                <div className="flex flex-col gap-3 lg:mt-4 min-w-[200px] border-l-2 border-black/10 pl-6 lg:border-l-0 lg:pl-0">
-                  {rightTextTitle?.trim() && (
-                    <p
-                      className="uppercase tracking-widest font-bold"
-                      style={{ fontSize: "11px", color: "#000", opacity: 0.6 }}
-                    >
-                      {rightTextTitle}
-                    </p>
-                  )}
-                  {rightTextItems.map((item, i) => (
-                    <div
-                      key={i}
-                      className="flex items-center gap-3"
-                      style={{ fontSize: "13px", color: "#000" }}
-                    >
-                      <span className="w-1.5 h-1.5 bg-yellow-600 rounded-full" />
-                      <span className="font-medium opacity-80">{item}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
+            {!showVideoSelection && validRightTextItems.length > 0 && (
+              <div className="flex flex-col gap-3 lg:mt-4 min-w-[200px] border-l-2 border-black/10 pl-6 lg:border-l-0 lg:pl-0">
+                {rightTextTitle?.trim() && (
+                  <p
+                    className="uppercase tracking-widest font-bold"
+                    style={{ fontSize: "11px", color: "#000", opacity: 0.6 }}
+                  >
+                    {rightTextTitle}
+                  </p>
+                )}
+                {validRightTextItems.map((item, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center gap-3"
+                    style={{ fontSize: "13px", color: "#000" }}
+                  >
+                    <span className="w-1.5 h-1.5 bg-yellow-600 rounded-full" />
+                    <span className="font-medium opacity-80">{item}</span>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* WEB TABS */}
@@ -527,8 +529,6 @@ function ReportShowcaseContent({
                   simplify everyday work.
                 </motion.p>
               )} */}
-
-              
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                 {filteredCards.map((card, idx) => {
