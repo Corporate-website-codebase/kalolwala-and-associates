@@ -190,14 +190,14 @@ export const PAYLOADS: Record<string, any> = {
     rightTextItems: [],
     cards: [
       {
-        title: "MARICO",
+        title: "Marico Limited",
         image: "/images/offerings/web/Marico-banner.png",
         subtitle: "DISCOVER MORE",
         link: "https://marico.com/",
         type: "corporate-websites",
       },
       {
-        title: "Solar Industries Limited",
+        title: "Solar Group",
         image: "/images/offerings/web/Solar.jpg",
         subtitle: "DISCOVER MORE",
         link: "https://solargroup.com/",
@@ -213,14 +213,14 @@ export const PAYLOADS: Record<string, any> = {
       },
 
       {
-        title: "EKKAA Electronics",
+        title: "Ekkaa Electronics Industries Pvt. Ltd.",
         image: "/images/offerings/web/ekkaa.jpg",
         subtitle: "DISCOVER MORE",
         link: "https://ekkaa.com/",
         type: "corporate-websites",
       },
       {
-        title: "RajRatan",
+        title: "Rajratan Global Wire Limited",
         image: "/images/offerings/web/sustainablity-tools/Raj_Ratan.png",
         subtitle: "DISCOVER MORE",
         link: "https://rajratan.co.in/",
@@ -228,7 +228,7 @@ export const PAYLOADS: Record<string, any> = {
       },
 
       {
-        title: "SBKG ROPES",
+        title: "sbkgropes",
         image: "/images/offerings/web/SBKG.png",
         subtitle: "DISCOVER MORE",
         link: "https://sbkgropes.com/",
@@ -284,43 +284,6 @@ export const PAYLOADS: Record<string, any> = {
         subtitle: "DISCOVER MORE",
         link: "https://brsr.kalolwala.com/",
         type: "sustainability-tools",
-      },
-
-      {
-        title: "K&A Notes",
-        image: "/kna-studio/Kna-notes.png",
-        subtitle: "DISCOVER MORE",
-        link: "https://kna-notes.vercel.app/",
-        type: "ka-studio",
-      },
-      {
-        title: "Postal Ballot",
-        image: "/kna-studio/Postal-Ballet.png",
-        subtitle: "DISCOVER MORE",
-        link: "https://postal-app-one.vercel.app/",
-        type: "ka-studio",
-      },
-
-      {
-        title: "K&A Ui",
-        image: "/kna-studio/Kna-ui.png",
-        subtitle: "DISCOVER MORE",
-        link: "https://kna-ui.vercel.app/",
-        type: "ka-studio",
-      },
-      {
-        title: "Welcome Emailer",
-        image: "/kna-studio/welcome-emailer.png",
-        subtitle: "DISCOVER MORE",
-        link: "https://welcome-emailer-kalolwala.vercel.app/",
-        type: "ka-studio",
-      },
-      {
-        title: "K&A Mockup",
-        image: "/kna-studio/Kna-mockup.png",
-        subtitle: "DISCOVER MORE",
-        link: "https://knamockup.vercel.app/",
-        type: "ka-studio",
       },
     ],
     stack: [
