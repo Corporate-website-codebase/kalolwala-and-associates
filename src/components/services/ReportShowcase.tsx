@@ -1,13 +1,23 @@
 "use client";
 
-import React, { Suspense, useEffect, useState } from "react";
-import { ArrowUpRight, ArrowRight, ChevronLeft, Play } from "lucide-react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
+import {
+  ArrowUpRight,
+  ArrowRight,
+  ChevronLeft,
+  ChevronDown,
+  Play,
+} from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 import Footers from "../Footers";
 import Link from "next/link";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import VideoRequestModal from "./VideoRequestModal";
 import { useLenis } from "lenis/react";
 import { PassLink } from "../StackedCurtainTransition";
+import TechStack from "../techStack/TechStack";
+import TechStackCarousel from "../techStack/TechStackCarousel";
+import SoftwareDevProcess from "./SoftwareDevProcess";
 
 // --- Interfaces ---
 export interface ImageCard {
@@ -32,6 +42,7 @@ interface ReportShowcaseProps {
   rightTextItems?: string[];
   cards?: ImageCard[];
   stack?: StackItem[];
+  specializations?: { label: string; key: string }[];
   // New props for routing control
   activeKey?: string;
   activeType?: string | null;
@@ -74,6 +85,7 @@ function ReportShowcaseContent({
   rightTextItems: propRightTextItems,
   cards: propCards,
   stack: propStack,
+  specializations: propSpecializations,
   activeKey: propActiveKey,
   activeType: propActiveType,
   onCategorySelect,
@@ -92,6 +104,24 @@ function ReportShowcaseContent({
   // --- Modal State ---
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState<string>("");
+  const [activeWebTab, setActiveWebTab] =
+    useState<string>("corporate-websites");
+  const [isWebDropdownOpen, setIsWebDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
+        setIsWebDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const scrollToTop = () => {
     if (lenis) {
@@ -125,10 +155,22 @@ function ReportShowcaseContent({
     rightTextItems: propRightTextItems || [],
     cards: propCards || DEFAULT_CARDS,
     stack: propStack || DEFAULT_STACK,
+    specializations: propSpecializations,
   };
 
-  const { title, paragraph, rightTextTitle, rightTextItems, cards, stack } =
-    currentData;
+  const {
+    title,
+    paragraph,
+    rightTextTitle,
+    rightTextItems,
+    cards,
+    stack,
+    specializations,
+  } = currentData;
+
+  const validRightTextItems = Array.isArray(rightTextItems)
+    ? rightTextItems.filter((item) => item && item.trim() !== "")
+    : [];
 
   const handleSelection = (type: string | null) => {
     if (onCategorySelect && type) {
@@ -151,6 +193,9 @@ function ReportShowcaseContent({
       // If we are in video mode but no sub-type is selected yet, we might want to hide the grid
       // (because the big selection cards are shown), or return false.
       return false;
+    }
+    if (activeKey === "web" || pathname.includes("corporate-websites")) {
+      return card.type === activeWebTab;
     }
     return true;
   });
@@ -223,10 +268,37 @@ function ReportShowcaseContent({
                   ? "Choose a category to view related videos."
                   : paragraph}
               </p>
+
+              {!showVideoSelection &&
+                specializations &&
+                specializations.length > 0 && (
+                  <div>
+                    <h3
+                      className="text-neutral-800 mt-3"
+                      style={{ fontSize: "clamp(14px, 1.2vw, 18px)" }}
+                    >
+                      We specialize in :{" "}
+                    </h3>
+                    <div className="flex flex-wrap gap-2 mt-4 max-w-3xl">
+                      {specializations.map((item, i) => (
+                        <span
+                          key={i}
+                          className="px-3 py-1 bg-[#eeeeee] rounded-full text-neutral-800 text-sm"
+                        >
+                          {item.label}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
             </div>
+
             {!showVideoSelection &&
-              Array.isArray(rightTextItems) &&
-              rightTextItems.length > 0 && (
+            (activeKey === "web" || pathname.includes("corporate-websites")) ? (
+              <SoftwareDevProcess />
+            ) : (
+              !showVideoSelection &&
+              validRightTextItems.length > 0 && (
                 <div className="flex flex-col gap-3 lg:mt-4 min-w-[200px] border-l-2 border-black/10 pl-6 lg:border-l-0 lg:pl-0">
                   {rightTextTitle?.trim() && (
                     <p
@@ -236,7 +308,7 @@ function ReportShowcaseContent({
                       {rightTextTitle}
                     </p>
                   )}
-                  {rightTextItems.map((item, i) => (
+                  {validRightTextItems.map((item, i) => (
                     <div
                       key={i}
                       className="flex items-center gap-3"
@@ -247,8 +319,127 @@ function ReportShowcaseContent({
                     </div>
                   ))}
                 </div>
-              )}
+              )
+            )}
           </div>
+
+          {/* WEB TABS */}
+
+          {(activeKey === "web" || pathname.includes("corporate-websites")) && (
+            <>
+              {/* Mobile: Custom Dropdown */}
+              <div className="w-full px-2 pb-8 lg:hidden" ref={dropdownRef}>
+                <div className="relative">
+                  {/* Trigger */}
+                  <button
+                    type="button"
+                    onClick={() => setIsWebDropdownOpen((prev) => !prev)}
+                    className="w-full flex items-center justify-between cursor-pointer font-semibold border border-neutral-800 bg-neutral-800 text-yellow-400 py-3 px-4 text-sm rounded-lg transition-all duration-200 focus:outline-none"
+                  >
+                    <span>
+                      {[
+                        {
+                          id: "corporate-websites",
+                          label: "CORPORATE WEBSITES",
+                        },
+                        {
+                          id: "corporate-microsites",
+                          label: "ANNUAL REPORT MICROSITES",
+                        },
+                        {
+                          id: "sustainability-tools",
+                          label: "SUSTAINABILITY TOOLS",
+                        },
+                      ].find((t) => t.id === activeWebTab)?.label ??
+                        "SELECT CATEGORY"}
+                    </span>
+                    <motion.span
+                      animate={{ rotate: isWebDropdownOpen ? 180 : 0 }}
+                      transition={{ duration: 0.25, ease: "easeInOut" }}
+                      className="ml-2 shrink-0"
+                    >
+                      <ChevronDown className="w-5 h-5 text-yellow-400" />
+                    </motion.span>
+                  </button>
+
+                  {/* Dropdown Panel */}
+                  <AnimatePresence>
+                    {isWebDropdownOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -8, scaleY: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scaleY: 1 }}
+                        exit={{ opacity: 0, y: -8, scaleY: 0.95 }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                        className="absolute z-50 top-full left-0 right-0 mt-1.5 origin-top bg-neutral-800 border border-neutral-700 rounded-lg overflow-hidden shadow-xl"
+                      >
+                        {[
+                          {
+                            id: "corporate-websites",
+                            label: "CORPORATE WEBSITES",
+                          },
+                          {
+                            id: "corporate-microsites",
+                            label: "ANNUAL REPORT MICROSITES",
+                          },
+                          {
+                            id: "sustainability-tools",
+                            label: "SUSTAINABILITY TOOLS",
+                          },
+                        ].map((tab) => (
+                          <button
+                            key={tab.id}
+                            type="button"
+                            onClick={() => {
+                              setActiveWebTab(tab.id);
+                              setIsWebDropdownOpen(false);
+                            }}
+                            className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-left transition-colors duration-150 cursor-pointer ${
+                              activeWebTab === tab.id
+                                ? "text-yellow-400 bg-neutral-900/50"
+                                : "text-neutral-300 hover:text-yellow-400 hover:bg-neutral-700/50"
+                            }`}
+                          >
+                            <span
+                              className={`w-1.5 h-1.5 rounded-full shrink-0 transition-colors duration-150 ${
+                                activeWebTab === tab.id
+                                  ? "bg-yellow-400"
+                                  : "bg-neutral-600"
+                              }`}
+                            />
+                            {tab.label}
+                          </button>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </div>
+
+              {/* Desktop: Button Row */}
+              <div className="hidden lg:flex w-full flex-wrap gap-4 px-2 pb-8">
+                {[
+                  { id: "corporate-websites", label: "CORPORATE WEBSITES" },
+                  {
+                    id: "corporate-microsites",
+                    label: "ANNUAL REPORT MICROSITES",
+                  },
+                  { id: "sustainability-tools", label: "SUSTAINABILITY TOOLS" },
+                ].map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveWebTab(tab.id)}
+                    className={`cursor-pointer font-semibold border border-neutral-800 px-6 py-2 transition-all duration-200 text-sm rounded-lg whitespace-nowrap ${
+                      activeWebTab === tab.id
+                        ? "bg-neutral-800 text-yellow-400"
+                        : "hover:bg-neutral-800 hover:text-yellow-400 text-neutral-800"
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
 
           {/* SELECTION GRID (Video Logic Phase 1) */}
           {/* Note: These are UI elements for navigation, not data-driven cards */}
@@ -334,7 +525,6 @@ function ReportShowcaseContent({
                   <ChevronLeft className="w-5 h-5" /> Back to Categories
                 </button>
               )}
-
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                 {filteredCards.map((card, idx) => {
                   // Determine Link Wrapper vs Div Wrapper
@@ -347,6 +537,7 @@ function ReportShowcaseContent({
                     // @ts-ignore
                     <Wrapper
                       key={idx}
+                      target="_blank"
                       {...wrapperProps}
                       className={`group relative flex flex-col h-full overflow-hidden rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer
                         ${isVideoMode ? "bg-white/60 backdrop-blur-xl border border-white" : "bg-white/60 backdrop-blur-xl border border-white"}`}
@@ -396,6 +587,9 @@ function ReportShowcaseContent({
               </div>
             </>
           )}
+
+          {/* Tech Stack Integration */}
+          {pathname.includes("corporate-websites") && <TechStackCarousel />}
 
           {/* STACK NAV */}
           <div className="mt-10 border-t border-black/10">

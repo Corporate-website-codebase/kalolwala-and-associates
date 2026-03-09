@@ -1,3 +1,32 @@
+export const WEB_SPECIALIZATIONS = [
+  {
+    label: "AI-Powered Chatbots",
+    key: "ai-chatbots",
+  },
+  {
+    label: "Enterprise Security Solutions",
+    key: "security",
+  },
+  {
+    label: "Investor Data Management",
+    key: "data-management",
+  },
+
+  {
+    label: "UI/UX Design",
+    key: "ui-ux",
+  },
+  {
+    label: "Product Information Systems",
+    key: "data-handling",
+  },
+  { label: "Scalable Cloud Deployments", key: "deployment" },
+  {
+    label: "Post-Production Support Services",
+    key: "post-production",
+  },
+];
+
 export const PAYLOADS: Record<string, any> = {
   integrated: {
     title: "Integrated Annual Report",
@@ -156,33 +185,105 @@ export const PAYLOADS: Record<string, any> = {
     title: "Digital & Software Development",
     // paragraph:"A website is more than an online presence. It is an extension of a brand’s identity, ethos and strategic intent. Our web development initiatives blend thoughtful storytelling with intelligent design and seamless functionality to create digital platforms that resonate with stakeholders. \n Our interactive websites enable our esteemed clients to enhance their brand reputation and recall. At K&A, our web solutions help build credibility, strengthen engagement and elevate brand leadership of our clients in an increasingly digital world.",
     paragraph:
-      "Our entire operational fabric is integrated and digitalised, so that work processes can be properly streamlined and deadlines can be met with agility and precision across 5 cities in India. We have built a huge repository of economic data and industry insights from authentic sources, which is updated regularly by our analysts. In addition, we have recently introduced an automated BRSR documenting tool to help clients manage their BRSR documentation with absolute clarity, zero errors and non-compliances.",
+      "We build scalable, secure, and performance-driven digital solutions tailored to modern enterprises. Our expertise spans across the development of corporate websites and corporate microsites, engineered with robust frontend and backend architectures. From intuitive user interfaces to powerful server-side systems, we ensure seamless functionality across all layers of development.",
     rightTextTitle: "Digital",
     rightTextItems: [],
     cards: [
       {
-        title: "EKKAA Electronics",
-        image: "/images/offerings/web/ekkaa.jpg",
+        title: "Marico Limited",
+        image: "/images/offerings/web/Marico-banner.png",
         subtitle: "DISCOVER MORE",
-        link: "https://ekkaa.com/",
+        link: "https://marico.com/",
+        type: "corporate-websites",
       },
+      {
+        title: "Solar Group",
+        image: "/images/offerings/web/Solar.jpg",
+        subtitle: "DISCOVER MORE",
+        link: "https://solargroup.com/",
+        type: "corporate-websites",
+      },
+
       {
         title: "Pitti Engineering Limited",
         image: "/images/offerings/web/PITTI.jpg",
         subtitle: "DISCOVER MORE",
         link: "https://www.pitti.in/",
+        type: "corporate-websites",
       },
+
       {
-        title: "Solar Industries Limited",
-        image: "/images/offerings/web/Solar.jpg",
+        title: "Ekkaa Electronics Industries Pvt. Ltd",
+        image: "/images/offerings/web/ekkaa.jpg",
         subtitle: "DISCOVER MORE",
-        link: "https://solargroup.com/",
+        link: "https://ekkaa.com/",
+        type: "corporate-websites",
       },
       {
-        title: "Tata Communications Sustainability",
+        title: "Rajratan Global Wire Limited",
+        image: "/images/offerings/web/sustainablity-tools/Raj_Ratan.png",
+        subtitle: "DISCOVER MORE",
+        link: "https://rajratan.co.in/",
+        type: "corporate-websites",
+      },
+
+      {
+        title: "sbkgropes",
+        image: "/images/offerings/web/SBKG.png",
+        subtitle: "DISCOVER MORE",
+        link: "https://sbkgropes.com/",
+        type: "corporate-websites",
+      },
+      // Dummy data for other
+      {
+        title: "Tata Communications Limited - sustainability",
         image: "/images/offerings/web/tata communications sustainability.jpg",
         subtitle: "DISCOVER MORE",
         link: "https://sustainability.tatacommunications.com/",
+        type: "corporate-microsites",
+      },
+      {
+        title: "Kotak Mahindra Bank Limited",
+        image: "/images/offerings/web/microsite/Kotak.png",
+        subtitle: "DISCOVER MORE",
+        link: "https://www.kotak.com/bank/mailers/annualreport/",
+        type: "corporate-microsites",
+      },
+      {
+        title: "Tata Consumer Products Limited",
+        image: "/images/offerings/web/microsite/Tata_Consumer_Products.png",
+        subtitle: "DISCOVER MORE",
+        link: "https://www.tataconsumer.com/iar-2024-25/",
+        type: "corporate-microsites",
+      },
+      {
+        title: "Indian Oil Corporation Ltd",
+        image: "/images/offerings/web/microsite/Indian-oil.png",
+        subtitle: "DISCOVER MORE",
+        link: "https://iocl.com/uploads/AnnualReport2024-25/index.html",
+        type: "corporate-microsites",
+      },
+      {
+        title: "Gulf Oil Lubricants India Limited",
+        image: "/images/offerings/web/microsite/Gulf-oil.png",
+        subtitle: "DISCOVER MORE",
+        link: "https://gulf-oil-2025.vercel.app/",
+        type: "corporate-microsites",
+      },
+      {
+        title: "LT Foods Ltd",
+        image: "/images/offerings/web/microsite/LT-foods.png",
+        subtitle: "DISCOVER MORE",
+        link: "https://ltf.ltfoods.com/",
+        type: "corporate-microsites",
+      },
+
+      {
+        title: "Business reliablity & sustainability report (BRSR)",
+        image: "/images/offerings/web/sustainablity-tools/BRSR.png",
+        subtitle: "DISCOVER MORE",
+        link: "https://brsr.kalolwala.com/",
+        type: "sustainability-tools",
       },
     ],
     stack: [
@@ -199,6 +300,7 @@ export const PAYLOADS: Record<string, any> = {
       description:
         "Transform your digital presence with K&A's corporate website and communication solutions, articulated to engage stakeholders through compelling storytelling and seamless usability.",
     },
+    specializations: WEB_SPECIALIZATIONS,
   },
   presentations: {
     title: "Presentations",

@@ -7,18 +7,36 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const data = [
-  { title: "Business Development", desc: "If you have the talent for spotting opportunities and can turn conversations into partnerships, let us talk." },
-  { title: "Project Management", desc: "If you excel at planning, coordinating and driving projects to seamless execution, we would like to meet you." },
-  { title: "Research Analyst", desc: "If solving complex problems excites you and data makes you curious, you will feel right at home here." },
-  { title: "Editorial", desc: "If you can ignite ideas, craft language that captivates and create impact with every word, let us talk." },
-  { title: "Design", desc: "If design is your language, let us start a conversation." },
-  { title: "Digital", desc: "Plan smart. Coordinate fast. Execute flawlessly. If this sounds like you, our digital team wants to meet you." },
+  {
+    title: "Business Development",
+    desc: "If you have the talent for spotting opportunities and can turn conversations into partnerships, let us talk.",
+  },
+  {
+    title: "Project Management",
+    desc: "If you excel at planning, coordinating and driving projects to seamless execution, we would like to meet you.",
+  },
+  {
+    title: "Research Analyst",
+    desc: "If solving complex problems excites you and data makes you curious, you will feel right at home here.",
+  },
+  {
+    title: "Editorial",
+    desc: "If you can ignite ideas, craft language that captivates and create impact with every word, let us talk.",
+  },
+  {
+    title: "Design",
+    desc: "If design is your language, let us start a conversation.",
+  },
+  {
+    title: "Digital & Software Development",
+    desc: "Where strategy meets technology — delivering robust frontend, backend, AI-driven solutions, and enterprise-grade security. If this sounds like you, our digital team wants to meet you.",
+  },
 ];
 
 export default function Departments() {
   const rootRef = useRef(null);
 
- useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (!rootRef.current) return;
 
     const ctx = gsap.context(() => {
@@ -51,8 +69,8 @@ export default function Departments() {
             w-full
             p-6 md:p-8 lg:p-10
             border border-white/20
-            bg-[#111] 
-            hover:border-[#F4C016]/50 
+            bg-[#111]
+            hover:border-[#F4C016]/50
             transition-colors duration-300
             opacity-0 /* Initial opacity to prevent flash of content */
           "

@@ -47,7 +47,7 @@ const cards: CardData[] = [
     key: "video",
   },
   {
-    title: "Digital",
+    title: "Digital and\n Software Development",
     image: "/images/services/Maskgroup05.png",
     key: "web",
   },

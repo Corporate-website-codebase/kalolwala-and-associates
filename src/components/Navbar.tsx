@@ -57,12 +57,12 @@ const Navbar = () => {
       <motion.header
         initial={isHome ? { height: 0, opacity: 0 } : { height: "auto", opacity: 1 }}
         animate={{ height: "auto", opacity: 1 }}
-        transition={{ 
-          delay: isHome ? 4 : 0, 
-          duration: 0.8, 
-          ease: [0.33, 1, 0.68, 1] 
+        transition={{
+          delay: isHome ? 4 : 0,
+          duration: 0.8,
+          ease: [0.33, 1, 0.68, 1]
         }}
-        className="sticky top-0 left-0 w-[100vw] md:w-full z-50 "
+        className="sticky top-0 left-0 w-[100vw] md:w-full z-50 selection:bg-yellow-400/18 "
       >
         <motion.nav
           animate={{ y: isVisible ? 0 : "-100%" }}
@@ -119,7 +119,7 @@ const Navbar = () => {
             </ul>
 
             {/* --- MOBILE HAMBURGER BUTTON --- */}
-            <button 
+            <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="md:hidden text-white relative z-50 p-2 focus:outline-none"
             >
