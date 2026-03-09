@@ -213,7 +213,7 @@ export const PAYLOADS: Record<string, any> = {
       },
 
       {
-        title: "Ekkaa Electronics Industries Pvt. Ltd.",
+        title: "Ekkaa Electronics Industries Pvt. Ltd",
         image: "/images/offerings/web/ekkaa.jpg",
         subtitle: "DISCOVER MORE",
         link: "https://ekkaa.com/",
@@ -236,7 +236,7 @@ export const PAYLOADS: Record<string, any> = {
       },
       // Dummy data for other
       {
-        title: "Tata Communications Limited",
+        title: "Tata Communications Limited - sustainability",
         image: "/images/offerings/web/tata communications sustainability.jpg",
         subtitle: "DISCOVER MORE",
         link: "https://sustainability.tatacommunications.com/",

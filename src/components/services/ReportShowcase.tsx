@@ -344,7 +344,7 @@ function ReportShowcaseContent({
                         },
                         {
                           id: "corporate-microsites",
-                          label: "CORPORATE MICROSITES",
+                          label: "ANNUAL REPORT MICROSITES",
                         },
                         {
                           id: "sustainability-tools",
@@ -379,7 +379,7 @@ function ReportShowcaseContent({
                           },
                           {
                             id: "corporate-microsites",
-                            label: "CORPORATE MICROSITES",
+                            label: "ANNUAL REPORT MICROSITES",
                           },
                           {
                             id: "sustainability-tools",
@@ -416,16 +416,19 @@ function ReportShowcaseContent({
               </div>
 
               {/* Desktop: Button Row */}
-              <div className="hidden lg:flex w-3/4 gap-4 px-2 pb-8">
+              <div className="hidden lg:flex w-full flex-wrap gap-4 px-2 pb-8">
                 {[
                   { id: "corporate-websites", label: "CORPORATE WEBSITES" },
-                  { id: "corporate-microsites", label: "CORPORATE MICROSITES" },
+                  {
+                    id: "corporate-microsites",
+                    label: "ANNUAL REPORT MICROSITES",
+                  },
                   { id: "sustainability-tools", label: "SUSTAINABILITY TOOLS" },
                 ].map((tab) => (
                   <button
                     key={tab.id}
                     onClick={() => setActiveWebTab(tab.id)}
-                    className={`cursor-pointer font-semibold border border-neutral-800 w-1/5 py-2 transition-all duration-200 text-sm rounded-lg ${
+                    className={`cursor-pointer font-semibold border border-neutral-800 px-6 py-2 transition-all duration-200 text-sm rounded-lg whitespace-nowrap ${
                       activeWebTab === tab.id
                         ? "bg-neutral-800 text-yellow-400"
                         : "hover:bg-neutral-800 hover:text-yellow-400 text-neutral-800"
