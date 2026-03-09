@@ -11,6 +11,31 @@ import { getMetadata } from "@/data/metadata";
 
 export const metadata = getMetadata("about");
 
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@type": "WebSite",
+        "@id": "https://www.kalolwala.com/",
+        "name": "Kalolwala & Associates"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item": {
+        "@type": "Thing",
+        "@id": "https://www.kalolwala.com/about",
+        "name": "About Us"
+      }
+    }
+  ]
+};
+
 const storiesList = [
   {
     id: 1,
@@ -91,6 +116,10 @@ const AboutUs = () => {
 
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <div className="marginal">
         <ImpactBanner/>
         <Header />

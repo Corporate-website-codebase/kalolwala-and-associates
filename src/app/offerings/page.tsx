@@ -6,6 +6,31 @@ import { getMetadata } from "@/data/metadata";
 
 export const metadata = getMetadata("offerings");
 
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@type": "WebSite",
+        "@id": "https://www.kalolwala.com/",
+        "name": "Kalolwala & Associates"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item": {
+        "@type": "Thing",
+        "@id": "https://www.kalolwala.com/offerings",
+        "name": "Offerings"
+      }
+    }
+  ]
+};
+
 const serviceSchema = {
   "@context": "https://schema.org",
   "@type": "ItemList",
@@ -77,6 +102,10 @@ const Services = () => {
 
     return (
         <div>
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+            />
             <script
               type="application/ld+json"
               dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
