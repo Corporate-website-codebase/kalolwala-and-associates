@@ -62,7 +62,7 @@ export default function TechStackCarousel() {
               <motion.span
                 key={index}
                 variants={letterVariants}
-                className="inline-block text-neutral-800 tracking-tight font-light font-noto-sans will-change-transform"
+                className="inline-block pb-3 text-neutral-800 tracking-tight font-light font-noto-sans will-change-transform"
               >
                 {char === " " ? "\u00A0" : char}
               </motion.span>
