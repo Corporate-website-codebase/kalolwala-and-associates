@@ -55,14 +55,14 @@ export default function TechStackCarousel() {
         {/* Animated Title — left aligned */}
         <motion.div
           variants={titleWordVariants}
-          className=" space-y-4 font-bricolage-grotesque text-7xl font-noto-sans max-md:text-4xl max-sm:text-3xl text-left font-semibold w-4/5"
+          className=" space-y-4 font-bricolage-grotesque text-7xl font-noto-sans max-md:text-4xl max-sm:text-3xl text-left font-semibold md:w-4/5"
         >
           <div className="inline-block overflow-hidden" aria-label={title}>
             {title.split("").map((char, index) => (
               <motion.span
                 key={index}
                 variants={letterVariants}
-                className="inline-block text-neutral-800 tracking-tight pb-8 font-light font-noto-sans will-change-transform"
+                className="inline-block text-neutral-800 tracking-tight font-light font-noto-sans will-change-transform"
               >
                 {char === " " ? "\u00A0" : char}
               </motion.span>
