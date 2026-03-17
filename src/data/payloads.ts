@@ -258,7 +258,7 @@ export const PAYLOADS: Record<string, any> = {
       },
       {
         title: "Indian Oil Corporation Ltd",
-        image: "/images/offerings/web/microsite/Indian-Oil.png",
+        image: "/images/offerings/web/microsite/Indian-oil.png",
         subtitle: "DISCOVER MORE",
         link: "https://iocl.com/uploads/AnnualReport2024-25/index.html",
         type: "corporate-microsites",
@@ -272,7 +272,7 @@ export const PAYLOADS: Record<string, any> = {
       },
       {
         title: "LT Foods Ltd",
-        image: "/images/offerings/web/microsite/LT-Foods.png",
+        image: "/images/offerings/web/microsite/LT-foods.png",
         subtitle: "DISCOVER MORE",
         link: "https://ltf.ltfoods.com/",
         type: "corporate-microsites",
