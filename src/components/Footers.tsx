@@ -186,9 +186,9 @@ const AccordionItem = ({ question, answer }: { question: string; answer: string 
     <div className="border-b border-gray-800 last:border-0">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full cursor-pointer py-4 px-4 flex justify-between items-center text-left hover:bg-white/5 transition-all duration-300 group rounded-sm"
+        className="w-full cursor-pointer py-3 flex justify-between items-center text-left  hover: transition-all duration-300 group rounded-sm"
       >
-        <span className="text-sm font-medium pr-4 leading-tight text-white/90 group-hover:text-white">
+        <span className="text-sm font-medium pr-4 leading-tight text-white/80 group-hover:text-white transition-all duration-300">
           {question}
         </span>
         <ChevronDown 
@@ -204,7 +204,7 @@ const AccordionItem = ({ question, answer }: { question: string; answer: string 
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: premiumEase }}
-            className="overflow-hidden px-4"
+            className="overflow-hidden px-2"
           >
             <p className="pb-4 text-xs text-gray-400 leading-relaxed">
               {answer}
@@ -433,7 +433,7 @@ const Footers = ({
           </div>
 
           {/* COLUMN 3: FORM & FAQ (TOGGLE) */}
-          <div className="md:col-span-2 lg:col-span-1 lg:px-8 h-full flex flex-col mt-4 md:mt-0 relative min-h-[500px]">
+          <div className="md:col-span-2 bg-amber-1 lg:col-span-1 lg:px-6 h-full flex flex-col mt-4 md:mt-0 relative min-h-[500px]">
             <div className="flex justify-between items-center mb-3">
               <div className="overflow-hidden">
                 <motion.h3 variants={textRevealVariants} className="text-sm font-bold tracking-widest text-white uppercase">
