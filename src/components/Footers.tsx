@@ -441,7 +441,7 @@ const Footers = ({
                 </motion.h3>
               </div>
               <motion.button
-                variants={textRevealVariants}
+                // variants={textRevealVariants}
                 onClick={() => setIsFAQOpen(!isFAQOpen)}
                 className="text-[10px] cursor-pointer font-bold uppercase tracking-widest flex items-center gap-2 px-3 py-1.5 border border-gray-800 bg-[#111] hover:bg-[#f5c518] hover:text-black transition-all duration-300"
               >
