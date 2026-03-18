@@ -133,7 +133,7 @@ const AccordionItem = ({ question, answer, index }: AccordionItemProps) => {
 
 export default function FAQPage() {
     return (
-        <main className="min-h-screen bg-[#080808] text-white selection:bg-[#f5c518] selection:text-black pb-64">
+        <main className="min-h-screen bg-[#080808] text-white selection:bg-[#f5c518] selection:text-black">
 
             {/* 1. HERO SECTION */}
             <section className=" pb-20  px-6 md:px-12 max-w-[1600px] mx-auto">
