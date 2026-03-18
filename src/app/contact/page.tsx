@@ -32,16 +32,16 @@ const breadcrumbSchema = {
 
 const Contact = () => {
 
-    return (
-            <div>
-                <script
-                  type="application/ld+json"
-                  dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-                />
-                <LetsTalk/>
-        <Footers nextPageName="Home" nextPageLink="/" />
-            </div>
-    );
+  return (
+    <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <LetsTalk />
+      <Footers nextPageName="Home" nextPageLink="/" />
+    </div>
+  );
 };
 
 export default Contact;

@@ -378,7 +378,7 @@ export default function ApplicationForm() {
             <img 
               src="/images/careers.webp" 
               alt="Office" 
-              className="w-full h-full object-cover border border-yellow-500/20 shadow-2xl opacity-80 hover:opacity-100 transition-opacity duration-500"
+              className="w-full h-full grayscale object-cover border border-yellow-500/20 shadow-2xl opacity-80 hover:grayscale-0 transition cursor-pointer duration-500"
             />
           </div>
         </div>

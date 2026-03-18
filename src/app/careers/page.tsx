@@ -42,7 +42,7 @@ const Career = () => {
             <Header />
             <Departments />
             <OpenRoles />
-            <Footers nextPageName="Contact" nextPageLink="/" />
+            <Footers nextPageName="FAQs" nextPageLink="/faqs" />
         </div>
     );
 };
