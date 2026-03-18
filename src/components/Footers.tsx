@@ -362,9 +362,9 @@ const Footers = ({
             <div className="overflow-hidden">
               <motion.div className="pb-3" variants={textRevealVariants}>We don't just ideate;</motion.div>
             </div>
-            <div className="overflow-hidden pb-2n">
+            <div className="overflow-hidden pb-2">
               <motion.div variants={textRevealVariants}>
-                we build <span className="text-[#f5c518]">together.</span>
+                we build <span className="text-[#f5c518] ">together.</span>
               </motion.div>
             </div>
           </h2>
