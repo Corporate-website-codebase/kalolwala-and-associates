@@ -52,6 +52,12 @@ export const PAGE_METADATA: Record<string, PageMetadata> = {
       "Read expert articles on stakeholder communication, ESG, annual reports & corporate storytelling, insights from Kalolwala to inform and inspire your brand strategy.",
     canonical: "/blogs",
   },
+  faqs: {
+    title: "FAQs | KW",
+    description:
+      "Learn about timelines, reporting process, ESG support, deliverables, and how we ensure confidentiality and quality.",
+    canonical: "/faqs",
+  },
 };
 
 export function getMetadata(page: keyof typeof PAGE_METADATA): Metadata {
