@@ -23,6 +23,48 @@ export interface BlogPost {
 }
 
 export const BLOG_DATA: BlogPost[] = [
+  // ── c8 ──────────────────────────────────────────────────
+  {
+    id: "c8",
+    title: "Fault Lines in West Asia: A Wake-up Call for Global Supply Chains",
+    excerpt:
+      "What is unfolding in West Asia may appear geographically contained. For businesses around the world, it is anything but.",
+    date: "MARCH 20, 2026",
+    url: "https://www.linkedin.com/pulse/fault-lines-west-asia-wake-up-call-sl1zc?trk=public_post_feed-article-content",
+    slug: "fault-lines-in-west-asia",
+    author: "Editorial team at Kalolwala & Associates Private Limited",
+    image: "/blogs/Fault Lines in West Asia.png",
+    publisher: "LinkedIn",
+    publisherLogo: "/blogs/publishers/linkedin.png",
+    content: `
+      <p>What is unfolding in West Asia may appear geographically contained. For businesses around the world, it is anything but. It is something far more immediate. It is a reminder that supply chains, energy markets and geopolitics remain tightly interwoven and that disruptions in one corner of the world seldom stay contained.</p>
+
+      <p>The first tremors can already be felt in energy markets. With the region accounting for a lion’s share of global oil flows, even the perception of disruption has pushed crude prices higher. That, in turn, will translate into higher input costs, compressed margins and renewed inflationary pressure across economies.</p>
+
+      <p>But energy is only part of the story.</p>
+
+      <p>Trade routes through the region serve as critical arteries for global commerce. When tensions rise, ships reroute, transit times stretch and freight costs go up. Given that nearly 80% of global trade moves by sea, even limited disruption has a cascading effect across supply chains. Air cargo, too, is feeling the strain, with airlines avoiding contested airspace and capacity tightening as a result.</p>
+
+      <p>What often goes underappreciated is how deeply embedded the region is in the supply of critical industrial inputs. From petrochemicals to fertiliser-linked materials, disruptions here ripple outward into sectors as diverse as agriculture, pharmaceuticals and manufacturing. The impact is rarely immediate, but it is persistent.</p>
+
+      <p>Financial markets, as expected, are responding in kind. Heightened uncertainty is driving volatility, softening investment sentiment and prompting a cautious stance among corporates. Institutions such as the International Monetary Fund have already cautioned that prolonged instability could weigh on global growth through a combination of higher energy costs and disrupted trade flows.</p>
+
+      <h2>So, what does this mean for companies?</h2>
+
+      <p>In many ways, it sheds light on a shift that has been underway for quite some time. Efficiency alone is no longer the guiding tenet for supply chains. Resilience is steadily taking its place.</p>
+
+      <p>We are seeing companies revisit supplier dependencies, diversify sourcing and build buffers where earlier there were none. Energy risk is being managed more actively, whether through hedging strategies or a faster pivot towards alternative sources. Perhaps most importantly, geopolitical awareness is moving from the periphery to the centre stage of boardrooms around the world.</p>
+
+      <h2>The larger takeaway is hard to ignore.</h2>
+
+      <p>Globalisation is not reversing, but it is being reconfigured in real time. The emphasis is shifting from just-in-time to just-in-case, from cost optimisation to continuity assurance.</p>
+
+      <p>Moments like these serve as a clear reminder that in today’s world, geopolitics is no longer an afterthought. It is part of the operating environment.</p>
+
+      <p>For corporates, the question is no longer whether such disruptions will occur, but how prepared they are when they do.</p>
+    `,
+  },
+
   // ── c0 ──────────────────────────────────────────────────
   {
     id: "c0",
