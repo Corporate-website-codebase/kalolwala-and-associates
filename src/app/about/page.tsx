@@ -130,7 +130,7 @@ const AboutUs = () => {
       </div>
       <SuccessStoriesSlider stories={storiesList} />
       <div className="marginal">
-        <Footers nextPageName="Contact" nextPageLink="/contact" />
+        <Footers nextPageName="Blogs" nextPageLink="/blogs" />
       </div>
     </div>
   );

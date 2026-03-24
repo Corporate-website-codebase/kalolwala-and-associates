@@ -45,7 +45,7 @@ export default async function BlogPostPage({ params }: Props) {
   return (
     <>
       <BlogDetailPage post={post} />
-      <Footers nextPageName="Blogs" nextPageLink="/blogs" />
+      <Footers nextPageName="Careers" nextPageLink="/careers" />
     </>
   );
 }

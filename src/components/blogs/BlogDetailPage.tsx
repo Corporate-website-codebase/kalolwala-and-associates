@@ -117,7 +117,7 @@ export default function BlogDetailPage({ post }: BlogDetailPageProps) {
             className="transition-transform duration-300 group-hover:-translate-x-1"
           />
           <span className="text-sm font-mono uppercase tracking-widest">
-            Back to Blogs
+            Back
           </span>
         </Link>
 

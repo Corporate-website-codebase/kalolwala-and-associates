@@ -41,7 +41,7 @@ const Blogs = () => {
             <Header />
             <CarouselSection />
             <div className="marginal">
-                <Footers nextPageName="Careers" nextPageLink="/" />
+                <Footers nextPageName="Careers" nextPageLink="/careers" />
             </div>
         </div>
     );
