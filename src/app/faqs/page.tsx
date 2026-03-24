@@ -136,7 +136,7 @@ export default function FAQPage() {
         <main className="min-h-screen bg-[#080808] text-white selection:bg-[#f5c518] selection:text-black">
 
             {/* 1. HERO SECTION */}
-            <section className=" pb-20  px-6 md:px-12 max-w-[1600px] mx-auto">
+            <section className="pb-20 px-6 md:px-12 max-w-[1600px] mx-auto">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
                     <div className="lg:col-span-8">
 
