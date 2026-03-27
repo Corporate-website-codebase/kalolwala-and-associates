@@ -11,6 +11,7 @@ const Footer = () => {
   const date = new Date();
   const year = date.getFullYear();
 
+  
   // Trigger yellow highlight after animation finishes
   useEffect(() => {
     if (isInView) {
