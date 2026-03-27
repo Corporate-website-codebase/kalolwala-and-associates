@@ -22,9 +22,8 @@ export default function BlogDetailPage({ post }: BlogDetailPageProps) {
   const imageRef = useRef<HTMLDivElement | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
   const sidebarRef = useRef<HTMLDivElement | null>(null);
-  const contentWrapperRef = useRef<HTMLDivElement | null>(null);
 
-  const otherBlogs = BLOG_DATA.filter((b) => b.id !== post.id && b.slug);
+  const otherBlogs = BLOG_DATA.filter((b) => b.id !== post.id && b.slug).slice(0, 7);
 
   // Sync Lenis scroll ticks with ScrollTrigger — eliminates desync jank
   useLenis(() => {
@@ -72,28 +71,10 @@ export default function BlogDetailPage({ post }: BlogDetailPageProps) {
       );
     }
 
-    // Pin sidebar while content scrolls (desktop only)
-    // pinType: "transform" → uses translateY instead of position:fixed → no layout reflow
-    const mm = gsap.matchMedia();
-    mm.add("(min-width: 1024px)", () => {
-      if (!sidebarRef.current || !contentWrapperRef.current) return;
-
-      ScrollTrigger.create({
-        trigger: sidebarRef.current,
-        start: "top 7rem",
-        endTrigger: contentWrapperRef.current,
-        end: "bottom bottom",
-        pin: true,
-        pinSpacing: false,
-        pinType: "transform",
-      });
-    });
-
     return () => {
       tl.kill();
-      mm.revert();
     };
-  }, []);
+  }, [post.id]);
 
   return (
     <section
@@ -161,7 +142,6 @@ export default function BlogDetailPage({ post }: BlogDetailPageProps) {
       {/* ─── TWO-COLUMN BODY ─── */}
       <div className="marginal">
         <div
-          ref={contentWrapperRef}
           className="flex flex-col lg:flex-row gap-10 lg:gap-14 lg:items-start"
         >
           {/* === LEFT COLUMN — 70% — CONTENT === */}
@@ -176,6 +156,7 @@ export default function BlogDetailPage({ post }: BlogDetailPageProps) {
                   src={post.image}
                   alt={post.title}
                   className="w-full  h-auto max-h-[70vh] object-fill rounded-sm"
+                  onLoad={() => ScrollTrigger.refresh()}
                 />
               </div>
             )}
@@ -257,8 +238,8 @@ export default function BlogDetailPage({ post }: BlogDetailPageProps) {
             </div>
           </div>
 
-          {/* === RIGHT COLUMN — 30% — SIDEBAR (sticky) === */}
-          <aside className="w-full lg:w-[30%] lg:self-start">
+          {/* === RIGHT COLUMN — 30% — SIDEBAR (sticky via CSS) === */}
+          <aside className="w-full lg:w-[30%] lg:sticky lg:top-[6rem] lg:self-start">
             <div ref={sidebarRef} className="opacity-0">
               {/* Sidebar Header */}
               <div className="flex items-center gap-3 mb-6">
