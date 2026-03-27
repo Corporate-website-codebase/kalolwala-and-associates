@@ -120,7 +120,7 @@ const AccordionItem = ({ question, answer, index }: AccordionItemProps) => {
                         className="overflow-hidden"
                     >
                         <div className="pb-12 pt-2 max-w-2xl">
-                            <p className="text-base md:text-lg text-gray-500 leading-relaxed font-light">
+                            <p className="text-base md:text-lg text-gray-400 leading-relaxed font-light">
                                 {answer}
                             </p>
                         </div>
@@ -151,7 +151,7 @@ export default function FAQPage() {
                             Answered.
                         </motion.h1>
                     </div>
-      
+
                 </div>
             </section>
 

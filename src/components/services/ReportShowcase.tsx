@@ -277,7 +277,7 @@ function ReportShowcaseContent({
                       className="text-neutral-800 mt-3"
                       style={{ fontSize: "clamp(14px, 1.2vw, 18px)" }}
                     >
-                      We specialize in :{" "}
+                      We specialize in:
                     </h3>
                     <div className="flex flex-wrap gap-2 mt-4 max-w-3xl">
                       {specializations.map((item, i) => (

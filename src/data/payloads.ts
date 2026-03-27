@@ -231,7 +231,7 @@ export const PAYLOADS: Record<string, any> = {
         title: "sbkgropes",
         image: "/images/offerings/web/SBKG.png",
         subtitle: "DISCOVER MORE",
-        link: "https://sbkgropes.com/",
+        link: "https://www.sbkgropes.com/",
         type: "corporate-websites",
       },
       // Dummy data for other
