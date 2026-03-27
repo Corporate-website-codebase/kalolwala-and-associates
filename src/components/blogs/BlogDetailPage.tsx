@@ -25,10 +25,25 @@ export default function BlogDetailPage({ post }: BlogDetailPageProps) {
 
   const otherBlogs = BLOG_DATA.filter((b) => b.id !== post.id && b.slug).slice(0, 7);
 
+  const lenisRef = useRef<ReturnType<typeof useLenis> | null>(null);
+
   // Sync Lenis scroll ticks with ScrollTrigger — eliminates desync jank
-  useLenis(() => {
+  useLenis((lenis) => {
+    lenisRef.current = lenis;
     ScrollTrigger.update();
   });
+
+  // Scroll to top whenever the blog post changes (e.g. sidebar navigation)
+  useEffect(() => {
+    // Reset Lenis smooth-scroll position
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true });
+    }
+    // Native fallback — covers cases where Lenis hasn't initialised yet
+    window.scrollTo(0, 0);
+    // Recalculate GSAP positions after scroll reset
+    ScrollTrigger.refresh();
+  }, [post.id]);
 
   useEffect(() => {
     const container = containerRef.current;
