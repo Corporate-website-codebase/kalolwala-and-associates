@@ -92,7 +92,7 @@ const AccordionItem = ({ question, answer, index }: AccordionItemProps) => {
                 onClick={() => setIsOpen(!isOpen)}
                 className="w-full cursor-pointer py-8 md:py-10 flex justify-between items-start text-left hover:bg-white/[0.01] transition-colors duration-500 px-4 -mx-4"
             >
-                <span className="text-xl md:text-2xl font-light tracking-tight pr-8 text-white/80 group-hover:text-white transition-colors duration-300">
+                <span className="text-xl md:text-2xl font-normal tracking-tight pr-8 text-white/80 group-hover:text-white transition-colors duration-300">
                     {question}
                 </span>
 
@@ -120,7 +120,7 @@ const AccordionItem = ({ question, answer, index }: AccordionItemProps) => {
                         className="overflow-hidden"
                     >
                         <div className="pb-12 pt-2 max-w-2xl">
-                            <p className="text-base md:text-lg text-white/70 leading-relaxed font-light">
+                            <p className="text-base md:text-lg text-white/70 leading-relaxed font-normal">
                                 {answer}
                             </p>
                         </div>
