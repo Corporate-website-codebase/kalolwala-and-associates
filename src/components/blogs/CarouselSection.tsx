@@ -60,7 +60,7 @@ export default function BlogPaginatedList({
   };
 
   return (
-    <section className="w-full py-14 bg-[#050505] text-white min-h-screen flex flex-col font-noto-sans">
+    <section id="articles" className="w-full py-14 bg-[#050505] text-white min-h-screen flex flex-col font-noto-sans">
       <div className="marginal mx-auto w-full px-6 md:px-0">
         {/* --- HEADER --- */}
         <div className="mb- border-b border-white/10 pb-10">

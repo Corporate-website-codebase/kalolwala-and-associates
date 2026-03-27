@@ -120,7 +120,7 @@ const AccordionItem = ({ question, answer, index }: AccordionItemProps) => {
                         className="overflow-hidden"
                     >
                         <div className="pb-12 pt-2 max-w-2xl">
-                            <p className="text-base md:text-lg text-gray-400 leading-relaxed font-light">
+                            <p className="text-base md:text-lg text-gray-300/80 leading-relaxed font-light">
                                 {answer}
                             </p>
                         </div>
@@ -144,7 +144,7 @@ export default function FAQPage() {
                             initial={{ opacity: 0, y: 40 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 1, delay: 0.1, ease: premiumEase }}
-                            className=" text-white pt-32 sm:pt-40 font-thin text-[clamp(32px,4.4vw,60px)] mb-8 leading-tight"
+                            className=" text-white pt-32 sm:pt-40 font-light sm:font-thin text-[clamp(32px,4.4vw,60px)] mb-8 leading-tight"
                         >
                             Your
                             Questions,<br />

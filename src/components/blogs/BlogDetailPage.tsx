@@ -104,7 +104,7 @@ export default function BlogDetailPage({ post }: BlogDetailPageProps) {
       <div className="marginal">
         <Link
           ref={backRef}
-          href="/blogs"
+          href="/blogs#articles"
           className="
             invisible
             inline-flex items-center gap-2 pt-28 sm:pt-36 pb-8
@@ -317,7 +317,7 @@ export default function BlogDetailPage({ post }: BlogDetailPageProps) {
 
               {/* View All Link */}
               <Link
-                href="/blogs"
+                href="/blogs#articles"
                 className="
                   group flex items-center gap-2 mt-6 pt-5
                   border-t border-white/[0.06]
