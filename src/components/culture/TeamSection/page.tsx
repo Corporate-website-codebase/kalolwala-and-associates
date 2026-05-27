@@ -121,14 +121,6 @@ const teamData: TeamMember[] = [
   },
   {
     id: 13,
-    name: 'Rajat Chakroborty',
-    role: 'Vice President | Editorial',
-    qual: 'Bachelors in English (Hons), Masters (Industrial Relations & Personnel Management)',
-    imageSrc: '/images/culture/team/Rajat Chakraborty.jpg',
-    message: 'Rajat wears many hats — business editor, storyteller and an ardent believer of ‘Mind over Matter’. He has always had a way with words, but numbers whisper to him with rare clarity as well. He believes mathematics conveys the secret code of the universe.\n\nA spiritualist at heart and a language purist, he effortlessly gallops between words and numbers. His business acumen is razor-sharp, always attuned to the undercurrents of markets, industries and ideas shaping the world. Books, the stock market and the vectors of next business growth/challenges never cease to fascinate him.\n\nRajat is a perpetual learner with a school-boyish enthusiasm and a sense of wonder, and he believes learning is the key to everlasting happiness.'
-  },
-  {
-    id: 14,
     name: 'Shreya Sarkar Tadimalla',
     role: 'Manager | Editorial',
     qual: 'Bachelors in English (Hons), Masters in Journalism and Mass Communication',
@@ -136,7 +128,7 @@ const teamData: TeamMember[] = [
     message: 'Shreya is a believer in the magic of words. A former journalist with over a decade of experience and a lifelong love for literature, she knows that language, when shaped with intention, can shift perspectives and stir emotions.\n\nAs Manager, Editorial, she brings a sharp eye for detail and an instinctive sense of rhythm to every assignment. She has a knack for taking the simplest draft and shaping it into writing that is clear, engaging and genuinely enjoyable to read. Even in the most high-pressure moments, she remains composed, managing workflows with confidence.\n\nBeyond work, Shreya immerses herself in detective stories and dystopian novels, drawn to narratives that challenge the mind and stretch the imagination.\n\nTravel excites her deeply; her curiosity about people and cultures draws her towards new places, new stories and new ways of understanding the world.'
   },
   {
-    id: 15,
+    id: 14,
     name: 'Ankita Kundu',
     role: 'Manager | Business Development & Client Relations',
     qual: 'MBA (Agri business)',
@@ -144,7 +136,7 @@ const teamData: TeamMember[] = [
     message: 'Ankita is the kind of person whose words can turn an atheist into a believer—persuasive, articulate and effortlessly impactful. As Manager, Business Development & Client Relations, she identifies new avenues for growth, whether by onboarding promising clients or forging strategic alliances that unlock long-term value.\n\nRelationship-building comes naturally to her. She believes that meaningful engagement is the foundation of enduring partnerships, and she brings that conviction into every interaction.\n\nAnkita is a traveller at heart. New cultures, unfamiliar streets and the stories of people she meets along the way inspire her. And when she is not talking business, she turns to painting, expressing her thoughts that she does not put into words.'
   },
   {
-    id: 16,
+    id: 15,
     name: 'Naeem Kangroo',
     role: 'Manager | Business Development & Client Relations',
     qual: 'B.Com Honours - E-commerce',

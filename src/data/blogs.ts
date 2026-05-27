@@ -192,7 +192,7 @@ export const BLOG_DATA: BlogPost[] = [
     date: "NOVEMBER 04, 2025",
     url: "https://www.linkedin.com/pulse/perpetual-winner-like-james-bond-kalolwala-associates-private-limit-iyioc?trk=public_post_feed-article-content",
     slug: "bond-yields-india-impact-on-banks",
-    author: "Rajat Chakroborty · Head - Editorial, K&A",
+    author: "Rajat Chakroborty · Editorial, K&A",
     image: "/blogs/Not a perpetual winner like James Bond!.png",
     publisher: "LinkedIn",
     publisherLogo: "/blogs/publishers/linkedin.png",
