@@ -110,4 +110,5 @@ const CircularImageScroll: React.FC = () => {
   );
 };
 
+// export
 export default CircularImageScroll;
