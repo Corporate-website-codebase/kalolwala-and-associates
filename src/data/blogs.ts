@@ -1,6 +1,6 @@
 // blog-data.ts
 
-export type Publisher = "LinkedIn" | "Business Standard";
+export type Publisher = "LinkedIn" | "Business Standard" | "ANI News";
 
 export interface BlogPost {
   id: string;
@@ -20,9 +20,76 @@ export interface BlogPost {
   publisher?: Publisher;
   /** Publisher logo image path */
   publisherLogo?: string;
+  /** Additional links for multi-publisher articles */
+  additionalLinks?: Array<{
+    url: string;
+    publisher: Publisher;
+    publisherLogo: string;
+  }>;
 }
 
 export const BLOG_DATA: BlogPost[] = [
+
+  {
+    id: "c9", // Assigned a new ID to sit at the top of the list
+    title: "Kalolwala & Associates (K&A) joins hands with Travanleo to leverage Ecodrisil to advance ESG reporting for India Inc.",
+    excerpt:
+      "K&A partners with Travanleo Info Solutions to bring the award-winning, AI-powered Ecodrisil ESG Xpress platform to India, streamlining BRSR compliance and sustainability reporting for enterprises.",
+    date: "JUNE 22, 2026",
+    url: "https://www.aninews.in/news/business/kalolwala-amp-associates-kampa-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc20260622173735/",
+    slug: "ka-partners-with-travanleo-ecodrisil-esg-reporting",
+    author: "VMPL",
+    image: "/blogs/ka-partners-with-travanleo-ecodrisil-esg-reporting.webp",
+    publisher: "ANI News",
+    publisherLogo: "/blogs/publishers/ani-logo.webp",
+    additionalLinks: [
+      {
+        url: "https://www.aninews.in/news/business/kalolwala-amp-associates-kampa-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc20260622173735/",
+        publisher: "ANI News",
+        publisherLogo: "/blogs/publishers/ani-logo.webp"
+      },
+      {
+        url: "https://www.business-standard.com/content/press-releases-ani/kalolwala-associates-k-a-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc-126062201024_1.html",
+        publisher: "Business Standard",
+        publisherLogo: "/blogs/publishers/business-standard-logo-2.png"
+      }
+    ],
+    content: `
+      <p><strong>New Delhi [India], June 22:</strong> Kalolwala & Associates (K & A), one of India's leading independent Annual Reports and ESG consultants, has entered into a strategic partnership with Travanleo Info Solutions, a technology company pioneering in Enterprise Cloud, AI and Sustainability Solutions, to advance ESG reporting for India Inc.</p>
+
+      <p>As Travanleo's exclusive partner in India, K & A will be responsible for delivering and implementing its award-winning AI-powered sustainability reporting platform, Ecodrisil ESG Xpress, along with related services, across the country.</p>
+
+      <p>This development comes at a time when India Inc. is facing stringent environmental regulations and growing pressure for transparent sustainability metrics in line with India's net-zero ambition. K & A's deep understanding of India's regulatory and reporting landscape, combined with Ecodrisil's advanced ESG AI and automation capabilities, will help Indian companies streamline their ESG reporting, improve data accuracy, support their transition to low-carbon companies, and become future-ready.</p>
+
+      <p>The alliance marks a new dawn for ESG reporting in India, and K & A is pleased to introduce a platform that is benchmarked against global best practices and has proven its effectiveness across international markets. The initiative will help improve accuracy, speed, and confidence in ESG reporting.</p>
+
+      <h2>Uniting expertise and innovation</h2>
+
+      <p>The partnership unites the unique strengths of two distinct organisations to support India Inc.'s sustainability journey:</p>
+
+      <ul>
+        <li><strong>Ecodrisil's Technological Supremacy:</strong> Travanleo Info Solutions' Ecodrisil ESG Xpress features a proprietary AI co-pilot along with a range of data management and automation capabilities. The platform helps automate complex Scope 1, 2, and 3 carbon emissions tracking and generates audit-ready ESG reports aligned with global and local standards.</li>
+        <li><strong>K & A's Market Expertise:</strong> K & A has an established reputation and extensive domain expertise in Annual Reports, Sustainability Reports, BRSR, and ESG advisory. K & A's strong understanding of the Indian business landscape enables it to offer the strategic implementation, localisation, and advisory support required for companies to adopt the technology and fully realise its value for regulatory compliance and strategic growth.</li>
+      </ul>
+
+      <p>"Our exclusive partnership with Ecodrisil marks a transformative moment for how India Inc. approaches sustainability," said Jumana Vadnagarwala, Chief Strategy Officer & Co-Founder, K & A.</p>
+
+      <p>"Indian businesses are navigating a complex transition, particularly with the rigorous demands of BRSR compliance. By bringing Ecodrisil's incredibly robust ESG AI platform to India, and coupling it with our boots-on-the-ground advisory expertise, we are removing the friction from ESG reporting. Together, we are equipping Indian enterprises to lead on the global sustainability stage," said Hussain Kalolwala, CEO & Co-Founder, K & A.</p>
+
+      <p>"India is a critical market in the global ESG landscape, and scaling impact here requires both technological depth and strong local expertise. K & A brings unmatched market understanding and credibility. Together, we aim to enable organizations to move from fragmented ESG efforts to structured, AI-driven, audit-ready sustainability practices through Ecodrisil - delivering clarity, confidence, and compliance", said Mr Sankar Krishnan, CEO of Travanleo.</p>
+
+      <h2>Value proposition for India Inc.</h2>
+
+      <p>Indian companies using the Ecodrisil platform through K & A will benefit from the following:</p>
+
+      <ul>
+        <li><strong>Effortless BRSR & Global Compliance:</strong> Access to pre-mapped frameworks makes it seamless for companies to comply with SEBI's Business Responsibility and Sustainability Reporting (BRSR) requirements, conduct materiality assessments, and fulfil global standards such as GRI, SASB, CDP, GRESB, and more.</li>
+        <li><strong>Elimination of Manual Data:</strong> Automated data management reduces reliance on bulky and manual spreadsheets, cutting down time and effort significantly.</li>
+        <li><strong>AI-Powered Drafting:</strong> The Gen AI co-pilot efficiently co-authors accurate, data-backed sustainability reports in a timely manner.</li>
+        <li><strong>Audit-Ready Transparency:</strong> End-to-end digital footprints ensure data integrity and make third-party verification smooth and reliable.</li>
+      </ul>
+    `,
+  },
   // ── c8 ──────────────────────────────────────────────────
   {
     id: "c8",
