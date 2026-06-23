@@ -170,7 +170,7 @@ export default function BlogDetailPage({ post }: BlogDetailPageProps) {
                 <img
                   src={post.image}
                   alt={post.title}
-                  className="w-full  h-auto max-h-[70vh] object-fill rounded-sm"
+                  className="w-full h-auto rounded-sm"
                   onLoad={() => ScrollTrigger.refresh()}
                 />
               </div>
@@ -222,34 +222,70 @@ export default function BlogDetailPage({ post }: BlogDetailPageProps) {
             />
 
             {/* ─── PUBLISHER CTA ─── */}
-            <div className="mt-16 pt-10 border-t  border-white/10">
-              <a
-                href={post.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="
-                  group inline-flex items-center
-                  text-gray-400 hover:text-[#F4C016]
-                  transition-colors duration-300
-                "
-              >
-
-                {post.publisherLogo && (
-                  <img
-                    src={post.publisherLogo}
-                    alt={post.publisher || "Publisher"}
-                    className="h-5 w-auto object-contain"
+            <div className="mt-16 pt-10 border-t border-white/10">
+              {post.additionalLinks && post.additionalLinks.length > 0 ? (
+                <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
+                  <span className="text-xs font-mono text-gray-500 uppercase tracking-widest">
+                    Read article on:
+                  </span>
+                  <div className="flex flex-wrap items-center gap-6 sm:gap-10">
+                    {post.additionalLinks.map((link, idx) => (
+                      <a
+                        key={idx}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="
+                          group inline-flex items-center
+                          text-gray-400 hover:text-[#F4C016]
+                          transition-colors duration-300
+                        "
+                      >
+                        {link.publisherLogo && (
+                          <img
+                            src={link.publisherLogo}
+                            alt={link.publisher}
+                            className="h-5 w-auto object-contain brightness-95 group-hover:brightness-100 transition-all duration-300"
+                          />
+                        )}
+                        <span className="text-sm font-mono pl-3 tracking-widest">
+                          Read on {link.publisher}
+                        </span>
+                        <ArrowUpRight
+                          size={16}
+                          className="transition-transform ml-1 duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                        />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <a
+                  href={post.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="
+                    group inline-flex items-center
+                    text-gray-400 hover:text-[#F4C016]
+                    transition-colors duration-300
+                  "
+                >
+                  {post.publisherLogo && (
+                    <img
+                      src={post.publisherLogo}
+                      alt={post.publisher || "Publisher"}
+                      className="h-5 w-auto object-contain"
+                    />
+                  )}
+                  <span className="text-sm font-mono pl-4 tracking-widest">
+                    Read Article
+                  </span>
+                  <ArrowUpRight
+                    size={18}
+                    className="transition-transform ml-1 duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                   />
-                )}
-
-                <span className="text-sm font-mono pl-4  tracking-widest ">
-                  Read Article
-                </span>
-                <ArrowUpRight
-                  size={18}
-                  className="transition-transform ml-1  duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                />
-              </a>
+                </a>
+              )}
             </div>
           </div>
 
