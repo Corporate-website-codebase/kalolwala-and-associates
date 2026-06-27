@@ -290,8 +290,8 @@ const TeamSection: React.FC = () => {
             block: "start" 
           });
         }
-      }, 300); // 300ms is usually enough for Next.js to mount the components
-
+      }, 300);
+//v 
       return () => clearTimeout(timer);
     }
   }, []);
