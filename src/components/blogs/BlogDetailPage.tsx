@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLenis } from "lenis/react";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { BLOG_DATA, type BlogPost } from "@/data/blogs";
+import PublisherMarquee from "./PublisherMarquee";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -222,6 +223,9 @@ export default function BlogDetailPage({ post }: BlogDetailPageProps) {
             />
 
             {/* ─── PUBLISHER CTA ─── */}
+            {post.additionalLinks && post.additionalLinks.length > 2 ? (
+              <PublisherMarquee links={post.additionalLinks} />
+            ) : (
             <div className="mt-16 pt-10 border-t border-white/10">
               {post.additionalLinks && post.additionalLinks.length > 0 ? (
                 <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
@@ -287,6 +291,7 @@ export default function BlogDetailPage({ post }: BlogDetailPageProps) {
                 </a>
               )}
             </div>
+            )}
           </div>
 
           {/* === RIGHT COLUMN — 30% — SIDEBAR (sticky via CSS) === */}

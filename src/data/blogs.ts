@@ -1,6 +1,22 @@
 // blog-data.ts
 
-export type Publisher = "LinkedIn" | "Business Standard" | "ANI News";
+export type Publisher =
+  | "LinkedIn"
+  | "Business Standard"
+  | "ANI News"
+  | "The Tribune"
+  | "Lokmat Times"
+  | "Pioneer Edge"
+  | "The Hans India"
+  | "Punjab Kesari"
+  | "Daily Hunt"
+  | "The CSR Universe"
+  | "Daily Tribune"
+  | "Daily Pioneer"
+  | "CEO Times"
+  | "HeraldPost"
+  | "Cover Magazine"
+  | "ESG News";
 
 export interface BlogPost {
   id: string;
@@ -52,6 +68,71 @@ export const BLOG_DATA: BlogPost[] = [
         url: "https://www.business-standard.com/content/press-releases-ani/kalolwala-associates-k-a-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc-126062201024_1.html",
         publisher: "Business Standard",
         publisherLogo: "/blogs/publishers/business-standard-logo-2.png"
+      },
+      {
+        url: "https://www.tribuneindia.com/news/business/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/",
+        publisher: "The Tribune",
+        publisherLogo: "/blogs/publishers/marquee/tribune.png"
+      },
+      {
+        url: "https://www.lokmattimes.com/business/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/",
+        publisher: "Lokmat Times",
+        publisherLogo: "/blogs/publishers/marquee/Lokmat.png"
+      },
+      {
+        url: "https://pioneeredge.in/ka-travanleo-partner-to-strengthen-esg-reporting-for-indian-companies/#google_vignette",
+        publisher: "Pioneer Edge",
+        publisherLogo: "/blogs/publishers/marquee/pioneerEdge.png"
+      },
+      {
+        url: "https://www.thehansindia.com/amp/karnataka/ka-partners-with-travanleo-to-strengthen-esg-reporting-for-india-inc-1089150",
+        publisher: "The Hans India",
+        publisherLogo: "/blogs/publishers/marquee/hansIndia.png"
+      },
+      {
+        url: "https://english.punjabkesari.com/business/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/",
+        publisher: "Punjab Kesari",
+        publisherLogo: "/blogs/publishers/marquee/punjubkesari.png"
+      },
+      {
+        url: "https://m.dailyhunt.in/news/india/english/tycoon+world-epaper-dh4c6a646b987d48f5b87f17d40865f089/kalolwala+associates+ka+joins+hands+with+travanleo+to+leverage+ecodrisil+to+advance+esg+reporting+for+india+inc-newsid-dh4c6a646b987d48f5b87f17d40865f089_714b34906e2711f1a9ffe06bfac350a2?sm=Y",
+        publisher: "Daily Hunt",
+        publisherLogo: "/blogs/publishers/marquee/dailyhunt.png"
+      },
+      {
+        url: "https://thecsruniverse.com/articles/kalolwala-associates-partners-with-travanleo-to-bring-ai-powered-esg-reporting-platform-ecodrisil-to-india",
+        publisher: "The CSR Universe",
+        publisherLogo: "/blogs/publishers/marquee/csr-uni.png"
+      },
+      {
+        url: "https://dailytribune.in/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/",
+        publisher: "Daily Tribune",
+        publisherLogo: "/blogs/publishers/marquee/daily-tribune.png"
+      },
+      {
+        url: "https://dailypioneer.in/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/",
+        publisher: "Daily Pioneer",
+        publisherLogo: "/blogs/publishers/marquee/daily-pioneer.png"
+      },
+      {
+        url: "https://ceotimes.in/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/",
+        publisher: "CEO Times",
+        publisherLogo: "/blogs/publishers/marquee/ceo-times.png"
+      },
+      {
+        url: "https://heraldpost.in/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/",
+        publisher: "HeraldPost",
+        publisherLogo: "/blogs/publishers/marquee/heraldpost.png"
+      },
+      {
+        url: "https://thecovermagazine.com/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/",
+        publisher: "Cover Magazine",
+        publisherLogo: "/blogs/publishers/marquee/cover-mag.png"
+      },
+      {
+        url: "https://www.esgnews.earth/latest-news/ka-partners-with-travanleo-for-esg-reporting/20100.html",
+        publisher: "ESG News",
+        publisherLogo: "/blogs/publishers/marquee/esg-news.png"
       }
     ],
     content: `
