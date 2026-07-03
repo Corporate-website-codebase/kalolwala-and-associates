@@ -16,7 +16,8 @@ export type Publisher =
   | "CEO Times"
   | "HeraldPost"
   | "Cover Magazine"
-  | "ESG News";
+  | "ESG News"
+  | "ET Edge Insights";
 
 export interface BlogPost {
   id: string;
@@ -133,6 +134,11 @@ export const BLOG_DATA: BlogPost[] = [
         url: "https://www.esgnews.earth/latest-news/ka-partners-with-travanleo-for-esg-reporting/20100.html",
         publisher: "ESG News",
         publisherLogo: "/blogs/publishers/marquee/esg-news.png"
+      },
+      {
+        url: "https://etedge-insights.com/press-release/kalolwala-associates-partners-with-travanleo-to-advance-esg-reporting-for-india-inc-through-ecodrisil/?amp=1",
+        publisher: "ET Edge Insights",
+        publisherLogo: "/blogs/publishers/marquee/insignts.png"
       }
     ],
     content: `
