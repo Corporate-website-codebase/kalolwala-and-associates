@@ -46,10 +46,57 @@ export interface BlogPost {
 }
 
 export const BLOG_DATA: BlogPost[] = [
+  // ── c10 ─────────────────────────────────────────────────
+  {
+    id: "c10",
+    title: "The Annual Report Is No Longer a Rear-View Mirror",
+    excerpt:
+      "For decades, the annual report did one job: it looked backwards. That familiar model is now beginning to change, as the annual report takes on a more forward-looking role.",
+    date: "JULY 18, 2026",
+    url: "https://www.linkedin.com/pulse/annual-report-longer-rear-view-mirror-pa7of?trk=public_post_feed-article-content",
+    slug: "the-annual-report-is-no-longer-a-rear-view-mirror",
+    author: "Yatha Lakhtaria, General Manager, Research and Content, K&A",
+    image: "/blogs/the-annual-report-is-no-longer-a-rear-view-mirror.webp",
+    publisher: "LinkedIn",
+    publisherLogo: "/blogs/publishers/linkedin.png",
+    content: `
+      <p>For decades, the annual report did one job: it looked backwards, capturing twelve months of performance, audited, bound and filed. Investors read the numbers, regulators checked the boxes, and the document eventually went on a shelf.</p>
+
+      <p>That familiar model is now beginning to change, as the annual report takes on a more forward-looking role.</p>
+
+      <p>The most consequential shift in corporate reporting today is directional. Reports are turning from records of the past into arguments about the future.</p>
+
+      <p>Integrated reporting frameworks ask companies to explain not only what they earned, but how they create value across financial, manufactured, intellectual, human, social and natural capital, and how that value can endure over the next decade rather than only the next quarter.</p>
+
+      <h2>Three forces are driving the change.</h2>
+
+      <p>First, investors have changed what they read.</p>
+
+      <p>Analysts increasingly skim the financial statements because they already have the numbers from regulatory filings and databases, and instead go directly to strategy, capital allocation, risk and management's view of the road ahead. The narrative sections that were once decorative are now among the most scrutinised pages in the document.</p>
+
+      <p>Second, regulation is catching up with expectations.</p>
+
+      <p>India's BRSR framework, the ISSB's global sustainability standards and evolving assurance requirements are pulling forward-looking disclosures, including climate transition plans, value-chain dependencies and scenario analysis, into the formal reporting perimeter. What was once voluntary storytelling is steadily becoming structured, comparable and auditable.</p>
+
+      <p>Third, the audience has multiplied. An annual report is now read by proxy advisors, ESG raters, lenders pricing sustainability-linked debt, employees deciding whether to stay, and journalists looking for a gap between promise and performance. A document written only for shareholders will therefore fail to inform many of the people now using it to judge the company.</p>
+
+      <h2>The implication for reporting teams is significant</h2>
+
+      <p>The implication for reporting teams is significant because a backward-looking report can be assembled while a forward-looking one has to be thought through. It requires the CFO, the strategy office, and the sustainability function to agree on a single account of where the business is going, often for the first time those three narratives have been forced into one room.</p>
+
+      <p>Companies that treat this as a compliance burden will produce longer, duller documents. Companies that treat it as a strategic exercise are discovering something unexpected: the discipline of explaining future value creation to outsiders sharpens how insiders understand it too. The report begins to serve as a management tool, rather than remaining only a disclosure.</p>
+
+      <p>The annual report isn't dying: it is becoming the most honest strategy document a company publishes because, unlike a vision deck, every claim in it sits next to audited numbers and is exposed to public scrutiny.</p>
+
+      <p>The question worth debating: if your annual report were the only document an investor ever read, would they understand where your company will be in five years?</p>
+      <p><em>The article is authored by <a href="https://in.linkedin.com/in/yathalakhtaria" target="_blank" rel="noopener noreferrer">Yatha Lakhtaria</a>, General Manager, Research and Content, at <a href="https://in.linkedin.com/company/kalolwala-associates-private-limited" target="_blank" rel="noopener noreferrer">Kalolwala & Associates Private Limited</a></em></p>
+    `,
+  },
 
   {
     id: "c9", // Assigned a new ID to sit at the top of the list
-    title: "Kalolwala & Associates (K&A) joins hands with Travanleo to leverage Ecodrisil to advance ESG reporting for India Inc.",
+    title:
+      "Kalolwala & Associates (K&A) joins hands with Travanleo to leverage Ecodrisil to advance ESG reporting for India Inc.",
     excerpt:
       "K&A partners with Travanleo Info Solutions to bring the award-winning, AI-powered Ecodrisil ESG Xpress platform to India, streamlining BRSR compliance and sustainability reporting for enterprises.",
     date: "JUNE 22, 2026",
@@ -63,83 +110,83 @@ export const BLOG_DATA: BlogPost[] = [
       {
         url: "https://www.aninews.in/news/business/kalolwala-amp-associates-kampa-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc20260622173735/",
         publisher: "ANI News",
-        publisherLogo: "/blogs/publishers/ani-logo.webp"
+        publisherLogo: "/blogs/publishers/ani-logo.webp",
       },
       {
         url: "https://www.business-standard.com/content/press-releases-ani/kalolwala-associates-k-a-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc-126062201024_1.html",
         publisher: "Business Standard",
-        publisherLogo: "/blogs/publishers/business-standard-logo-2.png"
+        publisherLogo: "/blogs/publishers/business-standard-logo-2.png",
       },
       {
         url: "https://www.tribuneindia.com/news/business/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/",
         publisher: "The Tribune",
-        publisherLogo: "/blogs/publishers/marquee/tribune.png"
+        publisherLogo: "/blogs/publishers/marquee/tribune.png",
       },
       {
         url: "https://www.lokmattimes.com/business/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/",
         publisher: "Lokmat Times",
-        publisherLogo: "/blogs/publishers/marquee/Lokmat.png"
+        publisherLogo: "/blogs/publishers/marquee/Lokmat.png",
       },
       {
         url: "https://pioneeredge.in/ka-travanleo-partner-to-strengthen-esg-reporting-for-indian-companies/#google_vignette",
         publisher: "Pioneer Edge",
-        publisherLogo: "/blogs/publishers/marquee/pioneerEdge.png"
+        publisherLogo: "/blogs/publishers/marquee/pioneerEdge.png",
       },
       {
         url: "https://www.thehansindia.com/amp/karnataka/ka-partners-with-travanleo-to-strengthen-esg-reporting-for-india-inc-1089150",
         publisher: "The Hans India",
-        publisherLogo: "/blogs/publishers/marquee/hansIndia.png"
+        publisherLogo: "/blogs/publishers/marquee/hansIndia.png",
       },
       {
         url: "https://english.punjabkesari.com/business/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/",
         publisher: "Punjab Kesari",
-        publisherLogo: "/blogs/publishers/marquee/punjubkesari.png"
+        publisherLogo: "/blogs/publishers/marquee/punjubkesari.png",
       },
       {
         url: "https://m.dailyhunt.in/news/india/english/tycoon+world-epaper-dh4c6a646b987d48f5b87f17d40865f089/kalolwala+associates+ka+joins+hands+with+travanleo+to+leverage+ecodrisil+to+advance+esg+reporting+for+india+inc-newsid-dh4c6a646b987d48f5b87f17d40865f089_714b34906e2711f1a9ffe06bfac350a2?sm=Y",
         publisher: "Daily Hunt",
-        publisherLogo: "/blogs/publishers/marquee/dailyhunt.png"
+        publisherLogo: "/blogs/publishers/marquee/dailyhunt.png",
       },
       {
         url: "https://thecsruniverse.com/articles/kalolwala-associates-partners-with-travanleo-to-bring-ai-powered-esg-reporting-platform-ecodrisil-to-india",
         publisher: "The CSR Universe",
-        publisherLogo: "/blogs/publishers/marquee/csr-uni.png"
+        publisherLogo: "/blogs/publishers/marquee/csr-uni.png",
       },
       {
         url: "https://dailytribune.in/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/",
         publisher: "Daily Tribune",
-        publisherLogo: "/blogs/publishers/marquee/daily-tribune.png"
+        publisherLogo: "/blogs/publishers/marquee/daily-tribune.png",
       },
       {
         url: "https://dailypioneer.in/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/",
         publisher: "Daily Pioneer",
-        publisherLogo: "/blogs/publishers/marquee/daily-pioneer.png"
+        publisherLogo: "/blogs/publishers/marquee/daily-pioneer.png",
       },
       {
         url: "https://ceotimes.in/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/",
         publisher: "CEO Times",
-        publisherLogo: "/blogs/publishers/marquee/ceo-times.png"
+        publisherLogo: "/blogs/publishers/marquee/ceo-times.png",
       },
       {
         url: "https://heraldpost.in/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/",
         publisher: "HeraldPost",
-        publisherLogo: "/blogs/publishers/marquee/heraldpost.png"
+        publisherLogo: "/blogs/publishers/marquee/heraldpost.png",
       },
       {
         url: "https://thecovermagazine.com/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/",
         publisher: "Cover Magazine",
-        publisherLogo: "/blogs/publishers/marquee/cover-mag.png"
+        publisherLogo: "/blogs/publishers/marquee/cover-mag.png",
       },
       {
         url: "https://www.esgnews.earth/latest-news/ka-partners-with-travanleo-for-esg-reporting/20100.html",
         publisher: "ESG News",
-        publisherLogo: "/blogs/publishers/marquee/esg-news.png"
+        publisherLogo: "/blogs/publishers/marquee/esg-news.png",
       },
       {
         url: "https://etedge-insights.com/press-release/kalolwala-associates-partners-with-travanleo-to-advance-esg-reporting-for-india-inc-through-ecodrisil/?amp=1",
         publisher: "ET Edge Insights",
-        publisherLogo: "/blogs/publishers/marquee/insignts.png"
-      }
+        publisherLogo: "/blogs/publishers/marquee/insignts.png",
+      },
     ],
     content: `
       <p><strong>New Delhi [India], June 22:</strong> Kalolwala & Associates (K & A), one of India's leading independent Annual Reports and ESG consultants, has entered into a strategic partnership with Travanleo Info Solutions, a technology company pioneering in Enterprise Cloud, AI and Sustainability Solutions, to advance ESG reporting for India Inc.</p>
