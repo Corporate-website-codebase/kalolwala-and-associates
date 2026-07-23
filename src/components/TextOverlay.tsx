@@ -14,7 +14,7 @@ if (typeof window !== "undefined") {
 
 const lines = [
   <span key="main-text">
-  For over a decade, these tenents have enabled us to emerge as India’s largest independent stakeholder communication consultancy. In an {" "}
+  For over a decade, these tenets have enabled us to emerge as India’s largest independent stakeholder communication consultancy. In an {" "}
   <span className="whitespace-nowrap">ever-evolving</span> world of branding and communication, we continue to create meaningful impact with innovation.
   </span>,
 ];
