@@ -46,7 +46,53 @@ export interface BlogPost {
 }
 
 export const BLOG_DATA: BlogPost[] = [
-  // ── c10 ─────────────────────────────────────────────────
+  // ── c11 ─────────────────────────────────────────────────
+  {
+    id: "c11",
+    title: "BRSR's Value Chain Moment: Is Your Supply Chain Ready to Be Disclosed?",
+    excerpt:
+      "The next phase of India's ESG disclosure journey isn't about your company. It's about everyone your company does business with.",
+    date: "JULY 21, 2026",
+    url: "https://www.linkedin.com/pulse/brsrs-value-chain-moment-your-supply-7vabf?utm_source=share&utm_medium=member_android&utm_campaign=share_via",
+    slug: "is-your-supply-chain-ready-to-be-disclosed",
+    author: "Padmeja Ganjoo, General Manager, Sustainability, K&A",
+    image: "/blogs/is-your-supply-chain-ready-to-be-disclosed.webp",
+    publisher: "LinkedIn",
+    publisherLogo: "/blogs/publishers/linkedin.png",
+    content: `
+      <p>The next phase of India's ESG disclosure journey isn't about your company. It's about everyone your company does business with.</p>
+
+      <p>SEBI's Business Responsibility and Sustainability Reporting framework began with the entity itself - emissions, workforce, governance, community. But the framework's most ambitious element extends disclosure into the value chain: the suppliers, distributors, and partners that sit upstream and downstream of a listed company's operations.</p>
+
+      <p>After extensions to give India Inc. time to prepare, value-chain reporting is now moving from concept to practice for the largest listed companies, on a comply-or-explain basis.</p>
+
+      <p>The logic is hard to argue with. For most companies, the majority of environmental and social impact doesn't happen inside their own gates. Emissions, labour practices, water use, waste - the heavy footprint lives in the supply chain.</p>
+
+      <h2>The practical challenge, however, is formidable. Three gaps show up consistently.</h2>
+
+      <p>The data gap: Most value-chain partners, especially MSMEs, have never measured what listed companies now need to report. Emissions baselines, workforce data, and safety records often simply don't exist in usable form.</p>
+
+      <p>The capability gap: Even willing suppliers lack the tools and expertise to generate credible numbers. Sending a questionnaire is easy; getting back data you would stake your report on is not.</p>
+
+      <p>The relationship gap: Disclosure requests can feel like an audit. Companies that approach value-chain reporting as an extraction exercise meet resistance; those that approach it as capability-building, sharing templates, training, and tools, get better data and stronger partnerships.</p>
+
+      <p>What distinguishes the companies handling this well? They started before they were required to. They prioritised their most material suppliers rather than attempting full coverage at once. And they treated "comply-or-explain" not as an escape hatch but as a planning horizon, using the explain window to build systems worth complying with..</p>
+
+      <p>There is also a competitive dimension that deserves more attention. As large companies begin screening partners on ESG data readiness, suppliers who can furnish credible numbers become easier to do business with. Value-chain disclosure is quietly becoming a procurement criterion. For thousands of mid-sized Indian businesses, ESG data capability is turning into a sales asset.</p>
+
+      <h2>The value chain was always where the real sustainability story lived.</h2>
+
+      <p>Disclosure is simply switching the lights on.</p>
+
+      <p>The question worth debating: should large companies bear the cost of building ESG data capability in their supply chains or is that each supplier's own business problem?</p>
+
+      <p>The annual report isn't dying: it is becoming the most honest strategy document a company publishes because, unlike a vision deck, every claim in it sits next to audited numbers and is exposed to public scrutiny.</p>
+
+      <p>The question worth debating: if your annual report were the only document an investor ever read, would they understand where your company will be in five years?</p>
+      <p><em>The article is authored by <a href="https://www.linkedin.com/in/padmeja-ganjoo?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noopener noreferrer">Padmeja Ganjoo</a>, General Manager, Sustainability, at <a href="https://in.linkedin.com/company/kalolwala-associates-private-limited" target="_blank" rel="noopener noreferrer">Kalolwala & Associates Private Limited</a></em></p>
+    `,
+  },
+
   {
     id: "c10",
     title: "The Annual Report Is No Longer a Rear-View Mirror",
