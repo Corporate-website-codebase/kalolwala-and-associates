@@ -64,7 +64,7 @@ export default function Testimonials() {
         <motion.div
           initial={{ y: 50, opacity: 0 }}
           animate={isInView ? { y: 0, opacity: 1, transition: { duration: 1.2, delay: 0.7, ease: "easeOut" } } : { y: 50, opacity: 0 }}
-          className="relative w-full bg-[#1a1a1a]/50 border border-white/10 rounded-sm p-2 md:p-4 backdrop-blur-sm overflow-hidden"
+          className="relative w-full p-2 md:p-4 overflow-hidden"
         >
           {/* 🔴 BRANDING PATCH: Covers "Powered by Tagembed" at top-right */}
           <div 
