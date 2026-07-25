@@ -6,6 +6,7 @@ import StatsTop from "@/Home/StatsTop";
 import Portfolio from "@/Home/Portfolio";
 import Footers from "@/components/Footers";
 import Stats from "@/Home/Stats";
+import Testimonials from "@/Home/Testimonials";
 
 const organizationSchema = {
   "@context": "https://schema.org",
@@ -91,6 +92,7 @@ export default function Home() {
       <StatsTop />
       <div className="marginal">
         <Stats />
+      <Testimonials />
         {/* <Founders /> */}
         <Footers nextPageName="Culture" nextPageLink="/culture" />
       </div>
