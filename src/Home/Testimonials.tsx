@@ -31,7 +31,7 @@ export default function Testimonials() {
     >
       {/* Background Gradient */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-b from-black/80 via-black to-black pointer-events-none"
+        className="absolute inset-0 bg-linear-to-b from-black/80 via-black to-black pointer-events-none"
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1, transition: { duration: 1.5 } } : { opacity: 0 }}
       />
