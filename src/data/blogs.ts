@@ -60,29 +60,9 @@ export const BLOG_DATA: BlogPost[] = [
     publisher: "LinkedIn",
     publisherLogo: "/blogs/publishers/linkedin.png",
     content: `
-      <p>There is a moment in every reporting regime's life when the question changes from ‘did you disclose?’ to ‘can you prove it?‘</p>
+      <p>ESG reporting in India has shifted from disclosure to verification. SEBI's BRSR Core mandates independent assurance of key sustainability metrics, forcing financial-grade rigour, tighter controls, and auditor involvement. Assurance now separates credible companies from the rest, but real value lies in pairing verified numbers with meaningful strategic narrative.</p>
 
-      <p>Indian ESG reporting has reached that moment.</p>
-
-      <p>With BRSR Core, SEBI introduced something deceptively simple: a defined set of key performance indicators that the largest listed companies must have independently assessed or assured. Not the whole report, a core set of parameters covering emissions intensity, water, waste, safety, diversity, and openness of business. A glide path extends the requirement progressively deeper into the listed universe.</p>
-
-      <p>The change sounds procedural. Its effects are anything but.</p>
-
-      <p>ESG data is being rebuilt to financial-grade standards: When a number must survive third-party scrutiny, everything upstream of it changes - definitions tighten, data trails become mandatory, estimation methods get documented, and spreadsheet-based collection gives way to systems with audit logs. Sustainability teams are living through what finance teams experienced decades ago: the professionalisation that assurance forces.</p>
-
-      <p>Ownership is shifting: Assured data needs controls, and controls are the CFO's native territory. Across corporate India, sustainability reporting is migrating from standalone CSR or communications functions into finance-adjacent structures. The most effective model emerging is a partnership: sustainability defines what matters, finance ensures the numbers hold.</p>
-
-      <p>The gap between leaders and laggards is widening : Unassured claims all look alike. Assured ones don't. As assurance coverage expands, investors and raters can distinguish companies whose numbers withstand scrutiny from those whose numbers merely exist. Credibility is becoming a measurable attribute.</p>
-
-      <p>It is worth being honest about the costs. Assurance is expensive, the assurer market is still maturing, and there is a real risk of reporting teams optimising for audit over insight. Producing numbers that are precise, verified, and strategically meaningless. A perfectly assured report can still fail to tell anyone anything useful.</p>
-
-      <p>That is why the companies getting this right treat assurance as a floor, not a finish line. The KPIs get verified; the narrative explains what the numbers mean for strategy. Proof and meaning, together.</p>
-
-      <p>The direction of travel is unmistakable, and it mirrors the global arc. ISSB-aligned jurisdictions are converging on the same principle: sustainability information should carry the same discipline as financial information, because capital is being allocated on both.</p>
-
-      <p>Trust, it turns out, is not a communications outcome. It is a systems outcome.</p>
-
-      <p>The question worth debating: does mandatory assurance make ESG reporting more honest or just more expensive?</p>
+      <p>Explore the full article through the link below.</p>
 
       <p><em>The article is authored by <a href="https://www.linkedin.com/in/thekalolwala/" target="_blank" rel="noopener noreferrer">Hussain Kalolwala</a>, CEO, at <a href="https://in.linkedin.com/company/kalolwala-associates-private-limited" target="_blank" rel="noopener noreferrer">Kalolwala & Associates Private Limited</a></em></p>
     `,
