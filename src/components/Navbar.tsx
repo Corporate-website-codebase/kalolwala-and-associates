@@ -243,8 +243,8 @@ const Navbar = () => {
                     className="w-full text-center"
                   >
                     {link.subItems ? (
-                      <div className="w-full">
-                        <div className="flex items-center justify-center gap-2">
+                      <div className="w-full flex flex-col items-center">
+                        <div className="relative inline-flex items-center justify-center">
                           <Link
                             href={link.href}
                             onClick={() => setIsMobileMenuOpen(false)}
@@ -259,11 +259,11 @@ const Navbar = () => {
                               e.stopPropagation();
                               setIsMobileOfferingsOpen(!isMobileOfferingsOpen);
                             }}
-                            className="p-2 text-zinc-400 hover:text-yellow-400 transition-colors focus:outline-none"
+                            className="absolute left-full ml-2 p-1 text-zinc-400 hover:text-yellow-400 transition-colors focus:outline-none"
                             aria-label="Toggle sub-menu"
                           >
                             <ChevronDown
-                              className={`w-5 h-5 transition-transform duration-300 ${
+                              className={`w-4 h-4 transition-transform duration-300 ${
                                 isMobileOfferingsOpen ? "rotate-180 text-yellow-400" : "text-zinc-400"
                               }`}
                             />
