@@ -593,7 +593,7 @@ const Footers = ({ nextPageName = 'Home', nextPageLink = '/' }: FooterProps) => 
                             </div>
 
                             {/* Book a discussion CTA */}
-                            <a
+                            {/* <a
                                 href="/contact"
                                 className="mt-4 w-full border border-[#f5c518] text-[#f5c518] hover:bg-[#f5c518] hover:text-black font-bold uppercase tracking-wider text-xs py-3 px-4 rounded-md flex items-center justify-center gap-2.5 transition-all duration-300 shadow-sm hover:shadow-yellow-400/20"
                             >
@@ -601,7 +601,7 @@ const Footers = ({ nextPageName = 'Home', nextPageLink = '/' }: FooterProps) => 
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                 </svg>
                                 <span>BOOK A DISCUSSION</span>
-                            </a>
+                            </a> */}
                         </motion.div>
                     </div>
                 </div>
