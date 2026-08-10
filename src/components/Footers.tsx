@@ -336,7 +336,7 @@ const Footers = ({
         {/* === FULL-WIDTH CONVERSION STRIP: DROP US A LINE === */}
         <motion.div
           variants={textRevealVariants}
-          className="w-full bg-[#0c0c0c] border border-zinc-800/80 rounded-xl p-6 md:p-10 mb-10 shadow-2xl"
+          className="w-full bg-[#0c0c0c] border border-zinc-800/80 rounded-xl p-6 md:p-10  mb-10 md:mb-12 shadow-2xl"
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             {/* Left Sub-heading */}
