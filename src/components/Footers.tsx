@@ -1,7 +1,7 @@
 'use client'
 
 import { AnimatePresence, Variants, motion, useInView } from 'framer-motion'
-import { Play, X } from 'lucide-react'
+import { Play, X, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 
@@ -20,10 +20,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     type?: string
 }
 
-// === MOCK COMPONENT === //
-const AestheticDot = () => (
-    <div className="w-3 h-3 bg-[#f5c518] rounded-full shadow-[0_0_10px_rgba(245,197,24,0.5)] shrink-0" />
-)
+import AestheticDot from '@/components/AestheticDot'
 
 // === ANIMATION VARIANTS === //
 
@@ -288,12 +285,12 @@ const Footers = ({ nextPageName = 'Home', nextPageLink = '/' }: FooterProps) => 
             {/* === TOP SECTION === */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative z-10">
                 <div className="flex flex-col gap-4 md:gap-6 md:w-2/3">
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3">
                         <AestheticDot />
                         <div className="overflow-hidden">
                             <motion.h2
                                 variants={textRevealVariants}
-                                className="block uppercase tracking-[0.2em] text-xs md:text-sm text-gray-300 font-medium"
+                                className="uppercase font-noto-sans tracking-widest text-sm md:text-xl text-gray-300 font-medium"
                             >
                                 We&apos;re here to help
                             </motion.h2>
@@ -322,140 +319,27 @@ const Footers = ({ nextPageName = 'Home', nextPageLink = '/' }: FooterProps) => 
 
             {/* === ARCHITECTURAL GRID REVEAL === */}
             <div className="relative mt-12 md:mt-16 grow">
-                <motion.div variants={lineVariants} className="w-full h-px bg-gray-800" />
+                <motion.div variants={lineVariants} className="w-full h-px bg-gray-800 mb-12" />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 relative mt-10 gap-10 md:gap-x-8 md:gap-y-12">
-                    <motion.div
-                        variants={verticalLineVariants}
-                        className="hidden lg:block absolute top-[-40px] bottom-0 left-1/3 w-px bg-gray-800"
-                    />
-                    <motion.div
-                        variants={verticalLineVariants}
-                        className="hidden lg:block absolute top-[-40px] bottom-0 left-2/3 w-px bg-gray-800"
-                    />
-
-                    {/* COLUMN 1: CORPORATE VIDEO */}
-                    <div className="lg:px-8 flex flex-col gap-2">
-                        <div className="overflow-hidden">
-                            <motion.h3
-                                variants={textRevealVariants}
-                                className="text-sm font-bold tracking-widest text-white mb-4 md:mb-6"
-                            >
-                                CORPORATE VIDEO
-                            </motion.h3>
-                        </div>
-                        <motion.div
-                            variants={textRevealVariants}
-                            className="w-full aspect-video bg-zinc-900 border border-gray-800 relative group cursor-pointer overflow-hidden"
-                            onClick={() => setIsVideoOpen(true)}
-                        >
-                            <Image
-                                src="/images/Office shoot B&W Thumbnail.webp"
-                                alt="Corporate Video"
-                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-60 group-hover:opacity-40"
-                                fill
-                            />
-
-                            <div className="absolute inset-0 flex items-center justify-center z-10">
-                                <div className="absolute bottom-1/2 right-1/2 transform translate-1/2 w-14 h-14 bg-white/10 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center ">
-                                    <Play className="w-6 h-6 text-white" />
-                                </div>
-                            </div>
-                        </motion.div>
-                        <motion.div
-                            variants={textRevealVariants}
-                            className="flex items-start flex-col  space-y-5 mt-10"
-                        >
-                            <Image
-                                src="/popup/IFRS Sustainability Alliance logo - white background.jpg"
-                                alt="IFRS Sustainability Alliance"
-                                width={200}
-                                height={200}
-                                priority
-                            />
-
-                            <p className="text-sm font-normal text-gray-400 font-noto-sans ">
-                                We are proud to be an organisational member of the IFRS
-                                Sustainability Alliance.
-                            </p>
-                            <a
-                                href="https://sustainabilityalliance.ifrs.org/member-organisations/ "
-                                target="_blank"
-                                className="text-sm font-noto-sans font-normal text-[#f5c518] underline "
-                            >
-                                View Official Listing
-                            </a>
-                        </motion.div>
-                    </div>
-
-                    {/* COLUMN 2: OFFICES */}
-                    <div className="lg:px-8 flex flex-col gap-6">
-                        <div className="overflow-hidden">
-                            <motion.h3
-                                variants={textRevealVariants}
-                                className="text-sm font-bold tracking-widest text-white mb-2"
-                            >
-                                STOP BY OUR OFFICES
-                            </motion.h3>
-                        </div>
-                        <div className="space-y-6 text-gray-400 text-sm">
-                            {[
-                                {
-                                    city: 'Kolkata',
-                                    address:
-                                        'South City Business Park, 770, Eastern Metropolitan Bypass Rd, Adarsha Nagar, Kolkata, West Bengal 700107',
-                                },
-                                {
-                                    city: 'Mumbai',
-                                    address:
-                                        '1507, Marathon Millennium, Lal Bahadur Shastri Marg, Beside Nirmal Lifestyle Mall, Mulund West, Mumbai, Maharashtra 400080',
-                                },
-                                {
-                                    city: 'Gurugram',
-                                    address:
-                                        'Unit no - 150, 1st Floor, Centrum Plaza, Golf Course Road, Sector -53, Gurugram, Haryana 122002',
-                                },
-                                {
-                                    city: 'Hyderabad',
-                                    address:
-                                        '1st Floor, Workafella Western Pearl, Hitech City Rd, Kondapur, Hyderabad, Telangana 500084',
-                                },
-                                {
-                                    city: 'Bengaluru',
-                                    address:
-                                        '1st Floor, Anthill IQ, 20, Cunningham Rd, Vasanth Nagar, Bengaluru, Karnataka 560001',
-                                },
-                            ].map((loc) => (
-                                <motion.div variants={textRevealVariants} key={loc.city}>
-                                    <p className="text-[#f5c518] font-semibold text-xs uppercase tracking-wider mb-1">
-                                        {loc.city}
-                                    </p>
-                                    <p className="leading-relaxed hover:text-white transition-colors cursor-default">
-                                        {loc.address}
-                                    </p>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* COLUMN 3: FORM */}
-                    <div className="md:col-span-2 lg:col-span-1 lg:px-8 h-full flex flex-col mt-4 md:mt-0">
-                        <div className="overflow-hidden">
-                            <motion.h3
-                                variants={textRevealVariants}
-                                className="text-sm font-bold tracking-widest text-white mb-4 md:mb-6"
-                            >
+                {/* === FULL-WIDTH CONVERSION STRIP: DROP US A LINE === */}
+                <motion.div
+                    variants={textRevealVariants}
+                    className="w-full bg-[#0c0c0c] border border-zinc-800/80 rounded-xl p-6 md:p-10 mb-16 shadow-2xl"
+                >
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                        {/* Left Sub-heading */}
+                        <div className="lg:col-span-4 flex flex-col gap-2">
+                            <h3 className="text-xl md:text-2xl font-bold tracking-wider text-white uppercase font-sans">
                                 DROP US A LINE
-                            </motion.h3>
+                            </h3>
+                            <p className="text-sm text-zinc-400 leading-relaxed max-w-sm font-noto-sans">
+                                Have a project in mind or want to know more about how we can help? Share your details and we&apos;ll get back to you shortly.
+                            </p>
                         </div>
-                        {/* === CONNECTED FORM === */}
-                        <motion.form
-                            variants={textRevealVariants}
-                            className="flex flex-col gap-3 h-full"
-                            onSubmit={handleSubmit}
-                            onFocus={handleFormStart}
-                        >
-                            <div className="flex flex-col sm:flex-row gap-3">
+
+                        {/* Form Grid */}
+                        <form onSubmit={handleSubmit} onFocus={handleFormStart} className="lg:col-span-8 flex flex-col gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <Input
                                     name="firstName"
                                     placeholder="First Name"
@@ -471,8 +355,7 @@ const Footers = ({ nextPageName = 'Home', nextPageLink = '/' }: FooterProps) => 
                                     required
                                 />
                             </div>
-
-                            <div className="flex flex-col sm:flex-row gap-3">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <Input
                                     name="email"
                                     placeholder="Email Address"
@@ -490,80 +373,251 @@ const Footers = ({ nextPageName = 'Home', nextPageLink = '/' }: FooterProps) => 
                                     onChange={handleChange}
                                 />
                             </div>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <Input
+                                    name="org"
+                                    placeholder="Organization / Company"
+                                    value={formData.org}
+                                    onChange={handleChange}
+                                />
+                                <textarea
+                                    name="message"
+                                    placeholder="How can we help you?"
+                                    value={formData.message}
+                                    onChange={handleChange}
+                                    rows={2}
+                                    className="w-full bg-[#111] border border-gray-800 px-4 py-3 text-sm text-white placeholder-gray-400 focus:outline-none focus:border-[#f5c518] transition-colors rounded-none resize-none"
+                                />
+                            </div>
 
-                            <Input
-                                name="org"
-                                placeholder="Organization / Company"
-                                value={formData.org}
-                                onChange={handleChange}
-                            />
+                            <div className="flex items-center justify-between mt-2">
+                                <button
+                                    type="submit"
+                                    disabled={status === 'loading'}
+                                    className="bg-[#f5c518] hover:bg-[#e0b800] text-black font-bold py-3.5 px-8 text-xs tracking-widest uppercase transition-all duration-300 shadow-md hover:shadow-yellow-400/20"
+                                >
+                                    {status === 'loading' ? 'Sending...' : 'SEND REQUEST'}
+                                </button>
+                                {status === 'success' && (
+                                    <span className="text-xs text-green-400 font-medium">Message sent successfully!</span>
+                                )}
+                                {status === 'error' && (
+                                    <span className="text-xs text-red-400 font-medium">Failed to send message. Please try again.</span>
+                                )}
+                            </div>
+                        </form>
+                    </div>
+                </motion.div>
 
-                            <textarea
-                                name="message"
-                                placeholder="How can we help you?"
-                                value={formData.message}
-                                onChange={handleChange}
-                                required
-                                className="w-full bg-[#111] border border-gray-800 px-4 py-3 text-sm text-white placeholder-gray-400 focus:outline-none focus:border-[#f5c518] transition-colors rounded-none flex-1 min-h-[160px] md:min-h-[200px] resize-none"
-                            />
-                            <button
-                                type="submit"
-                                disabled={status === 'loading' || status === 'success'}
-                                className={`w-full text-gray-500 border border-gray-800 font-bold uppercase tracking-widest py-4 text-xs transition-colors duration-300
-                  ${status === 'loading' ? 'bg-gray-800' : 'bg-[#111] hover:text-black hover:bg-[#f5c518]'}
-                  ${status === 'success' ? 'bg-green-700 text-white' : ''}
-                  ${status === 'error' ? 'bg-red-800 text-white' : ''}
-                `}
+                {/* === MAIN 4-COLUMN FOOTER GRID === */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-0 pt-4">
+                    {/* COLUMN 1: ABOUT K&A */}
+                    <div className="flex flex-col gap-5 lg:pr-8 lg:border-r lg:border-zinc-800/80">
+                        <div>
+                            <motion.h3 variants={textRevealVariants} className="text-xs md:text-sm font-bold tracking-widest text-white uppercase font-sans">
+                                ABOUT K&amp;A
+                            </motion.h3>
+                            <div className="w-8 h-[2px] bg-[#f5c518] mt-1.5" />
+                        </div>
+
+                        <motion.div variants={textRevealVariants} className="flex flex-col gap-4">
+                            <Image src="/kna2.svg" alt="K&A Logo" width={110} height={55} className="object-contain" />
+
+                            <div className="flex flex-col gap-3 text-xs md:text-sm text-zinc-400 leading-relaxed font-noto-sans">
+                                <p>Kalolwala &amp; Associates is a stakeholder communication and design agency.</p>
+                                <p>We build annual reports, ESG and BRSR reports, investor presentations, and corporate films.</p>
+                            </div>
+
+                            <div className="flex flex-col gap-2 mt-2">
+                                <Image
+                                    src="/popup/IFRS Sustainability Alliance logo - white background.jpg"
+                                    alt="IFRS Sustainability Alliance"
+                                    width={170}
+                                    height={42}
+                                    className=""
+                                />
+                                <a
+                                    href="https://sustainabilityalliance.ifrs.org/member-organisations/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-xs md:text-sm text-[#f5c518] hover:underline inline-flex items-center gap-1.5 mt-1 font-medium font-noto-sans"
+                                >
+                                    <span>View Official Listing</span>
+                                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                    </svg>
+                                </a>
+                            </div>
+
+                            {/* Social Icons */}
+                            <div className="flex items-center gap-3 mt-3">
+                                {socialIcons.map((social) => (
+                                    <a
+                                        key={social.name}
+                                        href={social.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-9 h-9 rounded-full border border-zinc-700/80 flex items-center justify-center text-zinc-300 hover:text-black hover:bg-[#f5c518] hover:border-[#f5c518] transition-all duration-300 shrink-0"
+                                        aria-label={social.name}
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="15"
+                                            height="15"
+                                            viewBox="0 0 24 24"
+                                            fill={social.name === 'X' ? 'currentColor' : 'none'}
+                                            stroke={social.name === 'X' ? 'none' : 'currentColor'}
+                                            strokeWidth="2"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                        >
+                                            {social.path}
+                                        </svg>
+                                    </a>
+                                ))}
+                            </div>
+                        </motion.div>
+                    </div>
+
+                    {/* COLUMN 2: OUR SERVICES */}
+                    <div className="flex flex-col gap-5 lg:px-8 lg:border-r lg:border-zinc-800/80">
+                        <div>
+                            <motion.h3 variants={textRevealVariants} className="text-xs md:text-sm font-bold tracking-widest text-white uppercase font-sans">
+                                OUR SERVICES
+                            </motion.h3>
+                            <div className="w-8 h-[2px] bg-[#f5c518] mt-1.5" />
+                        </div>
+
+                        <div className="flex flex-col space-y-2">
+                            {[
+                                { label: "Integrated Annual Reporting", href: "/offerings/integrated-annual-reporting" },
+                                { label: "Sustainability & ESG Reporting", href: "/offerings/sustainability-esg-reporting" },
+                                { label: "Investor & Corporate Presentations", href: "/offerings/investor-corporate-presentations" },
+                                { label: "Corporate Branding & Design", href: "/offerings/corporate-branding-design" },
+                                { label: "Corporate Films & Video Reports", href: "/offerings/corporate-films-video-reports" },
+                                { label: "Corporate Websites & Digital", href: "/offerings/corporate-websites" },
+                            ].map((service) => (
+                                <motion.div variants={textRevealVariants} key={service.href}>
+                                    <a
+                                        href={service.href}
+                                        className="group flex items-center justify-between text-xs md:text-sm text-zinc-300 hover:text-yellow-400 py-2.5 transition-colors border-b border-zinc-800/60 font-noto-sans"
+                                    >
+                                        <span>{service.label}</span>
+                                        <ChevronRight className="w-4 h-4 text-zinc-500 group-hover:text-yellow-400 group-hover:translate-x-1 transition-transform shrink-0" />
+                                    </a>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* COLUMN 3: COMPANY */}
+                    <div className="flex flex-col gap-5 lg:px-8 lg:border-r lg:border-zinc-800/80">
+                        <div>
+                            <motion.h3 variants={textRevealVariants} className="text-xs md:text-sm font-bold tracking-widest text-white uppercase font-sans">
+                                COMPANY
+                            </motion.h3>
+                            <div className="w-8 h-[2px] bg-[#f5c518] mt-1.5" />
+                        </div>
+
+                        <div className="flex flex-col space-y-2">
+                            {[
+                                { label: "About K&A", href: "/about" },
+                                { label: "Life & Culture", href: "/culture" },
+                                { label: "Careers", href: "/careers" },
+                                { label: "Our Work", href: "/offerings" },
+                                { label: "Blogs", href: "/blogs" },
+                                { label: "FAQs", href: "/faqs" },
+                                { label: "Contact Us", href: "/contact" },
+                            ].map((item) => (
+                                <motion.div variants={textRevealVariants} key={item.label}>
+                                    <a
+                                        href={item.href}
+                                        className="group flex items-center justify-between text-xs md:text-sm text-zinc-300 hover:text-yellow-400 py-2.5 transition-colors border-b border-zinc-800/60 font-noto-sans"
+                                    >
+                                        <span>{item.label}</span>
+                                        <ChevronRight className="w-4 h-4 text-zinc-500 group-hover:text-yellow-400 group-hover:translate-x-1 transition-transform shrink-0" />
+                                    </a>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* COLUMN 4: GET IN TOUCH */}
+                    <div className="flex flex-col gap-5 lg:pl-8">
+                        <div>
+                            <motion.h3 variants={textRevealVariants} className="text-xs md:text-sm font-bold tracking-widest text-white uppercase font-sans">
+                                GET IN TOUCH
+                            </motion.h3>
+                            <div className="w-8 h-[2px] bg-[#f5c518] mt-1.5" />
+                        </div>
+
+                        <motion.div variants={textRevealVariants} className="flex flex-col gap-4 text-xs md:text-sm text-zinc-300">
+                            {/* Kolkata Head Office */}
+                            <div className="flex flex-col gap-3">
+                                <div className="flex items-center gap-2 text-white font-bold text-xs md:text-sm">
+                                    <svg className="w-4 h-4 text-[#f5c518] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                    <span>Kolkata (Head Office)</span>
+                                </div>
+                                <p className="text-zinc-400 text-xs leading-relaxed font-noto-sans pl-6">
+                                    South City Business Park, 770, Eastern Metropolitan Bypass Rd, Adarsha Nagar, Kolkata, West Bengal 700107
+                                </p>
+                                <a href="tel:+913340077794" className="flex items-center gap-2 text-zinc-300 hover:text-yellow-400 text-xs font-mono transition-colors">
+                                    <svg className="w-4 h-4 text-[#f5c518] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                    </svg>
+                                    <span>+91 33 4007 7794</span>
+                                </a>
+                                <a href="mailto:info@kalolwala.com" className="flex items-center gap-2 text-zinc-300 hover:text-yellow-400 text-xs font-mono transition-colors">
+                                    <svg className="w-4 h-4 text-[#f5c518] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    </svg>
+                                    <span>info@kalolwala.com</span>
+                                </a>
+                            </div>
+
+                            {/* Other Cities */}
+                            <div className="flex flex-col space-y-1 mt-2">
+                                {["Mumbai", "Gurugram", "Hyderabad", "Bengaluru"].map((city) => (
+                                    <a
+                                        key={city}
+                                        href="/contact"
+                                        className="group flex items-center justify-between text-xs md:text-sm text-zinc-300 hover:text-yellow-400 py-2 transition-colors border-b border-zinc-800/60 font-noto-sans"
+                                    >
+                                        <span className="text-[#f5c518] font-semibold">{city}</span>
+                                        <ChevronRight className="w-4 h-4 text-zinc-500 group-hover:text-yellow-400 group-hover:translate-x-1 transition-transform shrink-0" />
+                                    </a>
+                                ))}
+                            </div>
+
+                            {/* Book a discussion CTA */}
+                            <a
+                                href="/contact"
+                                className="mt-4 w-full border border-[#f5c518] text-[#f5c518] hover:bg-[#f5c518] hover:text-black font-bold uppercase tracking-wider text-xs py-3 px-4 rounded-md flex items-center justify-center gap-2.5 transition-all duration-300 shadow-sm hover:shadow-yellow-400/20"
                             >
-                                {status === 'idle' && 'Send Request'}
-                                {status === 'loading' && 'Sending...'}
-                                {status === 'success' && 'Sent!'}
-                                {status === 'error' && 'Error - Try Again'}
-                            </button>
-                        </motion.form>
+                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                <span>BOOK A DISCUSSION</span>
+                            </a>
+                        </motion.div>
                     </div>
                 </div>
             </div>
 
             {/* === BOTTOM BAR === */}
             <div className="mt-12 md:mt-16">
-                <motion.div variants={lineVariants} className="w-full h-px bg-gray-800 mb-6" />
-                <div className="flex flex-col-reverse md:flex-row justify-between items-start md:items-center gap-6 md:gap-4">
-                    <motion.p
-                        variants={textRevealVariants}
-                        className="text-gray-300 text-xs hover:text-yellow-400"
-                    >
-                        © Kalolwala & Associates Pvt Ltd {year}.
+                <motion.div variants={lineVariants} className="w-full h-px bg-zinc-800/80 mb-6" />
+                <div className="flex flex-col-reverse md:flex-row justify-between items-center gap-4">
+                    <motion.p variants={textRevealVariants} className="text-zinc-500 text-xs font-noto-sans">
+                        © {year} Kalolwala &amp; Associates. All rights reserved.
                     </motion.p>
-
-                    <motion.div
-                        variants={textRevealVariants}
-                        className="flex gap-6 text-gray-300 w-full md:w-auto justify-start"
-                    >
-                        {socialIcons.map((social) => (
-                            <a
-                                key={social.name}
-                                href={social.href}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="hover:text-[#f5c518] transition-colors duration-300"
-                                aria-label={social.name}
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="18"
-                                    height="18"
-                                    viewBox="0 0 24 24"
-                                    fill={social.name === 'X' ? 'currentColor' : 'none'}
-                                    stroke={social.name === 'X' ? 'none' : 'currentColor'}
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                >
-                                    {social.path}
-                                </svg>
-                            </a>
-                        ))}
+                    <motion.div variants={textRevealVariants} className="flex gap-6 text-xs text-zinc-400 font-noto-sans">
+                        <a href="/contact" className="hover:text-yellow-400 transition-colors">Privacy Policy</a>
+                        <span>|</span>
+                        <a href="/contact" className="hover:text-yellow-400 transition-colors">Terms &amp; Conditions</a>
                     </motion.div>
                 </div>
             </div>
