@@ -110,7 +110,7 @@ const storiesList = [
     footer: "Tasty Bite",
     link: "https://example.com/story-3",
   },
-  // add more...
+  // add more....
 ];
 const AboutUs = () => {
 
