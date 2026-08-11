@@ -37,7 +37,7 @@ export default function Testimonials() {
       />
 
       <div className="relative z-10 w-full max-w-8xl mx-auto px-6">
-        
+
         {/* Header Section */}
         <div className="mb-8 md:mb-12 flex flex-col items-start">
           <div className="flex items-center gap-3 mb-4">
@@ -67,7 +67,7 @@ export default function Testimonials() {
           className="relative w-full p-2 md:p-4 overflow-hidden"
         >
           {/* 🔴 BRANDING PATCH: Covers "Powered by Tagembed" at top-right */}
-          <div 
+          <div
             className="absolute top-0 right-0 z-20 h-15 w-73 bg-black pointer-events-auto"
             aria-hidden="true"
           />
@@ -83,6 +83,7 @@ export default function Testimonials() {
             data-widget-id="330592"
             data-website="1"
           />
+          
 
           <Script
             src="https://widget.tagembed.com/embed.min.js"

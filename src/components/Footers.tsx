@@ -135,7 +135,9 @@ const Input = ({ placeholder, type = "text", ...props }: InputProps) => (
   <input
     type={type}
     placeholder={placeholder}
-    className="w-full bg-[#111] border border-gray-800 px-4 py-3 text-sm text-white placeholder-gray-400 focus:outline-none focus:border-[#f5c518] transition-colors rounded-none"
+    className="w-full bg-[#111] border border-gray-800 px-4 py-3 text-sm text-white placeholder-gray-400 rounded-none transition-colors
+               outline-none focus:outline-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 focus:ring-offset-0
+               focus:border-[#f5c518] focus-visible:border-[#f5c518] appearance-none"
     {...props}
   />
 );
@@ -363,6 +365,7 @@ const Footers = ({
                   value={formData.firstName}
                   onChange={handleChange}
                   required
+
                 />
                 <Input
                   name="lastName"
@@ -403,7 +406,7 @@ const Footers = ({
                   value={formData.message}
                   onChange={handleChange}
                   rows={2}
-                  className="w-full bg-[#111] border border-gray-800 px-4 py-3 text-sm text-white placeholder-gray-400 focus:outline-none focus:border-[#f5c518] transition-colors rounded-none resize-none"
+                  className="w-full bg-[#111] border border-gray-800 px-4 py-3 text-sm text-white placeholder-gray-400 outline-none focus:outline-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 focus:border-[#f5c518] focus-visible:border-[#f5c518] transition-colors rounded-none resize-none"
                 />
               </div>
 

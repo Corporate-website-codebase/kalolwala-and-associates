@@ -210,34 +210,34 @@ const Footer = () => {
               <input
                 type="text"
                 placeholder="First name"
-                className="w-1/2 bg-transparent border border-gray-600 px-3 py-2 text-sm text-white placeholder-gray-500 rounded"
+                className="w-1/2 bg-transparent border border-gray-600 px-3 py-2 text-sm text-white placeholder-gray-500 rounded outline-none focus:outline-none focus-visible:outline-none focus:border-[#f5c518]"
               />
               <input
                 type="text"
                 placeholder="Last name"
-                className="w-1/2 bg-transparent border border-gray-600 px-3 py-2 text-sm text-white placeholder-gray-500 rounded"
+                className="w-1/2 bg-transparent border border-gray-600 px-3 py-2 text-sm text-white placeholder-gray-500 rounded outline-none focus:outline-none focus-visible:outline-none focus:border-[#f5c518]"
               />
             </div>
             <div className="flex gap-3">
               <input
                 type="email"
                 placeholder="Email"
-                className="w-1/2 bg-transparent border border-gray-600 px-3 py-2 text-sm text-white placeholder-gray-500 rounded"
+                className="w-1/2 bg-transparent border border-gray-600 px-3 py-2 text-sm text-white placeholder-gray-500 rounded outline-none focus:outline-none focus-visible:outline-none focus:border-[#f5c518]"
               />
               <input
                 type="text"
                 placeholder="Phone"
-                className="w-1/2 bg-transparent border border-gray-600 px-3 py-2 text-sm text-white placeholder-gray-500 rounded"
+                className="w-1/2 bg-transparent border border-gray-600 px-3 py-2 text-sm text-white placeholder-gray-500 rounded outline-none focus:outline-none focus-visible:outline-none focus:border-[#f5c518]"
               />
             </div>
             <input
               type="text"
               placeholder="Organisation"
-              className="w-full bg-transparent border border-gray-600 px-3 py-2 text-sm text-white placeholder-gray-500 rounded"
+              className="w-full bg-transparent border border-gray-600 px-3 py-2 text-sm text-white placeholder-gray-500 rounded outline-none focus:outline-none focus-visible:outline-none focus:border-[#f5c518]"
             />
             <textarea
               placeholder="Message."
-              className="w-full bg-transparent border border-gray-600 px-3 py-2 text-sm text-white placeholder-gray-500 rounded h-24 resize-none"
+              className="w-full bg-transparent border border-gray-600 px-3 py-2 text-sm text-white placeholder-gray-500 rounded h-24 resize-none outline-none focus:outline-none focus-visible:outline-none focus:border-[#f5c518]"
             ></textarea>
             <button className="w-full bg-[#f5c518] hover:bg-[#e0b800] text-black font-medium py-2 rounded text-sm tracking-widest transition">
               Submit

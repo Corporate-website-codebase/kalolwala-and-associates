@@ -160,6 +160,18 @@ body {
   background: #000;
 }
 
+/* Prevent default browser blue focus ring */
+input:focus,
+input:focus-visible,
+textarea:focus,
+textarea:focus-visible,
+select:focus,
+select:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+
 .stroke-white {
   color: transparent;
   -webkit-text-stroke: 2px white;
