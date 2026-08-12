@@ -561,7 +561,7 @@ const Footers = ({
                   href: "/offerings/investor-corporate-presentations",
                 },
                 {
-                  label: "Corporate Branding & Design",
+                  label: "Branding & Design",
                   href: "/offerings/corporate-branding-design",
                 },
                 {
@@ -569,7 +569,7 @@ const Footers = ({
                   href: "/offerings/corporate-films-video-reports",
                 },
                 {
-                  label: "Corporate Websites & Digital",
+                  label: "Software & Digital Solutions",
                   href: "/offerings/corporate-websites",
                 },
               ].map((service) => (
