@@ -22,6 +22,7 @@ export type Publisher =
 export interface BlogPost {
   id: string;
   title: string;
+  metaTitle?: string;
   excerpt: string;
   date: string;
   url: string;
@@ -50,6 +51,7 @@ export const BLOG_DATA: BlogPost[] = [
   {
     id: "c12",
     title: "From Compliance to Credibility: Why Assurance Is Reshaping ESG Reporting",
+    metaTitle: "Compliance to Credibility: Assurance Is Reshaping ESG Reporting",
     excerpt:
       "There is a moment in every reporting regime's life when the question changes from ‘did you disclose?’ to ‘can you prove it?‘",
     date: "JULY 27, 2026",
@@ -72,6 +74,7 @@ export const BLOG_DATA: BlogPost[] = [
   {
     id: "c11",
     title: "BRSR's Value Chain Moment: Is Your Supply Chain Ready to Be Disclosed?",
+    metaTitle: "BRSR Value Chain: Is Your Supply Chain Ready for Disclosure?",
     excerpt:
       "The next phase of India's ESG disclosure journey isn't about your company. It's about everyone your company does business with.",
     date: "JULY 21, 2026",
@@ -118,6 +121,7 @@ export const BLOG_DATA: BlogPost[] = [
   {
     id: "c10",
     title: "The Annual Report Is No Longer a Rear-View Mirror",
+    metaTitle: "",
     excerpt:
       "For decades, the annual report did one job: it looked backwards. That familiar model is now beginning to change, as the annual report takes on a more forward-looking role.",
     date: "JULY 18, 2026",
@@ -165,6 +169,7 @@ export const BLOG_DATA: BlogPost[] = [
     id: "c9", // Assigned a new ID to sit at the top of the list
     title:
       "Kalolwala & Associates (K&A) joins hands with Travanleo to leverage Ecodrisil to advance ESG reporting for India Inc.",
+      metaTitle: "K&A and Travanleo Partner to Advance ESG Reporting in India.",
     excerpt:
       "K&A partners with Travanleo Info Solutions to bring the award-winning, AI-powered Ecodrisil ESG Xpress platform to India, streamlining BRSR compliance and sustainability reporting for enterprises.",
     date: "JUNE 22, 2026",
@@ -296,6 +301,7 @@ export const BLOG_DATA: BlogPost[] = [
   {
     id: "c8",
     title: "Fault Lines in West Asia: A Wake-up Call for Global Supply Chains",
+    metaTitle: "Fault Lines in West Asia: Risks for Global Supply Chains 2026",
     excerpt:
       "What is unfolding in West Asia may appear geographically contained. For businesses around the world, it is anything but.",
     date: "MARCH 20, 2026",
@@ -338,6 +344,7 @@ export const BLOG_DATA: BlogPost[] = [
   {
     id: "c0",
     title: 'Why Stakeholder Comms is the new "Marketing."',
+    metaTitle: "",
     excerpt:
       "Conventional marketing is a monologue; Stakeholder Communication is a relationship. As we move into the next fiscal year, the brands that lead will be those that communicate with substance, not noise.",
     date: "MARCH 09, 2026",
@@ -378,6 +385,7 @@ export const BLOG_DATA: BlogPost[] = [
   {
     id: "c1",
     title: "IFRS S2 Amendments 2025: ISSB Climate Disclosure Reset",
+    metaTitle: "IFRS S2 Amendments 2025: Key ISSB Climate Disclosure Changes",
     excerpt:
       "ISSB’s 2025 IFRS S2 amendments simplify Scope 3, financed emissions and GHG reporting, improving global climate disclosure consistency by 2027.",
     date: "DECEMBER 18, 2025",
@@ -456,6 +464,7 @@ export const BLOG_DATA: BlogPost[] = [
   {
     id: "c2",
     title: "Bond Yields in India: What It Means for Banks",
+    metaTitle: "",
     excerpt:
       "Rising bond yields in India are squeezing bank treasury income. Understand the inverse bond price-yield link, RBI impact and Q2 banking trends.",
     date: "NOVEMBER 04, 2025",
@@ -497,6 +506,7 @@ export const BLOG_DATA: BlogPost[] = [
   {
     id: "c3",
     title: "FMCG Innovation-Led Marketing in the Digital Era",
+    metaTitle: "",
     excerpt:
       "Innovation-led FMCG marketing is reshaping India’s consumer market through digital, influencers, quick commerce and AI-driven personalization.",
     date: "OCTOBER 27, 2025",
@@ -564,6 +574,7 @@ export const BLOG_DATA: BlogPost[] = [
   {
     id: "c4",
     title: "AI vs Humans in Client Relationship Management",
+    metaTitle: "",
     excerpt:
       "AI can automate project management, but emotional intelligence drives trust in client relationships. Discover why humans still hold the edge.",
     date: "APRIL 30, 2025",
@@ -602,6 +613,7 @@ export const BLOG_DATA: BlogPost[] = [
   {
     id: "c5",
     title: "Balance or AI to Build Client Relationship",
+    metaTitle: "",
     excerpt:
       "AI is transforming sales automation, but human intuition still drives trust and conversions. Discover how agencies can balance AI and human selling.",
     date: "APRIL 23, 2025",
@@ -662,6 +674,7 @@ export const BLOG_DATA: BlogPost[] = [
   {
     id: "c6",
     title: "BRSR Updates 2025: Key Changes for Listed Entities",
+    metaTitle: "",
     excerpt:
       "SEBI’s 2025 BRSR updates introduce green credit disclosure, flexible assurance options and revised ESG reporting norms for listed entities.",
     date: "APRIL 01, 2025",
@@ -692,6 +705,7 @@ export const BLOG_DATA: BlogPost[] = [
   {
     id: "c7",
     title: "K & A: Unleashing The Power of Stakeholder Reporting",
+    metaTitle: "",
     excerpt: "Making numbers speak",
     date: "MARCH 27, 2025",
     url: "https://www.business-standard.com/content/press-releases-ani/k-a-unleashing-the-power-of-stakeholder-reporting-125032700013_1.html",
