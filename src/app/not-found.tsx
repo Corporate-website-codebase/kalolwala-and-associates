@@ -1,11 +1,10 @@
 'use client'
 
-import React from 'react'
-import { motion } from 'framer-motion'
-import Link from 'next/link'
 import Footers from '@/components/Footers'
+import { motion } from 'framer-motion'
 import { ArrowLeft } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 const premiumEase: [number, number, number, number] = [0.33, 1, 0.68, 1]
 
@@ -30,12 +29,12 @@ const AestheticDot = () => (
     <motion.div
         animate={{
             scale: [1, 1.2, 1],
-            opacity: [0.5, 1, 0.5]
+            opacity: [0.5, 1, 0.5],
         }}
         transition={{
             duration: 3,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: 'easeInOut',
         }}
         className="w-3 h-3 bg-[#f5c518] rounded-full shadow-[0_0_15px_rgba(245,197,24,0.6)] shrink-0"
     />
@@ -72,7 +71,10 @@ const NotFound = () => {
 
                     {/* RIGHT SIDE: CONTENT */}
                     <div className="lg:w-1/2 flex flex-col items-center lg:items-start max-w-xl">
-                        <motion.div variants={itemVariants} className="flex items-center gap-4 mb-8">
+                        <motion.div
+                            variants={itemVariants}
+                            className="flex items-center gap-4 mb-8"
+                        >
                             <AestheticDot />
                             <span className="uppercase tracking-[0.3em] text-xs md:text-sm text-gray-400 font-medium">
                                 Status 404: Page Missing
@@ -91,8 +93,9 @@ const NotFound = () => {
                             variants={itemVariants}
                             className="text-gray-400 mt-8 text-sm md:text-base tracking-wide leading-relaxed"
                         >
-                            It seems the link is incorrect, or the page has found a new foundation.
-                            Architecture is constant, but digital paths evolve. Let&apos;s guide you back to solid ground.
+                            The page you&rsquo;re looking for may have been moved, updated, or is no
+                            longer available. Please check the URL or return to the homepage to
+                            continue.
                         </motion.p>
 
                         <motion.div
@@ -109,13 +112,12 @@ const NotFound = () => {
 
                                 <ArrowLeft className="w-5 h-5 relative z-10 transition-colors duration-500 group-hover:text-black" />
                                 <span className="relative z-10 uppercase tracking-[0.2em] text-sm font-bold transition-colors duration-500 group-hover:text-black">
-                                    Return to Foundation
+                                    Return to Homepage
                                 </span>
                             </Link>
                         </motion.div>
                     </div>
                 </div>
-
             </motion.main>
 
             {/* Standard Footer */}
