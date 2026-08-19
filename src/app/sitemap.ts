@@ -53,7 +53,10 @@ function getRoutes(dir: string, basePath: string = ''): string[] {
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.SITE_URL || ''
+  const rawBaseUrl = process.env.SITE_URL || 'https://www.kalolwala.com'
+  const baseUrl = rawBaseUrl.startsWith('http')
+    ? rawBaseUrl.replace(/\/$/, '')
+    : `https://${rawBaseUrl.replace(/\/$/, '')}`
   const appDir = path.join(process.cwd(), 'src', 'app')
   const routes = getRoutes(appDir)
 

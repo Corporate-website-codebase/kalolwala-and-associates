@@ -64,6 +64,7 @@ export default function VideoRequestModal({ isOpen, onClose, videoTitle }: Video
         {/* Close Button */}
         <button
           onClick={onClose}
+          aria-label="Close modal"
           className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 transition-colors"
         >
           <X className="w-5 h-5 text-gray-500" />

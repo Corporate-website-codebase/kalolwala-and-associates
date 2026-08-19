@@ -179,6 +179,7 @@ export default function Founders() {
                 e.stopPropagation();
                 setActiveFounderId(null);
               }}
+              aria-label="Close modal"
               className="absolute top-4 right-4 md:top-6 md:right-6 text-white bg-black/50 md:bg-transparent rounded-full md:rounded-none p-2 md:p-0 hover:text-white/70 z-50 transition-colors"
             >
               <X size={28} />

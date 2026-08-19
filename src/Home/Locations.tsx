@@ -83,9 +83,6 @@ const Locations = () => {
       ref={ref}
       className="w-full  bg-black text-white overflow-hidden relative"
     >
-      {/* Texture */}
-      <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] pointer-events-none"></div>
-
       <motion.div
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}

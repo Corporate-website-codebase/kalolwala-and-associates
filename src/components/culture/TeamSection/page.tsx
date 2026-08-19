@@ -360,7 +360,7 @@ const TeamSection: React.FC = () => {
             <div className="absolute inset-0 bg-linear-to-t from-zinc-950 via-zinc-950/50 to-transparent opacity-90"></div>
           </div>
 
-          <button onClick={handleCloseModal} className="absolute top-6 right-6 text-white hover:text-yellow-500 transition-colors z-[60] bg-black/40 rounded-full p-2">
+          <button onClick={handleCloseModal} aria-label="Close modal" className="absolute top-6 right-6 text-white hover:text-yellow-500 transition-colors z-[60] bg-black/40 rounded-full p-2">
             <X size={24} />
           </button>
 
