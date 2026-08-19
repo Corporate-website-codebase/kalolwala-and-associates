@@ -29,7 +29,7 @@ const noto = Noto_Sans({
 
 const home = PAGE_METADATA.home;
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.SITE_URL || "http://localhost:3000/"),
+  metadataBase: new URL(process.env.SITE_URL || "https://www.kalolwala.com"),
   title: home.title,
   description: home.description,
   openGraph: {
@@ -42,8 +42,8 @@ export const metadata: Metadata = {
   alternates: {
     canonical: home.canonical,
     languages: {
-      en: process.env.SITE_URL || "http://localhost:3000/",
-      "x-default": process.env.SITE_URL || "http://localhost:3000/",
+      en: process.env.SITE_URL || "https://www.kalolwala.com",
+      "x-default": process.env.SITE_URL || "https://www.kalolwala.com",
     },
   },
 };
@@ -71,6 +71,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           name="google-site-verification"
           content="nZdF0YGHOkhdaZjvtTM7t5y7tvx23ggkUuKt3HwUopM"
         />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://use.typekit.net" crossOrigin="anonymous" />
         <link rel="stylesheet" href="https://use.typekit.net/zmg6oqe.css" />
       </head>
       <body className={`${anton.variable} ${noto.variable}  antialiased`}>
