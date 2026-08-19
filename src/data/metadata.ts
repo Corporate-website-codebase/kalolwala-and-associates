@@ -25,8 +25,9 @@ export const PAGE_METADATA: Record<string, PageMetadata> = {
     },
     careers: {
         title: 'Explore Careers | K&A',
-        canonical:
+        description:
             'Explore careers at Kalolwala & Associates, grow creatively with roles in business development, research, editorial, design & digital. Apply now to be part of our team.',
+        canonical: '/careers',
     },
     contact: {
         title: 'Contact Us | K&A',
