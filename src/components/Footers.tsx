@@ -561,7 +561,7 @@ const Footers = ({
                   href: "/offerings/investor-corporate-presentations",
                 },
                 {
-                  label: "Branding & Design",
+                  label: "Corporate Branding & Design",
                   href: "/offerings/corporate-branding-design",
                 },
                 {

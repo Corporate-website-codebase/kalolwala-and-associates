@@ -92,7 +92,7 @@ export default function Home() {
       <StatsTop />
       <div className="marginal">
         <Stats />
-      <Testimonials />
+      {/* <Testimonials /> */}
         {/* <Founders /> */}
         <Footers nextPageName="Culture" nextPageLink="/culture" />
       </div>

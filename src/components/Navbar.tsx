@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useSyncExternalStore } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
@@ -28,7 +28,7 @@ const navLinks: NavItem[] = [
       { label: "Integrated Annual Reporting", href: "/offerings/integrated-annual-reporting" },
       { label: "Sustainability & ESG Reporting", href: "/offerings/sustainability-esg-reporting" },
       { label: "Investor & Corporate Presentations", href: "/offerings/investor-corporate-presentations" },
-      { label: "Branding & Design", href: "/offerings/corporate-branding-design" },
+      { label: "Corporate Branding & Design", href: "/offerings/corporate-branding-design" },
       { label: "Corporate Films & Video Reports", href: "/offerings/corporate-films-video-reports" },
       { label: "Software & Digital Solutions", href: "/offerings/corporate-websites" },
     ],
@@ -40,11 +40,17 @@ const navLinks: NavItem[] = [
   { label: "CONTACT", href: "/contact" },
 ];
 
+const emptySubscribe = () => () => {};
+
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [hasLoaded, setHasLoaded] = useState(false);
+  const hasLoaded = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
   const [isOfferingsHovered, setIsOfferingsHovered] = useState(false);
   const [isMobileOfferingsOpen, setIsMobileOfferingsOpen] = useState(false);
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -52,10 +58,6 @@ const Navbar = () => {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const { scrollY } = useScroll();
-
-  useEffect(() => {
-    setHasLoaded(true);
-  }, []);
 
   const handleMouseEnter = () => {
     if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
@@ -142,13 +144,20 @@ const Navbar = () => {
                   >
                     <Link
                       href={link.href}
-                      className={`group relative text-[11px] lg:text-[12px] tracking-wide px-3 lg:px-4 py-2 font-semibold transition-colors duration-300 ${
+                      className={`group relative text-[11px] lg:text-[12px] tracking-wide px-3 lg:px-4 py-2 font-semibold transition-colors duration-300 inline-flex items-center gap-2 ${
                         isActive || isItemHovered
                           ? "text-yellow-400"
                           : "text-white hover:text-yellow-400"
                       }`}
                     >
-                      {link.label}
+                      <span>{link.label}</span>
+                      {link.subItems && (
+                        <ChevronDown
+                          className={`w-3.5 h-3.5 transition-transform duration-300 ${
+                            isItemHovered ? "rotate-180 text-yellow-400" : "text-white group-hover:text-yellow-400"
+                          }`}
+                        />
+                      )}
                       <span
                         className={`absolute bottom-0 left-1/2 block h-[1px] -translate-x-1/2 bg-yellow-400 transition-all duration-300 ease-out ${
                           isActive || isItemHovered
