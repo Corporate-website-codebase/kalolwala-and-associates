@@ -1,26 +1,28 @@
 import { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.SITE_URL || ''
-  const isProduction = process.env.NODE_ENV === 'production'
-
-  // Disallow all crawling in non-production environments
-  if (!isProduction) {
-    return {
-      rules: {
-        userAgent: '*',
-        disallow: '/',
-      },
+    // Ensure baseUrl is an absolute URL with fallback to production domain
+    const rawBaseUrl = process.env.SITE_URL || 'https://www.kalolwala.com'
+    const baseUrl = rawBaseUrl.startsWith('http')
+        ? rawBaseUrl.replace(/\/$/, '')
+        : `https://${rawBaseUrl.replace(/\/$/, '')}`
+    // If explicitly non-production build/stage, disallow crawling
+    if (process.env.VERCEL_ENV && process.env.VERCEL_ENV !== 'production') {
+        return {
+            rules: {
+                userAgent: '*',
+                disallow: '/',
+            },
+        }
     }
-  }
 
-  // Allow crawling in production
-  return {
-    rules: {
-      userAgent: '*',
-      allow: '/',
-      disallow: '/api/',
-    },
-    sitemap: `${baseUrl}/sitemap.xml`,
-  }
+    // Allow crawling in production with valid absolute sitemap URL
+    return {
+        rules: {
+            userAgent: '*',
+            allow: '/',
+            disallow: '/api/',
+        },
+        sitemap: `${baseUrl}/sitemap.xml`,
+    }
 }
