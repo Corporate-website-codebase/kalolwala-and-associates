@@ -32,6 +32,13 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.SITE_URL || "http://localhost:3000/"),
   title: home.title,
   description: home.description,
+  openGraph: {
+    title: home.title,
+    description: home.description,
+    siteName: "Kalolwala & Associates",
+    url: process.env.SITE_URL || "https://www.kalolwala.com/",
+    type: "website",
+  },
   alternates: {
     canonical: home.canonical,
     languages: {

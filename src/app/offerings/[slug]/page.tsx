@@ -1,6 +1,7 @@
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import ReportShowcase from "@/components/services/ReportShowcase";
 import { PAYLOADS, SLUG_TO_KEY_MAPPING } from "@/data/payloads";
+import { getBreadcrumbSchema } from "@/data/schema";
 import { Metadata } from "next";
 
 // Force static generation for known paths (optional but good for SEO)
@@ -10,7 +11,7 @@ export function generateStaticParams() {
   }));
 }
 
-export const dynamicParams = true; // Allow other params if needed (though we likely want 404)
+export const dynamicParams = true;
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -41,12 +42,24 @@ export default async function OfferingPage({ params }: Props) {
   const key = SLUG_TO_KEY_MAPPING[slug];
 
   if (!key || !PAYLOADS[key]) {
-    // If the slug is not found locally, we could redirect to main offerings
-    // or return notFound().
     notFound();
   }
 
   const payload = PAYLOADS[key];
 
-  return <ReportShowcase {...payload} />;
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: "Home", url: "/" },
+    { name: "Offerings", url: "/offerings" },
+    { name: payload.title || slug },
+  ]);
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <ReportShowcase {...payload} />
+    </>
+  );
 }
