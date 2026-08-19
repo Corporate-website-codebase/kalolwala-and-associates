@@ -1,6 +1,6 @@
 /**
  * Centralized JSON-LD Schema definitions for Kalolwala & Associates
- * Derived from official Schema - K & A specification
+ * Derived from official Vendor Schema - K & A and Schema
  */
 
 const BASE_URL = process.env.SITE_URL || 'https://www.kalolwala.com'
@@ -153,6 +153,242 @@ export const organizationGraphSchema = {
             inLanguage: 'en-IN',
         },
     ],
+}
+
+/**
+ * Service schemas mapping from Schema - K & A (1).docx
+ */
+const SERVICE_SCHEMAS: Record<string, any> = {
+    'integrated-annual-reporting': {
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        '@id': `${BASE_URL}/offerings/integrated-annual-reporting/#service`,
+        name: 'Integrated Annual Reporting',
+        alternateName: ['Annual report design', 'Integrated report design', 'Annual report agency'],
+        serviceType: 'Annual and integrated report development',
+        category: 'Corporate reporting',
+        url: `${BASE_URL}/offerings/integrated-annual-reporting`,
+        description:
+            'Integrated Annual Reporting combines financial clarity with strategic narrative, enabling organisations to articulate value creation across financial, environmental, social, and governance dimensions.',
+        provider: { '@id': `${BASE_URL}/#organization` },
+        areaServed: { '@type': 'Country', name: 'India' },
+        audience: {
+            '@type': 'BusinessAudience',
+            name: 'Board of directors, investor relations, and corporate communications teams at listed Indian companies',
+        },
+        hasOfferCatalog: {
+            '@type': 'OfferCatalog',
+            name: 'Annual and integrated reporting deliverables',
+            itemListElement: [
+                {
+                    '@type': 'Offer',
+                    itemOffered: {
+                        '@type': 'Service',
+                        name: 'Annual Integrated Reporting',
+                    },
+                },
+            ],
+        },
+        offers: {
+            '@type': 'Offer',
+            url: `${BASE_URL}/contact`,
+            availability: 'https://schema.org/InStock',
+            priceSpecification: {
+                '@type': 'PriceSpecification',
+                priceCurrency: 'INR',
+                description: 'Project-based. Quoted against brief.',
+            },
+        },
+        mainEntityOfPage: {
+            '@id': `${BASE_URL}/offerings/integrated-annual-reporting/#webpage`,
+        },
+    },
+    'sustainability-esg-reporting': {
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        '@id': `${BASE_URL}/offerings/sustainability-esg-reporting/#service`,
+        name: 'Sustainability and ESG Reporting',
+        alternateName: [
+            'ESG report design',
+            'BRSR reporting support',
+            'Sustainability report design',
+        ],
+        serviceType: 'Sustainability and ESG report development',
+        category: 'Corporate reporting',
+        url: `${BASE_URL}/offerings/sustainability-esg-reporting`,
+        description:
+            'Sustainability & ESG Reporting helps organizations measure, manage, and communicate their environmental, social, and governance performance with transparency.',
+        provider: { '@id': `${BASE_URL}/#organization` },
+        areaServed: { '@type': 'Country', name: 'India' },
+        audience: {
+            '@type': 'BusinessAudience',
+            name: 'SEBI-listed entities under BRSR, and GRI or ISSB reporters',
+        },
+        hasOfferCatalog: {
+            '@type': 'OfferCatalog',
+            name: 'Sustainability and ESG reporting deliverables',
+            itemListElement: [
+                {
+                    '@type': 'Offer',
+                    itemOffered: {
+                        '@type': 'Service',
+                        name: 'Sustainability and ESG Reports',
+                    },
+                },
+            ],
+        },
+        mainEntityOfPage: {
+            '@id': `${BASE_URL}/offerings/sustainability-esg-reporting/#webpage`,
+        },
+    },
+    'investor-corporate-presentations': {
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        '@id': `${BASE_URL}/offerings/investor-corporate-presentations/#service`,
+        name: 'Investor and Corporate Presentation Design',
+        alternateName: [
+            'Investor deck design',
+            'Corporate presentation design',
+            'Earnings presentation design',
+        ],
+        serviceType: 'Investor and corporate presentation design',
+        category: 'Investor communication',
+        url: `${BASE_URL}/offerings/investor-corporate-presentations`,
+        description:
+            'Investor & Corporate Presentations enable businesses to communicate financial performance, growth strategy, and corporate vision with clarity and impact.',
+        provider: { '@id': `${BASE_URL}/#organization` },
+        areaServed: { '@type': 'Country', name: 'India' },
+        audience: {
+            '@type': 'BusinessAudience',
+            name: 'IR, corporate communications and finance teams at listed Indian companies',
+        },
+        hasOfferCatalog: {
+            '@type': 'OfferCatalog',
+            name: 'Presentation design deliverables',
+            itemListElement: [
+                {
+                    '@type': 'Offer',
+                    itemOffered: {
+                        '@type': 'Service',
+                        name: 'Investor and Corporate Presentation',
+                    },
+                },
+            ],
+        },
+        mainEntityOfPage: {
+            '@id': `${BASE_URL}/offerings/investor-corporate-presentations/#webpage`,
+        },
+    },
+    'corporate-branding-design': {
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        '@id': `${BASE_URL}/offerings/corporate-branding-design/#service`,
+        name: 'Corporate Branding and Design',
+        alternateName: ['Corporate identity design', 'Brand identity design'],
+        serviceType: 'Corporate branding and identity design',
+        category: 'Brand and design',
+        url: `${BASE_URL}/offerings/corporate-branding-design`,
+        description:
+            'Corporate Branding & Design helps businesses build a strong and consistent brand identity through strategic communication and creative design.',
+        provider: { '@id': `${BASE_URL}/#organization` },
+        areaServed: { '@type': 'Country', name: 'India' },
+        audience: {
+            '@type': 'BusinessAudience',
+            name: 'Corporate marketing and communications teams',
+        },
+        hasOfferCatalog: {
+            '@type': 'OfferCatalog',
+            name: 'Branding and design deliverables',
+            itemListElement: [
+                {
+                    '@type': 'Offer',
+                    itemOffered: {
+                        '@type': 'Service',
+                        name: 'Corporate Branding Design',
+                    },
+                },
+            ],
+        },
+        mainEntityOfPage: {
+            '@id': `${BASE_URL}/offerings/corporate-branding-design/#webpage`,
+        },
+    },
+    'corporate-websites': {
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        '@id': `${BASE_URL}/offerings/corporate-websites/#service`,
+        name: 'Corporate Website and Digital Communication',
+        alternateName: [
+            'Corporate website design',
+            'Digital annual report',
+            'Investor relations website',
+        ],
+        serviceType: 'Corporate website design and digital communication',
+        category: 'Digital communication',
+        url: `${BASE_URL}/offerings/corporate-websites`,
+        description:
+            'Corporate Websites empowers businesses with secure, scalable, and high-performance digital solutions.',
+        provider: { '@id': `${BASE_URL}/#organization` },
+        areaServed: { '@type': 'Country', name: 'India' },
+        audience: {
+            '@type': 'BusinessAudience',
+            name: 'Corporate communications, investor relations and digital teams',
+        },
+        hasOfferCatalog: {
+            '@type': 'OfferCatalog',
+            name: 'Digital communication deliverables',
+            itemListElement: [
+                {
+                    '@type': 'Offer',
+                    itemOffered: {
+                        '@type': 'Service',
+                        name: 'Corporate Website Design',
+                    },
+                },
+            ],
+        },
+        mainEntityOfPage: {
+            '@id': `${BASE_URL}/offerings/corporate-websites/#webpage`,
+        },
+    },
+    'corporate-films-video-reports': {
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        '@id': `${BASE_URL}/offerings/corporate-films-video-reports/#service`,
+        name: 'Corporate Films and Video Reports',
+        alternateName: ['Corporate film production', 'Video annual report'],
+        serviceType: 'Corporate film and video report production',
+        category: 'Video and film',
+        url: `${BASE_URL}/offerings/corporate-films-video-reports`,
+        description:
+            'Corporate Films & Video Reports help organizations transform business stories, corporate milestones, and performance updates into engaging visual experiences.',
+        provider: { '@id': `${BASE_URL}/#organization` },
+        areaServed: { '@type': 'Country', name: 'India' },
+        audience: {
+            '@type': 'BusinessAudience',
+            name: 'Corporate communications and brand teams',
+        },
+        hasOfferCatalog: {
+            '@type': 'OfferCatalog',
+            name: 'Film and video deliverables',
+            itemListElement: [
+                {
+                    '@type': 'Offer',
+                    itemOffered: {
+                        '@type': 'Service',
+                        name: 'Corporate Films and Video Reports',
+                    },
+                },
+            ],
+        },
+        mainEntityOfPage: {
+            '@id': `${BASE_URL}/offerings/corporate-films-video-reports/#webpage`,
+        },
+    },
+}
+
+export function getServiceSchema(slug: string) {
+    return SERVICE_SCHEMAS[slug] || null
 }
 
 /**

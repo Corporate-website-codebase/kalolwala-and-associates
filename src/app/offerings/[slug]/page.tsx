@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import ReportShowcase from "@/components/services/ReportShowcase";
 import { PAYLOADS, SLUG_TO_KEY_MAPPING } from "@/data/payloads";
-import { getBreadcrumbSchema } from "@/data/schema";
+import { getBreadcrumbSchema, getServiceSchema } from "@/data/schema";
 import { Metadata } from "next";
 
 // Force static generation for known paths (optional but good for SEO)
@@ -53,12 +53,20 @@ export default async function OfferingPage({ params }: Props) {
     { name: payload.title || slug },
   ]);
 
+  const serviceSchema = getServiceSchema(slug);
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
+      {serviceSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+        />
+      )}
       <ReportShowcase {...payload} />
     </>
   );
