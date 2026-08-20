@@ -1,19 +1,20 @@
+
 "use client";
 
-import { motion, Variants, useInView, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
+import { motion, useInView, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 const Hero = () => {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { amount: 0.1 }); 
-  const [animationStage, setAnimationStage] = useState<"video" | "outline" | "fill">("video");
+  const isInView = useInView(ref, { amount: 0.1 });
   const [isHoveringRow, setIsHoveringRow] = useState(false);
-  
+
+  // Keep Framer Motion strictly for the complex custom cursor physics
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
   const springConfig = { damping: 20, stiffness: 150, mass: 0.5 };
-  
+
   const cursorXSpring = useSpring(cursorX, springConfig);
   const cursorYSpring = useSpring(cursorY, springConfig);
 
@@ -28,39 +29,45 @@ const Hero = () => {
   }, [cursorX, cursorY, isInView]);
 
   const layers = [
-    { text: "IGNITE", video: "/videos/Ignite.mp4", align: "left", fillIndices: [0, 1, 2], href: "/" },
-    { text: "INNOVATE", video: "/videos/Innovate.mp4", align: "right", fillIndices: [4, 5, 6, 7], href: "/" },
-    { text: "IMPACT", video: "/videos/Impact.mp4", align: "left", fillIndices: [0, 1, 2], href: "/about" },
+    { text: "IGNITE", video: "/videos/Ignite_1.mp4", align: "left", fillIndices: [0, 1, 2], href: "/" ,poster:"/images/ignite.webp"},
+    { text: "INNOVATE", video: "/videos/Innovate_1.mp4", align: "right", fillIndices: [4, 5, 6, 7], href: "/",poster:"/images/innovate.webp" },
+    { text: "IMPACT", video: "/videos/Impact_1.mp4", align: "left", fillIndices: [0, 1, 2], href: "/about" ,poster:"/images/impact.webp"},
   ];
-
-  useEffect(() => {
-    if (isInView) {
-      setAnimationStage("video");
-      const videoTimer = setTimeout(() => setAnimationStage("outline"), 2000);
-      const fillTimer = setTimeout(() => setAnimationStage("fill"), 3000);
-      return () => { clearTimeout(videoTimer); clearTimeout(fillTimer); };
-    } else {
-      setAnimationStage("video");
-    }
-  }, [isInView]);
-
-  const letterVariants: Variants = {
-    hidden: { opacity: 0, color: "transparent", WebkitTextStroke: "1.75px white" },
-    outline: (i: number) => ({
-      opacity: 1, color: "transparent", WebkitTextStroke: "2.75px white",
-      transition: { delay: i * 0.12, duration: 0.4, ease: "easeInOut" },
-    }),
-    fill: (i: number) => ({
-      opacity: [0, 1], color: ["transparent", "white"], WebkitTextStroke: "0px",
-      transition: { delay: i * 0.08, duration: 0.8, ease: "easeInOut" },
-    }),
-  } as any;
 
   const getFontSize = () => "clamp(6rem, 25vw, 32vh)";
 
   return (
     <section ref={ref} className="relative w-full min-h-screen flex flex-col overflow-hidden bg-black">
       
+      {/* 
+        Injecting Pure CSS Keyframes.
+        Restored exact Framer Motion logic: Letters start invisible (opacity: 0)
+        and stagger in individually using precise animation delays.
+      */}
+      <style dangerouslySetInnerHTML={{__html: `
+        @keyframes row-slide-left {
+          0% { opacity: 0; transform: translateX(-200px); }
+          100% { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes row-slide-right {
+          0% { opacity: 0; transform: translateX(200px); }
+          100% { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes text-outline-anim {
+          0% { opacity: 0; -webkit-text-stroke: 1.75px white; color: transparent; }
+          100% { opacity: 1; -webkit-text-stroke: 2.75px white; color: transparent; }
+        }
+        @keyframes text-fill-anim {
+          0% { opacity: 1; color: transparent; -webkit-text-stroke: 2.75px white; }
+          100% { opacity: 1; color: white; -webkit-text-stroke: 0px white; }
+        }
+        .hero-letter {
+          opacity: 0; /* Base state matches Framer's hidden variant perfectly */
+          color: transparent;
+          -webkit-text-stroke: 1.75px white;
+        }
+      `}} />
+
       <AnimatePresence>
         {isInView && (
           <motion.div
@@ -81,94 +88,122 @@ const Hero = () => {
 
       <div>
         {layers.map((layer, layerIndex) => (
-          <Link 
-            key={layerIndex} 
+          <Link
+            key={layerIndex}
             href={layer.href}
             onMouseEnter={() => setIsHoveringRow(true)}
             onMouseLeave={() => setIsHoveringRow(false)}
             className="block relative no-underline group lg:!cursor-none"
           >
-            <motion.div
+            {/* Row Slide Animation via CSS */}
+            <div
               className="relative flex flex-1 overflow-hidden h-[33vh]"
-              initial={{ opacity: 0, x: layer.align === "right" ? 200 : -200 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: layerIndex * 0.5, duration: 1.4, ease: "easeOut" }}
+              style={{
+                animation: layer.align === "right" 
+                  ? `row-slide-right 1.4s ease-out ${layerIndex * 0.5}s forwards` 
+                  : `row-slide-left 1.4s ease-out ${layerIndex * 0.5}s forwards`,
+                opacity: 0, 
+                transform: `translateX(${layer.align === "right" ? 200 : -200}px)`
+              }}
             >
               <div className="relative w-full h-full flex items-center">
-                
                 {layer.align === "left" ? (
                   <>
-                    {/* LEFT SIDE: The SEO Heading */}
                     <div className="relative z-30 bg-black flex items-center justify-end lg:justify-start w-1/2 lg:w-auto h-[65%]">
-                      <h2 className="leading-none tracking-tight whitespace-nowrap font-anton notranslate" 
-                          style={{ fontSize: getFontSize(), lineHeight: "1" }}>
+                      <h2 className="leading-none tracking-tight whitespace-nowrap font-anton notranslate"
+                        style={{ fontSize: getFontSize(), lineHeight: "1" }}>
                         {layer.text.split("").map((char, i) => (
                           layer.fillIndices.includes(i) ? (
-                            <motion.span key={i} custom={i} variants={letterVariants} initial="hidden" animate={animationStage} className="inline-block">
+                            <span key={i} className="inline-block hero-letter"
+                              style={{
+                                animation: `text-outline-anim 0.4s ease-in-out ${2 + i * 0.12}s forwards, text-fill-anim 0.8s ease-in-out ${3 + i * 0.08}s forwards`
+                              }}>
                               {char}
-                            </motion.span>
+                            </span>
                           ) : (
                             <span key={i} className="inline-block opacity-0 w-0 h-0 overflow-hidden">{char}</span>
                           )
                         ))}
                       </h2>
                     </div>
-                    
-                    {/* RIGHT SIDE: Visual Span (Hidden from SEO) */}
+
                     <div className="relative flex-none w-1/2 lg:flex-1 h-full overflow-hidden">
-                      <motion.div className="absolute inset-0 overflow-hidden" style={{ zIndex: 10, backgroundColor: "black" }}>
-                        <video src={layer.video} autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out" />
+                      <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 10, backgroundColor: "black" }}>
+                        <video
+                          src={layer.video}
+                          // poster={layer.poster}
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out"
+                        />
                         <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent z-20" />
-                      </motion.div>
-                      
-                      <div className="relative z-30 flex items-center justify-start h-full" style={{ mixBlendMode: "screen" }}>
-                        <span aria-hidden="true" className="leading-none tracking-tight whitespace-nowrap font-anton block" 
-                            style={{ fontSize: getFontSize(), lineHeight: "1" }}>
-                          {layer.text.split("").map((char, i) => (
-                            !layer.fillIndices.includes(i) ? (
-                              <motion.span key={i} custom={i} variants={letterVariants} initial="hidden" animate={animationStage === "video" ? "hidden" : "outline"} className="inline-block">
-                                {char}
-                              </motion.span>
-                            ) : null
-                          ))}
-                        </span>  
                       </div>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    {/* LEFT SIDE: Visual Span */}
-                    <div className="relative flex-none w-1/2 lg:flex-1 h-full overflow-hidden">
-                      <motion.div className="absolute inset-0 overflow-hidden" style={{ zIndex: 10, backgroundColor: "black" }}>
-                        <video src={layer.video} autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out" />
-                        <div className="absolute inset-0 bg-gradient-to-l from-black via-black/70 to-transparent z-20" />
-                      </motion.div>
-                      
-                      <div className="relative z-30 flex items-center justify-end h-full" style={{ mixBlendMode: "screen" }}>
-                        <span aria-hidden="true" className="leading-none tracking-tight whitespace-nowrap font-anton text-right block" 
-                            style={{ fontSize: getFontSize(), lineHeight: "1" }}>
+
+                      <div className="relative z-30 flex items-center justify-start h-full" style={{ mixBlendMode: "screen" }}>
+                        <span aria-hidden="true" className="leading-none tracking-tight whitespace-nowrap font-anton block"
+                          style={{ fontSize: getFontSize(), lineHeight: "1" }}>
                           {layer.text.split("").map((char, i) => (
                             !layer.fillIndices.includes(i) ? (
-                              <motion.span key={i} custom={i} variants={letterVariants} initial="hidden" animate={animationStage === "video" ? "hidden" : "outline"} className="inline-block">
+                              <span key={i} className="inline-block hero-letter"
+                                style={{
+                                  animation: `text-outline-anim 0.4s ease-in-out ${2 + i * 0.12}s forwards`
+                                }}>
                                 {char}
-                              </motion.span>
+                              </span>
                             ) : null
                           ))}
                         </span>
                       </div>
                     </div>
-                    
-                    {/* RIGHT SIDE: The SEO Heading */}
-                    <div className="relative z-30 bg-black flex items-center justify-start lg:justify-end w-1/2 lg:w-auto h-[65%]">
-                      <h2 className="leading-none tracking-tight whitespace-nowrap font-anton text-right notranslate" 
+                  </>
+                ) : (
+                  <>
+                    <div className="relative flex-none w-1/2 lg:flex-1 h-full overflow-hidden">
+                      <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 10, backgroundColor: "black" }}>
+                        <video
+                          src={layer.video}
+                          // poster={layer.poster}
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-l from-black via-black/70 to-transparent z-20" />
+                      </div>
+
+                      <div className="relative z-30 flex items-center justify-end h-full" style={{ mixBlendMode: "screen" }}>
+                        <span aria-hidden="true" className="leading-none tracking-tight whitespace-nowrap font-anton text-right block"
                           style={{ fontSize: getFontSize(), lineHeight: "1" }}>
+                          {layer.text.split("").map((char, i) => (
+                            !layer.fillIndices.includes(i) ? (
+                              <span key={i} className="inline-block hero-letter"
+                                style={{
+                                  animation: `text-outline-anim 0.4s ease-in-out ${2 + i * 0.12}s forwards`
+                                }}>
+                                {char}
+                              </span>
+                            ) : null
+                          ))}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="relative z-30 bg-black flex items-center justify-start lg:justify-end w-1/2 lg:w-auto h-[65%]">
+                      <h2 className="leading-none tracking-tight whitespace-nowrap font-anton text-right notranslate"
+                        style={{ fontSize: getFontSize(), lineHeight: "1" }}>
                         {layer.text.split("").map((char, i) => (
                           layer.fillIndices.includes(i) ? (
-                            <motion.span key={i} custom={i} variants={letterVariants} initial="hidden" animate={animationStage} className="inline-block">
+                            <span key={i} className="inline-block hero-letter"
+                              style={{
+                                animation: `text-outline-anim 0.4s ease-in-out ${2 + i * 0.12}s forwards, text-fill-anim 0.8s ease-in-out ${3 + i * 0.08}s forwards`
+                              }}>
                               {char}
-                            </motion.span>
+                            </span>
                           ) : (
-                             <span key={i} className="inline-block opacity-0 w-0 h-0 overflow-hidden">{char}</span>
+                            <span key={i} className="inline-block opacity-0 w-0 h-0 overflow-hidden">{char}</span>
                           )
                         ))}
                       </h2>
@@ -176,7 +211,7 @@ const Hero = () => {
                   </>
                 )}
               </div>
-            </motion.div>
+            </div>
           </Link>
         ))}
       </div>
