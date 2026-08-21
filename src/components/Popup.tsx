@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -7,46 +8,11 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const Popup = () => {
   const [showPopup, setShowPopup] = useState(false);
-
-   useEffect(() => {
-      const scrollKeys = ["html", "body"];
-      
-      if (showPopup) {
-        scrollKeys.forEach((el) => {
-          const element = document.querySelector(el) as HTMLElement | null;
-          if (element) {
-            // important ensures it overrides any other CSS classes
-            element.style.setProperty("overflow", "hidden", "important");
-            element.style.setProperty("height", "100%", "important");
-            element.style.setProperty("touch-action", "none", "important"); // Prevents mobile touch-scroll
-          }
-        });
-      } else {
-        scrollKeys.forEach((el) => {
-          const element = document.querySelector(el) as HTMLElement | null;
-          if (element) {
-            element.style.removeProperty("overflow");
-            element.style.removeProperty("height");
-            element.style.removeProperty("touch-action");
-          }
-        });
-      }
-  
-      // Cleanup ensures scrolling is restored if the component unmounts
-      return () => {
-        scrollKeys.forEach((el) => {
-          const element = document.querySelector(el) as HTMLElement | null;
-          if (element) {
-            element.style.removeProperty("overflow");
-            element.style.removeProperty("height");
-            element.style.removeProperty("touch-action");
-          }
-        });
-      };
-    }, [showPopup]);
-
+  const [mounted, setMounted] = useState(false); // Prevents hydration mismatches & SSR rendering
 
   useEffect(() => {
+    setMounted(true); // Mark component as mounted on the client
+
     const lastClosed = localStorage.getItem("popupClosedAt");
 
     if (!lastClosed) {
@@ -64,10 +30,50 @@ const Popup = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (!mounted) return;
+
+    const scrollKeys = ["html", "body"];
+    
+    if (showPopup) {
+      scrollKeys.forEach((el) => {
+        const element = document.querySelector(el) as HTMLElement | null;
+        if (element) {
+          element.style.setProperty("overflow", "hidden", "important");
+          element.style.setProperty("height", "100%", "important");
+          element.style.setProperty("touch-action", "none", "important");
+        }
+      });
+    } else {
+      scrollKeys.forEach((el) => {
+        const element = document.querySelector(el) as HTMLElement | null;
+        if (element) {
+          element.style.removeProperty("overflow");
+          element.style.removeProperty("height");
+          element.style.removeProperty("touch-action");
+        }
+      });
+    }
+
+    return () => {
+      scrollKeys.forEach((el) => {
+        const element = document.querySelector(el) as HTMLElement | null;
+        if (element) {
+          element.style.removeProperty("overflow");
+          element.style.removeProperty("height");
+          element.style.removeProperty("touch-action");
+        }
+      });
+    };
+  }, [showPopup, mounted]);
+
   const handleClose = () => {
     setShowPopup(false);
     localStorage.setItem("popupClosedAt", Date.now().toString());
   };
+
+  // Do not render anything on the server
+  if (!mounted) return null;
 
   return (
     <AnimatePresence>
@@ -115,7 +121,7 @@ const Popup = () => {
               <a
                 href="https://sustainabilityalliance.ifrs.org/member-organisations/"
                 target="_blank"
-                className="inline-flex border px-3 py-1  items-center gap-1 font-noto-sans text-sm font-medium text-red-700 hover:text-black transition-colors uppercase tracking-widest mt-2"
+                className="inline-flex border px-3 py-1 items-center gap-1 font-noto-sans text-sm font-medium text-red-700 hover:text-black transition-colors uppercase tracking-widest mt-2"
               >
                 View Official Listing
                 <svg
