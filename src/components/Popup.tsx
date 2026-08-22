@@ -108,6 +108,8 @@ const Popup = () => {
                 fill
                 className="object-contain"
                 priority
+                fetchPriority="high"
+
               />
             </div>
 

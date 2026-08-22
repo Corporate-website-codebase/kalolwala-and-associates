@@ -74,14 +74,32 @@ const TextOverlay = () => {
       <div className="mb-6 md:mb-8 pointer-events-auto">
         <Link href="/">
           <motion.div
-            className="relative w-16 h-16 md:w-20 md:h-20 cursor-pointer select-none"
-            animate={{ rotateY: [0, 180, 360] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            style={{ transformStyle: "preserve-3d" }}
-          >
-            <Image src="/images/kna.png" alt="Logo" fill className="absolute inset-0" style={{ backfaceVisibility: "hidden" }} />
-            <Image src="/images/10-years.png" alt="10 Years" fill className="absolute inset-0" style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }} />
-          </motion.div>
+  className="relative w-16 h-16 md:w-20 md:h-20 cursor-pointer select-none"
+  animate={{ rotateY: [0, 180, 360] }}
+  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+  style={{ transformStyle: "preserve-3d" }}
+>
+  <Image
+    src="/images/kna.png"
+    alt="Logo"
+    fill
+    sizes="(min-width: 768px) 80px, 64px"
+    className="absolute inset-0"
+    style={{ backfaceVisibility: "hidden" }}
+  />
+
+  <Image
+    src="/images/10-years.png"
+    alt="10 Years"
+    fill
+    sizes="(min-width: 768px) 80px, 64px"
+    className="absolute inset-0"
+    style={{
+      backfaceVisibility: "hidden",
+      transform: "rotateY(180deg)",
+    }}
+  />
+</motion.div>
         </Link>
       </div>
 
