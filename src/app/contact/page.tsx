@@ -1,6 +1,6 @@
+
 import LetsTalk from "@/components/contact/LetsTalk";
 import Footers from "@/components/Footers";
-import "leaflet/dist/leaflet.css";
 import { getMetadata } from "@/data/metadata";
 
 export const metadata = getMetadata("contact");
@@ -31,7 +31,6 @@ const breadcrumbSchema = {
 };
 
 const Contact = () => {
-
   return (
     <div>
       <script

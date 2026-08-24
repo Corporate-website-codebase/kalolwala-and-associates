@@ -1,5 +1,5 @@
 import type { NextConfig } from 'next'
-
+import withBundleAnalyzer from '@next/bundle-analyzer'
 const nextConfig: NextConfig = {
     // Explicitly enforce removal of trailing slashes (e.g. /offerings/ -> /offerings)
     skipTrailingSlashRedirect: false,
@@ -126,5 +126,9 @@ const nextConfig: NextConfig = {
         ]
     },
 }
+const withAnalyzer = withBundleAnalyzer({
+    enabled: process.env.ANALYZE === 'true',
+})
 
-export default nextConfig
+export default withAnalyzer(nextConfig)
+// export default nextConfig
