@@ -363,221 +363,214 @@ export default function BlogDetailPage({
           TOP AREA
       ====================================================== */}
 
-      <div className="marginal">
-        <div
+     <div className="marginal">
+  <div
+    className="
+      grid
+      grid-cols-1
+      lg:grid-cols-[minmax(0,70%)_minmax(320px,30%)]
+      gap-12
+      lg:gap-14
+      items-end
+    "
+  >
+    {/* =================================================
+        LEFT — BACK + TITLE
+        order-2 on mobile (bottom), order-1 on desktop (left)
+    ================================================== */}
+    <div className="min-w-0 order-2 lg:order-1">
+      <Link
+        ref={backRef}
+        href="/blogs#articles"
+        className="
+          invisible
+          inline-flex
+          items-center
+          gap-2
+          pt-2
+          lg:pt-28
+          lg:sm:pt-36
+          pb-8
+          text-neutral-600
+          hover:text-black
+          transition-colors
+          duration-300
+          group
+        "
+      >
+        <ArrowLeft
+          size={18}
           className="
-            grid
-            grid-cols-1
-            lg:grid-cols-[minmax(0,70%)_minmax(320px,30%)]
-            lg:gap-14
+            transition-transform
+            duration-300
+            group-hover:-translate-x-1
+          "
+        />
+
+        <span
+          className="
+            text-sm
+            font-mono
+            uppercase
+            tracking-widest
           "
         >
-          {/* =================================================
-              LEFT — BACK + TITLE
-          ================================================== */}
+          Back
+        </span>
+      </Link>
 
-          <div className="min-w-0">
-            <Link
-              ref={backRef}
-              href="/blogs#articles"
-              className="
-                invisible
-                inline-flex
-                items-center
-                gap-2
-                pt-28
-                sm:pt-36
-                pb-8
-                text-neutral-600
-                hover:text-black
-                transition-colors
-                duration-300
-                group
-              "
-            >
-              <ArrowLeft
-                size={18}
-                className="
-                  transition-transform
-                  duration-300
-                  group-hover:-translate-x-1
-                "
-              />
+      <h1
+        ref={titleRef}
+        className="
+          invisible
+          text-black
+          font-light
+          text-[clamp(28px,5vw,48px)]
+          leading-[1.1]
+          tracking-tight
+          max-w-[900px]
+        "
+      >
+        {post.title}
+      </h1>
+    </div>
 
-              <span
-                className="
-                  text-sm
-                  font-mono
-                  uppercase
-                  tracking-widest
-                "
-              >
-                Back
-              </span>
-            </Link>
+    {/* =================================================
+        RIGHT — SUBSCRIPTION
+        order-1 on mobile (top), order-2 on desktop (right)
+    ================================================== */}
+    <div className="w-full order-1 lg:order-2 pt-24 lg:pt-0">
+      <div
+        className="
+          lg:border-l
+          border-black/15
+          lg:pl-7
+        "
+      >
+        <p
+          className="
+            font-mono
+            text-[10px]
+            uppercase
+            tracking-[0.2em]
+            text-neutral-500
+            mb-3
+          "
+        >
+          Stay informed
+        </p>
 
-            <h1
-              ref={titleRef}
-              className="
-                invisible
-                text-black
-                font-thin
-                text-[clamp(28px,5vw,64px)]
-                leading-[1.1]
-                tracking-tight
-                max-w-[900px]
-                pb-10
-                border-b
-                border-black/15
-              "
-            >
-              {post.title}
-            </h1>
-          </div>
+        <h2
+          className="
+            text-black
+            font-noto-sans
+            font-medium
+            leading-tight
+            tracking-tight
+          "
+          style={{
+            fontSize: "clamp(20px, 2vw, 28px)",
+          }}
+        >
+          Subscribe to our
+          <br />
+          latest insights.
+        </h2>
 
-          {/* =================================================
-              RIGHT — SUBSCRIPTION
-          ================================================== */}
+        <p
+          className="
+            mt-3
+            text-neutral-700
+            font-light
+            leading-relaxed
+            max-w-sm
+          "
+          style={{
+            fontSize: "clamp(13px, 1vw, 15px)",
+          }}
+        >
+          Get our latest articles, perspectives and insights delivered
+          directly to your inbox.
+        </p>
 
-          <div
+        <form
+          onSubmit={handleSubscribe}
+          className="
+            mt-6
+            flex
+            flex-col
+            gap-2
+          "
+        >
+          <input
+            type="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            placeholder="Enter your email address"
+            disabled={subscriptionStatus === "loading"}
             className="
               w-full
-              lg:pt-28
-              sm:lg:pt-36
+              h-12
+              px-4
+              bg-white/50
+              border
+              border-black/15
+              text-black
+              placeholder:text-neutral-500
+              outline-none
+              font-noto-sans
+              transition-colors
+              duration-300
+              focus:border-black/40
+              disabled:opacity-50
+            "
+          />
+
+          <button
+            type="submit"
+            disabled={subscriptionStatus === "loading"}
+            className="
+              w-full
+              h-12
+              px-6
+              bg-black
+              text-white
+              text-[11px]
+              font-medium
+              uppercase
+              tracking-widest
+              transition-all
+              duration-300
+              hover:bg-neutral-800
+              disabled:opacity-50
+              disabled:cursor-not-allowed
             "
           >
-            <div
-              className="
-                border-l
-                border-black/15
-                pl-6
-                lg:pl-7
-              "
-            >
-              <p
-                className="
-                  font-mono
-                  text-[10px]
-                  uppercase
-                  tracking-[0.2em]
-                  text-neutral-500
-                  mb-3
-                "
-              >
-                Stay informed
-              </p>
+            {subscriptionStatus === "loading"
+              ? "Subscribing..."
+              : "Subscribe"}
+          </button>
+        </form>
 
-              <h2
-                className="
-                  text-black
-                  font-noto-sans
-                  font-medium
-                  leading-tight
-                  tracking-tight
-                "
-                style={{
-                  fontSize: "clamp(20px, 2vw, 28px)",
-                }}
-              >
-                Subscribe to our
-                <br />
-                latest insights.
-              </h2>
-
-              <p
-                className="
-                  mt-3
-                  text-neutral-700
-                  font-light
-                  leading-relaxed
-                  max-w-sm
-                "
-                style={{
-                  fontSize: "clamp(13px, 1vw, 15px)",
-                }}
-              >
-                Get our latest articles, perspectives and insights delivered
-                directly to your inbox.
-              </p>
-
-              <form
-                onSubmit={handleSubscribe}
-                className="
-                  mt-6
-                  flex
-                  flex-col
-                  gap-2
-                "
-              >
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                  placeholder="Enter your email address"
-                  disabled={subscriptionStatus === "loading"}
-                  className="
-                    w-full
-                    h-12
-                    px-4
-                    bg-white/50
-                    border
-                    border-black/15
-                    text-black
-                    placeholder:text-neutral-500
-                    outline-none
-                    font-noto-sans
-                    transition-colors
-                    duration-300
-                    focus:border-black/40
-                    disabled:opacity-50
-                  "
-                />
-
-                <button
-                  type="submit"
-                  disabled={subscriptionStatus === "loading"}
-                  className="
-                    w-full
-                    h-12
-                    px-6
-                    bg-black
-                    text-white
-                    text-[11px]
-                    font-medium
-                    uppercase
-                    tracking-widest
-                    transition-all
-                    duration-300
-                    hover:bg-neutral-800
-                    disabled:opacity-50
-                    disabled:cursor-not-allowed
-                  "
-                >
-                  {subscriptionStatus === "loading"
-                    ? "Subscribing..."
-                    : "Subscribe"}
-                </button>
-              </form>
-
-              {subscriptionMessage && (
-                <p
-                  className={`
-                    mt-3
-                    text-xs
-                    ${
-                      subscriptionStatus === "success"
-                        ? "text-neutral-800"
-                        : "text-red-600"
-                    }
-                  `}
-                >
-                  {subscriptionMessage}
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
+        {subscriptionMessage && (
+          <p
+            className={`
+              mt-3
+              text-xs
+              ${
+                subscriptionStatus === "success"
+                  ? "text-neutral-800"
+                  : "text-red-600"
+              }
+            `}
+          >
+            {subscriptionMessage}
+          </p>
+        )}
       </div>
+    </div>
+  </div>
+</div>
 
       {/* =====================================================
           TWO-COLUMN BODY
@@ -789,7 +782,7 @@ export default function BlogDetailPage({
                       className="
                           text-xs
                           font-mono
-                          text-neutral-500
+                          text-black
                           uppercase
                           tracking-widest
                         "
@@ -822,7 +815,7 @@ export default function BlogDetailPage({
                       className="
                         text-xs
                         font-mono
-                        text-neutral-500
+                        text-black
                         uppercase
                         tracking-widest
                       "
@@ -834,7 +827,7 @@ export default function BlogDetailPage({
                       className="
                         font-mono
                         text-xs
-                        text-neutral-600
+                        text-black
                         uppercase
                         tracking-wider
                       "
@@ -850,155 +843,135 @@ export default function BlogDetailPage({
                 SHARE ARTICLE
             ================================================== */}
 
-            <div
-              className="
-                mt-10
-                pt-8
-                border-t
-                border-black/15
-              "
-            >
-              <div
-                className="
-                  flex
-                  flex-col
-                  sm:flex-row
-                  sm:items-center
-                  sm:justify-between
-                  gap-5
-                "
-              >
-                {/* Share Label */}
+            <div className="mt-12 pt-8 border-t border-black/10">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 p-6 sm:p-8 bg-neutral-50/60 backdrop-blur-sm rounded-3xl border border-black/5 hover:border-black/15 transition-colors duration-500">
 
-                <div className="flex flex-col gap-1">
-                  <span
-                    className="
-                      text-xs
-                      font-mono
-                      text-neutral-500
-                      uppercase
-                      tracking-widest
-                    "
-                  >
+                {/* Left Side — Share Label */}
+                <div className="flex flex-col gap-1.5">
+                  <span className="text-lg font-mono font-semibold text-black">
                     Share this article
                   </span>
-
-                  <span
-                    className="
-                      text-sm
-                      text-neutral-600
-                      font-light
-                    "
-                  >
-                    Share this insight with your network.
+                  <span className="text-sm text-neutral-800 font-ligh">
+                    Spread the word and inspire your network.
                   </span>
                 </div>
 
-                {/* Share Buttons */}
+                {/* Right Side — Share Buttons */}
+                <div className="flex items-center gap-3">
 
-                <div
-                  className="
-                    flex
-                    items-center
-                    gap-2
-                  "
-                >
-                  {/* Copy Link */}
-
+                  {/* Copy Link (Pill Shape) */}
                   <button
                     type="button"
                     onClick={handleCopyLink}
                     aria-label="Copy article link"
                     title="Copy link"
                     className="
-                      group
-                      inline-flex
-                      items-center
-                      justify-center
-                      gap-2
-                      h-10
-                      min-w-10
-                      px-3
-                      border
-                      border-black/15
-                      bg-white/30
-                      text-neutral-700
-                      hover:bg-black
-                      hover:text-white
-                      hover:border-black
-                      transition-all
-                      duration-300
-                    "
+          group
+          relative
+          inline-flex
+          items-center
+          justify-center
+          gap-2.5
+          h-11
+          px-5
+          rounded-full
+          bg-white
+          border
+          border-black/10
+          text-neutral-700
+          shadow-sm
+          hover:shadow-md
+          hover:-translate-y-0.5
+          hover:border-black
+          hover:bg-black
+          hover:text-white
+          transition-all
+          duration-300
+          active:scale-95
+        "
                   >
-                    <Copy size={15} strokeWidth={1.7} />
-
-                    <span
-                      className="
-                        hidden
-                        sm:inline
-                        text-[10px]
-                        font-mono
-                        uppercase
-                        tracking-widest
-                      "
-                    >
+                    <Copy
+                      size={16}
+                      strokeWidth={1.5}
+                      className="transition-transform duration-300 group-hover:scale-110"
+                    />
+                    <span className="hidden sm:inline text-[10px] font-mono font-medium uppercase tracking-widest mt-0.5">
                       Copy link
                     </span>
                   </button>
 
-                  {/* LinkedIn */}
-
+                  {/* LinkedIn (Circle) */}
                   <button
                     type="button"
                     onClick={handleLinkedInShare}
                     aria-label="Share on LinkedIn"
                     title="Share on LinkedIn"
                     className="
-                      inline-flex
-                      items-center
-                      justify-center
-                      h-10
-                      w-10
-                      border
-                      border-black/15
-                      bg-white/30
-                      text-neutral-700
-                      hover:bg-black
-                      hover:text-white
-                      hover:border-black
-                      transition-all
-                      duration-300
-                    "
+          group
+          inline-flex
+          items-center
+          justify-center
+          h-11
+          w-11
+          rounded-full
+          bg-white
+          border
+          border-black/10
+          text-neutral-700
+          shadow-sm
+          hover:shadow-md
+          hover:-translate-y-0.5
+          hover:border-[#0A66C2]
+          hover:bg-[#0A66C2]
+          hover:text-white
+          transition-all
+          duration-300
+          active:scale-95
+        "
                   >
-                    <Linkedin size={15} strokeWidth={1.7} />
+                    <Linkedin
+                      size={18}
+                      strokeWidth={1.5}
+                      className="transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6"
+                    />
                   </button>
 
-                  {/* Native Share */}
-
+                  {/* Native Share (Circle) */}
                   <button
                     type="button"
                     onClick={handleNativeShare}
                     aria-label="Share article"
                     title="Share article"
                     className="
-                      inline-flex
-                      items-center
-                      justify-center
-                      h-10
-                      w-10
-                      border
-                      border-black/15
-                      bg-white/30
-                      text-neutral-700
-                      hover:bg-black
-                      hover:text-white
-                      hover:border-black
-                      transition-all
-                      duration-300
-                    "
+          group
+          inline-flex
+          items-center
+          justify-center
+          h-11
+          w-11
+          rounded-full
+          bg-white
+          border
+          border-black/10
+          text-neutral-700
+          shadow-sm
+          hover:shadow-md
+          hover:-translate-y-0.5
+          hover:border-black
+          hover:bg-black
+          hover:text-white
+          transition-all
+          duration-300
+          active:scale-95
+        "
                   >
-                    <Share2 size={15} strokeWidth={1.7} />
+                    <Share2
+                      size={18}
+                      strokeWidth={1.5}
+                      className="transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6"
+                    />
                   </button>
+
                 </div>
               </div>
             </div>
@@ -1173,6 +1146,7 @@ export default function BlogDetailPage({
             className="
               w-full
               lg:w-[30%]
+             
               lg:sticky
               lg:top-[6rem]
               lg:self-start
@@ -1325,9 +1299,11 @@ export default function BlogDetailPage({
                   gap-2
                   mt-6
                   pt-5
+                  mb-6
+                  md:mb-0
                   border-t
                   border-black/[0.08]
-                  text-neutral-500
+                  text-black
                   hover:text-black
                   transition-colors
                   duration-300
@@ -1373,10 +1349,9 @@ export default function BlogDetailPage({
           pointer-events-none
           transition-all
           duration-300
-          ${
-            copied || shareError
-              ? "translate-y-0 opacity-100"
-              : "translate-y-3 opacity-0"
+          ${copied || shareError
+            ? "translate-y-0 opacity-100"
+            : "translate-y-3 opacity-0"
           }
         `}
         aria-live="polite"

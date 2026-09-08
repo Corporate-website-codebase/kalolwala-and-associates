@@ -19,9 +19,9 @@ export default function PublisherMarquee({ links }: PublisherMarqueeProps) {
   const items = [...links, ...links];
 
   return (
-    <div className="mt-16 pt-10 border-t border-white/10">
+    <div className=" pt-10 border-t border-white/10">
       {/* Label */}
-      <span className="block text-xs font-mono text-yellow-400 uppercase tracking-[0.25em] mb-6">
+      <span className="block text-xs font-mono text-black uppercase tracking-[0.25em] mb-6">
         Read article on
       </span>
 
@@ -30,9 +30,9 @@ export default function PublisherMarquee({ links }: PublisherMarqueeProps) {
         className="
           relative w-full overflow-hidden
           before:absolute before:left-0 before:top-0 before:bottom-0 before:w-16 before:z-10
-          before:bg-gradient-to-r before:from-[#050505] before:to-transparent
+          
           after:absolute after:right-0 after:top-0 after:bottom-0 after:w-16 after:z-10
-          after:bg-gradient-to-l after:from-[#050505] after:to-transparent
+          
         "
       >
         {/* Scrolling track */}
@@ -75,9 +75,6 @@ export default function PublisherMarquee({ links }: PublisherMarqueeProps) {
                 alt={link.publisher}
                 className="
                   h-10 w-auto max-w-[160px] object-contain
-                  brightness-75
-                  group-hover:brightness-100 group-hover:grayscale-0
-                  transition-all duration-400
                 "
               />
 

@@ -237,9 +237,7 @@ export default function BlogPaginatedList({
         className="
           w-full
           min-h-screen
-          marginal
           font-noto-sans
-          pt-20
           pb-20
         "
       >
@@ -247,221 +245,188 @@ export default function BlogPaginatedList({
             HEADER
         ====================================================== */}
 
-        <div
+       <div className="relative w-full min-h-[80svh] lg:h-scree overflow-hidden flex flex-col justify-center p-6 sm:p-10 lg:p-16 xl:p-24 bg-black">
+  {/* =================================================
+      1. BACKGROUND IMAGE
+      Updated to inset-0 and h-full to cover the 100vh container completely
+  ================================================== */}
+  <img
+    src="/blogs/blogs-banner.webp"
+    alt="Background"
+    className="absolute inset-0 w-full h-full object-cover object-bottom"
+  />
+
+  {/* =================================================
+      2. DARK OVERLAY
+  ================================================== */}
+  <div
+    className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/65 to-transparent pointer-events-none"
+  />
+
+  {/* =================================================
+      3. LEFT CONTENT (Heading, Intro + Subscription)
+  ================================================== */}
+  <div className="relative z-10 max-w-5xl flex flex-col h-full justify-center">
+    
+    {/* Heading */}
+    <h1
+      className="
+        leading-[1.1]
+        mb-4 lg:mb-6
+        text-white
+        font-light
+        tracking-tight
+        whitespace-pre-line
+      "
+      style={{
+        fontSize: "clamp(32px, 4vw, 64px)",
+      }}
+    >
+      Finding the story in the
+      <br />
+      subtle space between words.
+    </h1>
+
+    {/* Paragraph */}
+    <p
+      className="
+        text-neutral-100
+        whitespace-pre-line
+        max-w-3xl
+        font-light
+      "
+      style={{
+        fontSize: "clamp(14px, 1.2vw, 18px)",
+        lineHeight: "1.6",
+      }}
+    >
+      Explore our latest articles, perspectives and insights across
+      business, communication, reporting and design. From emerging trends
+      and changing business landscapes to ideas shaping corporate
+      communication and stakeholder engagement, our blog brings together
+      thoughtful perspectives designed to help businesses understand what
+      is changing, why it matters and what comes next.
+    </p>
+
+    {/* =================================================
+        4. SUBSCRIPTION MODULE
+    ================================================== */}
+    <div className="mt-12 lg:mt-16 lg:w-4xl md:flex  items-center gap-6">
+      <div className="md:w-1/2">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-100 mb-3">
+          Stay informed
+        </p>
+
+        <h2
           className="
-            flex
-            flex-col
-            lg:flex-row
-            justify-between
-            items-start
-            gap-12
-            pt-[clamp(40px,8vw,80px)]
-            mb-12
+            text-white
+            font-noto-sans
+            font-medium
+            leading-tight
+            tracking-tight
           "
+          style={{
+            fontSize: "clamp(20px, 2vw, 28px)",
+          }}
         >
-          {/* LEFT — HEADING + INTRO */}
+          Subscribe to our
+          <br />
+          latest insights.
+        </h2>
 
-          <div className="max-w-5xl">
-            <h1
-              className="
-                leading-[1.1]
-                mb-6
-                text-black
-                tracking-tight
-                whitespace-pre-line
-              "
-              style={{
-                fontSize: "clamp(32px, 4vw, 56px)",
-              }}
-            >
-              Finding the story in the
-              <br />
-              subtle space between words.
-            </h1>
+        <p
+          className="
+            mt-3
+            text-neutral-100
+            font-light
+            leading-relaxed
+          "
+          style={{
+            fontSize: "clamp(13px, 1vw, 15px)",
+          }}
+        >
+          Get our latest articles, perspectives and insights delivered
+          directly to your inbox.
+        </p>
+      </div>
 
-            <p
-              className="
-                text-neutral-800
-                whitespace-pre-line
-                max-w-5xl
-              "
-              style={{
-                fontSize:
-                  "clamp(14px, 1.2vw, 18px)",
-                lineHeight: "1.6",
-              }}
-            >
-              Explore our latest articles,
-              perspectives and insights across
-              business, communication, reporting and
-              design. From emerging trends and
-              changing business landscapes to ideas
-              shaping corporate communication and
-              stakeholder engagement, our blog brings
-              together thoughtful perspectives designed
-              to help businesses understand what is
-              changing, why it matters and what comes
-              next.
-            </p>
-          </div>
-
-          {/* =================================================
-              RIGHT — SUBSCRIPTION
-          ================================================== */}
-
-          <div
+      <div className="md:w-1/2 md:pr-12 lg:pr-24 mt-8 md:mt-0">
+        <form
+          onSubmit={handleSubscribe}
+          className="flex flex-col gap-3"
+        >
+          <input
+            type="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            placeholder="Enter your email address"
+            disabled={subscriptionStatus === "loading"}
             className="
               w-full
-              lg:w-[340px]
-              xl:w-[380px]
-              shrink-0
-              lg:pt-2
+              h-12
+              px-4
+              bg-white/10
+              backdrop-blur-sm
+              border
+              border-white/20
+              text-white
+              placeholder:text-neutral-400
+              outline-none
+              font-noto-sans
+              transition-colors
+              duration-300
+              focus:border-white/60
+              focus:bg-white/15
+              disabled:opacity-50
+            "
+          />
+
+          <button
+            type="submit"
+            disabled={subscriptionStatus === "loading"}
+            className="
+              w-full
+              h-12
+              px-6
+              bg-white
+              text-black
+              text-[11px]
+              font-medium
+              uppercase
+              cursor-pointer
+              tracking-widest
+              transition-all
+              duration-300
+              hover:bg-neutral-200
+              disabled:opacity-50
+              disabled:cursor-not-allowed
             "
           >
-            <div
-              className="
-                border-l
-                border-black/15
-                pl-6
-                lg:pl-7
-              "
-            >
-              <p
-                className="
-                  font-mono
-                  text-[10px]
-                  uppercase
-                  tracking-[0.2em]
-                  text-neutral-500
-                  mb-3
-                "
-              >
-                Stay informed
-              </p>
-
-              <h2
-                className="
-                  text-black
-                  font-noto-sans
-                  font-medium
-                  leading-tight
-                  tracking-tight
-                "
-                style={{
-                  fontSize:
-                    "clamp(20px, 2vw, 28px)",
-                }}
-              >
-                Subscribe to our
-                <br />
-                latest insights.
-              </h2>
-
-              <p
-                className="
-                  mt-3
-                  text-neutral-700
-                  font-light
-                  leading-relaxed
-                  max-w-sm
-                "
-                style={{
-                  fontSize:
-                    "clamp(13px, 1vw, 15px)",
-                }}
-              >
-                Get our latest articles,
-                perspectives and insights delivered
-                directly to your inbox.
-              </p>
-
-              <form
-                onSubmit={handleSubscribe}
-                className="
-                  mt-6
-                  flex
-                  flex-col
-                  gap-2
-                "
-              >
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(event) =>
-                    setEmail(event.target.value)
-                  }
-                  placeholder="Enter your email address"
-                  disabled={
-                    subscriptionStatus ===
-                    "loading"
-                  }
-                  className="
-                    w-full
-                    h-12
-                    px-4
-                    bg-white/50
-                    border
-                    border-black/15
-                    text-black
-                    placeholder:text-neutral-500
-                    outline-none
-                    font-noto-sans
-                    transition-colors
-                    duration-300
-                    focus:border-black/40
-                    disabled:opacity-50
-                  "
-                />
-
-                <button
-                  type="submit"
-                  disabled={
-                    subscriptionStatus ===
-                    "loading"
-                  }
-                  className="
-                    w-full
-                    h-12
-                    px-6
-                    bg-black
-                    text-white
-                    text-[11px]
-                    font-medium
-                    uppercase
-                    tracking-widest
-                    transition-all
-                    duration-300
-                    hover:bg-neutral-800
-                    disabled:opacity-50
-                    disabled:cursor-not-allowed
-                  "
-                >
-                  {subscriptionStatus ===
-                  "loading"
-                    ? "Subscribing..."
-                    : "Subscribe"}
-                </button>
-              </form>
-
-              {subscriptionMessage && (
-                <p
-                  className={`
-                    mt-3
-                    text-xs
-                    ${
-                      subscriptionStatus ===
-                      "success"
-                        ? "text-neutral-800"
-                        : "text-red-600"
-                    }
-                  `}
-                >
-                  {subscriptionMessage}
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
+            {subscriptionStatus === "loading"
+              ? "Subscribing..."
+              : "Subscribe"}
+          </button>
+        </form>
+        
+        {subscriptionMessage && (
+          <p
+            className={`
+              mt-3
+              text-xs
+              ${
+                subscriptionStatus === "success"
+                  ? "text-emerald-400"
+                  : "text-red-400"
+              }
+            `}
+          >
+            {subscriptionMessage}
+          </p>
+        )}
+      </div>
+    </div>
+  </div>
+</div>
 
         {/* =====================================================
             SCROLL ANCHOR
@@ -476,7 +441,7 @@ export default function BlogPaginatedList({
             BLOG CARDS
         ====================================================== */}
 
-        <div className="min-h-[400px]">
+        <div className="min-h-[400px] marginal">
           <div
             className={`
               grid
@@ -490,10 +455,9 @@ export default function BlogPaginatedList({
               duration-700
               ease-[cubic-bezier(0.25,1,0.5,1)]
 
-              ${
-                isPageChanging || !hasMounted
-                  ? "opacity-0 translate-y-12"
-                  : "opacity-100 translate-y-0"
+              ${isPageChanging || !hasMounted
+                ? "opacity-0 translate-y-12"
+                : "opacity-100 translate-y-0"
               }
             `}
           >
@@ -558,44 +522,39 @@ export default function BlogPaginatedList({
                     ================================================== */}
 
                     {image ? (
-                      <div className="relative w-full px-3 pt-3">
+                      <div className="relative w-full">
                         <div
                           className="
-                            relative
-                            w-full
-                            overflow-hidden
-                            rounded-xl
-                            aspect-[16/9]
-                            bg-neutral-100
-                          "
+      relative
+      w-full
+      overflow-hidden
+      rounded-xl
+      bg-neutral-100
+    "
                         >
                           <img
                             src={image}
                             alt={c.title}
                             className="
-                              absolute
-                              inset-0
-                              w-full
-                              h-full
-                              object-cover
-
-                              transition-transform
-                              duration-700
-                              ease-out
-
-                              group-hover:scale-105
-                            "
+        block
+        w-full
+        h-auto
+        transition-transform
+        duration-700
+        ease-out
+        group-hover:scale-105
+      "
                           />
 
                           <div
                             className="
-                              absolute
-                              inset-0
-                              bg-black/0
-                              group-hover:bg-black/5
-                              transition-colors
-                              duration-500
-                            "
+        absolute
+        inset-0
+        bg-black/0
+        group-hover:bg-black/5
+        transition-colors
+        duration-500
+      "
                           />
                         </div>
                       </div>
@@ -765,7 +724,8 @@ export default function BlogPaginatedList({
           <div
             className={`
               mt-12
-
+             
+              marginal
               flex
               justify-between
               items-center
@@ -778,10 +738,9 @@ export default function BlogPaginatedList({
               transition-opacity
               duration-1000
 
-              ${
-                hasMounted
-                  ? "opacity-100"
-                  : "opacity-0"
+              ${hasMounted
+                ? "opacity-100"
+                : "opacity-0"
               }
             `}
           >

@@ -183,7 +183,7 @@ export const BLOG_DATA: BlogPost[] = [
     url: "https://www.aninews.in/news/business/kalolwala-amp-associates-kampa-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc20260622173735/",
     slug: "ka-partners-with-travanleo-ecodrisil-esg-reporting",
     author: "VMPL",
-    image: "/blogs/ka-partners-with-travanleo-ecodrisil-esg-reporting.webp",
+    image: "/blogs/ka-partners-with-travanleo-ecodrisil-esg-reporting-2.webp",
     publisher: "ANI News",
     publisherLogo: "/blogs/publishers/ani-logo.webp",
     additionalLinks: [
