@@ -21,24 +21,27 @@ export type Publisher =
 
 export interface BlogPost {
   id: string;
+
+  // Identifies where the blog comes from
+  source?: "legacy" | "cms";
+
   title: string;
   metaTitle?: string;
   excerpt: string;
   date: string;
   url: string;
-  /** URL-friendly slug for internal blog posts */
+
   slug?: string;
-  /** Full blog body content (HTML string) */
   content?: string;
-  /** Hero image path */
+
   image?: string;
-  /** Author name */
+  imageAlt?: string;
+
   author?: string;
-  /** Original publisher platform */
+
   publisher?: Publisher;
-  /** Publisher logo image path */
   publisherLogo?: string;
-  /** Additional links for multi-publisher articles */
+
   additionalLinks?: Array<{
     url: string;
     publisher: Publisher;
@@ -50,6 +53,7 @@ export const BLOG_DATA: BlogPost[] = [
   // ── c12 ─────────────────────────────────────────────────
   {
     id: "c12",
+    source: "legacy",
     title: "From Compliance to Credibility: Why Assurance Is Reshaping ESG Reporting",
     metaTitle: "Compliance to Credibility: Assurance Is Reshaping ESG Reporting",
     excerpt:
@@ -73,6 +77,7 @@ export const BLOG_DATA: BlogPost[] = [
   // ── c11 ─────────────────────────────────────────────────
   {
     id: "c11",
+    source: "legacy",
     title: "BRSR's Value Chain Moment: Is Your Supply Chain Ready to Be Disclosed?",
     metaTitle: "BRSR Value Chain: Is Your Supply Chain Ready for Disclosure?",
     excerpt:
@@ -120,6 +125,7 @@ export const BLOG_DATA: BlogPost[] = [
 
   {
     id: "c10",
+    source: "legacy",
     title: "The Annual Report Is No Longer a Rear-View Mirror",
     metaTitle: "",
     excerpt:
@@ -167,6 +173,7 @@ export const BLOG_DATA: BlogPost[] = [
 
   {
     id: "c9", // Assigned a new ID to sit at the top of the list
+    source: "legacy",
     title:
       "Kalolwala & Associates (K&A) joins hands with Travanleo to leverage Ecodrisil to advance ESG reporting for India Inc.",
       metaTitle: "K&A and Travanleo Partner to Advance ESG Reporting in India.",
@@ -300,6 +307,7 @@ export const BLOG_DATA: BlogPost[] = [
   // ── c8 ──────────────────────────────────────────────────
   {
     id: "c8",
+    source: "legacy",
     title: "Fault Lines in West Asia: A Wake-up Call for Global Supply Chains",
     metaTitle: "Fault Lines in West Asia: Risks for Global Supply Chains 2026",
     excerpt:
@@ -343,6 +351,7 @@ export const BLOG_DATA: BlogPost[] = [
   // ── c0 ──────────────────────────────────────────────────
   {
     id: "c0",
+    source: "legacy",
     title: 'Why Stakeholder Comms is the new "Marketing."',
     metaTitle: "",
     excerpt:
@@ -384,6 +393,7 @@ export const BLOG_DATA: BlogPost[] = [
   // ── c1 ──────────────────────────────────────────────────
   {
     id: "c1",
+    source: "legacy",
     title: "IFRS S2 Amendments 2025: ISSB Climate Disclosure Reset",
     metaTitle: "IFRS S2 Amendments 2025: Key ISSB Climate Disclosure Changes",
     excerpt:
@@ -463,6 +473,7 @@ export const BLOG_DATA: BlogPost[] = [
   // ── c2 ──────────────────────────────────────────────────
   {
     id: "c2",
+    source: "legacy",
     title: "Bond Yields in India: What It Means for Banks",
     metaTitle: "",
     excerpt:
@@ -505,6 +516,7 @@ export const BLOG_DATA: BlogPost[] = [
   // ── c3 ──────────────────────────────────────────────────
   {
     id: "c3",
+    source: "legacy",
     title: "FMCG Innovation-Led Marketing in the Digital Era",
     metaTitle: "",
     excerpt:
@@ -573,6 +585,7 @@ export const BLOG_DATA: BlogPost[] = [
   // ── c4 ──────────────────────────────────────────────────
   {
     id: "c4",
+    source: "legacy",
     title: "AI vs Humans in Client Relationship Management",
     metaTitle: "",
     excerpt:
@@ -612,6 +625,7 @@ export const BLOG_DATA: BlogPost[] = [
   // ── c5 ──────────────────────────────────────────────────
   {
     id: "c5",
+    source: "legacy",
     title: "Balance or AI to Build Client Relationship",
     metaTitle: "",
     excerpt:
@@ -673,6 +687,7 @@ export const BLOG_DATA: BlogPost[] = [
   // ── c6 ──────────────────────────────────────────────────
   {
     id: "c6",
+    source: "legacy",
     title: "BRSR Updates 2025: Key Changes for Listed Entities",
     metaTitle: "",
     excerpt:
@@ -704,6 +719,7 @@ export const BLOG_DATA: BlogPost[] = [
   // ── c7 ──────────────────────────────────────────────────
   {
     id: "c7",
+    source: "legacy",
     title: "K & A: Unleashing The Power of Stakeholder Reporting",
     metaTitle: "",
     excerpt: "Making numbers speak",
