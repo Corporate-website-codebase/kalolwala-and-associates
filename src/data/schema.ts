@@ -13,7 +13,7 @@ export const organizationGraphSchema = {
             '@id': `${BASE_URL}/#organization`,
             name: 'Kalolwala & Associates',
             alternateName: ['K&A', 'Kalolwala and Associates'],
-            legalName: 'Kalolwala and Associates Private Limited',
+            legalName: 'Kalolwala & Associates Pvt Limited',
             url: `${BASE_URL}/`,
             logo: {
                 '@type': 'ImageObject',
@@ -27,6 +27,7 @@ export const organizationGraphSchema = {
             description:
                 'Kalolwala & Associates delivers annual reports, BRSR, ESG reporting, branding, investor communications, and digital solutions for businesses across India.',
             foundingDate: '2015',
+            founder: { '@id': `${BASE_URL}/about/#person-founder` },
             numberOfEmployees: {
                 '@type': 'QuantitativeValue',
                 value: '35',
@@ -164,21 +165,21 @@ const SERVICE_SCHEMAS: Record<string, any> = {
         '@type': 'Service',
         '@id': `${BASE_URL}/offerings/integrated-annual-reporting/#service`,
         name: 'Integrated Annual Reporting',
-        alternateName: ['Annual report design', 'Integrated report design', 'Annual report agency'],
-        serviceType: 'Annual and integrated report development',
+        alternateName: ['Annual report design', 'Integrated reporting', 'Annual report agency'],
+        serviceType: 'Annual report design and integrated reporting',
         category: 'Corporate reporting',
         url: `${BASE_URL}/offerings/integrated-annual-reporting`,
         description:
-            'Integrated Annual Reporting combines financial clarity with strategic narrative, enabling organisations to articulate value creation across financial, environmental, social, and governance dimensions.',
+            'Integrated Annual Reporting helps organizations present financial and non-financial performance in a single, strategic report. Kalolwala combines integrated thinking, ESG insights, compelling content, and impactful design to create reports that communicate long-term value creation, strengthen stakeholder confidence, and align with globally recognized reporting frameworks.',
         provider: { '@id': `${BASE_URL}/#organization` },
         areaServed: { '@type': 'Country', name: 'India' },
         audience: {
             '@type': 'BusinessAudience',
-            name: 'Board of directors, investor relations, and corporate communications teams at listed Indian companies',
+            name: 'Listed companies, PSUs, banks, NBFCs and NGOs in India',
         },
         hasOfferCatalog: {
             '@type': 'OfferCatalog',
-            name: 'Annual and integrated reporting deliverables',
+            name: 'Integrated annual reporting deliverables',
             itemListElement: [
                 {
                     '@type': 'Offer',
@@ -217,7 +218,7 @@ const SERVICE_SCHEMAS: Record<string, any> = {
         category: 'Corporate reporting',
         url: `${BASE_URL}/offerings/sustainability-esg-reporting`,
         description:
-            'Sustainability & ESG Reporting helps organizations measure, manage, and communicate their environmental, social, and governance performance with transparency.',
+            'Sustainability & ESG Reporting helps organizations measure, manage, and communicate their environmental, social, and governance performance with transparency. Kalolwala develops ESG and sustainability reports aligned with global frameworks, combining strategic advisory, accurate disclosures, engaging content, and impactful design to strengthen stakeholder trust, support compliance, and showcase long-term value creation.',
         provider: { '@id': `${BASE_URL}/#organization` },
         areaServed: { '@type': 'Country', name: 'India' },
         audience: {
@@ -237,6 +238,16 @@ const SERVICE_SCHEMAS: Record<string, any> = {
                 },
             ],
         },
+        offers: {
+            '@type': 'Offer',
+            url: `${BASE_URL}/contact`,
+            availability: 'https://schema.org/InStock',
+            priceSpecification: {
+                '@type': 'PriceSpecification',
+                priceCurrency: 'INR',
+                description: 'Project-based. Quoted against brief.',
+            },
+        },
         mainEntityOfPage: {
             '@id': `${BASE_URL}/offerings/sustainability-esg-reporting/#webpage`,
         },
@@ -255,7 +266,7 @@ const SERVICE_SCHEMAS: Record<string, any> = {
         category: 'Investor communication',
         url: `${BASE_URL}/offerings/investor-corporate-presentations`,
         description:
-            'Investor & Corporate Presentations enable businesses to communicate financial performance, growth strategy, and corporate vision with clarity and impact.',
+            'Investor & Corporate Presentations enable businesses to communicate financial performance, growth strategy, and corporate vision with clarity and impact. Kalolwala creates professionally designed, data-driven presentations that simplify complex information, strengthen investor confidence, and deliver compelling narratives for board meetings, investor relations, fundraising, and corporate communications.',
         provider: { '@id': `${BASE_URL}/#organization` },
         areaServed: { '@type': 'Country', name: 'India' },
         audience: {
@@ -275,6 +286,16 @@ const SERVICE_SCHEMAS: Record<string, any> = {
                 },
             ],
         },
+        offers: {
+            '@type': 'Offer',
+            url: `${BASE_URL}/contact`,
+            availability: 'https://schema.org/InStock',
+            priceSpecification: {
+                '@type': 'PriceSpecification',
+                priceCurrency: 'INR',
+                description: 'Project-based. Quoted against brief.',
+            },
+        },
         mainEntityOfPage: {
             '@id': `${BASE_URL}/offerings/investor-corporate-presentations/#webpage`,
         },
@@ -289,7 +310,7 @@ const SERVICE_SCHEMAS: Record<string, any> = {
         category: 'Brand and design',
         url: `${BASE_URL}/offerings/corporate-branding-design`,
         description:
-            'Corporate Branding & Design helps businesses build a strong and consistent brand identity through strategic communication and creative design.',
+            'Corporate Branding & Design helps businesses build a strong and consistent brand identity through strategic communication and creative design. Kalolwala delivers impactful branding solutions, including brand identity, visual communication, corporate collaterals, and marketing assets that enhance brand recognition, strengthen stakeholder engagement, and create a lasting impression across every touchpoint.',
         provider: { '@id': `${BASE_URL}/#organization` },
         areaServed: { '@type': 'Country', name: 'India' },
         audience: {
@@ -309,6 +330,16 @@ const SERVICE_SCHEMAS: Record<string, any> = {
                 },
             ],
         },
+        offers: {
+            '@type': 'Offer',
+            url: `${BASE_URL}/contact`,
+            availability: 'https://schema.org/InStock',
+            priceSpecification: {
+                '@type': 'PriceSpecification',
+                priceCurrency: 'INR',
+                description: 'Project-based. Quoted against brief.',
+            },
+        },
         mainEntityOfPage: {
             '@id': `${BASE_URL}/offerings/corporate-branding-design/#webpage`,
         },
@@ -327,7 +358,7 @@ const SERVICE_SCHEMAS: Record<string, any> = {
         category: 'Digital communication',
         url: `${BASE_URL}/offerings/corporate-websites`,
         description:
-            'Corporate Websites empowers businesses with secure, scalable, and high-performance digital solutions.',
+            'Corporate Websites empowers businesses with secure, scalable, and high-performance digital solutions. Kalolwala designs and develops custom corporate websites and microsites with intuitive UI/UX, robust frontend and backend architecture, enterprise-grade security, cloud deployment, and ongoing support to deliver seamless digital experiences and strengthen brand presence.',
         provider: { '@id': `${BASE_URL}/#organization` },
         areaServed: { '@type': 'Country', name: 'India' },
         audience: {
@@ -347,6 +378,16 @@ const SERVICE_SCHEMAS: Record<string, any> = {
                 },
             ],
         },
+        offers: {
+            '@type': 'Offer',
+            url: `${BASE_URL}/contact`,
+            availability: 'https://schema.org/InStock',
+            priceSpecification: {
+                '@type': 'PriceSpecification',
+                priceCurrency: 'INR',
+                description: 'Project-based. Quoted against brief.',
+            },
+        },
         mainEntityOfPage: {
             '@id': `${BASE_URL}/offerings/corporate-websites/#webpage`,
         },
@@ -361,7 +402,7 @@ const SERVICE_SCHEMAS: Record<string, any> = {
         category: 'Video and film',
         url: `${BASE_URL}/offerings/corporate-films-video-reports`,
         description:
-            'Corporate Films & Video Reports help organizations transform business stories, corporate milestones, and performance updates into engaging visual experiences.',
+            'Corporate Films & Video Reports help organizations transform business stories, corporate milestones, and performance updates into engaging visual experiences. Kalolwala produces high-quality corporate films and video reports that combine strategic storytelling, creative production, and impactful visuals to strengthen brand communication, enhance stakeholder engagement, and deliver compelling messages across digital and corporate platforms.',
         provider: { '@id': `${BASE_URL}/#organization` },
         areaServed: { '@type': 'Country', name: 'India' },
         audience: {
@@ -380,6 +421,16 @@ const SERVICE_SCHEMAS: Record<string, any> = {
                     },
                 },
             ],
+        },
+        offers: {
+            '@type': 'Offer',
+            url: `${BASE_URL}/contact`,
+            availability: 'https://schema.org/InStock',
+            priceSpecification: {
+                '@type': 'PriceSpecification',
+                priceCurrency: 'INR',
+                description: 'Project-based. Quoted against brief.',
+            },
         },
         mainEntityOfPage: {
             '@id': `${BASE_URL}/offerings/corporate-films-video-reports/#webpage`,
