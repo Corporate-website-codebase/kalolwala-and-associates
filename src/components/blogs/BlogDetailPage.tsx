@@ -5,6 +5,7 @@ import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLenis } from "lenis/react";
+import Script from "next/script";
 import {
   ArrowLeft,
   ArrowUpRight,
@@ -359,6 +360,10 @@ export default function BlogDetailPage({
         font-noto-sans
       "
     >
+    <Script
+      src="https://news.google.com/swg/js/v1/publisher.js"
+      strategy="afterInteractive"
+    />
       {/* =====================================================
           TOP AREA
       ====================================================== */}
@@ -379,61 +384,70 @@ export default function BlogDetailPage({
         order-2 on mobile (bottom), order-1 on desktop (left)
     ================================================== */}
     <div className="min-w-0 order-2 lg:order-1">
-      <Link
-        ref={backRef}
-        href="/blogs#articles"
-        className="
-          invisible
-          inline-flex
-          items-center
-          gap-2
-          pt-2
-          lg:pt-28
-          lg:sm:pt-36
-          pb-8
-          text-neutral-600
-          hover:text-black
-          transition-colors
-          duration-300
-          group
-        "
-      >
-        <ArrowLeft
-          size={18}
-          className="
-            transition-transform
-            duration-300
-            group-hover:-translate-x-1
-          "
-        />
+  <Link
+    ref={backRef}
+    href="/blogs#articles"
+    className="
+      invisible
+      inline-flex
+      items-center
+      gap-2
+      pt-2
+      lg:pt-28
+      lg:sm:pt-36
+      pb-8
+      text-neutral-600
+      hover:text-black
+      transition-colors
+      duration-300
+      group
+    "
+  >
+    <ArrowLeft
+      size={18}
+      className="
+        transition-transform
+        duration-300
+        group-hover:-translate-x-1
+      "
+    />
 
-        <span
-          className="
-            text-sm
-            font-mono
-            uppercase
-            tracking-widest
-          "
-        >
-          Back
-        </span>
-      </Link>
+    <span
+      className="
+        text-sm
+        font-mono
+        uppercase
+        tracking-widest
+      "
+    >
+      Back
+    </span>
+  </Link>
 
-      <h1
-        ref={titleRef}
-        className="
-          invisible
-          text-black
-          font-light
-          text-[clamp(28px,5vw,48px)]
-          leading-[1.1]
-          tracking-tight
-          max-w-[900px]
-        "
-      >
-        {post.title}
-      </h1>
-    </div>
+  <h1
+    ref={titleRef}
+    className="
+      invisible
+      text-black
+      font-light
+      text-[clamp(28px,5vw,48px)]
+      leading-[1.1]
+      tracking-tight
+      max-w-[900px]
+    "
+  >
+    {post.title}
+  </h1>
+
+  {/* Google Preferred Source Badge */}
+  <div className="mt-3 -mb-2 sm:-mb-3 md:-mb-4 flex justify-end leading-none">
+  <div
+    google-add-preferred-source-btn=""
+    data-theme="light"
+    data-lang="en"
+  />
+</div>
+</div>
 
     {/* =================================================
         RIGHT — SUBSCRIPTION
@@ -844,28 +858,45 @@ export default function BlogDetailPage({
             ================================================== */}
 
             <div className="mt-12 pt-8 border-t border-black/10">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 p-6 sm:p-8 bg-neutral-50/60 backdrop-blur-sm rounded-3xl border border-black/5 hover:border-black/15 transition-colors duration-500">
+  <div
+    className="
+      grid
+      grid-cols-1
+      lg:grid-cols-[minmax(0,1fr)_auto]
+      items-center
+      gap-6
+      p-6
+      sm:p-8
+      bg-neutral-50/60
+      backdrop-blur-sm
+      rounded-3xl
+      border
+      border-black/5
+      hover:border-black/15
+      transition-colors
+      duration-500
+    "
+  >
+    {/* Left — Share Label */}
+    <div className="flex flex-col gap-1.5 justify-self-start">
+      <span className="text-lg font-mono font-semibold text-black">
+        Share this article
+      </span>
 
-                {/* Left Side — Share Label */}
-                <div className="flex flex-col gap-1.5">
-                  <span className="text-lg font-mono font-semibold text-black">
-                    Share this article
-                  </span>
-                  <span className="text-sm text-neutral-800 font-ligh">
-                    Spread the word and inspire your network.
-                  </span>
-                </div>
+      <span className="text-sm text-neutral-800 font-light">
+        Spread the word and inspire your network.
+      </span>
+    </div>
 
-                {/* Right Side — Share Buttons */}
-                <div className="flex items-center gap-3">
-
-                  {/* Copy Link (Pill Shape) */}
-                  <button
-                    type="button"
-                    onClick={handleCopyLink}
-                    aria-label="Copy article link"
-                    title="Copy link"
-                    className="
+    {/* Right — Share Buttons */}
+    <div className="flex items-center justify-start lg:justify-end gap-3">
+      {/* Copy Link */}
+      <button
+        type="button"
+        onClick={handleCopyLink}
+        aria-label="Copy article link"
+        title="Copy link"
+        className="
           group
           relative
           inline-flex
@@ -889,24 +920,25 @@ export default function BlogDetailPage({
           duration-300
           active:scale-95
         "
-                  >
-                    <Copy
-                      size={16}
-                      strokeWidth={1.5}
-                      className="transition-transform duration-300 group-hover:scale-110"
-                    />
-                    <span className="hidden sm:inline text-[10px] font-mono font-medium uppercase tracking-widest mt-0.5">
-                      Copy link
-                    </span>
-                  </button>
+      >
+        <Copy
+          size={16}
+          strokeWidth={1.5}
+          className="transition-transform duration-300 group-hover:scale-110"
+        />
 
-                  {/* LinkedIn (Circle) */}
-                  <button
-                    type="button"
-                    onClick={handleLinkedInShare}
-                    aria-label="Share on LinkedIn"
-                    title="Share on LinkedIn"
-                    className="
+        <span className="hidden sm:inline text-[10px] font-mono font-medium uppercase tracking-widest mt-0.5">
+          Copy link
+        </span>
+      </button>
+
+      {/* LinkedIn */}
+      <button
+        type="button"
+        onClick={handleLinkedInShare}
+        aria-label="Share on LinkedIn"
+        title="Share on LinkedIn"
+        className="
           group
           inline-flex
           items-center
@@ -928,21 +960,21 @@ export default function BlogDetailPage({
           duration-300
           active:scale-95
         "
-                  >
-                    <Linkedin
-                      size={18}
-                      strokeWidth={1.5}
-                      className="transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6"
-                    />
-                  </button>
+      >
+        <Linkedin
+          size={18}
+          strokeWidth={1.5}
+          className="transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6"
+        />
+      </button>
 
-                  {/* Native Share (Circle) */}
-                  <button
-                    type="button"
-                    onClick={handleNativeShare}
-                    aria-label="Share article"
-                    title="Share article"
-                    className="
+      {/* Native Share */}
+      <button
+        type="button"
+        onClick={handleNativeShare}
+        aria-label="Share article"
+        title="Share article"
+        className="
           group
           inline-flex
           items-center
@@ -964,17 +996,16 @@ export default function BlogDetailPage({
           duration-300
           active:scale-95
         "
-                  >
-                    <Share2
-                      size={18}
-                      strokeWidth={1.5}
-                      className="transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6"
-                    />
-                  </button>
-
-                </div>
-              </div>
-            </div>
+      >
+        <Share2
+          size={18}
+          strokeWidth={1.5}
+          className="transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6"
+        />
+      </button>
+    </div>
+  </div>
+</div>
 
             {/* =================================================
                 PUBLISHER CTA
