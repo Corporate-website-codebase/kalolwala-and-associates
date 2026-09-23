@@ -241,3 +241,34 @@ body {
 .animate-marquee {
   animation: publisher-marquee 40s linear infinite;
 }
+
+/* Prevent Chrome / Safari / Edge browser autofill from altering input background & text color */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+input:autofill {
+  -webkit-box-shadow: 0 0 0 1000px #1c1c1c inset !important;
+  box-shadow: 0 0 0 1000px #1c1c1c inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  caret-color: #ffffff !important;
+  transition: background-color 50000s ease-in-out 0s;
+}
+
+/* X-axis shake / vibration animation for input validation errors */
+@keyframes shakeX {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  15%, 45%, 75% {
+    transform: translateX(-5px);
+  }
+  30%, 60%, 90% {
+    transform: translateX(5px);
+  }
+}
+
+.animate-shake-x {
+  animation: shakeX 0.4s ease-in-out;
+}
+

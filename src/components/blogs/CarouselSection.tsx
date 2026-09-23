@@ -51,7 +51,10 @@ export default function BlogPaginatedList({
         'idle' | 'loading' | 'success' | 'error'
     >('idle')
     const [subscriptionMessage, setSubscriptionMessage] = useState('')
+    const [hasError, setHasError] = useState(false)
+    const [isShaking, setIsShaking] = useState(false)
 
+    const inputRef = useRef<HTMLInputElement>(null)
     const listTopRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
@@ -122,18 +125,46 @@ export default function BlogPaginatedList({
         }, 400)
     }
 
+    const isEmailFormatted = useMemo(() => {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
+    }, [email])
+
+    const isReady = isEmailFormatted && subscriptionStatus !== 'loading'
+
+    const triggerError = () => {
+        setHasError(true)
+        setEmail('')
+        setIsShaking(false)
+        setTimeout(() => setIsShaking(true), 10)
+        setTimeout(() => setIsShaking(false), 450)
+        if (inputRef.current) {
+            inputRef.current.focus()
+        }
+    }
+
+    const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setEmail(event.target.value)
+        if (hasError) {
+            setHasError(false)
+        }
+        if (subscriptionMessage && subscriptionStatus === 'error') {
+            setSubscriptionMessage('')
+            setSubscriptionStatus('idle')
+        }
+    }
+
     // Handle newsletter subscription requests
     const handleSubscribe = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
-        if (!email.trim()) {
-            setSubscriptionStatus('error')
-            setSubscriptionMessage('Please enter your email address.')
+        if (!isEmailFormatted) {
+            triggerError()
             return
         }
 
         setSubscriptionStatus('loading')
         setSubscriptionMessage('')
+        setHasError(false)
 
         try {
             const response = await fetch('/api/blog/subscribe', {
@@ -158,14 +189,15 @@ export default function BlogPaginatedList({
         } catch (error) {
             setSubscriptionStatus('error')
             setSubscriptionMessage(error instanceof Error ? error.message : 'Something went wrong.')
+            triggerError()
         }
     }
 
     return (
         <section id="articles" className="w-full bg-[#d4d4d4] text-black font-noto-sans">
-            <div className="w-full min-h-screen font-noto-sans pb-20">
+            <div className="w-full min-h-screen font-noto-sans ">
                 {/* Hero header banner */}
-                <div className="relative w-full min-h-[80svh] lg:h-screen overflow-hidden flex flex-col justify-center p-6 sm:p-10 lg:p-16 xl:p-24 bg-black">
+                <div className="relative w-full min-h-[80svh] xl:h overflow-hidden flex flex-col justify-center p-6 sm:p-10 lg:p-16 xl:p-24 bg-black">
                     {/* Background hero image */}
                     <Image
                         src="/blogs/blogs-banner.webp"
@@ -205,9 +237,9 @@ export default function BlogPaginatedList({
                         </p>
 
                         {/* Newsletter subscription module */}
-                        <div className="mt-12 lg:mt-16 lg:w-4xl md:flex items-center gap-6">
+                        <div className="mt-12 lg:mt-16 lg:w-4xl flex flex-col gap-6">
                             <div className="md:w-1/2">
-                                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-100 mb-3">
+                                <p className="font-mono text-xs uppercase tracking-[0.2em] text-neutral-100 mb-3">
                                     Stay informed
                                 </p>
 
@@ -215,9 +247,7 @@ export default function BlogPaginatedList({
                                     className="text-white font-noto-sans font-medium leading-tight tracking-tight"
                                     style={{ fontSize: 'clamp(20px, 2vw, 28px)' }}
                                 >
-                                    Subscribe to our
-                                    <br />
-                                    latest insights.
+                                    Subscribe to our latest insights.
                                 </h2>
 
                                 <p
@@ -229,25 +259,55 @@ export default function BlogPaginatedList({
                                 </p>
                             </div>
 
-                            <div className="md:w-1/2 md:pr-12 lg:pr-24 mt-8 md:mt-0">
-                                <form onSubmit={handleSubscribe} className="flex flex-col gap-3">
+                            <div className="mt-8 md:mt-0 w-full">
+                                <form
+                                    onSubmit={handleSubscribe}
+                                    className="flex flex-col sm:flex-row gap-3 w-full"
+                                >
                                     <input
+                                        ref={inputRef}
                                         type="email"
                                         value={email}
-                                        onChange={(event) => setEmail(event.target.value)}
-                                        placeholder="Enter your email address"
+                                        onChange={handleEmailChange}
+                                        placeholder={
+                                            hasError
+                                                ? 'Please enter your email address'
+                                                : 'Enter your email address'
+                                        }
                                         disabled={subscriptionStatus === 'loading'}
-                                        className="w-full h-12 px-4 bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder:text-neutral-400 outline-none font-noto-sans transition-colors duration-300 focus:border-white/60 focus:bg-white/15 disabled:opacity-50"
+                                        style={{ colorScheme: 'dark' }}
+                                        className={`w-full sm:max-w-sm h-12 px-4 bg-white/10 backdrop-blur-sm text-white outline-none font-noto-sans transition-all duration-300 disabled:opacity-50 ${
+                                            isShaking ? 'animate-shake-x' : ''
+                                        } ${
+                                            hasError
+                                                ? 'border border-red-500 placeholder:text-red-400 focus:border-red-400 focus:bg-white/15'
+                                                : 'border border-white/20 placeholder:text-neutral-400 focus:border-white/60 focus:bg-white/15'
+                                        }`}
                                     />
 
                                     <button
                                         type="submit"
                                         disabled={subscriptionStatus === 'loading'}
-                                        className="w-full h-12 px-6 bg-white text-black text-[11px] font-medium uppercase cursor-pointer tracking-widest transition-all duration-300 hover:bg-neutral-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className={`group relative w-full sm:w-fit h-12 px-7 bg-white text-black uppercase overflow-hidden transition-all duration-300 border flex items-center justify-center shrink-0 ${
+                                            isReady
+                                                ? 'opacity-100 cursor-pointer hover:border-[#f5c518] border-transparent'
+                                                : 'opacity-40 cursor-not-allowed border-transparent'
+                                        }`}
                                     >
-                                        {subscriptionStatus === 'loading'
-                                            ? 'Subscribing...'
-                                            : 'Subscribe'}
+                                        {/* Slide-up background fill on hover (matching not-found page effect) */}
+                                        {isReady && (
+                                            <div className="absolute inset-0 bg-[#f5c518] translate-y-full transition-transform duration-500 ease-out group-hover:translate-y-0" />
+                                        )}
+
+                                        <span
+                                            className={`relative z-10 transition-colors duration-500 ${
+                                                isReady ? 'group-hover:text-black' : ''
+                                            }`}
+                                        >
+                                            {subscriptionStatus === 'loading'
+                                                ? 'Subscribing...'
+                                                : 'Subscribe'}
+                                        </span>
                                     </button>
                                 </form>
 
@@ -271,9 +331,9 @@ export default function BlogPaginatedList({
                 <div ref={listTopRef} className="scroll-mt-32" />
 
                 {/* Blog post cards grid */}
-                <div className="min-h-[400px] marginal">
+                <div className="min-h-[400px] marginal ">
                     <div
-                        className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+                        className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-6 lg:gap-8 2xl:gap-5 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${
                             isPageChanging || !hasMounted
                                 ? 'opacity-0 translate-y-12'
                                 : 'opacity-100 translate-y-0'
@@ -288,7 +348,7 @@ export default function BlogPaginatedList({
                 {/* Pagination navigation */}
                 {totalPages > 1 && (
                     <div
-                        className={`mt-12 marginal flex justify-between items-center border-t border-black/15 pt-8 transition-opacity duration-1000 ${
+                        className={`mt-12 marginal flex justify-center items-center gap-8 sm:gap-12 border-t border-black/15 pt-8 transition-opacity duration-1000 ${
                             hasMounted ? 'opacity-100' : 'opacity-0'
                         }`}
                     >
