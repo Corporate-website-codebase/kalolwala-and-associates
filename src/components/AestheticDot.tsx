@@ -3,7 +3,15 @@
 import { useRef, useEffect } from "react";
 import gsap from "gsap";
 
-export default function AestheticDot() {
+interface AestheticDotProps {
+  color?: string;
+  className?: string;
+}
+
+export default function AestheticDot({
+  color = "#FACC15",
+  className = "",
+}: AestheticDotProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
 
@@ -39,7 +47,7 @@ export default function AestheticDot() {
       });
 
       // Set initial state: Solid Square Path, Container is Rounded (Circle)
-      gsap.set(path, { attr: { d: shapeSquare }, fill: "#FACC15", stroke: "none" });
+      gsap.set(path, { attr: { d: shapeSquare }, fill: color, stroke: "none" });
       gsap.set(container, { borderRadius: "50%", rotation: 0 });
 
       tl
@@ -64,7 +72,7 @@ export default function AestheticDot() {
         .to(path, {
           attr: { d: shapeHex }, // Morph points to hexagon
           fill: "transparent",   // Remove solid fill
-          stroke: "#FACC15",     // Add yellow border
+          stroke: color,         // Add border with configured color
           strokeWidth: 1,        // Set border thickness
           rotation: 180,         // Spin while morphing
           transformOrigin: "center",
@@ -75,11 +83,11 @@ export default function AestheticDot() {
         .to({}, { duration: 0.5 })
 
         // PHASE 4: Hexagon -> Solid Circle (Reset)
-        // We morph path back to Square, swap Fill back to Yellow, 
+        // We morph path back to Square, swap Fill back to configured color, 
         // and round the Container corners simultaneously.
         .to(path, {
           attr: { d: shapeSquare }, // Back to full block
-          fill: "#FACC15",
+          fill: color,
           stroke: "transparent",
           strokeWidth: 0,
           rotation: 360, // Finish rotation
@@ -94,14 +102,14 @@ export default function AestheticDot() {
     }, containerRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [color]);
 
   return (
     // CONTAINER: 10x10px
     // Acts as the mask for the Circle phase
     <div 
       ref={containerRef}
-      className="w-[10px] h-[10px] overflow-hidden flex items-center justify-center relative"
+      className={`w-[10px] h-[10px] overflow-hidden flex items-center justify-center relative ${className}`.trim()}
       style={{ willChange: "transform, borderRadius" }}
     >
       {/* SVG: Handles the complex shapes (Hexagon, Line) */}

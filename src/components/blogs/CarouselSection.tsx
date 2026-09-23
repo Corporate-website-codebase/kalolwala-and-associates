@@ -3,10 +3,20 @@
 import { BLOG_DATA, type BlogPost } from '@/data/blogs'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useMemo, useRef, useState, useSyncExternalStore } from 'react'
 import BlogCard from './BlogCard'
 
 const ITEMS_PER_PAGE = 6
+
+const emptySubscribe = () => () => {}
+
+function useHasMounted() {
+    return useSyncExternalStore(
+        emptySubscribe,
+        () => true,
+        () => false
+    )
+}
 
 type WordPressPost = {
     id: number
@@ -42,9 +52,11 @@ export default function BlogPaginatedList({
     cards?: BlogPost[]
     wordpressPosts?: WordPressPost[]
 }) {
+    const hasMounted = useHasMounted()
     const [currentPage, setCurrentPage] = useState(1)
+    const [prevPage, setPrevPage] = useState(currentPage)
+    const [pageInputValue, setPageInputValue] = useState('01')
     const [isPageChanging, setIsPageChanging] = useState(false)
-    const [hasMounted, setHasMounted] = useState(false)
 
     const [email, setEmail] = useState('')
     const [subscriptionStatus, setSubscriptionStatus] = useState<
@@ -57,9 +69,11 @@ export default function BlogPaginatedList({
     const inputRef = useRef<HTMLInputElement>(null)
     const listTopRef = useRef<HTMLDivElement>(null)
 
-    useEffect(() => {
-        setHasMounted(true)
-    }, [])
+    // Sync input value when page changes without triggering useEffect setState cascading renders
+    if (prevPage !== currentPage) {
+        setPrevPage(currentPage)
+        setPageInputValue(String(currentPage).padStart(2, '0'))
+    }
 
     // Normalize WordPress posts into our local BlogPost format and sort everything newest first
     const sortedCards = useMemo(() => {
@@ -123,6 +137,21 @@ export default function BlogPaginatedList({
                 setIsPageChanging(false)
             }, 100)
         }, 400)
+    }
+
+    const handlePageInputSubmit = (e?: React.FormEvent) => {
+        if (e) {
+            e.preventDefault()
+        }
+        const targetPage = parseInt(pageInputValue, 10)
+        if (!isNaN(targetPage) && targetPage >= 1 && targetPage <= totalPages) {
+            if (targetPage !== currentPage) {
+                handlePageChange(targetPage)
+            }
+            setPageInputValue(String(targetPage).padStart(2, '0'))
+        } else {
+            setPageInputValue(String(currentPage).padStart(2, '0'))
+        }
     }
 
     const isEmailFormatted = useMemo(() => {
@@ -208,7 +237,7 @@ export default function BlogPaginatedList({
                     />
 
                     {/* Gradient overlay to keep foreground text legible */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/65 to-transparent pointer-events-none" />
+                    <div className="absolute inset-0 bg-linear-to-r from-black/95 via-black/65 to-transparent pointer-events-none" />
 
                     {/* Hero copy and subscription form */}
                     <div className="relative z-10 max-w-5xl flex flex-col h-full justify-center">
@@ -237,7 +266,7 @@ export default function BlogPaginatedList({
                         </p>
 
                         {/* Newsletter subscription module */}
-                        <div className="mt-12 lg:mt-16 lg:w-4xl flex flex-col gap-6">
+                        <div className="mt-8 lg:mt-16 lg:w-4xl flex flex-col gap-6">
                             <div className="md:w-1/2">
                                 <p className="font-mono text-xs uppercase tracking-[0.2em] text-neutral-100 mb-3">
                                     Stay informed
@@ -259,7 +288,7 @@ export default function BlogPaginatedList({
                                 </p>
                             </div>
 
-                            <div className="mt-8 md:mt-0 w-full">
+                            <div className="mt-2 md:mt-0 w-full">
                                 <form
                                     onSubmit={handleSubscribe}
                                     className="flex flex-col sm:flex-row gap-3 w-full"
@@ -328,12 +357,12 @@ export default function BlogPaginatedList({
                 </div>
 
                 {/* Scroll target for pagination */}
-                <div ref={listTopRef} className="scroll-mt-32" />
+                <div ref={listTopRef} className="scroll-mt-24" />
 
                 {/* Blog post cards grid */}
-                <div className="min-h-[400px] marginal ">
+                <div className="min-h-100 marginal ">
                     <div
-                        className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-6 lg:gap-8 2xl:gap-5 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+                        className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pt-2 lg:pt-0 gap-4 lg:gap-4 2xl:gap-5 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${
                             isPageChanging || !hasMounted
                                 ? 'opacity-0 translate-y-12'
                                 : 'opacity-100 translate-y-0'
@@ -348,7 +377,7 @@ export default function BlogPaginatedList({
                 {/* Pagination navigation */}
                 {totalPages > 1 && (
                     <div
-                        className={`mt-12 marginal flex justify-center items-center gap-8 sm:gap-12 border-t border-black/15 pt-8 transition-opacity duration-1000 ${
+                        className={`mt-12 marginal pt-0! flex justify-center items-center gap-8 sm:gap-12 transition-opacity duration-1000 ${
                             hasMounted ? 'opacity-100' : 'opacity-0'
                         }`}
                     >
@@ -356,40 +385,86 @@ export default function BlogPaginatedList({
                         <button
                             onClick={() => handlePageChange(currentPage - 1)}
                             disabled={currentPage === 1 || isPageChanging}
-                            className="group flex items-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed transition-opacity cursor-pointer"
+                            aria-label="Previous page"
+                            className={`flex items-center gap-2 transition-all ${
+                                currentPage === 1 || isPageChanging
+                                    ? 'opacity-30 cursor-not-allowed'
+                                    : 'group cursor-pointer'
+                            }`}
                         >
                             <ChevronLeft
                                 size={20}
-                                className="text-black transition-transform duration-300 group-hover:-translate-x-1"
+                                className={`text-black transition-transform duration-300 ${
+                                    currentPage !== 1 && !isPageChanging
+                                        ? 'group-hover:-translate-x-1'
+                                        : ''
+                                }`}
                             />
-                            <span className="text-base text-black group-hover:text-neutral-600 transition-colors">
+                            <span
+                                className={`text-base text-black transition-colors ${
+                                    currentPage !== 1 && !isPageChanging
+                                        ? 'group-hover:text-neutral-600'
+                                        : ''
+                                }`}
+                            >
                                 Previous
                             </span>
                         </button>
 
-                        {/* Page indicator */}
-                        <div className="font-mono text-sm tracking-wider">
-                            <span className="text-black font-medium">
-                                {String(currentPage).padStart(2, '0')}
-                            </span>
+                        {/* Page indicator & direct page jump input */}
+                        <form
+                            onSubmit={handlePageInputSubmit}
+                            className="flex items-center font-mono text-sm tracking-wider"
+                        >
+                            <input
+                                type="text"
+                                inputMode="numeric"
+                                pattern="[0-9]*"
+                                value={pageInputValue}
+                                onChange={(e) => {
+                                    const val = e.target.value.replace(/\D/g, '').slice(0, 3)
+                                    setPageInputValue(val)
+                                }}
+                                onFocus={(e) => e.target.select()}
+                                onBlur={handlePageInputSubmit}
+                                disabled={isPageChanging}
+                                aria-label="Page number"
+                                title="Enter page number and press Enter"
+                                className="w-10 sm:w-11 h-7 text-center font-mono text-sm font-medium text-black hover:bg-white/90 border border-black/20 rounded outline-none transition-all duration-200"
+                            />
                             <span className="mx-2 text-neutral-500 font-medium">/</span>
-                            <span className="text-neutral-600">
+                            <span className="text-neutral-600 font-medium">
                                 {String(totalPages).padStart(2, '0')}
                             </span>
-                        </div>
+                        </form>
 
                         {/* Next page button */}
                         <button
                             onClick={() => handlePageChange(currentPage + 1)}
                             disabled={currentPage === totalPages || isPageChanging}
-                            className="group flex items-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed transition-opacity cursor-pointer"
+                            aria-label="Next page"
+                            className={`flex items-center gap-2 transition-all ${
+                                currentPage === totalPages || isPageChanging
+                                    ? 'opacity-30 cursor-not-allowed'
+                                    : 'group cursor-pointer'
+                            }`}
                         >
-                            <span className="text-base text-black group-hover:text-neutral-600 transition-colors">
+                            <span
+                                className={`text-base text-black transition-colors ${
+                                    currentPage !== totalPages && !isPageChanging
+                                        ? 'group-hover:text-neutral-600'
+                                        : ''
+                                }`}
+                            >
                                 Next
                             </span>
                             <ChevronRight
                                 size={20}
-                                className="text-black transition-transform duration-300 group-hover:translate-x-1"
+                                className={`text-black transition-transform duration-300 ${
+                                    currentPage !== totalPages && !isPageChanging
+                                        ? 'group-hover:translate-x-1'
+                                        : ''
+                                }`}
                             />
                         </button>
                     </div>
