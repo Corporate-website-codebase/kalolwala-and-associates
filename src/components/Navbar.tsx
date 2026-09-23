@@ -5,7 +5,7 @@ import { ChevronDown, ChevronRight, Menu, X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useRef, useState, useSyncExternalStore } from 'react'
+import { useRef, useState, useSyncExternalStore, useEffect } from 'react'
 
 interface SubNavItem {
     label: string
@@ -85,6 +85,7 @@ const Navbar = () => {
     // --- OPTIMIZED SCROLL LOGIC ---
     useMotionValueEvent(scrollY, 'change', (latest) => {
         const previous = scrollY.getPrevious() ?? 0
+        const diff = latest - previous
 
         if (latest > 20 && !isScrolled) {
             setIsScrolled(true)
@@ -92,14 +93,40 @@ const Navbar = () => {
             setIsScrolled(false)
         }
 
-        if (latest > previous && latest > 100) {
+        // Always visible when near the top of the page
+        if (latest <= 60) {
+            setIsVisible(true)
+            return
+        }
+
+        // Hide navbar only when actively scrolling down by a noticeable amount
+        if (diff > 5 && latest > 100) {
             setIsVisible(false)
             setIsMobileMenuOpen(false)
             setIsOfferingsHovered(false)
-        } else {
+        }
+        // Show navbar only when actively scrolling up by an intentional amount
+        else if (diff < -10) {
             setIsVisible(true)
         }
     })
+
+    const navRef = useRef<HTMLElement | null>(null)
+
+    // --- BROADCAST NAVBAR VISIBILITY STATE ---
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const measuredHeight =
+                navRef.current?.offsetHeight || (window.innerWidth >= 768 ? 92 : 64)
+            const height = isVisible ? measuredHeight : 0
+            document.documentElement.style.setProperty('--navbar-height', `${height}px`)
+            window.dispatchEvent(
+                new CustomEvent('kna-navbar-visibility', {
+                    detail: { isVisible, height: measuredHeight },
+                }),
+            )
+        }
+    }, [isVisible])
 
     if (!hasLoaded) return null
 
@@ -113,12 +140,13 @@ const Navbar = () => {
                     duration: 0.8,
                     ease: [0.33, 1, 0.68, 1],
                 }}
-                className="sticky top-0 left-0 w-[100vw] md:w-full z-50 selection:bg-yellow-400/18 "
+                className="sticky top-0 left-0 w-[100vw] md:w-full z-50 selection:bg-yellow-400/18 pointer-events-none"
             >
                 <motion.nav
+                    ref={navRef}
                     animate={{ y: isVisible ? 0 : '-100%' }}
                     transition={{ duration: 0.4, ease: 'easeInOut' }}
-                    className={`w-full transition-colors duration-500 ${
+                    className={`w-full pointer-events-auto transition-colors duration-500 ${
                         isScrolled || isMobileMenuOpen
                             ? 'bg-black shadow-md'
                             : 'bg-black md:bg-transparent'

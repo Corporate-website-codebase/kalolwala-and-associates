@@ -270,3 +270,78 @@ input:autofill {
   animation: shakeX 0.4s ease-in-out;
 }
 
+/* Custom Thin Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(120, 120, 120, 0.35);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(120, 120, 120, 0.6);
+}
+
+/* Firefox thin scrollbar support */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(120, 120, 120, 0.35) transparent;
+}
+
+/* Blog Article Table Styling */
+.blog-table-container {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background-color: rgba(255, 255, 255, 0.4);
+  -webkit-overflow-scrolling: touch;
+}
+
+.blog-table,
+article table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.925rem;
+  line-height: 1.6;
+}
+
+.blog-table th,
+article table th {
+  background-color: rgba(0, 0, 0, 0.08);
+  color: #000000;
+  font-weight: 600;
+  padding: 0.85rem 1rem;
+  text-align: left;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  font-family: inherit;
+}
+
+.blog-table td,
+article table td {
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  color: #171717;
+}
+
+.blog-table tbody tr:nth-child(even),
+article table tbody tr:nth-child(even),
+article table tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.blog-table tbody tr:hover,
+article table tbody tr:hover,
+article table tr:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
