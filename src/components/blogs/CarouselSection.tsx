@@ -1,6 +1,7 @@
 'use client'
 
 import { BLOG_DATA, type BlogPost } from '@/data/blogs'
+import { motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 import React, { useMemo, useRef, useState, useSyncExternalStore } from 'react'
@@ -231,30 +232,48 @@ export default function BlogPaginatedList({
             <div className="w-full min-h-screen font-noto-sans ">
                 {/* Hero header banner */}
                 <div className="relative w-full min-h-[80svh] xl:h overflow-hidden flex flex-col justify-center  bg-black">
-                    {/* Background hero image */}
-                    <Image
-                        src="/blogs/blogs-banner.webp"
-                        alt="Background"
-                        fill
-                        priority
-                        className="absolute inset-0 w-full h-full object-cover object-bottom"
-                    />
+                    {/* Background hero image with smooth scale-in and fade */}
+                    <motion.div
+                        initial={{ opacity: 0, scale: 1.08 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+                        className="absolute inset-0 w-full h-full"
+                    >
+                        <Image
+                            src="/blogs/blogs-banner.webp"
+                            alt="Background"
+                            fill
+                            priority
+                            className="w-full h-full object-cover object-bottom"
+                        />
+                    </motion.div>
 
                     {/* Gradient overlay to keep foreground text legible */}
-                    <div className="absolute inset-0 bg-linear-to-r from-black/95 via-black/65 to-transparent pointer-events-none" />
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 1.1, ease: 'easeOut' }}
+                        className="absolute inset-0 bg-linear-to-r from-black/95 via-black/65 to-transparent pointer-events-none"
+                    />
 
                     {/* Hero copy and subscription form */}
-                    <div className="relative z-10  flex flex-col h-full justify-center marginal">
-                        <h1
+                    <div className="relative z-10 flex flex-col h-full justify-center marginal">
+                        <motion.h1
+                            initial={{ opacity: 0, y: 32 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
                             className="leading-[1.1] mb-4 lg:mb-6 text-white font-light tracking-tight whitespace-pre-line"
                             style={{ fontSize: 'clamp(32px, 4vw, 64px)' }}
                         >
                             Finding the story in the
                             <br />
                             subtle space between words.
-                        </h1>
+                        </motion.h1>
 
-                        <p
+                        <motion.p
+                            initial={{ opacity: 0, y: 24 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.85, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
                             className="text-neutral-100 whitespace-pre-line max-w-3xl font-light"
                             style={{
                                 fontSize: 'clamp(14px, 1.2vw, 18px)',
@@ -267,10 +286,15 @@ export default function BlogPaginatedList({
                             stakeholder engagement, our blog brings together thoughtful perspectives
                             designed to help businesses understand what is changing, why it matters
                             and what comes next.
-                        </p>
+                        </motion.p>
 
                         {/* Newsletter subscription module */}
-                        <div className="mt-8 lg:mt-16 lg:w-4xl flex flex-col gap-6">
+                        <motion.div
+                            initial={{ opacity: 0, y: 24 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.85, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                            className="mt-8 lg:mt-16 lg:w-4xl flex flex-col gap-6"
+                        >
                             <div className="md:w-1/2">
                                 <p className="font-mono text-xs uppercase tracking-[0.2em] text-neutral-100 mb-3">
                                     Stay informed
@@ -356,19 +380,24 @@ export default function BlogPaginatedList({
                                     </p>
                                 )}
                             </div>
-                        </div>
+                        </motion.div>
                     </div>
                 </div>
 
                 {/* Scroll target for pagination */}
                 <div ref={listTopRef} className="scroll-mt-24" />
 
-                {/* Blog post cards grid */}
-                <div className="min-h-100 marginal ">
+                {/* Blog post cards grid with smooth coordinated entrance */}
+                <motion.div
+                    initial={{ opacity: 0, y: 36 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.9, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                    className="min-h-100 marginal"
+                >
                     <div
-                        className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 pt-2 gap-6 lg:gap-8 2xl:gap-5 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${
-                            isPageChanging || !hasMounted
-                                ? 'opacity-0 translate-y-12'
+                        className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 pt-2 gap-6 lg:gap-8 2xl:gap-5 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+                            isPageChanging
+                                ? 'opacity-0 translate-y-8'
                                 : 'opacity-100 translate-y-0'
                         }`}
                     >
@@ -376,12 +405,15 @@ export default function BlogPaginatedList({
                             <BlogCard key={c.id} post={c} />
                         ))}
                     </div>
-                </div>
+                </motion.div>
 
                 {/* Pagination navigation */}
                 {totalPages > 1 && (
-                    <div
-                        className={`mt-12 marginal pt-0! flex justify-center items-center gap-8 sm:gap-12 transition-opacity duration-1000 ${
+                    <motion.div
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: hasMounted ? 1 : 0, y: 0 }}
+                        transition={{ duration: 0.7, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
+                        className={`mt-12 marginal pt-0! flex justify-center items-center gap-8 sm:gap-12 transition-opacity duration-500 ${
                             hasMounted ? 'opacity-100' : 'opacity-0'
                         }`}
                     >
@@ -471,7 +503,7 @@ export default function BlogPaginatedList({
                                 }`}
                             />
                         </button>
-                    </div>
+                    </motion.div>
                 )}
             </div>
         </section>

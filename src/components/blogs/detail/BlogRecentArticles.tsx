@@ -131,19 +131,20 @@ export default function BlogRecentArticles({
                         <Link
                             key={`${blog.slug}-${blog.id}`}
                             href={`/blogs/${blog.slug}`}
-                            className={`group flex gap-3 p-2.5 rounded-xl transition-all duration-300 hover:bg-black/5 ${
+                            className={`group flex gap-3 p-2.5 transition-all duration-300 hover:bg-black/5 ${
                                 idx !== 0 ? 'border-t border-black/5' : ''
                             }`}
                         >
                             {/* Thumbnail without rounded borders */}
-                            <div className="relative w-16 h-12 rounded-none overflow-hidden shrink-0 bg-neutral-300 border border-black/10 shadow-2xs">
+                            <div className="relative rounded-none overflow-hidden shrink-0 ">
                                 {blog.image ? (
                                     <Image
                                         src={blog.image}
                                         alt={blog.title}
-                                        fill
+                                        width={80}
+                                        height={36}
                                         unoptimized
-                                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                        className="object-cover object-top-left transition-transform duration-500 group-hover:scale-105 aspect-video"
                                     />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center font-mono text-[9px] text-neutral-600">

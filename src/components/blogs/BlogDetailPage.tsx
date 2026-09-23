@@ -119,12 +119,96 @@ export default function BlogDetailPage({
     const [isTocOpen, setIsTocOpen] = useState(true)
     const [isRecentOpen, setIsRecentOpen] = useState(true)
 
+    const isTogglingRef = useRef(false)
+
+    // Anchor-preserving sidebar toggle:
+    // Captures the top visible reading element and dynamically compensates scroll
+    // on each animation frame as the middle column width transitions, keeping the line
+    // in the exact same vertical position.
+    const handleToggleWithAnchor = (toggleAction: () => void) => {
+        if (typeof window !== 'undefined') {
+            ;(window as unknown as { __kna_sidebar_toggling?: boolean }).__kna_sidebar_toggling = true
+        }
+        isTogglingRef.current = true
+
+        const main = mainContentRef.current
+        let anchorEl: HTMLElement | null = null
+        let anchorOffset = 0
+
+        if (main) {
+            const candidates = main.querySelectorAll<HTMLElement>(
+                'h1, h2, h3, h4, p, blockquote, figure, ul, ol, div[data-anchor]'
+            )
+            const navbarOffset = isNavbarVisible ? 92 : 0
+
+            // 1. Primary candidate: element intersecting the reading line near top
+            for (let i = 0; i < candidates.length; i++) {
+                const el = candidates[i]
+                const rect = el.getBoundingClientRect()
+                if (rect.top >= navbarOffset - 30 && rect.bottom > navbarOffset + 20) {
+                    anchorEl = el
+                    anchorOffset = rect.top
+                    break
+                }
+            }
+
+            // 2. Fallback candidate: first element below navbar
+            if (!anchorEl) {
+                for (let i = 0; i < candidates.length; i++) {
+                    const el = candidates[i]
+                    const rect = el.getBoundingClientRect()
+                    if (rect.bottom > navbarOffset) {
+                        anchorEl = el
+                        anchorOffset = rect.top
+                        break
+                    }
+                }
+            }
+        }
+
+        // Trigger the collapse/expand state update
+        toggleAction()
+
+        // Keep anchor element pinned at anchorOffset across the 300ms transition
+        const startTime = performance.now()
+        const duration = 360
+
+        const keepAnchorPinned = () => {
+            if (anchorEl) {
+                const currentRect = anchorEl.getBoundingClientRect()
+                const delta = currentRect.top - anchorOffset
+
+                if (Math.abs(delta) > 0.5) {
+                    const currentScroll = lenisRef.current?.scroll ?? window.scrollY
+                    const targetScroll = currentScroll + delta
+
+                    if (lenisRef.current) {
+                        lenisRef.current.scrollTo(targetScroll, { immediate: true })
+                    } else {
+                        window.scrollTo(0, targetScroll)
+                    }
+                }
+            }
+
+            if (performance.now() - startTime < duration) {
+                requestAnimationFrame(keepAnchorPinned)
+            } else {
+                isTogglingRef.current = false
+                if (typeof window !== 'undefined') {
+                    ;(window as unknown as { __kna_sidebar_toggling?: boolean }).__kna_sidebar_toggling = false
+                }
+            }
+        }
+
+        requestAnimationFrame(keepAnchorPinned)
+    }
+
     const handleToggleToc = () => {
-        setIsTocOpen((prev) => !prev)
+        handleToggleWithAnchor(() => setIsTocOpen((prev) => !prev))
     }
 
     const handleToggleRecent = () => {
-        setIsRecentOpen((prev) => !prev)
+        handleToggleWithAnchor(() => setIsRecentOpen((prev) => !prev))
     }
 
     // Process article headings and generate ID anchors

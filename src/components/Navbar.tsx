@@ -84,6 +84,12 @@ const Navbar = () => {
 
     // --- OPTIMIZED SCROLL LOGIC ---
     useMotionValueEvent(scrollY, 'change', (latest) => {
+        // Freeze navbar visibility state during sidebar toggle animations
+        if (typeof window !== 'undefined') {
+            const win = window as unknown as { __kna_sidebar_toggling?: boolean }
+            if (win.__kna_sidebar_toggling) return
+        }
+
         const previous = scrollY.getPrevious() ?? 0
         const diff = latest - previous
 

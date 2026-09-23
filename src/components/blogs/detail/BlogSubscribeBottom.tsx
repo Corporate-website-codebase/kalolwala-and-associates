@@ -88,9 +88,9 @@ export default function BlogSubscribeBottom() {
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-neutral-800/40 via-transparent to-transparent pointer-events-none" />
 
             <div className="relative z-10 w-full">
-                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+                <div className="flex flex-col justify-between gap-8">
                     {/* Copy */}
-                    <div className="max-w-md">
+                    <div className="">
                         <p className="font-mono text-xs uppercase tracking-[0.2em] text-neutral-400 mb-2">
                             Stay informed
                         </p>
