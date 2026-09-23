@@ -42,6 +42,9 @@ type WordPressPost = {
                 }
             }
         }>
+        author?: Array<{
+            name?: string
+        }>
     }
 }
 
@@ -100,6 +103,7 @@ export default function BlogPaginatedList({
                 }),
                 url: '',
                 image,
+                author: post._embedded?.author?.[0]?.name || 'K&A Editorial',
             }
         })
 
@@ -226,7 +230,7 @@ export default function BlogPaginatedList({
         <section id="articles" className="w-full bg-[#d4d4d4] text-black font-noto-sans">
             <div className="w-full min-h-screen font-noto-sans ">
                 {/* Hero header banner */}
-                <div className="relative w-full min-h-[80svh] xl:h overflow-hidden flex flex-col justify-center p-6 sm:p-10 lg:p-16 xl:p-24 bg-black">
+                <div className="relative w-full min-h-[80svh] xl:h overflow-hidden flex flex-col justify-center  bg-black">
                     {/* Background hero image */}
                     <Image
                         src="/blogs/blogs-banner.webp"
@@ -240,7 +244,7 @@ export default function BlogPaginatedList({
                     <div className="absolute inset-0 bg-linear-to-r from-black/95 via-black/65 to-transparent pointer-events-none" />
 
                     {/* Hero copy and subscription form */}
-                    <div className="relative z-10 max-w-5xl flex flex-col h-full justify-center">
+                    <div className="relative z-10  flex flex-col h-full justify-center marginal">
                         <h1
                             className="leading-[1.1] mb-4 lg:mb-6 text-white font-light tracking-tight whitespace-pre-line"
                             style={{ fontSize: 'clamp(32px, 4vw, 64px)' }}
@@ -362,7 +366,7 @@ export default function BlogPaginatedList({
                 {/* Blog post cards grid */}
                 <div className="min-h-100 marginal ">
                     <div
-                        className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pt-2 lg:pt-0 gap-4 lg:gap-4 2xl:gap-5 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+                        className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 pt-2 gap-6 lg:gap-8 2xl:gap-5 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${
                             isPageChanging || !hasMounted
                                 ? 'opacity-0 translate-y-12'
                                 : 'opacity-100 translate-y-0'
