@@ -276,12 +276,12 @@ export default function BlogPaginatedList({
                                         }
                                         disabled={subscriptionStatus === 'loading'}
                                         style={{ colorScheme: 'dark' }}
-                                        className={`w-full sm:max-w-sm h-12 px-4 bg-white/10 backdrop-blur-sm text-white outline-none font-noto-sans transition-all duration-300 disabled:opacity-50 ${
+                                        className={`w-full sm:max-w-sm h-12 px-4 bg-white/10 backdrop-blur-[2px] text-white outline-none font-noto-sans transition-all duration-300 disabled:opacity-50 ${
                                             isShaking ? 'animate-shake-x' : ''
                                         } ${
                                             hasError
                                                 ? 'border border-red-500 placeholder:text-red-400 focus:border-red-400 focus:bg-white/15'
-                                                : 'border border-white/20 placeholder:text-neutral-400 focus:border-white/60 focus:bg-white/15'
+                                                : 'border border-white/20 placeholder:text-neutral-400 focus:border-white/60'
                                         }`}
                                     />
 
@@ -291,7 +291,7 @@ export default function BlogPaginatedList({
                                         className={`group relative w-full sm:w-fit h-12 px-7 bg-white text-black uppercase overflow-hidden transition-all duration-300 border flex items-center justify-center shrink-0 ${
                                             isReady
                                                 ? 'opacity-100 cursor-pointer hover:border-[#f5c518] border-transparent'
-                                                : 'opacity-40 cursor-not-allowed border-transparent'
+                                                : 'opacity-70 cursor-not-allowed border-transparent'
                                         }`}
                                     >
                                         {/* Slide-up background fill on hover (matching not-found page effect) */}

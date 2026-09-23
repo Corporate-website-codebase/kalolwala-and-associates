@@ -248,11 +248,9 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active,
 input:autofill {
-  -webkit-box-shadow: 0 0 0 1000px #1c1c1c inset !important;
-  box-shadow: 0 0 0 1000px #1c1c1c inset !important;
   -webkit-text-fill-color: #ffffff !important;
   caret-color: #ffffff !important;
-  transition: background-color 50000s ease-in-out 0s;
+  transition: background-color 5000000s ease-in-out 0s;
 }
 
 /* X-axis shake / vibration animation for input validation errors */

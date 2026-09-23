@@ -63,11 +63,11 @@ export default function BlogCard({ post, blog, card, className = '' }: BlogCardP
                         >
                             {item.title}
                         </h3>
-                       
+
                     </div>
 
                     {/* Action footer: Publication date on the left, "READ ARTICLE" + arrow on the right */}
-                    <div className=" pt-2 mt-3 border-t border-neutral-900/10 flex justify-between items-center">
+                    <div className=" pt-2 mt-auto border-t border-neutral-900/10 flex justify-between items-center">
                         <span className="text-xs rounded-full  text-neutral-500 leading-none">
                             {item.date}
                         </span>
