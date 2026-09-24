@@ -207,12 +207,12 @@ export default function BlogTableOfContents({
                 isOpen ? 'w-72 xl:w-80' : 'w-12 xl:w-14'
             }`}
         >
-            {/* Sticky sidebar — top/height driven by --nav-full-height and --nav-translate-y CSS variables */}
+            {/* Sticky sidebar — top/height driven by --navbar-height CSS variable */}
             <div
                 data-lenis-prevent="true"
                 style={{
-                    top: 'calc(var(--nav-full-height, 92px) + var(--nav-translate-y, 0px))',
-                    height: 'calc(100vh - var(--nav-full-height, 92px) - var(--nav-translate-y, 0px))',
+                    top: 'var(--navbar-height, 92px)',
+                    height: 'calc(100vh - var(--navbar-height, 92px))',
                     transition: 'top 300ms linear, height 300ms linear',
                 }}
                 className="sticky flex flex-col w-full border-r border-white/10 bg-[#161616] text-neutral-200 overscroll-contain z-10"
@@ -256,6 +256,7 @@ export default function BlogTableOfContents({
                             const hasChildren = section.children.length > 0
                             const isExpanded = isSectionExpanded(section)
                             const hasActiveChild = section.children.some((c) => c.id === activeId)
+                            const isHighlighted = isSectionActive || hasActiveChild || isExpanded
 
                             if (!hasChildren) {
                                 return (
@@ -266,17 +267,17 @@ export default function BlogTableOfContents({
                                         className={`group flex items-start gap-2.5 py-2 px-2.5 rounded-lg text-xs transition-all duration-200 ${
                                             isSectionActive
                                                 ? 'bg-white/10 text-white font-medium shadow-xs border border-white/10'
-                                                : 'text-neutral-400 hover:text-white hover:bg-white/5'
+                                                : 'text-neutral-400 hover:text-white hover:bg-white/5 border border-transparent'
                                         }`}
                                     >
                                         <span
                                             className={`mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 transition-colors ${
                                                 isSectionActive
-                                                    ? 'bg-yellow-400'
+                                                    ? 'bg-white'
                                                     : 'bg-neutral-600 group-hover:bg-neutral-300'
                                             }`}
                                         />
-                                        <span className="leading-snug line-clamp-2">
+                                        <span className={`leading-snug line-clamp-2 ${isSectionActive ? 'text-white' : 'text-neutral-400 group-hover:text-white'}`}>
                                             {section.text}
                                         </span>
                                     </a>
@@ -288,9 +289,9 @@ export default function BlogTableOfContents({
                                     {/* Accordion Header */}
                                     <div
                                         className={`group flex items-center justify-between gap-2 py-1.5 px-2 rounded-lg text-xs transition-all duration-200 ${
-                                            isSectionActive || hasActiveChild
-                                                ? 'bg-white/10 text-white font-medium'
-                                                : 'text-neutral-300 hover:text-white hover:bg-white/5'
+                                            isHighlighted
+                                                ? 'bg-white/10 text-white font-medium shadow-xs border border-white/10'
+                                                : 'text-neutral-400 hover:text-white hover:bg-white/5 border border-transparent'
                                         }`}
                                     >
                                         <a
@@ -300,14 +301,12 @@ export default function BlogTableOfContents({
                                         >
                                             <span
                                                 className={`mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 transition-colors ${
-                                                    isSectionActive
-                                                        ? 'bg-yellow-400'
-                                                        : hasActiveChild
-                                                          ? 'bg-white/80'
-                                                          : 'bg-neutral-600 group-hover:bg-neutral-300'
+                                                    isHighlighted
+                                                        ? 'bg-white'
+                                                        : 'bg-neutral-600 group-hover:bg-neutral-300'
                                                 }`}
                                             />
-                                            <span className="leading-snug line-clamp-2">
+                                            <span className={`leading-snug line-clamp-2 ${isHighlighted ? 'text-white' : 'text-neutral-400 group-hover:text-white'}`}>
                                                 {section.text}
                                             </span>
                                         </a>
@@ -329,7 +328,7 @@ export default function BlogTableOfContents({
                                                 className={`transition-transform duration-300 ${
                                                     isExpanded
                                                         ? 'rotate-180 text-white'
-                                                        : 'text-neutral-400'
+                                                        : 'text-neutral-400 group-hover:text-white'
                                                 }`}
                                             />
                                         </button>
@@ -356,11 +355,11 @@ export default function BlogTableOfContents({
                                                         <span
                                                             className={`mt-1.5 w-1 h-1 rounded-full shrink-0 transition-colors ${
                                                                 isChildActive
-                                                                    ? 'bg-yellow-400'
+                                                                    ? 'bg-white'
                                                                     : 'bg-neutral-600 group-hover:bg-neutral-300'
                                                             }`}
                                                         />
-                                                        <span className="leading-snug line-clamp-2">
+                                                        <span className={`leading-snug line-clamp-2 ${isChildActive ? 'text-white' : 'text-neutral-400 group-hover:text-white'}`}>
                                                             {child.text}
                                                         </span>
                                                     </a>

@@ -1,8 +1,14 @@
-/* Register --navbar-height so CSS can transition/interpolate it */
+/* Register --navbar-height and --nav-translate-y so CSS can transition/interpolate them */
 @property --navbar-height {
     syntax: '<length>';
     inherits: true;
     initial-value: 92px;
+}
+
+@property --nav-translate-y {
+    syntax: '<length>';
+    inherits: true;
+    initial-value: 0px;
 }
 
 /* @import "tailwindcss";
@@ -354,4 +360,44 @@ article table tr:nth-child(even) {
 article table tbody tr:hover,
 article table tr:hover {
     background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* Dark Theme Table Overrides */
+.blog-dark-reader .blog-table-container,
+.dark-theme .blog-table-container {
+    border-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.blog-dark-reader .blog-table th,
+.blog-dark-reader article table th,
+.dark-theme .blog-table th,
+.dark-theme article table th {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+.blog-dark-reader .blog-table td,
+.blog-dark-reader article table td,
+.dark-theme .blog-table td,
+.dark-theme article table td {
+    border-color: rgba(255, 255, 255, 0.12);
+    color: #e5e5e5;
+}
+
+.blog-dark-reader .blog-table tbody tr:nth-child(even),
+.blog-dark-reader article table tbody tr:nth-child(even),
+.blog-dark-reader article table tr:nth-child(even),
+.dark-theme .blog-table tbody tr:nth-child(even),
+.dark-theme article table tbody tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+.blog-dark-reader .blog-table tbody tr:hover,
+.blog-dark-reader article table tbody tr:hover,
+.blog-dark-reader article table tr:hover,
+.dark-theme .blog-table tbody tr:hover,
+.dark-theme article table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.06);
 }
