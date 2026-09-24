@@ -43,8 +43,8 @@ export default function BlogCard({ post, blog, card, className = '' }: BlogCardP
     if (!item) return null
 
     // Determine whether this links internally to our blog reader or directly to an external article
-    const isInternal = !!(item.slug && item.content)
-    const href = isInternal ? `/blogs/${item.slug}` : item.url
+    const isInternal = !!item.slug
+    const href = isInternal ? `/blogs/${item.slug}` : item.url || '#'
     const image = item.image
     const author = parseAuthor(item.author)
 
