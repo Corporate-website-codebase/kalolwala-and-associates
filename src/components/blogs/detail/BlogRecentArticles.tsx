@@ -86,13 +86,13 @@ export default function BlogRecentArticles({
                 isOpen ? 'w-80 xl:w-96' : 'w-12 xl:w-14'
             }`}
         >
-            {/* Sticky sidebar — top/height driven by --navbar-height CSS variable */}
+            {/* Sticky sidebar — top/height driven by --nav-full-height and --nav-translate-y CSS variables */}
             <div
                 data-lenis-prevent="true"
                 style={{
-                    top: '92px',
+                    top: 'var(--nav-full-height, 92px)',
                     height: '100vh',
-                    transform: `translateY(calc(var(--navbar-height) - 92px))`,
+                    transform: 'translateY(var(--nav-translate-y, 0px))',
                     transition: 'transform 350ms cubic-bezier(0.25, 1, 0.5, 1)',
                 }}
                 className="sticky flex flex-col w-full border-l border-white/10 bg-[#161616] text-neutral-200 overscroll-contain z-10"

@@ -84,7 +84,13 @@ const Navbar = () => {
         // At the very top of the page (within 10px), always visible and not scrolled
         if (latest <= 10) {
             setIsScrolled(false)
-            setIsVisible(true)
+            if (!isVisible) {
+                const navHeight =
+                    navRef.current?.offsetHeight || (window.innerWidth >= 768 ? 92 : 64)
+                document.documentElement.style.setProperty('--navbar-height', `${navHeight}px`)
+                document.documentElement.style.setProperty('--nav-translate-y', '0px')
+                setIsVisible(true)
+            }
             accumulatedDeltaRef.current = 0
             lastDirectionRef.current = null
             lastScrollYRef.current = latest
@@ -115,7 +121,10 @@ const Navbar = () => {
         // Small scroll to bottom: hide navbar smoothly (accumulated >= 6px works even on slowest scroll)
         if (accumulatedDeltaRef.current > 6 && latest > 20) {
             if (isVisible) {
+                const navHeight =
+                    navRef.current?.offsetHeight || (window.innerWidth >= 768 ? 92 : 64)
                 document.documentElement.style.setProperty('--navbar-height', '0px')
+                document.documentElement.style.setProperty('--nav-translate-y', `-${navHeight}px`)
                 setIsVisible(false)
                 setIsMobileMenuOpen(false)
                 setIsOfferingsHovered(false)
@@ -124,8 +133,10 @@ const Navbar = () => {
         // Small scroll to top: show navbar smoothly (accumulated <= -6px works even on slowest scroll)
         else if (accumulatedDeltaRef.current < -6) {
             if (!isVisible) {
-                const navHeight = navRef.current?.offsetHeight || (window.innerWidth >= 768 ? 92 : 64)
+                const navHeight =
+                    navRef.current?.offsetHeight || (window.innerWidth >= 768 ? 92 : 64)
                 document.documentElement.style.setProperty('--navbar-height', `${navHeight}px`)
+                document.documentElement.style.setProperty('--nav-translate-y', '0px')
                 setIsVisible(true)
             }
         }
@@ -135,12 +146,13 @@ const Navbar = () => {
 
     // --- INITIAL NAVBAR HEIGHT ---
     // Update once on mount so sidebars know the initial height.
-    // (Animation sync is now handled directly in the scroll event below)
     useEffect(() => {
         if (typeof window !== 'undefined') {
             const measuredHeight =
                 navRef.current?.offsetHeight || (window.innerWidth >= 768 ? 92 : 64)
+            document.documentElement.style.setProperty('--nav-full-height', `${measuredHeight}px`)
             document.documentElement.style.setProperty('--navbar-height', `${measuredHeight}px`)
+            document.documentElement.style.setProperty('--nav-translate-y', '0px')
         }
     }, [])
 
@@ -160,15 +172,9 @@ const Navbar = () => {
                     ref={navRef}
                     style={{
                         transform: isVisible ? 'translateY(0)' : 'translateY(-100%)',
-                        transition: isVisible
-                            ? 'transform 350ms cubic-bezier(0.25, 1, 0.5, 1), background-color 300ms'
-                            : 'transform 350ms cubic-bezier(0.25, 1, 0.5, 1)',
+                        transition: 'transform 350ms cubic-bezier(0.25, 1, 0.5, 1)',
                     }}
-                    className={`relative z-[100] w-full pointer-events-auto ${
-                        isScrolled || isMobileMenuOpen || !isVisible
-                            ? 'bg-black shadow-md'
-                            : 'bg-black md:bg-transparent'
-                    }`}
+                    className="relative z-[100] w-full pointer-events-auto bg-black shadow-md"
                 >
                     <div className="w-full px-4 md:px-8 mx-auto flex items-center justify-between py-3 md:py-4">
                         {/* LOGO */}
