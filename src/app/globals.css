@@ -401,3 +401,21 @@ article table tr:hover {
 .dark-theme article table tbody tr:hover {
     background-color: rgba(255, 255, 255, 0.06);
 }
+
+/* GPU-accelerated blog hero image animation (decoupled from JS hydration) */
+@keyframes blogHeroScale {
+    0% {
+        opacity: 0;
+        transform: scale(1.06) translateZ(0);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateZ(0);
+    }
+}
+
+.animate-blog-hero {
+    animation: blogHeroScale 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    will-change: transform, opacity;
+}
+

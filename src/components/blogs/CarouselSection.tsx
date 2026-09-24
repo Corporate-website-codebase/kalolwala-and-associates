@@ -232,21 +232,17 @@ export default function BlogPaginatedList({
             <div className="w-full min-h-screen font-noto-sans ">
                 {/* Hero header banner */}
                 <div className="relative w-full min-h-[80svh] xl:h overflow-hidden flex flex-col justify-center  bg-black">
-                    {/* Background hero image with smooth scale-in and fade */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 1.08 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-                        className="absolute inset-0 w-full h-full"
-                    >
+                    {/* Background hero image with smooth GPU scale-in and fade */}
+                    <div className="absolute inset-0 w-full h-full animate-blog-hero">
                         <Image
                             src="/blogs/blogs-banner.webp"
                             alt="Background"
                             fill
                             priority
+                            sizes="100vw"
                             className="w-full h-full object-cover object-bottom"
                         />
-                    </motion.div>
+                    </div>
 
                     {/* Gradient overlay to keep foreground text legible */}
                     <motion.div

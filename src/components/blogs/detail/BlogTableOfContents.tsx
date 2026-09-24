@@ -134,7 +134,7 @@ export default function BlogTableOfContents({
         }
     }, [activeId, sections])
 
-    // Observe active headings on scroll according to reading position
+    // Observe active headings on scroll using IntersectionObserver to eliminate layout thrashing
     useEffect(() => {
         if (headings.length === 0) return
 
@@ -144,47 +144,37 @@ export default function BlogTableOfContents({
 
         if (headingElements.length === 0) return
 
-        const updateActiveHeading = () => {
-            const scrollY = window.scrollY
-            const firstHeading = headingElements[0].el
-            const firstHeadingTop = firstHeading.getBoundingClientRect().top + scrollY
+        const observer = new IntersectionObserver(
+            (entries) => {
+                const intersecting = entries
+                    .filter((entry) => entry.isIntersecting)
+                    .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
 
-            // At the top before the first heading, keep all TOC items collapsed
-            if (scrollY < firstHeadingTop - 120) {
-                setActiveId('')
-                return
-            }
-
-            // Reading focus line (140px from top of viewport)
-            const readingLine = 140
-            let currentActiveId = headingElements[0].id
-
-            for (let i = 0; i < headingElements.length; i++) {
-                const rect = headingElements[i].el.getBoundingClientRect()
-                if (rect.top <= readingLine) {
-                    currentActiveId = headingElements[i].id
-                } else {
-                    break
+                if (intersecting.length > 0) {
+                    setActiveId(intersecting[0].target.id)
                 }
+            },
+            {
+                rootMargin: '-90px 0px -65% 0px',
+                threshold: [0, 1.0],
+            },
+        )
+
+        headingElements.forEach((h) => observer.observe(h.el))
+
+        // Clear active heading when scrolling back to the top of the page
+        const handleScrollTop = () => {
+            if (window.scrollY < 250) {
+                setActiveId('')
             }
-
-            setActiveId(currentActiveId)
         }
-
-        updateActiveHeading()
-
-        window.addEventListener('scroll', updateActiveHeading, { passive: true })
-        if (lenis) {
-            lenis.on('scroll', updateActiveHeading)
-        }
+        window.addEventListener('scroll', handleScrollTop, { passive: true })
 
         return () => {
-            window.removeEventListener('scroll', updateActiveHeading)
-            if (lenis) {
-                lenis.off('scroll', updateActiveHeading)
-            }
+            observer.disconnect()
+            window.removeEventListener('scroll', handleScrollTop)
         }
-    }, [headings, lenis])
+    }, [headings])
 
     const handleScrollToHeading = (id: string, e: React.MouseEvent) => {
         e.preventDefault()

@@ -72,6 +72,7 @@ export async function generateStaticParams() {
 }
 
 export const dynamicParams = true
+export const revalidate = 600
 
 type Props = {
     params: Promise<{ slug: string }>
@@ -90,11 +91,49 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const localPost = getBlogBySlug(slug)
 
     if (localPost) {
+        const blogTitle = localPost.metaTitle || localPost.title
+        const blogDescription = localPost.excerpt || localPost.title
+        const blogUrl = `https://www.kalolwala.com/blogs/${slug}`
+        const blogImage = localPost.image || ''
+
         return {
-            title: localPost.metaTitle || localPost.title,
-            description: localPost.excerpt,
+            title: blogTitle,
+            description: blogDescription,
+            robots: {
+                index: true,
+                follow: true,
+            },
             alternates: {
                 canonical: `/blogs/${slug}`,
+            },
+            openGraph: {
+                title: blogTitle,
+                description: blogDescription,
+                url: blogUrl,
+                siteName: 'Kalolwala & Associates',
+                type: 'article',
+                publishedTime: localPost.date,
+                authors: localPost.author ? [localPost.author] : ['Kalolwala & Associates'],
+                ...(blogImage
+                    ? {
+                          images: [
+                              {
+                                  url: blogImage,
+                                  alt: blogTitle,
+                              },
+                          ],
+                      }
+                    : {}),
+            },
+            twitter: {
+                card: 'summary_large_image',
+                title: blogTitle,
+                description: blogDescription,
+                ...(blogImage
+                    ? {
+                          images: [blogImage],
+                      }
+                    : {}),
             },
         }
     }
@@ -224,8 +263,39 @@ export default async function BlogPostPage({ params }: Props) {
     const localPost = getBlogBySlug(slug)
 
     if (localPost && localPost.content) {
+        const articleSchema = {
+            '@context': 'https://schema.org',
+            '@type': 'BlogPosting',
+            mainEntityOfPage: {
+                '@type': 'WebPage',
+                '@id': `https://www.kalolwala.com/blogs/${slug}`,
+            },
+            headline: localPost.title,
+            description: localPost.excerpt || localPost.title,
+            image: localPost.image ? [localPost.image] : [],
+            datePublished: localPost.date,
+            dateModified: localPost.date,
+            author: {
+                '@type': 'Person',
+                name: localPost.author || 'Kalolwala & Associates',
+            },
+            publisher: {
+                '@type': 'Organization',
+                name: 'Kalolwala & Associates',
+                logo: {
+                    '@type': 'ImageObject',
+                    url: 'https://www.kalolwala.com/kna2.svg',
+                },
+            },
+        }
+
         return (
             <>
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+                />
+
                 <BlogDetailPage
                     key={localPost.id}
                     post={localPost}
@@ -279,8 +349,39 @@ export default async function BlogPostPage({ params }: Props) {
      * ========================================================
      */
 
+    const articleSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        mainEntityOfPage: {
+            '@type': 'WebPage',
+            '@id': `https://www.kalolwala.com/blogs/${slug}`,
+        },
+        headline: wordpressBlog.title,
+        description: wordpressBlog.excerpt || wordpressBlog.title,
+        image: wordpressBlog.image ? [wordpressBlog.image] : [],
+        datePublished: wordpressBlog.date,
+        dateModified: wordpressBlog.date,
+        author: {
+            '@type': 'Person',
+            name: wordpressBlog.author || 'Kalolwala & Associates',
+        },
+        publisher: {
+            '@type': 'Organization',
+            name: 'Kalolwala & Associates',
+            logo: {
+                '@type': 'ImageObject',
+                url: 'https://www.kalolwala.com/kna2.svg',
+            },
+        },
+    }
+
     return (
         <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+            />
+
             <BlogDetailPage
                 key={wordpressBlog.id}
                 post={wordpressBlog}

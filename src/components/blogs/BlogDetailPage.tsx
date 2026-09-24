@@ -107,6 +107,9 @@ function parseDateToTimestamp(dateStr?: string): number {
     return isNaN(ts2) ? 0 : ts2
 }
 
+// Global module-level theme cache to prevent theme flash when switching articles
+let globalReaderTheme: 'dark' | 'light' | null = null
+
 export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetailPageProps) {
     const containerRef = useRef<HTMLDivElement | null>(null)
     const mainContentRef = useRef<HTMLDivElement | null>(null)
@@ -136,23 +139,27 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
         }
     }
 
-    // Reading Theme (Light / Dark mode for comfortable reading)
-    const [isDarkTheme, setIsDarkTheme] = useState(false)
-
-    useEffect(() => {
-        try {
-            const saved = localStorage.getItem('blog-reader-theme')
-            if (saved === 'dark') {
-                setIsDarkTheme(true)
+    // Reading Theme (Light / Dark mode for comfortable reading with instant persistence)
+    const [isDarkTheme, setIsDarkTheme] = useState(() => {
+        if (globalReaderTheme !== null) return globalReaderTheme === 'dark'
+        if (typeof window !== 'undefined') {
+            try {
+                const saved = localStorage.getItem('blog-reader-theme')
+                if (saved) {
+                    globalReaderTheme = saved === 'dark' ? 'dark' : 'light'
+                    return globalReaderTheme === 'dark'
+                }
+            } catch {
+                // Ignore
             }
-        } catch {
-            // Ignore
         }
-    }, [])
+        return false
+    })
 
     const handleToggleTheme = () => {
         setIsDarkTheme((prev) => {
             const next = !prev
+            globalReaderTheme = next ? 'dark' : 'light'
             try {
                 localStorage.setItem('blog-reader-theme', next ? 'dark' : 'light')
             } catch {
@@ -253,7 +260,7 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
         await handleCopyLink()
     }
 
-    // Re-initialize or reload Google Preferred Source script on article navigation
+    // Re-initialize or trigger Google Preferred Source script on article navigation
     useEffect(() => {
         let isMounted = true
 
@@ -279,7 +286,6 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
             // Remove data-initialized so publisher.js can process this element
             btn.removeAttribute('data-initialized')
 
-            // 1. Try existing API in memory
             try {
                 if (win.PREFERRED_SOURCE?.api?.init) {
                     win.PREFERRED_SOURCE.api.init()
@@ -291,36 +297,14 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
             } catch {
                 // Ignore
             }
-
-            // 2. If after attempt it still has no shadowRoot or children, reload script fresh
-            setTimeout(() => {
-                if (!isMounted) return
-                const currentBtn = document.querySelector('[google-add-preferred-source-btn]')
-                if (currentBtn && !currentBtn.shadowRoot && currentBtn.children.length === 0) {
-                    currentBtn.removeAttribute('data-initialized')
-                    const oldScripts = document.querySelectorAll(
-                        'script[src*="news.google.com/swg/js/v1/publisher.js"]',
-                    )
-                    oldScripts.forEach((s) => s.remove())
-
-                    const newScript = document.createElement('script')
-                    newScript.src = 'https://news.google.com/swg/js/v1/publisher.js'
-                    newScript.async = true
-                    document.head.appendChild(newScript)
-                }
-            }, 80)
         }
 
         triggerPreferredSource()
-        const t1 = setTimeout(triggerPreferredSource, 150)
-        const t2 = setTimeout(triggerPreferredSource, 450)
-        const t3 = setTimeout(triggerPreferredSource, 1000)
+        const timer = setTimeout(triggerPreferredSource, 200)
 
         return () => {
             isMounted = false
-            clearTimeout(t1)
-            clearTimeout(t2)
-            clearTimeout(t3)
+            clearTimeout(timer)
         }
     }, [post.id, post.slug])
 
@@ -449,55 +433,68 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
                             </div>
                         </div>
 
-                        {/* Article Headline */}
-                        <h1
-                            className={`font-light text-[clamp(28px,4vw,48px)] leading-[1.15] tracking-tight mb-10 transition-colors duration-300 ${
-                                isDarkTheme ? 'text-white' : 'text-black'
-                            }`}
-                        >
-                            {post.title}
-                        </h1>
-
-                        {/* Hero Image - Full width with automatic natural height */}
-                        {post.image && (
-                            <div className="relative w-full mb-10 overflow-hidden rounded-2xl bg-neutral-200 shadow-xs">
-                                <Image
-                                    src={post.image}
-                                    alt={post.imageAlt || post.title}
-                                    width={1200}
-                                    height={675}
-                                    priority
-                                    unoptimized
-                                    className="w-full h-auto object-contain block"
-                                />
-                            </div>
-                        )}
-
-                        {/* Article Body */}
+                        {/* Semantic Article Wrapper containing header, byline, hero figure, and content for Chrome Reading Mode */}
                         <article
-                            className={`text-base sm:text-[17px] leading-[1.85] font-normal antialiased transition-colors duration-300 ${
-                                isDarkTheme
-                                    ? 'text-neutral-200 [&>p]:mb-6 [&>p]:text-neutral-200 [&>h2]:text-white [&>h2]:text-2xl [&>h2]:sm:text-3xl [&>h2]:font-semibold [&>h2]:leading-[1.25] [&>h2]:mt-14 [&>h2]:mb-6 [&>h2]:tracking-tight [&>h3]:text-white [&>h3]:text-xl [&>h3]:sm:text-2xl [&>h3]:font-semibold [&>h3]:leading-[1.3] [&>h3]:mt-12 [&>h3]:mb-5 [&>h3]:tracking-tight [&>h4]:text-white [&>h4]:text-lg [&>h4]:sm:text-xl [&>h4]:font-semibold [&>h4]:leading-[1.35] [&>h4]:mt-10 [&>h4]:mb-4 [&>ul]:mb-7 [&>ul]:pl-6 [&>ul]:list-disc [&>ul]:marker:text-white/80 [&>ol]:mb-7 [&>ol]:pl-6 [&>ol]:list-decimal [&>ol]:marker:text-white/80 [&>ul>li]:mb-3 [&>ol>li]:mb-3 [&>ul>li>ul]:mt-3 [&>ul>li>ul]:mb-2 [&>ul>li>ul]:pl-6 [&>ul>li>ul]:list-disc [&>ol>li>ol]:mt-3 [&>ol>li>ol]:mb-2 [&>ol>li>ol]:pl-6 [&>ol>li>ol]:list-decimal [&>blockquote]:border-l-4 [&>blockquote]:border-white [&>blockquote]:pl-6 [&>blockquote]:py-2 [&>blockquote]:my-10 [&>blockquote]:text-neutral-100 [&>blockquote]:text-lg [&>blockquote]:sm:text-xl [&>blockquote]:font-medium [&>blockquote]:leading-[1.7] [&>blockquote]:italic [&_a]:text-white [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-4 [&_a]:decoration-white/40 [&_a:hover]:text-neutral-200 [&_a:hover]:decoration-white [&_a]:transition-colors [&_a]:duration-200 [&>strong]:text-white [&>strong]:font-semibold [&_strong]:text-white [&_strong]:font-semibold [&_em]:text-neutral-300 [&_img]:max-w-full [&_img]:h-auto [&_img]:my-8 [&_img]:rounded-sm [&>table]:w-full [&>table]:my-8 [&>table]:border-collapse [&>table_th]:border [&>table_th]:border-white/20 [&>table_th]:bg-white/10 [&>table_th]:px-4 [&>table_th]:py-3 [&>table_th]:text-left [&>table_th]:font-semibold [&>table_th]:text-white [&>table_td]:border [&>table_td]:border-white/15 [&>table_td]:px-4 [&>table_td]:py-3 [&>table_td]:text-neutral-200'
-                                    : 'text-neutral-900 [&>p]:mb-6 [&>p]:text-neutral-900 [&>h2]:text-black [&>h2]:text-2xl [&>h2]:sm:text-3xl [&>h2]:font-semibold [&>h2]:leading-[1.25] [&>h2]:mt-14 [&>h2]:mb-6 [&>h2]:tracking-tight [&>h3]:text-black [&>h3]:text-xl [&>h3]:sm:text-2xl [&>h3]:font-semibold [&>h3]:leading-[1.3] [&>h3]:mt-12 [&>h3]:mb-5 [&>h3]:tracking-tight [&>h4]:text-black [&>h4]:text-lg [&>h4]:sm:text-xl [&>h4]:font-semibold [&>h4]:leading-[1.35] [&>h4]:mt-10 [&>h4]:mb-4 [&>ul]:mb-7 [&>ul]:pl-6 [&>ul]:list-disc [&>ul]:marker:text-black [&>ol]:mb-7 [&>ol]:pl-6 [&>ol]:list-decimal [&>ol]:marker:text-black [&>ul>li]:mb-3 [&>ol>li]:mb-3 [&>ul>li>ul]:mt-3 [&>ul>li>ul]:mb-2 [&>ul>li>ul]:pl-6 [&>ul>li>ul]:list-disc [&>ol>li>ol]:mt-3 [&>ol>li>ol]:mb-2 [&>ol>li>ol]:pl-6 [&>ol>li>ol]:list-decimal [&>blockquote]:border-l-4 [&>blockquote]:border-black [&>blockquote]:pl-6 [&>blockquote]:py-2 [&>blockquote]:my-10 [&>blockquote]:text-black [&>blockquote]:text-lg [&>blockquote]:sm:text-xl [&>blockquote]:font-medium [&>blockquote]:leading-[1.7] [&>blockquote]:italic [&_a]:text-black [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-4 [&_a]:decoration-black/40 [&_a:hover]:text-neutral-600 [&_a:hover]:decoration-black [&_a]:transition-colors [&_a]:duration-200 [&>strong]:text-black [&>strong]:font-semibold [&_strong]:text-black [&_strong]:font-semibold [&_em]:text-neutral-800 [&_img]:max-w-full [&_img]:h-auto [&_img]:my-8 [&_img]:rounded-sm [&>table]:w-full [&>table]:my-8 [&>table]:border-collapse [&>table_th]:border [&>table_th]:border-black/20 [&>table_th]:bg-black/5 [&>table_th]:px-4 [&>table_th]:py-3 [&>table_th]:text-left [&>table_th]:font-semibold [&>table_th]:text-black [&>table_td]:border [&>table_td]:border-black/15 [&>table_td]:px-4 [&>table_td]:py-3 [&>table_td]:text-neutral-900'
-                            }`}
-                            dangerouslySetInnerHTML={{ __html: processedHtml }}
-                        />
+                            itemScope
+                            itemType="https://schema.org/BlogPosting"
+                            className="w-full flex flex-col"
+                        >
+                            {/* Article Header: Title + Author & Date Byline */}
+                            <header className="article-header mb-8">
+                                <h1
+                                    itemProp="headline"
+                                    className={`font-light text-[clamp(28px,4vw,48px)] leading-[1.15] tracking-tight mb-8 transition-colors duration-300 ${
+                                        isDarkTheme ? 'text-white' : 'text-black'
+                                    }`}
+                                >
+                                    {post.title}
+                                </h1>
 
-                        {/* Author & Publication Date */}
-                        <div className="mt-12 ">
-                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
-                                {post.author && (
-                                    <div className="flex items-center gap-3">
+                                {/* Author & Publication Date Byline */}
+                                <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 pb-6 border-b ${
+                                    isDarkTheme ? 'border-white/10' : 'border-black/10'
+                                }`}>
+                                    {post.author && (
                                         <div
-                                            className={`size-8 rounded-full flex items-center justify-center font-mono text-xs font-semibold tracking-wider shrink-0 ${
-                                                isDarkTheme
-                                                    ? 'bg-neutral-800 text-white'
-                                                    : 'bg-neutral-900 text-white'
-                                            }`}
+                                            itemProp="author"
+                                            itemScope
+                                            itemType="https://schema.org/Person"
+                                            className="flex items-center gap-3"
                                         >
-                                            {authorInitials}
+                                            <div
+                                                className={`size-8 rounded-full flex items-center justify-center font-mono text-xs font-semibold tracking-wider shrink-0 ${
+                                                    isDarkTheme
+                                                        ? 'bg-neutral-800 text-white'
+                                                        : 'bg-neutral-900 text-white'
+                                                }`}
+                                            >
+                                                {authorInitials}
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <span
+                                                    className={`text-[11px] font-mono uppercase tracking-widest ${
+                                                        isDarkTheme
+                                                            ? 'text-neutral-400'
+                                                            : 'text-neutral-500'
+                                                    }`}
+                                                >
+                                                    Written by
+                                                </span>
+                                                <span
+                                                    itemProp="name"
+                                                    rel="author"
+                                                    className={`text-sm font-medium ${
+                                                        isDarkTheme ? 'text-white' : 'text-black'
+                                                    }`}
+                                                >
+                                                    {post.author}
+                                                </span>
+                                            </div>
                                         </div>
-                                        <div className="flex flex-col">
+                                    )}
+
+                                    {post.date && (
+                                        <div className="flex flex-col sm:text-right">
                                             <span
                                                 className={`text-[11px] font-mono uppercase tracking-widest ${
                                                     isDarkTheme
@@ -505,41 +502,51 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
                                                         : 'text-neutral-500'
                                                 }`}
                                             >
-                                                Written by
+                                                Published on
                                             </span>
-                                            <span
-                                                className={`text-sm font-medium ${
-                                                    isDarkTheme ? 'text-white' : 'text-black'
+                                            <time
+                                                dateTime={post.date}
+                                                itemProp="datePublished"
+                                                className={`font-mono text-xs uppercase tracking-wider mt-0.5 ${
+                                                    isDarkTheme ? 'text-neutral-300' : 'text-black'
                                                 }`}
                                             >
-                                                {post.author}
-                                            </span>
+                                                {post.date}
+                                            </time>
                                         </div>
-                                    </div>
-                                )}
+                                    )}
+                                </div>
+                            </header>
 
-                                {post.date && (
-                                    <div className="flex flex-col sm:text-right">
-                                        <span
-                                            className={`text-[11px] font-mono uppercase tracking-widest ${
-                                                isDarkTheme
-                                                    ? 'text-neutral-400'
-                                                    : 'text-neutral-500'
-                                            }`}
-                                        >
-                                            Published on
-                                        </span>
-                                        <span
-                                            className={`font-mono text-xs uppercase tracking-wider mt-0.5 ${
-                                                isDarkTheme ? 'text-neutral-300' : 'text-black'
-                                            }`}
-                                        >
-                                            {post.date}
-                                        </span>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
+                            {/* Hero Image - Full width with automatic natural height */}
+                            {post.image && (
+                                <figure className="article-featured-image relative w-full mb-10 overflow-hidden rounded-2xl bg-neutral-200 shadow-xs">
+                                    <Image
+                                        src={post.image}
+                                        alt={post.imageAlt || post.title}
+                                        width={1200}
+                                        height={675}
+                                        priority
+                                        unoptimized
+                                        className="w-full h-auto object-contain block"
+                                    />
+                                    {post.imageAlt && (
+                                        <figcaption className="sr-only">{post.imageAlt}</figcaption>
+                                    )}
+                                </figure>
+                            )}
+
+                            {/* Article Body */}
+                            <div
+                                itemProp="articleBody"
+                                className={`article-content text-base sm:text-[17px] leading-[1.85] font-normal antialiased transition-colors duration-300 ${
+                                    isDarkTheme
+                                        ? 'text-neutral-200 [&>p]:mb-6 [&>p]:text-neutral-200 [&>h2]:text-white [&>h2]:text-2xl [&>h2]:sm:text-3xl [&>h2]:font-semibold [&>h2]:leading-[1.25] [&>h2]:mt-14 [&>h2]:mb-6 [&>h2]:tracking-tight [&>h3]:text-white [&>h3]:text-xl [&>h3]:sm:text-2xl [&>h3]:font-semibold [&>h3]:leading-[1.3] [&>h3]:mt-12 [&>h3]:mb-5 [&>h3]:tracking-tight [&>h4]:text-white [&>h4]:text-lg [&>h4]:sm:text-xl [&>h4]:font-semibold [&>h4]:leading-[1.35] [&>h4]:mt-10 [&>h4]:mb-4 [&>ul]:mb-7 [&>ul]:pl-6 [&>ul]:list-disc [&>ul]:marker:text-white/80 [&>ol]:mb-7 [&>ol]:pl-6 [&>ol]:list-decimal [&>ol]:marker:text-white/80 [&>ul>li]:mb-3 [&>ol>li]:mb-3 [&>ul>li>ul]:mt-3 [&>ul>li>ul]:mb-2 [&>ul>li>ul]:pl-6 [&>ul>li>ul]:list-disc [&>ol>li>ol]:mt-3 [&>ol>li>ol]:mb-2 [&>ol>li>ol]:pl-6 [&>ol>li>ol]:list-decimal [&>blockquote]:border-l-4 [&>blockquote]:border-white [&>blockquote]:pl-6 [&>blockquote]:py-2 [&>blockquote]:my-10 [&>blockquote]:text-neutral-100 [&>blockquote]:text-lg [&>blockquote]:sm:text-xl [&>blockquote]:font-medium [&>blockquote]:leading-[1.7] [&>blockquote]:italic [&_a]:text-white [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-4 [&_a]:decoration-white/40 [&_a:hover]:text-neutral-200 [&_a:hover]:decoration-white [&_a]:transition-colors [&_a]:duration-200 [&>strong]:text-white [&>strong]:font-semibold [&_strong]:text-white [&_strong]:font-semibold [&_em]:text-neutral-300 [&_img]:max-w-full [&_img]:h-auto [&_img]:my-8 [&_img]:rounded-sm [&>table]:w-full [&>table]:my-8 [&>table]:border-collapse [&>table_th]:border [&>table_th]:border-white/20 [&>table_th]:bg-white/10 [&>table_th]:px-4 [&>table_th]:py-3 [&>table_th]:text-left [&>table_th]:font-semibold [&>table_th]:text-white [&>table_td]:border [&>table_td]:border-white/15 [&>table_td]:px-4 [&>table_td]:py-3 [&>table_td]:text-neutral-200'
+                                        : 'text-neutral-900 [&>p]:mb-6 [&>p]:text-neutral-900 [&>h2]:text-black [&>h2]:text-2xl [&>h2]:sm:text-3xl [&>h2]:font-semibold [&>h2]:leading-[1.25] [&>h2]:mt-14 [&>h2]:mb-6 [&>h2]:tracking-tight [&>h3]:text-black [&>h3]:text-xl [&>h3]:sm:text-2xl [&>h3]:font-semibold [&>h3]:leading-[1.3] [&>h3]:mt-12 [&>h3]:mb-5 [&>h3]:tracking-tight [&>h4]:text-black [&>h4]:text-lg [&>h4]:sm:text-xl [&>h4]:font-semibold [&>h4]:leading-[1.35] [&>h4]:mt-10 [&>h4]:mb-4 [&>ul]:mb-7 [&>ul]:pl-6 [&>ul]:list-disc [&>ul]:marker:text-black [&>ol]:mb-7 [&>ol]:pl-6 [&>ol]:list-decimal [&>ol]:marker:text-black [&>ul>li]:mb-3 [&>ol>li]:mb-3 [&>ul>li>ul]:mt-3 [&>ul>li>ul]:mb-2 [&>ul>li>ul]:pl-6 [&>ul>li>ul]:list-disc [&>ol>li>ol]:mt-3 [&>ol>li>ol]:mb-2 [&>ol>li>ol]:pl-6 [&>ol>li>ol]:list-decimal [&>blockquote]:border-l-4 [&>blockquote]:border-black [&>blockquote]:pl-6 [&>blockquote]:py-2 [&>blockquote]:my-10 [&>blockquote]:text-black [&>blockquote]:text-lg [&>blockquote]:sm:text-xl [&>blockquote]:font-medium [&>blockquote]:leading-[1.7] [&>blockquote]:italic [&_a]:text-black [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-4 [&_a]:decoration-black/40 [&_a:hover]:text-neutral-600 [&_a:hover]:decoration-black [&_a]:transition-colors [&_a]:duration-200 [&>strong]:text-black [&>strong]:font-semibold [&_strong]:text-black [&_strong]:font-semibold [&_em]:text-neutral-800 [&_img]:max-w-full [&_img]:h-auto [&_img]:my-8 [&_img]:rounded-sm [&>table]:w-full [&>table]:my-8 [&>table]:border-collapse [&>table_th]:border [&>table_th]:border-black/20 [&>table_th]:bg-black/5 [&>table_th]:px-4 [&>table_th]:py-3 [&>table_th]:text-left [&>table_th]:font-semibold [&>table_th]:text-black [&>table_td]:border [&>table_td]:border-black/15 [&>table_td]:px-4 [&>table_td]:py-3 [&>table_td]:text-neutral-900'
+                                }`}
+                                dangerouslySetInnerHTML={{ __html: processedHtml }}
+                            />
+                        </article>
 
                         {/* Top Action Bar: Preferred Source + Quick Share Buttons */}
                         <div
