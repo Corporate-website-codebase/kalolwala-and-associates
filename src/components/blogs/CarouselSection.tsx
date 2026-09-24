@@ -1,7 +1,6 @@
 'use client'
 
 import { BLOG_DATA, type BlogPost } from '@/data/blogs'
-import { motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 import React, { useMemo, useRef, useState, useSyncExternalStore } from 'react'
@@ -231,9 +230,9 @@ export default function BlogPaginatedList({
         <section id="articles" className="w-full bg-[#d4d4d4] text-black font-noto-sans">
             <div className="w-full min-h-screen font-noto-sans ">
                 {/* Hero header banner */}
-                <div className="relative w-full min-h-[80svh] xl:h overflow-hidden flex flex-col justify-center  bg-black">
-                    {/* Background hero image with smooth GPU scale-in and fade */}
-                    <div className="absolute inset-0 w-full h-full animate-blog-hero">
+                <div className="relative w-full min-h-[80svh] overflow-hidden flex flex-col justify-center bg-black">
+                    {/* Background hero image */}
+                    <div className="absolute inset-0 w-full h-full">
                         <Image
                             src="/blogs/blogs-banner.webp"
                             alt="Background"
@@ -245,31 +244,20 @@ export default function BlogPaginatedList({
                     </div>
 
                     {/* Gradient overlay to keep foreground text legible */}
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 1.1, ease: 'easeOut' }}
-                        className="absolute inset-0 bg-linear-to-r from-black/95 via-black/65 to-transparent pointer-events-none"
-                    />
+                    <div className="absolute inset-0 bg-linear-to-r from-black/95 via-black/65 to-transparent pointer-events-none" />
 
                     {/* Hero copy and subscription form */}
                     <div className="relative z-10 flex flex-col h-full justify-center marginal">
-                        <motion.h1
-                            initial={{ opacity: 0, y: 32 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                        <h1
                             className="leading-[1.1] mb-4 lg:mb-6 text-white font-light tracking-tight whitespace-pre-line"
                             style={{ fontSize: 'clamp(32px, 4vw, 64px)' }}
                         >
                             Finding the story in the
                             <br />
                             subtle space between words.
-                        </motion.h1>
+                        </h1>
 
-                        <motion.p
-                            initial={{ opacity: 0, y: 24 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.85, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                        <p
                             className="text-neutral-100 whitespace-pre-line max-w-3xl font-light"
                             style={{
                                 fontSize: 'clamp(14px, 1.2vw, 18px)',
@@ -282,15 +270,10 @@ export default function BlogPaginatedList({
                             stakeholder engagement, our blog brings together thoughtful perspectives
                             designed to help businesses understand what is changing, why it matters
                             and what comes next.
-                        </motion.p>
+                        </p>
 
                         {/* Newsletter subscription module */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 24 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.85, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                            className="mt-8 lg:mt-16 lg:w-4xl flex flex-col gap-6"
-                        >
+                        <div className="mt-8 lg:mt-16 lg:w-4xl flex flex-col gap-6">
                             <div className="md:w-1/2">
                                 <p className="font-mono text-xs uppercase tracking-[0.2em] text-neutral-100 mb-3">
                                     Stay informed
@@ -329,7 +312,7 @@ export default function BlogPaginatedList({
                                         }
                                         disabled={subscriptionStatus === 'loading'}
                                         style={{ colorScheme: 'dark' }}
-                                        className={`w-full sm:max-w-sm h-12 px-4 bg-white/10 backdrop-blur-[2px] text-white outline-none font-noto-sans transition-all duration-300 disabled:opacity-50 ${
+                                        className={`w-full sm:max-w-sm h-12 px-4 bg-white/10 text-white outline-none font-noto-sans transition-all duration-300 disabled:opacity-50 ${
                                             isShaking ? 'animate-shake-x' : ''
                                         } ${
                                             hasError
@@ -376,20 +359,15 @@ export default function BlogPaginatedList({
                                     </p>
                                 )}
                             </div>
-                        </motion.div>
+                        </div>
                     </div>
                 </div>
 
                 {/* Scroll target for pagination */}
                 <div ref={listTopRef} className="scroll-mt-24" />
 
-                {/* Blog post cards grid with smooth coordinated entrance */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.1, ease: 'easeOut' }}
-                    className="min-h-100 marginal"
-                >
+                {/* Blog post cards grid with smooth clean entrance */}
+                <div className="min-h-100 marginal">
                     <div
                         className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 pt-2 gap-6 lg:gap-8 2xl:gap-5 transition-all duration-300 ease-out ${
                             isPageChanging
@@ -401,14 +379,11 @@ export default function BlogPaginatedList({
                             <BlogCard key={c.id} post={c} />
                         ))}
                     </div>
-                </motion.div>
+                </div>
 
                 {/* Pagination navigation */}
                 {totalPages > 1 && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: hasMounted ? 1 : 0, y: 0 }}
-                        transition={{ duration: 0.35, delay: 0.15, ease: 'easeOut' }}
+                    <div
                         className={`mt-12 marginal pt-0! flex justify-center items-center gap-8 sm:gap-12 transition-opacity duration-300 ${
                             hasMounted ? 'opacity-100' : 'opacity-0'
                         }`}
@@ -499,7 +474,7 @@ export default function BlogPaginatedList({
                                 }`}
                             />
                         </button>
-                    </motion.div>
+                    </div>
                 )}
             </div>
         </section>

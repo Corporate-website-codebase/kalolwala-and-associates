@@ -12,8 +12,9 @@ export default function SmoothScroll({
     <ReactLenis
       root
       options={{
-        // Now you can pass functions because this is a client component
-        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        lerp: 0.1,
+        duration: 1.2,
+        smoothWheel: true,
       }}
     >
       {children}
