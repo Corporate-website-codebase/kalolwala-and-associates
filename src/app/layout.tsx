@@ -14,20 +14,15 @@ import Script from "next/script";
 const anton = Anton({
   weight: "400",
   subsets: ["latin"],
+  display: "swap",
   variable: "--font-anton",
 });
-// const noto = Noto_Sans({
-//   weight: "400",
-//   subsets: ["latin"],
-//   variable: "--font-noto-sans",
-// });
+
 const noto = Noto_Sans({
-  // Add the specific weights your site uses. 100 is the thinnest. 
-  // You can include all of them to perfectly match your old CSS import:
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  // Add italic style support since your previous import had it
-  style: ["normal", "italic"], 
+  weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
   subsets: ["latin"],
+  display: "swap",
   variable: "--font-noto-sans",
 });
 const home = PAGE_METADATA.home;

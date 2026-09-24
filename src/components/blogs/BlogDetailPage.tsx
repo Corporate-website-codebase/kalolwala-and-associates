@@ -521,7 +521,7 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
                                         width={1200}
                                         height={675}
                                         priority
-                                        unoptimized
+                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1000px"
                                         className="w-full h-auto object-contain block"
                                     />
                                     {post.imageAlt && (
