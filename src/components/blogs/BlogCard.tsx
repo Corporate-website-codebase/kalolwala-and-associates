@@ -49,7 +49,7 @@ export default function BlogCard({ post, blog, card, className = '' }: BlogCardP
     const author = parseAuthor(item.author)
 
     const cardContent = (
-        <article className="group relative flex flex-col h-full overflow-hidden rounded-2xl bg-white/60 backdrop-blur-xl border border-white/80 shadow-sm hover:shadow-xl transition-all duration-500 ease-out hover:-translate-y-1">
+        <article className="group relative flex flex-col h-full overflow-hidden rounded-2xl bg-white/95 border border-white/90 shadow-xs hover:shadow-xl transition-all duration-300 ease-out hover:-translate-y-1">
             {/* Fixed aspect ratio thumbnail container */}
             <div className="relative w-full px-0.5 pt-0.5">
                 <div className="relative w-full aspect-16/8 overflow-hidden rounded-[14px] bg-neutral-100">

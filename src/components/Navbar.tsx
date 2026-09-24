@@ -53,7 +53,6 @@ const navLinks: NavItem[] = [
 ]
 
 const Navbar = () => {
-    const [isScrolled, setIsScrolled] = useState(false)
     const [isVisible, setIsVisible] = useState(true)
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const [isOfferingsHovered, setIsOfferingsHovered] = useState(false)
@@ -81,9 +80,8 @@ const Navbar = () => {
 
     // --- OPTIMIZED SCROLL LOGIC ---
     useMotionValueEvent(scrollY, 'change', (latest) => {
-        // At the very top of the page (within 10px), always visible and not scrolled
+        // At the very top of the page (within 10px), always visible
         if (latest <= 10) {
-            setIsScrolled(false)
             if (!isVisible) {
                 const navHeight =
                     navRef.current?.offsetHeight || (window.innerWidth >= 768 ? 92 : 64)
@@ -95,10 +93,6 @@ const Navbar = () => {
             lastDirectionRef.current = null
             lastScrollYRef.current = latest
             return
-        }
-
-        if (!isScrolled && latest > 10) {
-            setIsScrolled(true)
         }
 
         const previous = lastScrollYRef.current

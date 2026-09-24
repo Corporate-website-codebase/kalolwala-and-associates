@@ -4,6 +4,7 @@ import { getMetadata } from "@/data/metadata";
 import { getPosts } from "@/lib/wordpress";
 
 export const metadata = getMetadata("blogs");
+export const revalidate = 600;
 
 const breadcrumbSchema = {
   "@context": "https://schema.org",

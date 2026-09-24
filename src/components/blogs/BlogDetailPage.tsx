@@ -1,8 +1,6 @@
 'use client'
 
 import { BLOG_DATA, type BlogPost } from '@/data/blogs'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useLenis } from 'lenis/react'
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Copy, Moon, Share2, Sun } from 'lucide-react'
 import Image from 'next/image'
@@ -15,8 +13,6 @@ import BlogPostNavigation from './detail/BlogPostNavigation'
 import BlogRecentArticles from './detail/BlogRecentArticles'
 import BlogSubscribeBottom from './detail/BlogSubscribeBottom'
 import BlogTableOfContents, { type TocHeading } from './detail/BlogTableOfContents'
-
-gsap.registerPlugin(ScrollTrigger)
 
 interface BlogDetailPageProps {
     post: BlogPost
@@ -205,7 +201,6 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
 
     useLenis((lenis) => {
         lenisRef.current = lenis
-        ScrollTrigger.update()
     })
 
     // Scroll to top on article switch
@@ -214,7 +209,6 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
             lenisRef.current.scrollTo(0, { immediate: true })
         }
         window.scrollTo(0, 0)
-        ScrollTrigger.refresh()
     }, [post.id])
 
     const authorInitials = parseAuthorInitials(post.author)
