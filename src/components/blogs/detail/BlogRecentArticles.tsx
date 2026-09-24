@@ -13,7 +13,7 @@ interface BlogRecentArticlesProps {
     isNavbarVisible?: boolean
 }
 
-const INITIAL_COUNT = 5
+const INITIAL_COUNT = 12
 const LOAD_MORE_STEP = 5
 
 // Module-level state to remember the expanded count when navigating between articles

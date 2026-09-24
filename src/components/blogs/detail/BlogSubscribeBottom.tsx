@@ -83,7 +83,7 @@ export default function BlogSubscribeBottom() {
     }
 
     return (
-        <section className="w-full mt-14 p-6 sm:p-8 md:p-10 rounded-2xl bg-black text-white relative overflow-hidden shadow-md">
+        <section className="w-full mt-8 p-6 sm:p-8 md:p-10 rounded-2xl bg-black/80 text-white relative overflow-hidden shadow-md">
             {/* Subtle radial ambient glow */}
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-neutral-800/40 via-transparent to-transparent pointer-events-none" />
 
@@ -91,7 +91,7 @@ export default function BlogSubscribeBottom() {
                 <div className="flex flex-col justify-between gap-8">
                     {/* Copy */}
                     <div className="">
-                        <p className="font-mono text-xs uppercase tracking-[0.2em] text-neutral-400 mb-2">
+                        <p className="font-mono text-xs uppercase tracking-[0.2em] text-neutral-200 mb-2">
                             Stay informed
                         </p>
 
@@ -99,7 +99,7 @@ export default function BlogSubscribeBottom() {
                             Subscribe to our latest insights.
                         </h3>
 
-                        <p className="mt-2 text-xs sm:text-sm text-neutral-400 font-light leading-relaxed">
+                        <p className="mt-2 text-xs sm:text-sm text-neutral-200 font-light leading-relaxed">
                             Get our latest articles, research perspectives, and reporting insights delivered directly to your inbox.
                         </p>
                     </div>
@@ -124,7 +124,7 @@ export default function BlogSubscribeBottom() {
                                 } ${
                                     hasError
                                         ? 'border border-red-500 placeholder:text-red-400 focus:border-red-400 focus:bg-white/15'
-                                        : 'border border-white/20 placeholder:text-neutral-400 focus:border-white/60'
+                                        : 'border border-white/20 placeholder:text-neutral-200 focus:border-white/60'
                                 }`}
                             />
 

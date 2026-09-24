@@ -7,7 +7,7 @@ import Script from 'next/script'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useLenis } from 'lenis/react'
-import { ArrowLeft, ArrowUpRight, Check, Copy, Linkedin, Share2 } from 'lucide-react'
+import { ArrowLeft, ArrowUpRight, Check, Copy, Share2 } from 'lucide-react'
 import { BLOG_DATA, type BlogPost } from '@/data/blogs'
 import PublisherMarquee from './PublisherMarquee'
 import BlogBackToTop from './detail/BlogBackToTop'
@@ -407,7 +407,7 @@ export default function BlogDetailPage({
     return (
         <section
             ref={containerRef}
-            className="w-full min-h-screen bg-[#d4d4d4] text-black font-noto-sans flex flex-col justify-between [overflow-anchor:none]"
+            className="w-full min-h-screen bg-[#eeeeee] text-black font-noto-sans flex flex-col justify-between [overflow-anchor:none]"
         >
             <Script
                 src="https://news.google.com/swg/js/v1/publisher.js"
@@ -546,7 +546,7 @@ export default function BlogDetailPage({
                                     {copiedTop ? (
                                         <>
                                             <Check size={13} className="text-emerald-500" />
-                                            <span>Copied!</span>
+                                            <span>Link Copied!</span>
                                         </>
                                     ) : (
                                         <>
@@ -564,7 +564,20 @@ export default function BlogDetailPage({
                                     title="Share on LinkedIn"
                                     className="inline-flex items-center justify-center size-8 rounded-full bg-black/5 hover:bg-[#0A66C2] text-neutral-700 hover:text-white transition-all duration-200 cursor-pointer"
                                 >
-                                    <Linkedin size={14} />
+                                    <svg
+                                        viewBox="0 -2 44 44"
+                                        className="size-3.5 fill-current"
+                                        aria-hidden="true"
+                                    >
+                                        <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+                                            <g transform="translate(-702.000000, -265.000000)" fill="currentColor">
+                                                <path
+                                                    d="M746,305 L736.2754,305 L736.2754,290.9384 C736.2754,287.257796 734.754233,284.74515 731.409219,284.74515 C728.850659,284.74515 727.427799,286.440738 726.765522,288.074854 C726.517168,288.661395 726.555974,289.478453 726.555974,290.295511 L726.555974,305 L716.921919,305 C716.921919,305 717.046096,280.091247 716.921919,277.827047 L726.555974,277.827047 L726.555974,282.091631 C727.125118,280.226996 730.203669,277.565794 735.116416,277.565794 C741.21143,277.565794 746,281.474355 746,289.890824 L746,305 L746,305 Z M707.17921,274.428187 L707.117121,274.428187 C704.0127,274.428187 702,272.350964 702,269.717936 C702,267.033681 704.072201,265 707.238711,265 C710.402634,265 712.348071,267.028559 712.41016,269.710252 C712.41016,272.34328 710.402634,274.428187 707.17921,274.428187 L707.17921,274.428187 L707.17921,274.428187 Z M703.109831,277.827047 L711.685795,277.827047 L711.685795,305 L703.109831,305 L703.109831,277.827047 L703.109831,277.827047 Z"
+                                                    id="LinkedIn"
+                                                />
+                                            </g>
+                                        </g>
+                                    </svg>
                                 </button>
 
                                 {/* Native Share / Share Icon */}
