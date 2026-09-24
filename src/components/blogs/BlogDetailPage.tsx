@@ -457,12 +457,69 @@ export default function BlogDetailPage({
                         </Link>
 
                         {/* Article Headline */}
-                        <h1 className="text-black font-light text-[clamp(28px,4vw,48px)] leading-[1.15] tracking-tight mb-4">
+                        <h1 className="text-black font-light text-[clamp(28px,4vw,48px)] leading-[1.15] tracking-tight mb-10">
                             {post.title}
                         </h1>
 
-                        {/* Top Action Bar: Preferred Source + Quick Share Buttons */}
-                        <div className="mb-8 flex flex-wrap items-center justify-between gap-4 py-3 border-y border-black/10">
+
+
+                        {/* Hero Image - Full width with automatic natural height */}
+                        {post.image && (
+                            <div className="relative w-full mb-10 overflow-hidden rounded-2xl bg-neutral-200 shadow-xs">
+                                <Image
+                                    src={post.image}
+                                    alt={post.imageAlt || post.title}
+                                    width={1200}
+                                    height={675}
+                                    priority
+                                    unoptimized
+                                    className="w-full h-auto object-contain block"
+                                />
+                            </div>
+                        )}
+
+                        {/* Article Body */}
+                        <article
+                            className="text-neutral-900 text-base sm:text-[17px] leading-[1.85] font-normal antialiased [&>p]:mb-6 [&>p]:text-neutral-900 [&>h2]:text-black [&>h2]:text-2xl [&>h2]:sm:text-3xl [&>h2]:font-semibold [&>h2]:leading-[1.25] [&>h2]:mt-14 [&>h2]:mb-6 [&>h2]:tracking-tight [&>h3]:text-black [&>h3]:text-xl [&>h3]:sm:text-2xl [&>h3]:font-semibold [&>h3]:leading-[1.3] [&>h3]:mt-12 [&>h3]:mb-5 [&>h3]:tracking-tight [&>h4]:text-black [&>h4]:text-lg [&>h4]:sm:text-xl [&>h4]:font-semibold [&>h4]:leading-[1.35] [&>h4]:mt-10 [&>h4]:mb-4 [&>ul]:mb-7 [&>ul]:pl-6 [&>ul]:list-disc [&>ul]:marker:text-black [&>ol]:mb-7 [&>ol]:pl-6 [&>ol]:list-decimal [&>ol]:marker:text-black [&>ul>li]:mb-3 [&>ol>li]:mb-3 [&>ul>li>ul]:mt-3 [&>ul>li>ul]:mb-2 [&>ul>li>ul]:pl-6 [&>ul>li>ul]:list-disc [&>ol>li>ol]:mt-3 [&>ol>li>ol]:mb-2 [&>ol>li>ol]:pl-6 [&>ol>li>ol]:list-decimal [&>blockquote]:border-l-4 [&>blockquote]:border-black [&>blockquote]:pl-6 [&>blockquote]:py-2 [&>blockquote]:my-10 [&>blockquote]:text-black [&>blockquote]:text-lg [&>blockquote]:sm:text-xl [&>blockquote]:font-medium [&>blockquote]:leading-[1.7] [&>blockquote]:italic [&_a]:text-black [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-4 [&_a]:decoration-black/40 [&_a:hover]:text-neutral-600 [&_a:hover]:decoration-black [&_a]:transition-colors [&_a]:duration-200 [&>strong]:text-black [&>strong]:font-semibold [&_strong]:text-black [&_strong]:font-semibold [&_em]:text-neutral-800 [&_img]:max-w-full [&_img]:h-auto [&_img]:my-8 [&_img]:rounded-sm [&>table]:w-full [&>table]:my-8 [&>table]:border-collapse [&>table_th]:border [&>table_th]:border-black/20 [&>table_th]:bg-black/5 [&>table_th]:px-4 [&>table_th]:py-3 [&>table_th]:text-left [&>table_th]:font-semibold [&>table_th]:text-black [&>table_td]:border [&>table_td]:border-black/15 [&>table_td]:px-4 [&>table_td]:py-3 [&>table_td]:text-neutral-900"
+                            dangerouslySetInnerHTML={{ __html: processedHtml }}
+                        />
+
+                        {/* Author & Publication Date */}
+                        <div className="mt-12 ">
+                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+                                {post.author && (
+                                    <div className="flex items-center gap-3">
+                                        <div className="size-8 rounded-full bg-neutral-900 text-white flex items-center justify-center font-mono text-xs font-semibold tracking-wider shrink-0">
+                                            {authorInitials}
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span className="text-[11px] font-mono uppercase tracking-widest text-neutral-500">
+                                                Written by
+                                            </span>
+                                            <span className="text-sm font-medium text-black">
+                                                {post.author}
+                                            </span>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {post.date && (
+                                    <div className="flex flex-col sm:text-right">
+                                        <span className="text-[11px] font-mono uppercase tracking-widest text-neutral-500">
+                                            Published on
+                                        </span>
+                                        <span className="font-mono text-xs text-black uppercase tracking-wider mt-0.5">
+                                            {post.date}
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Share actions bar */}
+                        {/* <BlogShareBar title={post.title} /> */}
+                          {/* Top Action Bar: Preferred Source + Quick Share Buttons */}
+                        <div className="mb-8 mt-8 flex flex-wrap items-center justify-between gap-4 py-3 border-y border-black/10">
                             {/* Google Preferred Source Badge */}
                             <div className="flex items-center leading-none min-h-[40px] min-w-[140px]">
                                 <div
@@ -522,62 +579,6 @@ export default function BlogDetailPage({
                                 </button>
                             </div>
                         </div>
-
-                        {/* Hero Image - Full width with automatic natural height */}
-                        {post.image && (
-                            <div className="relative w-full mb-10 overflow-hidden rounded-2xl bg-neutral-200 shadow-xs">
-                                <Image
-                                    src={post.image}
-                                    alt={post.imageAlt || post.title}
-                                    width={1200}
-                                    height={675}
-                                    priority
-                                    unoptimized
-                                    className="w-full h-auto object-contain block"
-                                />
-                            </div>
-                        )}
-
-                        {/* Article Body */}
-                        <article
-                            className="text-neutral-900 text-base sm:text-[17px] leading-[1.85] font-normal antialiased [&>p]:mb-6 [&>p]:text-neutral-900 [&>h2]:text-black [&>h2]:text-2xl [&>h2]:sm:text-3xl [&>h2]:font-semibold [&>h2]:leading-[1.25] [&>h2]:mt-14 [&>h2]:mb-6 [&>h2]:tracking-tight [&>h3]:text-black [&>h3]:text-xl [&>h3]:sm:text-2xl [&>h3]:font-semibold [&>h3]:leading-[1.3] [&>h3]:mt-12 [&>h3]:mb-5 [&>h3]:tracking-tight [&>h4]:text-black [&>h4]:text-lg [&>h4]:sm:text-xl [&>h4]:font-semibold [&>h4]:leading-[1.35] [&>h4]:mt-10 [&>h4]:mb-4 [&>ul]:mb-7 [&>ul]:pl-6 [&>ul]:list-disc [&>ul]:marker:text-black [&>ol]:mb-7 [&>ol]:pl-6 [&>ol]:list-decimal [&>ol]:marker:text-black [&>ul>li]:mb-3 [&>ol>li]:mb-3 [&>ul>li>ul]:mt-3 [&>ul>li>ul]:mb-2 [&>ul>li>ul]:pl-6 [&>ul>li>ul]:list-disc [&>ol>li>ol]:mt-3 [&>ol>li>ol]:mb-2 [&>ol>li>ol]:pl-6 [&>ol>li>ol]:list-decimal [&>blockquote]:border-l-4 [&>blockquote]:border-black [&>blockquote]:pl-6 [&>blockquote]:py-2 [&>blockquote]:my-10 [&>blockquote]:text-black [&>blockquote]:text-lg [&>blockquote]:sm:text-xl [&>blockquote]:font-medium [&>blockquote]:leading-[1.7] [&>blockquote]:italic [&_a]:text-black [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-4 [&_a]:decoration-black/40 [&_a:hover]:text-neutral-600 [&_a:hover]:decoration-black [&_a]:transition-colors [&_a]:duration-200 [&>strong]:text-black [&>strong]:font-semibold [&_strong]:text-black [&_strong]:font-semibold [&_em]:text-neutral-800 [&_img]:max-w-full [&_img]:h-auto [&_img]:my-8 [&_img]:rounded-sm [&>table]:w-full [&>table]:my-8 [&>table]:border-collapse [&>table_th]:border [&>table_th]:border-black/20 [&>table_th]:bg-black/5 [&>table_th]:px-4 [&>table_th]:py-3 [&>table_th]:text-left [&>table_th]:font-semibold [&>table_th]:text-black [&>table_td]:border [&>table_td]:border-black/15 [&>table_td]:px-4 [&>table_td]:py-3 [&>table_td]:text-neutral-900"
-                            dangerouslySetInnerHTML={{ __html: processedHtml }}
-                        />
-
-                        {/* Author & Publication Date */}
-                        <div className="mt-12 pt-8 border-t border-black/15">
-                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
-                                {post.author && (
-                                    <div className="flex items-center gap-3">
-                                        <div className="size-8 rounded-full bg-neutral-900 text-white flex items-center justify-center font-mono text-xs font-semibold tracking-wider shrink-0">
-                                            {authorInitials}
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <span className="text-[11px] font-mono uppercase tracking-widest text-neutral-500">
-                                                Written by
-                                            </span>
-                                            <span className="text-sm font-medium text-black">
-                                                {post.author}
-                                            </span>
-                                        </div>
-                                    </div>
-                                )}
-
-                                {post.date && (
-                                    <div className="flex flex-col sm:text-right">
-                                        <span className="text-[11px] font-mono uppercase tracking-widest text-neutral-500">
-                                            Published on
-                                        </span>
-                                        <span className="font-mono text-xs text-black uppercase tracking-wider mt-0.5">
-                                            {post.date}
-                                        </span>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Share actions bar */}
-                        <BlogShareBar title={post.title} />
 
                         {/* Previous & Next Article Navigation */}
                         <BlogPostNavigation prevPost={prevPost} nextPost={nextPost} />

@@ -7,7 +7,7 @@ import Image from 'next/image'
 import React, { useMemo, useRef, useState, useSyncExternalStore } from 'react'
 import BlogCard from './BlogCard'
 
-const ITEMS_PER_PAGE = 6
+const ITEMS_PER_PAGE = 12
 
 const emptySubscribe = () => () => {}
 
