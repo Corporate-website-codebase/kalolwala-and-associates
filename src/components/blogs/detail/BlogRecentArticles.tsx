@@ -122,16 +122,16 @@ export default function BlogRecentArticles({
                 </div>
 
                 {/* Content body when open */}
-                {isOpen ? (
-                    <div
-                        data-lenis-prevent="true"
-                        className="flex-1 p-3.5 pb-16 flex flex-col gap-1 overflow-y-auto overscroll-contain"
-                    >
+                <div
+                    data-lenis-prevent="true"
+                    className={`flex-1 p-3.5 pb-16 flex-col gap-1 overflow-y-auto overscroll-contain ${
+                        isOpen ? 'flex' : 'hidden'
+                    }`}
+                >
                     {visibleArticles.map((blog, idx) => (
                         <Link
                             key={`${blog.slug}-${blog.id}`}
                             href={`/blogs/${blog.slug}`}
-                            prefetch={false}
                             className={`group flex gap-3 p-2.5 transition-colors duration-150 hover:bg-white/10 rounded-sm ${
                                 idx !== 0 ? 'border-t border-white/10' : ''
                             }`}
@@ -193,11 +193,13 @@ export default function BlogRecentArticles({
                         </div>
                     )}
                 </div>
-            ) : (
-                /* Collapsed vertical strip */
+
+                {/* Collapsed vertical strip */}
                 <div
                     onClick={handleToggle}
-                    className="flex-1 py-8 px-1 flex flex-col items-center gap-6 cursor-pointer hover:bg-white/5 transition-colors"
+                    className={`flex-1 py-8 px-1 flex-col items-center gap-6 cursor-pointer hover:bg-white/5 transition-colors ${
+                        isOpen ? 'hidden' : 'flex'
+                    }`}
                     title="Click to expand Recent Articles"
                 >
                     <ArticleIcon className="w-4 h-4 shrink-0 text-neutral-400" />
@@ -209,7 +211,6 @@ export default function BlogRecentArticles({
                     </span>
                     <ChevronLeft size={14} className="text-neutral-400" />
                 </div>
-            )}
             </div>
         </aside>
     )
