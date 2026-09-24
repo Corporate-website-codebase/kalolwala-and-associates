@@ -10,7 +10,6 @@ interface BlogRecentArticlesProps {
     articles: BlogPost[]
     isOpen?: boolean
     onToggle?: () => void
-    isNavbarVisible?: boolean
 }
 
 const INITIAL_COUNT = 12
@@ -50,7 +49,6 @@ export default function BlogRecentArticles({
     articles,
     isOpen: controlledOpen,
     onToggle,
-    isNavbarVisible = true,
 }: BlogRecentArticlesProps) {
     const [internalOpen, setInternalOpen] = useState(true)
     const isControlled = typeof controlledOpen === 'boolean'
@@ -84,70 +82,73 @@ export default function BlogRecentArticles({
 
     return (
         <aside
-            data-lenis-prevent="true"
-            style={{
-                top: isNavbarVisible ? 'var(--navbar-height, 92px)' : '0px',
-                height: isNavbarVisible
-                    ? 'calc(100vh - var(--navbar-height, 92px))'
-                    : '100vh',
-            }}
-            className={`hidden lg:flex flex-col sticky z-30 shrink-0 border-l border-black/10 bg-[#d4d4d4] text-black transition-[width,top,height] duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] overscroll-contain ${
+            className={`hidden lg:flex flex-col shrink-0 relative z-10 transition-[width] duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] ${
                 isOpen ? 'w-80 xl:w-96' : 'w-12 xl:w-14'
             }`}
         >
-            {/* Header bar with toggle - pl-6 and pr-6 align with the article cards below (p-3.5 + p-2.5) */}
+            {/* Sticky sidebar — top/height driven by --navbar-height CSS variable */}
             <div
-                className={`flex items-center py-3.5 border-b border-black/10 bg-black/5 ${
-                    isOpen ? 'justify-between pl-6 pr-6' : 'justify-center p-3.5'
-                }`}
+                data-lenis-prevent="true"
+                style={{
+                    top: '92px',
+                    height: '100vh',
+                    transform: `translateY(calc(var(--navbar-height) - 92px))`,
+                    transition: 'transform 350ms cubic-bezier(0.25, 1, 0.5, 1)',
+                }}
+                className="sticky flex flex-col w-full border-l border-white/10 bg-[#161616] text-neutral-200 overscroll-contain z-10"
             >
-                {isOpen && (
-                    <div className="flex items-center gap-2.5 min-w-0">
-                        <ArticleIcon className="w-4 h-4 shrink-0 text-black" />
-                        <h3 className="font-mono text-xs uppercase tracking-[0.15em] text-black font-semibold truncate">
-                            Recent Articles
-                        </h3>
-                    </div>
-                )}
-
-                <button
-                    type="button"
-                    onClick={handleToggle}
-                    aria-label={isOpen ? 'Collapse recent articles' : 'Expand recent articles'}
-                    title={isOpen ? 'Collapse recent articles' : 'Expand recent articles'}
-                    className="p-1 rounded-md text-neutral-600 hover:text-black hover:bg-black/10 transition-colors cursor-pointer shrink-0"
-                >
-                    {isOpen ? <PanelRightClose size={16} /> : <PanelRightOpen size={16} />}
-                </button>
-            </div>
-
-            {/* Content body when open */}
-            {isOpen ? (
+                {/* Header bar with toggle */}
                 <div
-                    data-lenis-prevent="true"
-                    className="flex-1 p-3.5 flex flex-col gap-1 overflow-y-auto overscroll-contain"
+                    className={`flex items-center py-3.5 border-b border-white/10 bg-[#1c1c1c] shrink-0 ${
+                        isOpen ? 'justify-between pl-6 pr-6' : 'justify-center p-3.5'
+                    }`}
                 >
+                    {isOpen && (
+                        <div className="flex items-center gap-2.5 min-w-0">
+                            <ArticleIcon className="w-4 h-4 shrink-0 text-neutral-300" />
+                            <h3 className="font-mono text-xs uppercase tracking-[0.15em] text-neutral-200 font-semibold truncate">
+                                Recent Articles
+                            </h3>
+                        </div>
+                    )}
+
+                    <button
+                        type="button"
+                        onClick={handleToggle}
+                        aria-label={isOpen ? 'Collapse recent articles' : 'Expand recent articles'}
+                        title={isOpen ? 'Collapse recent articles' : 'Expand recent articles'}
+                        className="p-1 rounded-md text-neutral-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer shrink-0"
+                    >
+                        {isOpen ? <PanelRightClose size={16} /> : <PanelRightOpen size={16} />}
+                    </button>
+                </div>
+
+                {/* Content body when open */}
+                {isOpen ? (
+                    <div
+                        data-lenis-prevent="true"
+                        className="flex-1 p-3.5 flex flex-col gap-1 overflow-y-auto overscroll-contain"
+                    >
                     {visibleArticles.map((blog, idx) => (
                         <Link
                             key={`${blog.slug}-${blog.id}`}
                             href={`/blogs/${blog.slug}`}
-                            className={`group flex gap-3 p-2.5 transition-all duration-300 hover:bg-black/5 ${
-                                idx !== 0 ? 'border-t border-black/5' : ''
+                            className={`group flex gap-3 p-2.5 transition-all duration-300 hover:bg-white/5 ${
+                                idx !== 0 ? 'border-t border-white/10' : ''
                             }`}
                         >
                             {/* Thumbnail without rounded borders */}
-                            <div className="relative rounded-none overflow-hidden shrink-0 ">
+                            <div className="relative rounded-none overflow-hidden shrink-0">
                                 {blog.image ? (
                                     <Image
                                         src={blog.image}
                                         alt={blog.title}
                                         width={80}
                                         height={36}
-                                        unoptimized
-                                        className="object-cover object-top-left transition-transform duration-500 group-hover:scale-105 aspect-video"
+                                        className="object-cover object-top-left transition-transform duration-500 group-hover:scale-105 aspect-16/8"
                                     />
                                 ) : (
-                                    <div className="w-full h-full flex items-center justify-center font-mono text-[9px] text-neutral-600">
+                                    <div className="w-full h-full flex items-center justify-center font-mono text-[9px] text-neutral-400">
                                         K&A
                                     </div>
                                 )}
@@ -156,7 +157,7 @@ export default function BlogRecentArticles({
                             {/* Text content with 2-line clamping */}
                             <div className="flex flex-col justify-center min-w-0 flex-1">
                                 <h4
-                                    className="text-xs font-medium text-neutral-800 leading-snug group-hover:text-black transition-colors"
+                                    className="text-xs font-medium text-neutral-200 leading-snug group-hover:text-white transition-colors"
                                     style={{
                                         display: '-webkit-box',
                                         WebkitLineClamp: 2,
@@ -167,7 +168,7 @@ export default function BlogRecentArticles({
                                 >
                                     {blog.title}
                                 </h4>
-                                <span className="font-mono text-[10px] text-neutral-600 uppercase tracking-wider mt-1">
+                                <span className="font-mono text-[10px] text-neutral-400 uppercase tracking-wider mt-1">
                                     {formatDisplayDate(blog.date)}
                                 </span>
                             </div>
@@ -180,14 +181,14 @@ export default function BlogRecentArticles({
                             <button
                                 type="button"
                                 onClick={handleLoadMore}
-                                className="w-full py-2.5 px-4 rounded-lg bg-black text-white hover:bg-neutral-800 text-xs font-mono uppercase tracking-wider transition-all duration-200 flex items-center justify-center cursor-pointer shadow-xs active:scale-[0.98]"
+                                className="w-full py-2.5 px-4 rounded-lg bg-neutral-800 text-neutral-200 hover:text-white hover:bg-neutral-700 border border-neutral-700/60 text-xs font-mono uppercase tracking-wider transition-all duration-200 flex items-center justify-center cursor-pointer shadow-xs active:scale-[0.98]"
                             >
                                 Load More
                             </button>
                         </div>
                     ) : (
                         <div className="pt-4 pb-2 text-center">
-                            <span className="font-mono text-[10px] uppercase tracking-widest text-neutral-500">
+                            <span className="font-mono text-[10px] uppercase tracking-widest text-neutral-400">
                                 All articles loaded
                             </span>
                         </div>
@@ -197,19 +198,20 @@ export default function BlogRecentArticles({
                 /* Collapsed vertical strip */
                 <div
                     onClick={handleToggle}
-                    className="flex-1 py-8 px-1 flex flex-col items-center gap-6 cursor-pointer hover:bg-black/5 transition-colors"
+                    className="flex-1 py-8 px-1 flex flex-col items-center gap-6 cursor-pointer hover:bg-white/5 transition-colors"
                     title="Click to expand Recent Articles"
                 >
-                    <ArticleIcon className="w-4 h-4 shrink-0 text-neutral-600" />
+                    <ArticleIcon className="w-4 h-4 shrink-0 text-neutral-400" />
                     <span
-                        className="font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-600 hover:text-black whitespace-nowrap"
+                        className="font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-400 hover:text-white whitespace-nowrap"
                         style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
                     >
                         Recent Articles ({articles.length})
                     </span>
-                    <ChevronRight size={14} className="text-neutral-600" />
+                    <ChevronRight size={14} className="text-neutral-400" />
                 </div>
             )}
+            </div>
         </aside>
     )
 }

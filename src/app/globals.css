@@ -1,3 +1,10 @@
+/* Register --navbar-height so CSS can transition/interpolate it */
+@property --navbar-height {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 92px;
+}
+
 /* @import "tailwindcss";
 
 :root {

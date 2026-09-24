@@ -1,19 +1,18 @@
 'use client'
 
-import React, { useEffect, useMemo, useRef, useState } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import Script from 'next/script'
+import { BLOG_DATA, type BlogPost } from '@/data/blogs'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useLenis } from 'lenis/react'
 import { ArrowLeft, ArrowUpRight, Check, Copy, Share2 } from 'lucide-react'
-import { BLOG_DATA, type BlogPost } from '@/data/blogs'
+import Image from 'next/image'
+import Link from 'next/link'
+import Script from 'next/script'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import PublisherMarquee from './PublisherMarquee'
 import BlogBackToTop from './detail/BlogBackToTop'
 import BlogPostNavigation from './detail/BlogPostNavigation'
 import BlogRecentArticles from './detail/BlogRecentArticles'
-import BlogShareBar from './detail/BlogShareBar'
 import BlogSubscribeBottom from './detail/BlogSubscribeBottom'
 import BlogTableOfContents, { type TocHeading } from './detail/BlogTableOfContents'
 
@@ -37,12 +36,9 @@ function processContentAndExtractHeadings(htmlContent?: string): {
     // Ensure any table is wrapped in a responsive container with clean borders and horizontal scroll support
     let content = htmlContent
     if (!content.includes('blog-table-container')) {
-        content = content.replace(
-            /<table([^>]*)>([\s\S]*?)<\/table>/gi,
-            (_match, attrs, inner) => {
-                return `<div class="blog-table-container"><table class="blog-table"${attrs}>${inner}</table></div>`
-            },
-        )
+        content = content.replace(/<table([^>]*)>([\s\S]*?)<\/table>/gi, (_match, attrs, inner) => {
+            return `<div class="blog-table-container"><table class="blog-table"${attrs}>${inner}</table></div>`
+        })
     }
 
     const processedHtml = content.replace(
@@ -87,7 +83,11 @@ function parseAuthorInitials(rawAuthor?: string): string {
         .replace(/^editorial team at\s+/i, 'Editorial Team, ')
         .trim()
     const primaryName = clean.split(/[,·|–-]/)[0]?.trim() || clean
-    const words = primaryName.replace(/[^a-zA-Z\s&]/g, '').trim().split(/\s+/).filter(Boolean)
+    const words = primaryName
+        .replace(/[^a-zA-Z\s&]/g, '')
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean)
     if (words.length >= 2) {
         return (words[0][0] + words[words.length - 1][0]).toUpperCase()
     }
@@ -107,10 +107,7 @@ function parseDateToTimestamp(dateStr?: string): number {
     return isNaN(ts2) ? 0 : ts2
 }
 
-export default function BlogDetailPage({
-    post,
-    wordpressPosts = [],
-}: BlogDetailPageProps) {
+export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetailPageProps) {
     const containerRef = useRef<HTMLDivElement | null>(null)
     const mainContentRef = useRef<HTMLDivElement | null>(null)
     const lenisRef = useRef<ReturnType<typeof useLenis> | null>(null)
@@ -119,96 +116,12 @@ export default function BlogDetailPage({
     const [isTocOpen, setIsTocOpen] = useState(true)
     const [isRecentOpen, setIsRecentOpen] = useState(true)
 
-    const isTogglingRef = useRef(false)
-
-    // Anchor-preserving sidebar toggle:
-    // Captures the top visible reading element and dynamically compensates scroll
-    // on each animation frame as the middle column width transitions, keeping the line
-    // in the exact same vertical position.
-    const handleToggleWithAnchor = (toggleAction: () => void) => {
-        if (typeof window !== 'undefined') {
-            ;(window as unknown as { __kna_sidebar_toggling?: boolean }).__kna_sidebar_toggling = true
-        }
-        isTogglingRef.current = true
-
-        const main = mainContentRef.current
-        let anchorEl: HTMLElement | null = null
-        let anchorOffset = 0
-
-        if (main) {
-            const candidates = main.querySelectorAll<HTMLElement>(
-                'h1, h2, h3, h4, p, blockquote, figure, ul, ol, div[data-anchor]'
-            )
-            const navbarOffset = isNavbarVisible ? 92 : 0
-
-            // 1. Primary candidate: element intersecting the reading line near top
-            for (let i = 0; i < candidates.length; i++) {
-                const el = candidates[i]
-                const rect = el.getBoundingClientRect()
-                if (rect.top >= navbarOffset - 30 && rect.bottom > navbarOffset + 20) {
-                    anchorEl = el
-                    anchorOffset = rect.top
-                    break
-                }
-            }
-
-            // 2. Fallback candidate: first element below navbar
-            if (!anchorEl) {
-                for (let i = 0; i < candidates.length; i++) {
-                    const el = candidates[i]
-                    const rect = el.getBoundingClientRect()
-                    if (rect.bottom > navbarOffset) {
-                        anchorEl = el
-                        anchorOffset = rect.top
-                        break
-                    }
-                }
-            }
-        }
-
-        // Trigger the collapse/expand state update
-        toggleAction()
-
-        // Keep anchor element pinned at anchorOffset across the 300ms transition
-        const startTime = performance.now()
-        const duration = 360
-
-        const keepAnchorPinned = () => {
-            if (anchorEl) {
-                const currentRect = anchorEl.getBoundingClientRect()
-                const delta = currentRect.top - anchorOffset
-
-                if (Math.abs(delta) > 0.5) {
-                    const currentScroll = lenisRef.current?.scroll ?? window.scrollY
-                    const targetScroll = currentScroll + delta
-
-                    if (lenisRef.current) {
-                        lenisRef.current.scrollTo(targetScroll, { immediate: true })
-                    } else {
-                        window.scrollTo(0, targetScroll)
-                    }
-                }
-            }
-
-            if (performance.now() - startTime < duration) {
-                requestAnimationFrame(keepAnchorPinned)
-            } else {
-                isTogglingRef.current = false
-                if (typeof window !== 'undefined') {
-                    ;(window as unknown as { __kna_sidebar_toggling?: boolean }).__kna_sidebar_toggling = false
-                }
-            }
-        }
-
-        requestAnimationFrame(keepAnchorPinned)
-    }
-
     const handleToggleToc = () => {
-        handleToggleWithAnchor(() => setIsTocOpen((prev) => !prev))
+        setIsTocOpen((prev) => !prev)
     }
 
     const handleToggleRecent = () => {
-        handleToggleWithAnchor(() => setIsRecentOpen((prev) => !prev))
+        setIsRecentOpen((prev) => !prev)
     }
 
     // Process article headings and generate ID anchors
@@ -219,15 +132,11 @@ export default function BlogDetailPage({
     // Compute unique recent/other blogs sorted newest first by date
     const otherBlogs = useMemo(() => {
         const combined = [...BLOG_DATA, ...wordpressPosts]
-        const filtered = combined.filter(
-            (b) => b.id !== post.id && b.slug && b.slug !== post.slug,
-        )
+        const filtered = combined.filter((b) => b.id !== post.id && b.slug && b.slug !== post.slug)
         const unique = filtered.filter(
             (b, index, arr) => index === arr.findIndex((item) => item.slug === b.slug),
         )
-        return unique.sort(
-            (a, b) => parseDateToTimestamp(b.date) - parseDateToTimestamp(a.date),
-        )
+        return unique.sort((a, b) => parseDateToTimestamp(b.date) - parseDateToTimestamp(a.date))
     }, [post.id, post.slug, wordpressPosts])
 
     // Combine all blogs to determine previous and next articles
@@ -240,9 +149,7 @@ export default function BlogDetailPage({
     }, [wordpressPosts])
 
     const { prevPost, nextPost } = useMemo(() => {
-        const currentIndex = allBlogs.findIndex(
-            (b) => b.slug === post.slug || b.id === post.id,
-        )
+        const currentIndex = allBlogs.findIndex((b) => b.slug === post.slug || b.id === post.id)
         if (currentIndex === -1) return { prevPost: null, nextPost: null }
 
         // Previous article (newer in list) and next article (older in list)
@@ -250,21 +157,6 @@ export default function BlogDetailPage({
         const next = currentIndex < allBlogs.length - 1 ? allBlogs[currentIndex + 1] : null
         return { prevPost: prev, nextPost: next }
     }, [allBlogs, post.id, post.slug])
-
-    // Track navbar visibility to smoothly adjust sticky sidebars below navbar
-    const [isNavbarVisible, setIsNavbarVisible] = useState(true)
-
-    useEffect(() => {
-        const handleNavbarEvent = (e: Event) => {
-            const customEvent = e as CustomEvent<{ isVisible: boolean }>
-            if (customEvent.detail && typeof customEvent.detail.isVisible === 'boolean') {
-                setIsNavbarVisible(customEvent.detail.isVisible)
-            }
-        }
-
-        window.addEventListener('kna-navbar-visibility', handleNavbarEvent)
-        return () => window.removeEventListener('kna-navbar-visibility', handleNavbarEvent)
-    }, [])
 
     useLenis((lenis) => {
         lenisRef.current = lenis
@@ -380,7 +272,9 @@ export default function BlogDetailPage({
                 const currentBtn = document.querySelector('[google-add-preferred-source-btn]')
                 if (currentBtn && !currentBtn.shadowRoot && currentBtn.children.length === 0) {
                     currentBtn.removeAttribute('data-initialized')
-                    const oldScripts = document.querySelectorAll('script[src*="news.google.com/swg/js/v1/publisher.js"]')
+                    const oldScripts = document.querySelectorAll(
+                        'script[src*="news.google.com/swg/js/v1/publisher.js"]',
+                    )
                     oldScripts.forEach((s) => s.remove())
 
                     const newScript = document.createElement('script')
@@ -429,14 +323,13 @@ export default function BlogDetailPage({
                 }}
             />
 
-            {/* 3-Column Reading Layout attached edge-to-edge and full screen height */}
-            <div className="w-full flex flex-col lg:flex-row items-stretch relative">
+            {/* 3-Column Reading Layout attached edge-to-edge */}
+            <div className="w-full flex flex-col lg:flex-row items-stretch relative z-10">
                 {/* LEFT SIDEBAR: Table of Contents attached to left edge */}
                 <BlogTableOfContents
                     headings={headings}
                     isOpen={isTocOpen}
                     onToggle={handleToggleToc}
-                    isNavbarVisible={isNavbarVisible}
                 />
 
                 {/* MIDDLE COLUMN: Blog Article Content taking the rest of width */}
@@ -450,7 +343,10 @@ export default function BlogDetailPage({
                             href="/blogs#articles"
                             className="group inline-flex items-center gap-2 text-neutral-600 hover:text-black transition-colors mb-6"
                         >
-                            <ArrowLeft size={16} className="transition-transform duration-300 group-hover:-translate-x-1" />
+                            <ArrowLeft
+                                size={16}
+                                className="transition-transform duration-300 group-hover:-translate-x-1"
+                            />
                             <span className="text-xs font-mono uppercase tracking-widest">
                                 Back to Articles
                             </span>
@@ -460,8 +356,6 @@ export default function BlogDetailPage({
                         <h1 className="text-black font-light text-[clamp(28px,4vw,48px)] leading-[1.15] tracking-tight mb-10">
                             {post.title}
                         </h1>
-
-
 
                         {/* Hero Image - Full width with automatic natural height */}
                         {post.image && (
@@ -518,7 +412,7 @@ export default function BlogDetailPage({
 
                         {/* Share actions bar */}
                         {/* <BlogShareBar title={post.title} /> */}
-                          {/* Top Action Bar: Preferred Source + Quick Share Buttons */}
+                        {/* Top Action Bar: Preferred Source + Quick Share Buttons */}
                         <div className="mb-8 mt-8 flex flex-wrap items-center justify-between gap-4 py-3 border-y border-black/10">
                             {/* Google Preferred Source Badge */}
                             <div className="flex items-center leading-none min-h-[40px] min-w-[140px]">
@@ -569,8 +463,16 @@ export default function BlogDetailPage({
                                         className="size-3.5 fill-current"
                                         aria-hidden="true"
                                     >
-                                        <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-                                            <g transform="translate(-702.000000, -265.000000)" fill="currentColor">
+                                        <g
+                                            stroke="none"
+                                            strokeWidth="1"
+                                            fill="none"
+                                            fillRule="evenodd"
+                                        >
+                                            <g
+                                                transform="translate(-702.000000, -265.000000)"
+                                                fill="currentColor"
+                                            >
                                                 <path
                                                     d="M746,305 L736.2754,305 L736.2754,290.9384 C736.2754,287.257796 734.754233,284.74515 731.409219,284.74515 C728.850659,284.74515 727.427799,286.440738 726.765522,288.074854 C726.517168,288.661395 726.555974,289.478453 726.555974,290.295511 L726.555974,305 L716.921919,305 C716.921919,305 717.046096,280.091247 716.921919,277.827047 L726.555974,277.827047 L726.555974,282.091631 C727.125118,280.226996 730.203669,277.565794 735.116416,277.565794 C741.21143,277.565794 746,281.474355 746,289.890824 L746,305 L746,305 Z M707.17921,274.428187 L707.117121,274.428187 C704.0127,274.428187 702,272.350964 702,269.717936 C702,267.033681 704.072201,265 707.238711,265 C710.402634,265 712.348071,267.028559 712.41016,269.710252 C712.41016,272.34328 710.402634,274.428187 707.17921,274.428187 L707.17921,274.428187 L707.17921,274.428187 Z M703.109831,277.827047 L711.685795,277.827047 L711.685795,305 L703.109831,305 L703.109831,277.827047 L703.109831,277.827047 Z"
                                                     id="LinkedIn"
@@ -605,7 +507,8 @@ export default function BlogDetailPage({
                                 {post.additionalLinks && post.additionalLinks.length > 2 ? (
                                     <PublisherMarquee links={post.additionalLinks} />
                                 ) : (
-                                    post.additionalLinks && post.additionalLinks.length > 0 && (
+                                    post.additionalLinks &&
+                                    post.additionalLinks.length > 0 && (
                                         <div className="mt-14 pt-8 border-t border-black/15 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
                                             <span className="text-xs font-mono text-neutral-500 uppercase tracking-widest">
                                                 Read article on:
@@ -632,7 +535,10 @@ export default function BlogDetailPage({
                                                         <span className="text-sm font-mono tracking-wider">
                                                             Read on {link.publisher}
                                                         </span>
-                                                        <ArrowUpRight size={15} className="ml-1 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                                                        <ArrowUpRight
+                                                            size={15}
+                                                            className="ml-1 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                                                        />
                                                     </a>
                                                 ))}
                                             </div>
@@ -649,7 +555,6 @@ export default function BlogDetailPage({
                     articles={otherBlogs}
                     isOpen={isRecentOpen}
                     onToggle={handleToggleRecent}
-                    isNavbarVisible={isNavbarVisible}
                 />
             </div>
 

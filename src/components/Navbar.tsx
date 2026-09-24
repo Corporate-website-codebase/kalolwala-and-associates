@@ -5,7 +5,7 @@ import { ChevronDown, ChevronRight, Menu, X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useRef, useState, useSyncExternalStore, useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 interface SubNavItem {
     label: string
@@ -52,17 +52,10 @@ const navLinks: NavItem[] = [
     { label: 'CONTACT', href: '/contact' },
 ]
 
-const emptySubscribe = () => () => {}
-
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false)
     const [isVisible, setIsVisible] = useState(true)
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-    const hasLoaded = useSyncExternalStore(
-        emptySubscribe,
-        () => true,
-        () => false,
-    )
     const [isOfferingsHovered, setIsOfferingsHovered] = useState(false)
     const [isMobileOfferingsOpen, setIsMobileOfferingsOpen] = useState(false)
     const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null)
@@ -82,78 +75,97 @@ const Navbar = () => {
         }, 150)
     }
 
+    const lastScrollYRef = useRef(0)
+    const accumulatedDeltaRef = useRef(0)
+    const lastDirectionRef = useRef<'up' | 'down' | null>(null)
+
     // --- OPTIMIZED SCROLL LOGIC ---
     useMotionValueEvent(scrollY, 'change', (latest) => {
-        // Freeze navbar visibility state during sidebar toggle animations
-        if (typeof window !== 'undefined') {
-            const win = window as unknown as { __kna_sidebar_toggling?: boolean }
-            if (win.__kna_sidebar_toggling) return
-        }
-
-        const previous = scrollY.getPrevious() ?? 0
-        const diff = latest - previous
-
-        if (latest > 20 && !isScrolled) {
-            setIsScrolled(true)
-        } else if (latest <= 20 && isScrolled) {
+        // At the very top of the page (within 10px), always visible and not scrolled
+        if (latest <= 10) {
             setIsScrolled(false)
-        }
-
-        // Always visible when near the top of the page
-        if (latest <= 60) {
             setIsVisible(true)
+            accumulatedDeltaRef.current = 0
+            lastDirectionRef.current = null
+            lastScrollYRef.current = latest
             return
         }
 
-        // Hide navbar only when actively scrolling down by a noticeable amount
-        if (diff > 5 && latest > 100) {
-            setIsVisible(false)
-            setIsMobileMenuOpen(false)
-            setIsOfferingsHovered(false)
+        if (!isScrolled && latest > 10) {
+            setIsScrolled(true)
         }
-        // Show navbar only when actively scrolling up by an intentional amount
-        else if (diff < -10) {
-            setIsVisible(true)
+
+        const previous = lastScrollYRef.current
+        const delta = latest - previous
+        lastScrollYRef.current = latest
+
+        // Ignore subpixel noise
+        if (Math.abs(delta) < 0.15) return
+
+        const currentDirection = delta > 0 ? 'down' : 'up'
+
+        // Reset accumulated delta when scroll direction changes
+        if (lastDirectionRef.current !== currentDirection) {
+            lastDirectionRef.current = currentDirection
+            accumulatedDeltaRef.current = delta
+        } else {
+            accumulatedDeltaRef.current += delta
+        }
+
+        // Small scroll to bottom: hide navbar smoothly (accumulated >= 6px works even on slowest scroll)
+        if (accumulatedDeltaRef.current > 6 && latest > 20) {
+            if (isVisible) {
+                document.documentElement.style.setProperty('--navbar-height', '0px')
+                setIsVisible(false)
+                setIsMobileMenuOpen(false)
+                setIsOfferingsHovered(false)
+            }
+        }
+        // Small scroll to top: show navbar smoothly (accumulated <= -6px works even on slowest scroll)
+        else if (accumulatedDeltaRef.current < -6) {
+            if (!isVisible) {
+                const navHeight = navRef.current?.offsetHeight || (window.innerWidth >= 768 ? 92 : 64)
+                document.documentElement.style.setProperty('--navbar-height', `${navHeight}px`)
+                setIsVisible(true)
+            }
         }
     })
 
     const navRef = useRef<HTMLElement | null>(null)
 
-    // --- BROADCAST NAVBAR VISIBILITY STATE ---
+    // --- INITIAL NAVBAR HEIGHT ---
+    // Update once on mount so sidebars know the initial height.
+    // (Animation sync is now handled directly in the scroll event below)
     useEffect(() => {
         if (typeof window !== 'undefined') {
             const measuredHeight =
                 navRef.current?.offsetHeight || (window.innerWidth >= 768 ? 92 : 64)
-            const height = isVisible ? measuredHeight : 0
-            document.documentElement.style.setProperty('--navbar-height', `${height}px`)
-            window.dispatchEvent(
-                new CustomEvent('kna-navbar-visibility', {
-                    detail: { isVisible, height: measuredHeight },
-                }),
-            )
+            document.documentElement.style.setProperty('--navbar-height', `${measuredHeight}px`)
         }
-    }, [isVisible])
-
-    if (!hasLoaded) return null
+    }, [])
 
     return (
         <>
             <motion.header
-                initial={isHome ? { height: 0, opacity: 0 } : { height: 'auto', opacity: 1 }}
+                initial={isHome ? { height: 0, opacity: 0 } : false}
                 animate={{ height: 'auto', opacity: 1 }}
                 transition={{
                     delay: isHome ? 4 : 0,
-                    duration: 0.8,
+                    duration: isHome ? 0.8 : 0,
                     ease: [0.33, 1, 0.68, 1],
                 }}
-                className="sticky top-0 left-0 w-[100vw] md:w-full z-50 selection:bg-yellow-400/18 pointer-events-none"
+                className="sticky top-0 left-0 w-[100vw] md:w-full z-[100] selection:bg-yellow-400/18 pointer-events-none"
             >
-                <motion.nav
+                <nav
                     ref={navRef}
-                    animate={{ y: isVisible ? 0 : '-100%' }}
-                    transition={{ duration: 0.4, ease: 'easeInOut' }}
-                    className={`w-full pointer-events-auto transition-colors duration-500 ${
-                        isScrolled || isMobileMenuOpen
+                    style={{
+                        transform: isVisible ? 'translateY(0)' : 'translateY(-100%)',
+                        transition: isVisible
+                            ? 'transform 350ms cubic-bezier(0.25, 1, 0.5, 1), background-color 300ms'
+                            : 'transform 350ms cubic-bezier(0.25, 1, 0.5, 1)',
+                    }}
+                    className={`relative z-[100] w-full pointer-events-auto ${
+                        isScrolled || isMobileMenuOpen || !isVisible
                             ? 'bg-black shadow-md'
                             : 'bg-black md:bg-transparent'
                     }`}
@@ -280,7 +292,7 @@ const Navbar = () => {
                             {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
                         </button>
                     </div>
-                </motion.nav>
+                </nav>
             </motion.header>
 
             {/* --- MOBILE MENU OVERLAY --- */}

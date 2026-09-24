@@ -21,14 +21,12 @@ interface BlogTableOfContentsProps {
     headings: TocHeading[]
     isOpen?: boolean
     onToggle?: () => void
-    isNavbarVisible?: boolean
 }
 
 export default function BlogTableOfContents({
     headings,
     isOpen: controlledOpen,
     onToggle,
-    isNavbarVisible = true,
 }: BlogTableOfContentsProps) {
     const [internalOpen, setInternalOpen] = useState(true)
     const isControlled = typeof controlledOpen === 'boolean'
@@ -47,8 +45,13 @@ export default function BlogTableOfContents({
     }
 
     const [activeId, setActiveId] = useState<string>('')
-    const [collapsedSections, setCollapsedSections] = useState<Record<string, boolean>>({})
+    const [userToggledSections, setUserToggledSections] = useState<Record<string, boolean>>({})
     const lenis = useLenis()
+
+    // Reset user toggles when headings change (new article)
+    useEffect(() => {
+        setUserToggledSections({})
+    }, [headings])
 
     // Group headings into hierarchical sections (H2 as parent, H3 as accordion children)
     const sections: TocSection[] = useMemo(() => {
@@ -94,53 +97,94 @@ export default function BlogTableOfContents({
     }, [headings])
 
     // Helper to determine if an accordion section is expanded
-    // A section is expanded if:
-    // 1) An active heading is inside this section (auto-expand during reading)
-    // 2) OR the user has not explicitly collapsed it (default: open)
+    // By default: ALL sections are COLLAPSED. Only expand according to reading (when active),
+    // or if the user explicitly clicked to toggle it.
     const isSectionExpanded = (section: TocSection) => {
         const hasActiveItem =
             section.id === activeId || section.children.some((c) => c.id === activeId)
-        if (hasActiveItem) return true
-        return collapsedSections[section.id] !== true
+        if (userToggledSections[section.id] !== undefined) {
+            return userToggledSections[section.id]
+        }
+        return hasActiveItem
     }
 
     const toggleSection = (section: TocSection, e: React.MouseEvent) => {
         e.stopPropagation()
         e.preventDefault()
         const currentlyExpanded = isSectionExpanded(section)
-        setCollapsedSections((prev) => ({
+        setUserToggledSections((prev) => ({
             ...prev,
-            [section.id]: currentlyExpanded,
+            [section.id]: !currentlyExpanded,
         }))
     }
 
-    // Observe active headings on scroll
+    // Auto-expand section according to reading whenever activeId changes
+    useEffect(() => {
+        if (!activeId) return
+        const activeSection = sections.find(
+            (s) => s.id === activeId || s.children.some((c) => c.id === activeId),
+        )
+        if (activeSection) {
+            setUserToggledSections((prev) => {
+                if (prev[activeSection.id] === undefined) return prev
+                const updated = { ...prev }
+                delete updated[activeSection.id]
+                return updated
+            })
+        }
+    }, [activeId, sections])
+
+    // Observe active headings on scroll according to reading position
     useEffect(() => {
         if (headings.length === 0) return
 
         const headingElements = headings
-            .map((h) => document.getElementById(h.id))
-            .filter((el): el is HTMLElement => el !== null)
+            .map((h) => ({ id: h.id, el: document.getElementById(h.id) }))
+            .filter((item): item is { id: string; el: HTMLElement } => item.el !== null)
 
         if (headingElements.length === 0) return
 
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        setActiveId(entry.target.id)
-                    }
-                })
-            },
-            {
-                rootMargin: '0px 0px -70% 0px',
-                threshold: 0.1,
-            },
-        )
+        const updateActiveHeading = () => {
+            const scrollY = window.scrollY
+            const firstHeading = headingElements[0].el
+            const firstHeadingTop = firstHeading.getBoundingClientRect().top + scrollY
 
-        headingElements.forEach((el) => observer.observe(el))
-        return () => observer.disconnect()
-    }, [headings])
+            // At the top before the first heading, keep all TOC items collapsed
+            if (scrollY < firstHeadingTop - 120) {
+                setActiveId('')
+                return
+            }
+
+            // Reading focus line (140px from top of viewport)
+            const readingLine = 140
+            let currentActiveId = headingElements[0].id
+
+            for (let i = 0; i < headingElements.length; i++) {
+                const rect = headingElements[i].el.getBoundingClientRect()
+                if (rect.top <= readingLine) {
+                    currentActiveId = headingElements[i].id
+                } else {
+                    break
+                }
+            }
+
+            setActiveId(currentActiveId)
+        }
+
+        updateActiveHeading()
+
+        window.addEventListener('scroll', updateActiveHeading, { passive: true })
+        if (lenis) {
+            lenis.on('scroll', updateActiveHeading)
+        }
+
+        return () => {
+            window.removeEventListener('scroll', updateActiveHeading)
+            if (lenis) {
+                lenis.off('scroll', updateActiveHeading)
+            }
+        }
+    }, [headings, lenis])
 
     const handleScrollToHeading = (id: string, e: React.MouseEvent) => {
         e.preventDefault()
@@ -159,49 +203,53 @@ export default function BlogTableOfContents({
 
     return (
         <aside
-            data-lenis-prevent="true"
-            style={{
-                top: isNavbarVisible ? 'var(--navbar-height, 92px)' : '0px',
-                height: isNavbarVisible
-                    ? 'calc(100vh - var(--navbar-height, 92px))'
-                    : '100vh',
-            }}
-            className={`hidden lg:flex flex-col sticky z-30 shrink-0 border-r border-black/10 bg-[#d4d4d4] text-black transition-[width,top,height] duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] overscroll-contain ${
+            className={`hidden lg:flex flex-col shrink-0 relative z-10 transition-[width] duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] ${
                 isOpen ? 'w-72 xl:w-80' : 'w-12 xl:w-14'
             }`}
         >
-            {/* Header bar with toggle - pl-6 and pr-6 align with the TOC items below (p-3.5 + px-2.5) */}
+            {/* Sticky sidebar — top/height driven by --navbar-height CSS variable */}
             <div
-                className={`flex items-center py-3.5 border-b border-black/10 bg-black/5 ${
-                    isOpen ? 'justify-between pl-6 pr-6' : 'justify-center p-3.5'
-                }`}
+                data-lenis-prevent="true"
+                style={{
+                    top: '92px',
+                    height: '100vh',
+                    transform: `translateY(calc(var(--navbar-height) - 92px))`,
+                    transition: 'transform 350ms cubic-bezier(0.25, 1, 0.5, 1)',
+                }}
+                className="sticky flex flex-col w-full border-r border-white/10 bg-[#161616] text-neutral-200 overscroll-contain z-10"
             >
-                {isOpen && (
-                    <div className="flex items-center gap-2.5 min-w-0">
-                        <List size={14} className="text-black shrink-0" />
-                        <h3 className="font-mono text-xs uppercase tracking-[0.15em] text-black font-semibold truncate">
-                            Contents
-                        </h3>
-                    </div>
-                )}
-
-                <button
-                    type="button"
-                    onClick={handleToggle}
-                    aria-label={isOpen ? 'Collapse table of contents' : 'Expand table of contents'}
-                    title={isOpen ? 'Collapse table of contents' : 'Expand table of contents'}
-                    className="p-1 rounded-md text-neutral-600 hover:text-black hover:bg-black/10 transition-colors cursor-pointer shrink-0"
+                {/* Header bar with toggle */}
+                <div
+                    className={`flex items-center py-3.5 border-b border-white/10 bg-[#1c1c1c] shrink-0 ${
+                        isOpen ? 'justify-between pl-6 pr-6' : 'justify-center p-3.5'
+                    }`}
                 >
-                    {isOpen ? <PanelLeftClose size={16} /> : <PanelLeftOpen size={16} />}
-                </button>
-            </div>
+                    {isOpen && (
+                        <div className="flex items-center gap-2.5 min-w-0">
+                            <List size={14} className="text-neutral-300 shrink-0" />
+                            <h3 className="font-mono text-xs uppercase tracking-[0.15em] text-neutral-200 font-semibold truncate">
+                                Contents
+                            </h3>
+                        </div>
+                    )}
 
-            {/* Content body when open */}
-            {isOpen ? (
-                <nav
-                    data-lenis-prevent="true"
-                    className="flex-1 p-3.5 flex flex-col gap-1.5 overflow-y-auto overscroll-contain"
-                >
+                    <button
+                        type="button"
+                        onClick={handleToggle}
+                        aria-label={isOpen ? 'Collapse table of contents' : 'Expand table of contents'}
+                        title={isOpen ? 'Collapse table of contents' : 'Expand table of contents'}
+                        className="p-1 rounded-md text-neutral-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer shrink-0"
+                    >
+                        {isOpen ? <PanelLeftClose size={16} /> : <PanelLeftOpen size={16} />}
+                    </button>
+                </div>
+
+                {/* Content body when open */}
+                {isOpen ? (
+                    <nav
+                        data-lenis-prevent="true"
+                        className="flex-1 p-3.5 flex flex-col gap-1.5 overflow-y-auto overscroll-contain"
+                    >
                     {sections.map((section) => {
                         const isSectionActive = activeId === section.id
                         const hasChildren = section.children.length > 0
@@ -216,15 +264,15 @@ export default function BlogTableOfContents({
                                     onClick={(e) => handleScrollToHeading(section.id, e)}
                                     className={`group flex items-start gap-2.5 py-2 px-2.5 rounded-lg text-xs transition-all duration-200 ${
                                         isSectionActive
-                                            ? 'bg-black text-white font-medium shadow-xs'
-                                            : 'text-neutral-700 hover:text-black hover:bg-black/5'
+                                            ? 'bg-white/10 text-white font-medium shadow-xs border border-white/10'
+                                            : 'text-neutral-400 hover:text-white hover:bg-white/5'
                                     }`}
                                 >
                                     <span
                                         className={`mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 transition-colors ${
                                             isSectionActive
                                                 ? 'bg-yellow-400'
-                                                : 'bg-neutral-500 group-hover:bg-neutral-800'
+                                                : 'bg-neutral-600 group-hover:bg-neutral-300'
                                         }`}
                                     />
                                     <span className="leading-snug line-clamp-2">{section.text}</span>
@@ -238,8 +286,8 @@ export default function BlogTableOfContents({
                                 <div
                                     className={`group flex items-center justify-between gap-2 py-1.5 px-2 rounded-lg text-xs transition-all duration-200 ${
                                         isSectionActive || hasActiveChild
-                                            ? 'bg-black/10 text-black font-medium'
-                                            : 'text-neutral-800 hover:text-black hover:bg-black/5'
+                                            ? 'bg-white/10 text-white font-medium'
+                                            : 'text-neutral-300 hover:text-white hover:bg-white/5'
                                     }`}
                                 >
                                     <a
@@ -250,10 +298,10 @@ export default function BlogTableOfContents({
                                         <span
                                             className={`mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 transition-colors ${
                                                 isSectionActive
-                                                    ? 'bg-black'
+                                                    ? 'bg-yellow-400'
                                                     : hasActiveChild
-                                                    ? 'bg-black/70'
-                                                    : 'bg-neutral-500 group-hover:bg-neutral-800'
+                                                    ? 'bg-white/80'
+                                                    : 'bg-neutral-600 group-hover:bg-neutral-300'
                                             }`}
                                         />
                                         <span className="leading-snug line-clamp-2">
@@ -267,12 +315,12 @@ export default function BlogTableOfContents({
                                         onClick={(e) => toggleSection(section, e)}
                                         aria-label={isExpanded ? 'Collapse section' : 'Expand section'}
                                         title={isExpanded ? 'Collapse section' : 'Expand section'}
-                                        className="p-1 rounded text-neutral-600 hover:text-black hover:bg-black/10 transition-colors cursor-pointer shrink-0"
+                                        className="p-1 rounded text-neutral-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer shrink-0"
                                     >
                                         <ChevronDown
                                             size={14}
                                             className={`transition-transform duration-300 ${
-                                                isExpanded ? 'rotate-180 text-black' : 'text-neutral-600'
+                                                isExpanded ? 'rotate-180 text-white' : 'text-neutral-400'
                                             }`}
                                         />
                                     </button>
@@ -280,7 +328,7 @@ export default function BlogTableOfContents({
 
                                 {/* Accordion Collapsible Subheadings */}
                                 {isExpanded && (
-                                    <div className="pl-4 pr-1 py-1 flex flex-col gap-1 border-l border-black/15 ml-3.5 my-1">
+                                    <div className="pl-4 pr-1 py-1 flex flex-col gap-1 border-l border-white/15 ml-3.5 my-1">
                                         {section.children.map((child) => {
                                             const isChildActive = activeId === child.id
                                             return (
@@ -290,15 +338,15 @@ export default function BlogTableOfContents({
                                                     onClick={(e) => handleScrollToHeading(child.id, e)}
                                                     className={`group flex items-start gap-2 py-1 px-2 rounded-md text-[11px] transition-all duration-200 ${
                                                         isChildActive
-                                                            ? 'bg-black text-white font-medium'
-                                                            : 'text-neutral-700 hover:text-black hover:bg-black/5'
+                                                            ? 'bg-white/10 text-white font-medium'
+                                                            : 'text-neutral-400 hover:text-white hover:bg-white/5'
                                                     }`}
                                                 >
                                                     <span
                                                         className={`mt-1.5 w-1 h-1 rounded-full shrink-0 transition-colors ${
                                                             isChildActive
                                                                 ? 'bg-yellow-400'
-                                                                : 'bg-neutral-500 group-hover:bg-neutral-800'
+                                                                : 'bg-neutral-600 group-hover:bg-neutral-300'
                                                         }`}
                                                     />
                                                     <span className="leading-snug line-clamp-2">
@@ -317,18 +365,19 @@ export default function BlogTableOfContents({
                 /* Collapsed vertical strip */
                 <div
                     onClick={handleToggle}
-                    className="flex-1 py-8 px-1 flex flex-col items-center gap-6 cursor-pointer hover:bg-black/5 transition-colors"
+                    className="flex-1 py-8 px-1 flex flex-col items-center gap-6 cursor-pointer hover:bg-white/5 transition-colors"
                     title="Click to expand Table of Contents"
                 >
                     <span
-                        className="font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-600 hover:text-black whitespace-nowrap"
+                        className="font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-400 hover:text-white whitespace-nowrap"
                         style={{ writingMode: 'vertical-rl' }}
                     >
                         Table of Contents
                     </span>
-                    <ChevronLeft size={14} className="text-neutral-600" />
+                    <ChevronLeft size={14} className="text-neutral-400" />
                 </div>
             )}
+            </div>
         </aside>
     )
 }
