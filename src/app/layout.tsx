@@ -93,7 +93,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           <SmoothScroll>
             <main className="relative w-full h-full selection:bg-yellow-400/15">{children}</main>
           </SmoothScroll>
-          <Popup />
+          {/* <Popup /> */}
         </PassTransitionProvider>
         {/* Use the native Next.js GTM component which handles hydration automatically */}
         {/* <GoogleTagManager gtmId="GTM-N6SR3K3C" /> */}
