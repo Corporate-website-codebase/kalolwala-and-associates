@@ -212,9 +212,9 @@ export default function BlogTableOfContents({
                 data-lenis-prevent="true"
                 style={{
                     top: 'var(--nav-full-height, 92px)',
-                    height: '100vh',
+                    height: 'calc(100vh - var(--nav-full-height, 92px) - var(--nav-translate-y, 0px))',
                     transform: 'translateY(var(--nav-translate-y, 0px))',
-                    transition: 'transform 350ms cubic-bezier(0.25, 1, 0.5, 1)',
+                    transition: 'transform 300ms linear, height 300ms linear',
                 }}
                 className="sticky flex flex-col w-full border-r border-white/10 bg-[#161616] text-neutral-200 overscroll-contain z-10"
             >

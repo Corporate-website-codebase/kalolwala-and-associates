@@ -301,6 +301,7 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
     return (
         <section
             ref={containerRef}
+            style={{ marginTop: 'calc(-1 * var(--nav-full-height, 92px))' }}
             className="w-full min-h-screen bg-[#eeeeee] text-black font-noto-sans flex flex-col justify-between [overflow-anchor:none]"
         >
             <Script
@@ -337,9 +338,9 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
                     ref={mainContentRef}
                     style={{
                         transform: 'translateY(var(--nav-translate-y, 0px))',
-                        transition: 'transform 350ms cubic-bezier(0.25, 1, 0.5, 1)',
+                        transition: 'transform 300ms linear',
                     }}
-                    className="flex-1 min-w-0 px-6 sm:px-10 lg:px-12 xl:px-16 pt-6 sm:pt-8 pb-16 [overflow-anchor:none]"
+                    className="flex-1 min-w-0 px-6 sm:px-10 lg:px-12 xl:px-16 pt-[calc(var(--nav-full-height,92px)+1.5rem)] sm:pt-[calc(var(--nav-full-height,92px)+2rem)] pb-16 [overflow-anchor:none]"
                 >
                     <div className="max-w-3xl xl:max-w-4xl mx-auto w-full">
                         {/* Back to articles navigation */}

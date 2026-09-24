@@ -172,7 +172,7 @@ const Navbar = () => {
                     ref={navRef}
                     style={{
                         transform: isVisible ? 'translateY(0)' : 'translateY(-100%)',
-                        transition: 'transform 350ms cubic-bezier(0.25, 1, 0.5, 1)',
+                        transition: 'transform 300ms linear',
                     }}
                     className="relative z-[100] w-full pointer-events-auto bg-black shadow-md"
                 >

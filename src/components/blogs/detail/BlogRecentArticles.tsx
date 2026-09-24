@@ -91,9 +91,9 @@ export default function BlogRecentArticles({
                 data-lenis-prevent="true"
                 style={{
                     top: 'var(--nav-full-height, 92px)',
-                    height: '100vh',
+                    height: 'calc(100vh - var(--nav-full-height, 92px) - var(--nav-translate-y, 0px))',
                     transform: 'translateY(var(--nav-translate-y, 0px))',
-                    transition: 'transform 350ms cubic-bezier(0.25, 1, 0.5, 1)',
+                    transition: 'transform 300ms linear, height 300ms linear',
                 }}
                 className="sticky flex flex-col w-full border-l border-white/10 bg-[#161616] text-neutral-200 overscroll-contain z-10"
             >
@@ -127,7 +127,7 @@ export default function BlogRecentArticles({
                 {isOpen ? (
                     <div
                         data-lenis-prevent="true"
-                        className="flex-1 p-3.5 flex flex-col gap-1 overflow-y-auto overscroll-contain"
+                        className="flex-1 p-3.5 pb-16 flex flex-col gap-1 overflow-y-auto overscroll-contain"
                     >
                     {visibleArticles.map((blog, idx) => (
                         <Link
@@ -177,7 +177,7 @@ export default function BlogRecentArticles({
 
                     {/* Load More Button - text only */}
                     {hasMore ? (
-                        <div className="pt-3 pb-2 px-1">
+                        <div className="pt-3 pb-8 px-1">
                             <button
                                 type="button"
                                 onClick={handleLoadMore}
@@ -187,7 +187,7 @@ export default function BlogRecentArticles({
                             </button>
                         </div>
                     ) : (
-                        <div className="pt-4 pb-2 text-center">
+                        <div className="pt-4 pb-8 text-center">
                             <span className="font-mono text-[10px] uppercase tracking-widest text-neutral-400">
                                 All articles loaded
                             </span>
