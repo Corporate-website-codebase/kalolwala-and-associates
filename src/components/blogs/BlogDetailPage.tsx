@@ -4,7 +4,7 @@ import { BLOG_DATA, type BlogPost } from '@/data/blogs'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useLenis } from 'lenis/react'
-import { ArrowLeft, ArrowUpRight, Check, Copy, Share2 } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Copy, Moon, Share2, Sun } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import Script from 'next/script'
@@ -124,6 +124,44 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
         setIsRecentOpen((prev) => !prev)
     }
 
+    const areSidebarsOpen = isTocOpen || isRecentOpen
+
+    const handleToggleAllSidebars = () => {
+        if (areSidebarsOpen) {
+            setIsTocOpen(false)
+            setIsRecentOpen(false)
+        } else {
+            setIsTocOpen(true)
+            setIsRecentOpen(true)
+        }
+    }
+
+    // Reading Theme (Light / Dark mode for comfortable reading)
+    const [isDarkTheme, setIsDarkTheme] = useState(false)
+
+    useEffect(() => {
+        try {
+            const saved = localStorage.getItem('blog-reader-theme')
+            if (saved === 'dark') {
+                setIsDarkTheme(true)
+            }
+        } catch {
+            // Ignore
+        }
+    }, [])
+
+    const handleToggleTheme = () => {
+        setIsDarkTheme((prev) => {
+            const next = !prev
+            try {
+                localStorage.setItem('blog-reader-theme', next ? 'dark' : 'light')
+            } catch {
+                // Ignore
+            }
+            return next
+        })
+    }
+
     // Process article headings and generate ID anchors
     const { processedHtml, headings } = useMemo(() => {
         return processContentAndExtractHeadings(post.content)
@@ -170,18 +208,6 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
         }
         window.scrollTo(0, 0)
         ScrollTrigger.refresh()
-    }, [post.id])
-
-    // Smooth entrance animation for reading column
-    useEffect(() => {
-        const el = mainContentRef.current
-        if (!el) return
-
-        gsap.fromTo(
-            el,
-            { autoAlpha: 0, y: 24 },
-            { autoAlpha: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.1 },
-        )
     }, [post.id])
 
     const authorInitials = parseAuthorInitials(post.author)
@@ -302,7 +328,9 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
         <section
             ref={containerRef}
             style={{ marginTop: 'calc(-1 * var(--nav-full-height, 92px))' }}
-            className="w-full min-h-screen bg-[#eeeeee] text-black font-noto-sans flex flex-col justify-between [overflow-anchor:none]"
+            className={`w-full min-h-screen font-noto-sans flex flex-col justify-between [overflow-anchor:none] transition-colors duration-300 ${
+                isDarkTheme ? 'bg-[#0f0f0f] text-neutral-100' : 'bg-[#eeeeee] text-black'
+            }`}
         >
             <Script
                 src="https://news.google.com/swg/js/v1/publisher.js"
@@ -325,7 +353,7 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
             />
 
             {/* 3-Column Reading Layout attached edge-to-edge */}
-            <div className="w-full flex flex-col lg:flex-row items-stretch relative z-10">
+            <div className="w-full flex flex-col lg:flex-row items-stretch relative z-10 overflow-hidden">
                 {/* LEFT SIDEBAR: Table of Contents attached to left edge */}
                 <BlogTableOfContents
                     headings={headings}
@@ -343,22 +371,94 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
                     className="flex-1 min-w-0 px-6 sm:px-10 lg:px-12 xl:px-16 pt-[calc(var(--nav-full-height,92px)+1.5rem)] sm:pt-[calc(var(--nav-full-height,92px)+2rem)] pb-16 [overflow-anchor:none]"
                 >
                     <div className="max-w-3xl xl:max-w-4xl mx-auto w-full">
-                        {/* Back to articles navigation */}
-                        <Link
-                            href="/blogs#articles"
-                            className="group inline-flex items-center gap-2 text-neutral-600 hover:text-black transition-colors mb-6"
-                        >
-                            <ArrowLeft
-                                size={16}
-                                className="transition-transform duration-300 group-hover:-translate-x-1"
-                            />
-                            <span className="text-xs font-mono uppercase tracking-widest">
-                                Back to Articles
-                            </span>
-                        </Link>
+                        {/* Top navigation row: Back to articles on left, Focus & Theme toggles on right */}
+                        <div className="flex items-center justify-between gap-4 mb-6">
+                            <Link
+                                href="/blogs#articles"
+                                className={`group inline-flex items-center gap-2 transition-colors ${
+                                    isDarkTheme
+                                        ? 'text-neutral-400 hover:text-white'
+                                        : 'text-neutral-600 hover:text-black'
+                                }`}
+                            >
+                                <ArrowLeft
+                                    size={16}
+                                    className="transition-transform duration-300 group-hover:-translate-x-1"
+                                />
+                                <span className="text-xs font-mono uppercase tracking-widest">
+                                    Back to Articles
+                                </span>
+                            </Link>
+
+                            <div className="flex items-center gap-2">
+                                {/* Both Sidebars Toggle (Focus Reading Mode) */}
+                                <button
+                                    type="button"
+                                    onClick={handleToggleAllSidebars}
+                                    aria-label={
+                                        areSidebarsOpen
+                                            ? 'Collapse sidebars (focus mode)'
+                                            : 'Expand sidebars'
+                                    }
+                                    title={
+                                        areSidebarsOpen
+                                            ? 'Focus Mode (Collapse Sidebars)'
+                                            : 'Show Sidebars'
+                                    }
+                                    className={`hidden lg:inline-flex items-center gap-1.5 h-8 px-3 rounded-full text-xs font-mono transition-all duration-200 cursor-pointer ${
+                                        isDarkTheme
+                                            ? 'bg-white/10 hover:bg-white/20 text-neutral-200 hover:text-white border border-white/10'
+                                            : 'bg-black/5 hover:bg-black/10 text-neutral-700 hover:text-black border border-black/5'
+                                    }`}
+                                >
+                                    {areSidebarsOpen ? (
+                                        <>
+                                            <ArrowLeft className="size-4" />
+                                            <ArrowRight className="size-4" />
+                                        </>
+                                    ) : (
+                                        <>
+                                            <ArrowRight className="size-4" />
+                                            <ArrowLeft className="size-4" />
+                                        </>
+                                    )}
+                                </button>
+
+                                {/* Reading Theme Toggle (Light / Dark) */}
+                                <button
+                                    type="button"
+                                    onClick={handleToggleTheme}
+                                    aria-label={
+                                        isDarkTheme
+                                            ? 'Switch to light reading theme'
+                                            : 'Switch to dark reading theme'
+                                    }
+                                    title={
+                                        isDarkTheme
+                                            ? 'Switch to Light Theme'
+                                            : 'Switch to Dark Reading Theme'
+                                    }
+                                    className={`inline-flex items-center gap-1.5 h-8 px-3 rounded-full text-xs font-mono transition-all duration-200 cursor-pointer border-none ${
+                                        isDarkTheme
+                                            ? ' text-yellow-300 hover:text-yellow-200 '
+                                            : ' text-neutral-700 hover:text-black border '
+                                    }`}
+                                >
+                                    {isDarkTheme ? (
+                                        <Sun className="text-white size-5" />
+                                    ) : (
+                                        <Moon className="text-neutral-700 size-5" />
+                                    )}
+                                </button>
+                            </div>
+                        </div>
 
                         {/* Article Headline */}
-                        <h1 className="text-black font-light text-[clamp(28px,4vw,48px)] leading-[1.15] tracking-tight mb-10">
+                        <h1
+                            className={`font-light text-[clamp(28px,4vw,48px)] leading-[1.15] tracking-tight mb-10 transition-colors duration-300 ${
+                                isDarkTheme ? 'text-white' : 'text-black'
+                            }`}
+                        >
                             {post.title}
                         </h1>
 
@@ -379,7 +479,11 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
 
                         {/* Article Body */}
                         <article
-                            className="text-neutral-900 text-base sm:text-[17px] leading-[1.85] font-normal antialiased [&>p]:mb-6 [&>p]:text-neutral-900 [&>h2]:text-black [&>h2]:text-2xl [&>h2]:sm:text-3xl [&>h2]:font-semibold [&>h2]:leading-[1.25] [&>h2]:mt-14 [&>h2]:mb-6 [&>h2]:tracking-tight [&>h3]:text-black [&>h3]:text-xl [&>h3]:sm:text-2xl [&>h3]:font-semibold [&>h3]:leading-[1.3] [&>h3]:mt-12 [&>h3]:mb-5 [&>h3]:tracking-tight [&>h4]:text-black [&>h4]:text-lg [&>h4]:sm:text-xl [&>h4]:font-semibold [&>h4]:leading-[1.35] [&>h4]:mt-10 [&>h4]:mb-4 [&>ul]:mb-7 [&>ul]:pl-6 [&>ul]:list-disc [&>ul]:marker:text-black [&>ol]:mb-7 [&>ol]:pl-6 [&>ol]:list-decimal [&>ol]:marker:text-black [&>ul>li]:mb-3 [&>ol>li]:mb-3 [&>ul>li>ul]:mt-3 [&>ul>li>ul]:mb-2 [&>ul>li>ul]:pl-6 [&>ul>li>ul]:list-disc [&>ol>li>ol]:mt-3 [&>ol>li>ol]:mb-2 [&>ol>li>ol]:pl-6 [&>ol>li>ol]:list-decimal [&>blockquote]:border-l-4 [&>blockquote]:border-black [&>blockquote]:pl-6 [&>blockquote]:py-2 [&>blockquote]:my-10 [&>blockquote]:text-black [&>blockquote]:text-lg [&>blockquote]:sm:text-xl [&>blockquote]:font-medium [&>blockquote]:leading-[1.7] [&>blockquote]:italic [&_a]:text-black [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-4 [&_a]:decoration-black/40 [&_a:hover]:text-neutral-600 [&_a:hover]:decoration-black [&_a]:transition-colors [&_a]:duration-200 [&>strong]:text-black [&>strong]:font-semibold [&_strong]:text-black [&_strong]:font-semibold [&_em]:text-neutral-800 [&_img]:max-w-full [&_img]:h-auto [&_img]:my-8 [&_img]:rounded-sm [&>table]:w-full [&>table]:my-8 [&>table]:border-collapse [&>table_th]:border [&>table_th]:border-black/20 [&>table_th]:bg-black/5 [&>table_th]:px-4 [&>table_th]:py-3 [&>table_th]:text-left [&>table_th]:font-semibold [&>table_th]:text-black [&>table_td]:border [&>table_td]:border-black/15 [&>table_td]:px-4 [&>table_td]:py-3 [&>table_td]:text-neutral-900"
+                            className={`text-base sm:text-[17px] leading-[1.85] font-normal antialiased transition-colors duration-300 ${
+                                isDarkTheme
+                                    ? 'text-neutral-200 [&>p]:mb-6 [&>p]:text-neutral-200 [&>h2]:text-white [&>h2]:text-2xl [&>h2]:sm:text-3xl [&>h2]:font-semibold [&>h2]:leading-[1.25] [&>h2]:mt-14 [&>h2]:mb-6 [&>h2]:tracking-tight [&>h3]:text-white [&>h3]:text-xl [&>h3]:sm:text-2xl [&>h3]:font-semibold [&>h3]:leading-[1.3] [&>h3]:mt-12 [&>h3]:mb-5 [&>h3]:tracking-tight [&>h4]:text-white [&>h4]:text-lg [&>h4]:sm:text-xl [&>h4]:font-semibold [&>h4]:leading-[1.35] [&>h4]:mt-10 [&>h4]:mb-4 [&>ul]:mb-7 [&>ul]:pl-6 [&>ul]:list-disc [&>ul]:marker:text-yellow-400 [&>ol]:mb-7 [&>ol]:pl-6 [&>ol]:list-decimal [&>ol]:marker:text-yellow-400 [&>ul>li]:mb-3 [&>ol>li]:mb-3 [&>ul>li>ul]:mt-3 [&>ul>li>ul]:mb-2 [&>ul>li>ul]:pl-6 [&>ul>li>ul]:list-disc [&>ol>li>ol]:mt-3 [&>ol>li>ol]:mb-2 [&>ol>li>ol]:pl-6 [&>ol>li>ol]:list-decimal [&>blockquote]:border-l-4 [&>blockquote]:border-yellow-400 [&>blockquote]:pl-6 [&>blockquote]:py-2 [&>blockquote]:my-10 [&>blockquote]:text-neutral-100 [&>blockquote]:text-lg [&>blockquote]:sm:text-xl [&>blockquote]:font-medium [&>blockquote]:leading-[1.7] [&>blockquote]:italic [&_a]:text-yellow-400 [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-4 [&_a]:decoration-yellow-400/40 [&_a:hover]:text-yellow-300 [&_a:hover]:decoration-yellow-400 [&_a]:transition-colors [&_a]:duration-200 [&>strong]:text-white [&>strong]:font-semibold [&_strong]:text-white [&_strong]:font-semibold [&_em]:text-neutral-300 [&_img]:max-w-full [&_img]:h-auto [&_img]:my-8 [&_img]:rounded-sm [&>table]:w-full [&>table]:my-8 [&>table]:border-collapse [&>table_th]:border [&>table_th]:border-white/20 [&>table_th]:bg-white/10 [&>table_th]:px-4 [&>table_th]:py-3 [&>table_th]:text-left [&>table_th]:font-semibold [&>table_th]:text-white [&>table_td]:border [&>table_td]:border-white/15 [&>table_td]:px-4 [&>table_td]:py-3 [&>table_td]:text-neutral-200'
+                                    : 'text-neutral-900 [&>p]:mb-6 [&>p]:text-neutral-900 [&>h2]:text-black [&>h2]:text-2xl [&>h2]:sm:text-3xl [&>h2]:font-semibold [&>h2]:leading-[1.25] [&>h2]:mt-14 [&>h2]:mb-6 [&>h2]:tracking-tight [&>h3]:text-black [&>h3]:text-xl [&>h3]:sm:text-2xl [&>h3]:font-semibold [&>h3]:leading-[1.3] [&>h3]:mt-12 [&>h3]:mb-5 [&>h3]:tracking-tight [&>h4]:text-black [&>h4]:text-lg [&>h4]:sm:text-xl [&>h4]:font-semibold [&>h4]:leading-[1.35] [&>h4]:mt-10 [&>h4]:mb-4 [&>ul]:mb-7 [&>ul]:pl-6 [&>ul]:list-disc [&>ul]:marker:text-black [&>ol]:mb-7 [&>ol]:pl-6 [&>ol]:list-decimal [&>ol]:marker:text-black [&>ul>li]:mb-3 [&>ol>li]:mb-3 [&>ul>li>ul]:mt-3 [&>ul>li>ul]:mb-2 [&>ul>li>ul]:pl-6 [&>ul>li>ul]:list-disc [&>ol>li>ol]:mt-3 [&>ol>li>ol]:mb-2 [&>ol>li>ol]:pl-6 [&>ol>li>ol]:list-decimal [&>blockquote]:border-l-4 [&>blockquote]:border-black [&>blockquote]:pl-6 [&>blockquote]:py-2 [&>blockquote]:my-10 [&>blockquote]:text-black [&>blockquote]:text-lg [&>blockquote]:sm:text-xl [&>blockquote]:font-medium [&>blockquote]:leading-[1.7] [&>blockquote]:italic [&_a]:text-black [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-4 [&_a]:decoration-black/40 [&_a:hover]:text-neutral-600 [&_a:hover]:decoration-black [&_a]:transition-colors [&_a]:duration-200 [&>strong]:text-black [&>strong]:font-semibold [&_strong]:text-black [&_strong]:font-semibold [&_em]:text-neutral-800 [&_img]:max-w-full [&_img]:h-auto [&_img]:my-8 [&_img]:rounded-sm [&>table]:w-full [&>table]:my-8 [&>table]:border-collapse [&>table_th]:border [&>table_th]:border-black/20 [&>table_th]:bg-black/5 [&>table_th]:px-4 [&>table_th]:py-3 [&>table_th]:text-left [&>table_th]:font-semibold [&>table_th]:text-black [&>table_td]:border [&>table_td]:border-black/15 [&>table_td]:px-4 [&>table_td]:py-3 [&>table_td]:text-neutral-900'
+                            }`}
                             dangerouslySetInnerHTML={{ __html: processedHtml }}
                         />
 
@@ -388,14 +492,30 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
                             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
                                 {post.author && (
                                     <div className="flex items-center gap-3">
-                                        <div className="size-8 rounded-full bg-neutral-900 text-white flex items-center justify-center font-mono text-xs font-semibold tracking-wider shrink-0">
+                                        <div
+                                            className={`size-8 rounded-full flex items-center justify-center font-mono text-xs font-semibold tracking-wider shrink-0 ${
+                                                isDarkTheme
+                                                    ? 'bg-neutral-800 text-white'
+                                                    : 'bg-neutral-900 text-white'
+                                            }`}
+                                        >
                                             {authorInitials}
                                         </div>
                                         <div className="flex flex-col">
-                                            <span className="text-[11px] font-mono uppercase tracking-widest text-neutral-500">
+                                            <span
+                                                className={`text-[11px] font-mono uppercase tracking-widest ${
+                                                    isDarkTheme
+                                                        ? 'text-neutral-400'
+                                                        : 'text-neutral-500'
+                                                }`}
+                                            >
                                                 Written by
                                             </span>
-                                            <span className="text-sm font-medium text-black">
+                                            <span
+                                                className={`text-sm font-medium ${
+                                                    isDarkTheme ? 'text-white' : 'text-black'
+                                                }`}
+                                            >
                                                 {post.author}
                                             </span>
                                         </div>
@@ -404,10 +524,20 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
 
                                 {post.date && (
                                     <div className="flex flex-col sm:text-right">
-                                        <span className="text-[11px] font-mono uppercase tracking-widest text-neutral-500">
+                                        <span
+                                            className={`text-[11px] font-mono uppercase tracking-widest ${
+                                                isDarkTheme
+                                                    ? 'text-neutral-400'
+                                                    : 'text-neutral-500'
+                                            }`}
+                                        >
                                             Published on
                                         </span>
-                                        <span className="font-mono text-xs text-black uppercase tracking-wider mt-0.5">
+                                        <span
+                                            className={`font-mono text-xs uppercase tracking-wider mt-0.5 ${
+                                                isDarkTheme ? 'text-neutral-300' : 'text-black'
+                                            }`}
+                                        >
                                             {post.date}
                                         </span>
                                     </div>
@@ -415,23 +545,29 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
                             </div>
                         </div>
 
-                        {/* Share actions bar */}
-                        {/* <BlogShareBar title={post.title} /> */}
                         {/* Top Action Bar: Preferred Source + Quick Share Buttons */}
-                        <div className="mb-8 mt-8 flex flex-wrap items-center justify-between gap-4 py-3 border-y border-black/10">
+                        <div
+                            className={`mb-8 mt-8 flex flex-wrap items-center justify-between gap-4 py-3 border-y ${
+                                isDarkTheme ? 'border-white/10' : 'border-black/10'
+                            }`}
+                        >
                             {/* Google Preferred Source Badge */}
                             <div className="flex items-center leading-none min-h-[40px] min-w-[140px]">
                                 <div
-                                    key={post.id}
+                                    key={`${post.id}-${isDarkTheme ? 'dark' : 'light'}`}
                                     google-add-preferred-source-btn=""
-                                    data-theme="light"
+                                    data-theme={isDarkTheme ? 'dark' : 'light'}
                                     data-lang="en"
                                 />
                             </div>
 
                             {/* Share Icons */}
                             <div className="flex items-center gap-2">
-                                <span className="text-xs font-mono uppercase tracking-wider text-neutral-500 mr-1 hidden sm:inline">
+                                <span
+                                    className={`text-xs font-mono uppercase tracking-wider mr-1 hidden sm:inline ${
+                                        isDarkTheme ? 'text-neutral-400' : 'text-neutral-500'
+                                    }`}
+                                >
                                     Share:
                                 </span>
                                 {/* Copy Link */}
@@ -440,7 +576,11 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
                                     onClick={handleCopyLink}
                                     aria-label="Copy link"
                                     title="Copy link"
-                                    className="inline-flex items-center gap-1.5 h-8 px-3 rounded-full bg-black/5 hover:bg-black text-neutral-700 hover:text-white transition-all duration-200 cursor-pointer text-xs font-mono"
+                                    className={`inline-flex items-center gap-1.5 h-8 px-3 rounded-full transition-all duration-200 cursor-pointer text-xs font-mono ${
+                                        isDarkTheme
+                                            ? 'bg-white/10 hover:bg-white/20 text-neutral-200 hover:text-white'
+                                            : 'bg-black/5 hover:bg-black text-neutral-700 hover:text-white'
+                                    }`}
                                 >
                                     {copiedTop ? (
                                         <>
@@ -461,7 +601,11 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
                                     onClick={handleLinkedInShare}
                                     aria-label="Share on LinkedIn"
                                     title="Share on LinkedIn"
-                                    className="inline-flex items-center justify-center size-8 rounded-full bg-black/5 hover:bg-[#0A66C2] text-neutral-700 hover:text-white transition-all duration-200 cursor-pointer"
+                                    className={`inline-flex items-center justify-center size-8 rounded-full transition-all duration-200 cursor-pointer ${
+                                        isDarkTheme
+                                            ? 'bg-white/10 hover:bg-[#0A66C2] text-neutral-200 hover:text-white'
+                                            : 'bg-black/5 hover:bg-[#0A66C2] text-neutral-700 hover:text-white'
+                                    }`}
                                 >
                                     <svg
                                         viewBox="0 -2 44 44"
@@ -493,7 +637,11 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
                                     onClick={handleNativeShare}
                                     aria-label="Share article"
                                     title="Share article"
-                                    className="inline-flex items-center justify-center size-8 rounded-full bg-black/5 hover:bg-black text-neutral-700 hover:text-white transition-all duration-200 cursor-pointer"
+                                    className={`inline-flex items-center justify-center size-8 rounded-full transition-all duration-200 cursor-pointer ${
+                                        isDarkTheme
+                                            ? 'bg-white/10 hover:bg-white text-neutral-200 hover:text-black'
+                                            : 'bg-black/5 hover:bg-black text-neutral-700 hover:text-white'
+                                    }`}
                                 >
                                     <Share2 size={14} />
                                 </button>
@@ -501,7 +649,11 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
                         </div>
 
                         {/* Previous & Next Article Navigation */}
-                        <BlogPostNavigation prevPost={prevPost} nextPost={nextPost} />
+                        <BlogPostNavigation
+                            prevPost={prevPost}
+                            nextPost={nextPost}
+                            isDarkTheme={isDarkTheme}
+                        />
 
                         {/* Newsletter Subscription directly after next/prev article buttons in middle column */}
                         <BlogSubscribeBottom />
@@ -514,8 +666,18 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
                                 ) : (
                                     post.additionalLinks &&
                                     post.additionalLinks.length > 0 && (
-                                        <div className="mt-14 pt-8 border-t border-black/15 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
-                                            <span className="text-xs font-mono text-neutral-500 uppercase tracking-widest">
+                                        <div
+                                            className={`mt-14 pt-8 border-t flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 ${
+                                                isDarkTheme ? 'border-white/15' : 'border-black/15'
+                                            }`}
+                                        >
+                                            <span
+                                                className={`text-xs font-mono uppercase tracking-widest ${
+                                                    isDarkTheme
+                                                        ? 'text-neutral-400'
+                                                        : 'text-neutral-500'
+                                                }`}
+                                            >
                                                 Read article on:
                                             </span>
                                             <div className="flex flex-wrap items-center gap-6">
@@ -525,7 +687,11 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
                                                         href={link.url}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        className="group inline-flex items-center text-neutral-600 hover:text-black transition-colors"
+                                                        className={`group inline-flex items-center transition-colors ${
+                                                            isDarkTheme
+                                                                ? 'text-neutral-300 hover:text-white'
+                                                                : 'text-neutral-600 hover:text-black'
+                                                        }`}
                                                     >
                                                         {link.publisherLogo && (
                                                             <Image

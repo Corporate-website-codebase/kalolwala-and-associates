@@ -1,8 +1,8 @@
 /* Register --navbar-height so CSS can transition/interpolate it */
 @property --navbar-height {
-  syntax: '<length>';
-  inherits: true;
-  initial-value: 92px;
+    syntax: '<length>';
+    inherits: true;
+    initial-value: 92px;
 }
 
 /* @import "tailwindcss";
@@ -103,7 +103,7 @@ h1 span {
 
 /* @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"); */
 
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* 3. Configure the Font */
 /* @theme {
@@ -123,21 +123,21 @@ h1 span {
 } */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  /* --font-sans: var(--font-sans); */
-  --font-mono: var(--font-mono);
-  /* --font-gotham: "Gotham", sans-serif; */
-  --font-anton: "Anton", sans-serif;
-  --font-noto-sans: "Noto Sans", sans-serif;
-  /* --font-noto-sans: "Dosis", sans-serif; */
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    /* --font-sans: var(--font-sans); */
+    --font-mono: var(--font-mono);
+    /* --font-gotham: "Gotham", sans-serif; */
+    --font-anton: 'Anton', sans-serif;
+    --font-noto-sans: 'Noto Sans', sans-serif;
+    /* --font-noto-sans: "Dosis", sans-serif; */
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+    :root {
+        --background: #0a0a0a;
+        --foreground: #ededed;
+    }
 }
 /* ----------------------------------------
    Base Styling
@@ -161,10 +161,10 @@ h1 span {
 } */
 html,
 body {
-  margin: 0;
-  padding: 0;
-  overflow-x: clip;
-  background: #000;
+    margin: 0;
+    padding: 0;
+    overflow-x: clip;
+    background: #000;
 }
 
 /* Prevent default browser blue focus ring */
@@ -174,79 +174,78 @@ textarea:focus,
 textarea:focus-visible,
 select:focus,
 select:focus-visible {
-  outline: none !important;
-  box-shadow: none !important;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
-
 .stroke-white {
-  color: transparent;
-  -webkit-text-stroke: 2px white;
+    color: transparent;
+    -webkit-text-stroke: 2px white;
 }
 
 video {
-  transition: opacity 1.5s ease-in-out;
-  filter: brightness(0.9) contrast(1.05);
+    transition: opacity 1.5s ease-in-out;
+    filter: brightness(0.9) contrast(1.05);
 }
 
 body {
-  background-color: #000;
+    background-color: #000;
 }
 
 @keyframes rollX {
-  0% {
-    transform: translateX(0) rotate(0deg);
-  }
-  50% {
-    transform: translateX(200px) rotate(360deg);
-  }
-  100% {
-    transform: translateX(0) rotate(720deg);
-  }
+    0% {
+        transform: translateX(0) rotate(0deg);
+    }
+    50% {
+        transform: translateX(200px) rotate(360deg);
+    }
+    100% {
+        transform: translateX(0) rotate(720deg);
+    }
 }
 
 /* continuous smooth rolling */
 .rolling {
-  animation: rollX 4s linear infinite;
+    animation: rollX 4s linear infinite;
 }
 .marginal {
-  width: 95vw;
-  /* max-width: 1500px; */
-  margin: auto;
-  padding: 2% 0;
+    width: 95vw;
+    /* max-width: 1500px; */
+    margin: auto;
+    padding: 2% 0;
 }
 .no-scroll {
-  overflow: hidden !important;
-  height: 100vh !important;
-  touch-action: none !important; /* Disables swipe-to-scroll on mobile */
+    overflow: hidden !important;
+    height: 100vh !important;
+    touch-action: none !important; /* Disables swipe-to-scroll on mobile */
 }
 
 /* Tech-stack infinite marquee carousel */
 @keyframes marquee-scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
 }
 
 .animate-marquee-scroll {
-  animation: marquee-scroll 30s linear infinite;
+    animation: marquee-scroll 30s linear infinite;
 }
 
 /* Publisher logo marquee — blog detail */
 @keyframes publisher-marquee {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
 }
 
 .animate-marquee {
-  animation: publisher-marquee 40s linear infinite;
+    animation: publisher-marquee 40s linear infinite;
 }
 
 /* Prevent Chrome / Safari / Edge browser autofill from altering input background & text color */
@@ -255,100 +254,104 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active,
 input:autofill {
-  -webkit-text-fill-color: #ffffff !important;
-  caret-color: #ffffff !important;
-  transition: background-color 5000000s ease-in-out 0s;
+    -webkit-text-fill-color: #ffffff !important;
+    caret-color: #ffffff !important;
+    transition: background-color 5000000s ease-in-out 0s;
 }
 
 /* X-axis shake / vibration animation for input validation errors */
 @keyframes shakeX {
-  0%, 100% {
-    transform: translateX(0);
-  }
-  15%, 45%, 75% {
-    transform: translateX(-5px);
-  }
-  30%, 60%, 90% {
-    transform: translateX(5px);
-  }
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+    15%,
+    45%,
+    75% {
+        transform: translateX(-5px);
+    }
+    30%,
+    60%,
+    90% {
+        transform: translateX(5px);
+    }
 }
 
 .animate-shake-x {
-  animation: shakeX 0.4s ease-in-out;
+    animation: shakeX 0.4s ease-in-out;
 }
 
 /* Custom Thin Scrollbar */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+    width: 5px;
+    height: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+    background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(120, 120, 120, 0.35);
-  border-radius: 9999px;
+    background: rgba(120, 120, 120, 0.35);
+    border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(120, 120, 120, 0.6);
+    background: rgba(120, 120, 120, 0.6);
 }
 
 /* Firefox thin scrollbar support */
 * {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(120, 120, 120, 0.35) transparent;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(120, 120, 120, 0.35) transparent;
 }
 
 /* Blog Article Table Styling */
 .blog-table-container {
-  width: 100%;
-  overflow-x: auto;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  border-radius: 0.75rem;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  background-color: rgba(255, 255, 255, 0.4);
-  -webkit-overflow-scrolling: touch;
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    background-color: rgba(255, 255, 255, 0.4);
+    -webkit-overflow-scrolling: touch;
 }
 
 .blog-table,
 article table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.925rem;
-  line-height: 1.6;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.925rem;
+    line-height: 1.6;
 }
 
 .blog-table th,
 article table th {
-  background-color: rgba(0, 0, 0, 0.08);
-  color: #000000;
-  font-weight: 600;
-  padding: 0.85rem 1rem;
-  text-align: left;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  font-family: inherit;
+    background-color: rgba(0, 0, 0, 0.08);
+    color: #000000;
+    font-weight: 600;
+    padding: 0.85rem 1rem;
+    text-align: left;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    font-family: inherit;
 }
 
 .blog-table td,
 article table td {
-  padding: 0.75rem 1rem;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  color: #171717;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    color: #171717;
 }
 
 .blog-table tbody tr:nth-child(even),
 article table tbody tr:nth-child(even),
 article table tr:nth-child(even) {
-  background-color: rgba(0, 0, 0, 0.02);
+    background-color: rgba(0, 0, 0, 0.02);
 }
 
 .blog-table tbody tr:hover,
 article table tbody tr:hover,
 article table tr:hover {
-  background-color: rgba(0, 0, 0, 0.04);
+    background-color: rgba(0, 0, 0, 0.04);
 }
-

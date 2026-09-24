@@ -133,6 +133,7 @@ export default function BlogRecentArticles({
                         <Link
                             key={`${blog.slug}-${blog.id}`}
                             href={`/blogs/${blog.slug}`}
+                            prefetch={true}
                             className={`group flex gap-3 p-2.5 transition-all duration-300 hover:bg-white/5 ${
                                 idx !== 0 ? 'border-t border-white/10' : ''
                             }`}
