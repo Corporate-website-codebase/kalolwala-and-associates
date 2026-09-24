@@ -92,7 +92,6 @@ export default function BlogRecentArticles({
                 style={{
                     top: 'var(--navbar-height, 92px)',
                     height: 'calc(100vh - var(--navbar-height, 92px))',
-                    transition: 'top 300ms linear, height 300ms linear',
                 }}
                 className="sticky flex flex-col w-full border-l border-white/10 bg-[#161616] text-neutral-200 overscroll-contain z-10"
             >
@@ -132,7 +131,8 @@ export default function BlogRecentArticles({
                         <Link
                             key={`${blog.slug}-${blog.id}`}
                             href={`/blogs/${blog.slug}`}
-                            className={`group flex gap-3 p-2.5 transition-colors duration-200 hover:bg-white/5 ${
+                            prefetch={false}
+                            className={`group flex gap-3 p-2.5 transition-colors duration-150 hover:bg-white/10 rounded-sm ${
                                 idx !== 0 ? 'border-t border-white/10' : ''
                             }`}
                         >
@@ -144,7 +144,7 @@ export default function BlogRecentArticles({
                                         alt={blog.title}
                                         width={80}
                                         height={36}
-                                        className="object-cover object-top-left transition-transform duration-500 group-hover:scale-105 aspect-16/8"
+                                        className="object-cover object-top-left transition-transform duration-300 group-hover:scale-105 aspect-16/8 transform-gpu"
                                     />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center font-mono text-[9px] text-neutral-400">

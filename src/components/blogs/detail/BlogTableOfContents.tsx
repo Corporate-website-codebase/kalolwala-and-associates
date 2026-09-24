@@ -203,7 +203,6 @@ export default function BlogTableOfContents({
                 style={{
                     top: 'var(--navbar-height, 92px)',
                     height: 'calc(100vh - var(--navbar-height, 92px))',
-                    transition: 'top 300ms linear, height 300ms linear',
                 }}
                 className="sticky flex flex-col w-full border-r border-white/10 bg-[#161616] text-neutral-200 overscroll-contain z-10"
             >

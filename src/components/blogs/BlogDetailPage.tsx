@@ -306,13 +306,13 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
         <section
             ref={containerRef}
             style={{ marginTop: 'calc(-1 * var(--nav-full-height, 92px))' }}
-            className={`w-full min-h-screen font-noto-sans flex flex-col [overflow-anchor:none] transition-colors duration-300 ${
+            className={`w-full min-h-screen font-noto-sans flex flex-col [overflow-anchor:none] ${
                 isDarkTheme ? 'bg-[#0f0f0f] text-neutral-100 blog-dark-reader' : 'bg-[#eeeeee] text-black blog-light-reader'
             }`}
         >
             <Script
                 src="https://news.google.com/swg/js/v1/publisher.js"
-                strategy="afterInteractive"
+                strategy="lazyOnload"
                 onLoad={() => {
                     if (typeof window !== 'undefined') {
                         const win = window as unknown as {

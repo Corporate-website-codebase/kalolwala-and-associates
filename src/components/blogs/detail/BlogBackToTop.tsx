@@ -10,11 +10,12 @@ export default function BlogBackToTop() {
 
     // Show button once the user has scrolled down past the hero threshold
     useEffect(() => {
+        let lastVisible = false
         const toggleVisibility = () => {
-            if (window.scrollY > 400) {
-                setIsVisible(true)
-            } else {
-                setIsVisible(false)
+            const shouldBeVisible = window.scrollY > 400
+            if (shouldBeVisible !== lastVisible) {
+                lastVisible = shouldBeVisible
+                setIsVisible(shouldBeVisible)
             }
         }
 

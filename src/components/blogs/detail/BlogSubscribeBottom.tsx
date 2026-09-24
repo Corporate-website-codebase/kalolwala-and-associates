@@ -119,7 +119,7 @@ export default function BlogSubscribeBottom() {
                                 }
                                 disabled={subscriptionStatus === 'loading'}
                                 style={{ colorScheme: 'dark' }}
-                                className={`w-full h-12 px-4 bg-white/10 backdrop-blur-[2px] text-white outline-none font-noto-sans text-sm transition-all duration-300 disabled:opacity-50 ${
+                                className={`w-full h-12 px-4 bg-white/10 text-white outline-none font-noto-sans text-sm transition-all duration-300 disabled:opacity-50 ${
                                     isShaking ? 'animate-shake-x' : ''
                                 } ${
                                     hasError
