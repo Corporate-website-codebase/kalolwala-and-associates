@@ -46,12 +46,14 @@ export default function BlogTableOfContents({
 
     const [activeId, setActiveId] = useState<string>('')
     const [userToggledSections, setUserToggledSections] = useState<Record<string, boolean>>({})
+    const [prevHeadings, setPrevHeadings] = useState(headings)
     const lenis = useLenis()
 
-    // Reset user toggles when headings change (new article)
-    useEffect(() => {
+    // Reset user manual toggles when headings change (new article) without useEffect cascading renders
+    if (prevHeadings !== headings) {
+        setPrevHeadings(headings)
         setUserToggledSections({})
-    }, [headings])
+    }
 
     // Group headings into hierarchical sections (H2 as parent, H3 as accordion children)
     const sections: TocSection[] = useMemo(() => {
@@ -97,15 +99,13 @@ export default function BlogTableOfContents({
     }, [headings])
 
     // Helper to determine if an accordion section is expanded
-    // By default: ALL sections are COLLAPSED. Only expand according to reading (when active),
+    // By default: ALL sections are COLLAPSED. Expand if currently reading (active),
     // or if the user explicitly clicked to toggle it.
     const isSectionExpanded = (section: TocSection) => {
-        const hasActiveItem =
-            section.id === activeId || section.children.some((c) => c.id === activeId)
         if (userToggledSections[section.id] !== undefined) {
             return userToggledSections[section.id]
         }
-        return hasActiveItem
+        return section.id === activeId || section.children.some((c) => c.id === activeId)
     }
 
     const toggleSection = (section: TocSection, e: React.MouseEvent) => {
@@ -117,22 +117,6 @@ export default function BlogTableOfContents({
             [section.id]: !currentlyExpanded,
         }))
     }
-
-    // Auto-expand section according to reading whenever activeId changes
-    useEffect(() => {
-        if (!activeId) return
-        const activeSection = sections.find(
-            (s) => s.id === activeId || s.children.some((c) => c.id === activeId),
-        )
-        if (activeSection) {
-            setUserToggledSections((prev) => {
-                if (prev[activeSection.id] === undefined) return prev
-                const updated = { ...prev }
-                delete updated[activeSection.id]
-                return updated
-            })
-        }
-    }, [activeId, sections])
 
     // Observe active headings on scroll using IntersectionObserver to eliminate layout thrashing
     useEffect(() => {
