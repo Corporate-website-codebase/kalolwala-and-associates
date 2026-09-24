@@ -106,7 +106,7 @@ export default function BlogRecentArticles({
                         <div className="flex items-center gap-2.5 min-w-0">
                             <ArticleIcon className="w-4 h-4 shrink-0 text-neutral-300" />
                             <h3 className="font-mono text-xs uppercase tracking-[0.15em] text-neutral-200 font-semibold truncate">
-                                Recent Article
+                                Recent Articles
                             </h3>
                         </div>
                     )}
