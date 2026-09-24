@@ -90,10 +90,9 @@ export default function BlogRecentArticles({
             <div
                 data-lenis-prevent="true"
                 style={{
-                    top: 'var(--nav-full-height, 92px)',
+                    top: 'calc(var(--nav-full-height, 92px) + var(--nav-translate-y, 0px))',
                     height: 'calc(100vh - var(--nav-full-height, 92px) - var(--nav-translate-y, 0px))',
-                    transform: 'translateY(var(--nav-translate-y, 0px))',
-                    transition: 'transform 300ms linear, height 300ms linear',
+                    transition: 'top 300ms linear, height 300ms linear',
                 }}
                 className="sticky flex flex-col w-full border-l border-white/10 bg-[#161616] text-neutral-200 overscroll-contain z-10"
             >

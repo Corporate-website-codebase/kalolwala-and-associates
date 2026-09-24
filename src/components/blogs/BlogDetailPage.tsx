@@ -328,7 +328,7 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
         <section
             ref={containerRef}
             style={{ marginTop: 'calc(-1 * var(--nav-full-height, 92px))' }}
-            className={`w-full min-h-screen font-noto-sans flex flex-col justify-between [overflow-anchor:none] transition-colors duration-300 ${
+            className={`w-full min-h-screen font-noto-sans flex flex-col [overflow-anchor:none] transition-colors duration-300 ${
                 isDarkTheme ? 'bg-[#0f0f0f] text-neutral-100' : 'bg-[#eeeeee] text-black'
             }`}
         >
@@ -353,7 +353,7 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
             />
 
             {/* 3-Column Reading Layout attached edge-to-edge */}
-            <div className="w-full flex flex-col lg:flex-row items-stretch relative z-10 overflow-hidden">
+            <div className="w-full flex flex-col lg:flex-row items-stretch relative z-10">
                 {/* LEFT SIDEBAR: Table of Contents attached to left edge */}
                 <BlogTableOfContents
                     headings={headings}
@@ -364,10 +364,6 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
                 {/* MIDDLE COLUMN: Blog Article Content taking the rest of width */}
                 <main
                     ref={mainContentRef}
-                    style={{
-                        transform: 'translateY(var(--nav-translate-y, 0px))',
-                        transition: 'transform 300ms linear',
-                    }}
                     className="flex-1 min-w-0 px-6 sm:px-10 lg:px-12 xl:px-16 pt-[calc(var(--nav-full-height,92px)+1.5rem)] sm:pt-[calc(var(--nav-full-height,92px)+2rem)] pb-16 [overflow-anchor:none]"
                 >
                     <div className="max-w-3xl xl:max-w-4xl mx-auto w-full">
