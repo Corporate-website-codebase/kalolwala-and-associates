@@ -35,10 +35,16 @@ type WordPressPost = {
             alt_text?: string
             media_details?: {
                 sizes?: {
-                    large?: {
+                    thumbnail?: {
+                        source_url?: string
+                    }
+                    medium?: {
                         source_url?: string
                     }
                     medium_large?: {
+                        source_url?: string
+                    }
+                    large?: {
                         source_url?: string
                     }
                     full?: {
@@ -227,10 +233,11 @@ export default async function BlogPostPage({ params }: Props) {
         .map((post) => {
             const featuredMedia = post._embedded?.['wp:featuredmedia']?.[0]
 
+            // Use lightweight pre-scaled image for thumbnails/sidebars to prevent network choking
             const image =
-                featuredMedia?.media_details?.sizes?.large?.source_url ||
+                featuredMedia?.media_details?.sizes?.medium?.source_url ||
+                featuredMedia?.media_details?.sizes?.thumbnail?.source_url ||
                 featuredMedia?.media_details?.sizes?.medium_large?.source_url ||
-                featuredMedia?.media_details?.sizes?.full?.source_url ||
                 featuredMedia?.source_url ||
                 ''
 
@@ -331,9 +338,17 @@ export default async function BlogPostPage({ params }: Props) {
         notFound()
     }
 
-    // Attach full content ONLY to the active blog post being viewed
+    const activeFeaturedMedia = wordpressPost._embedded?.['wp:featuredmedia']?.[0]
+    const heroImage =
+        activeFeaturedMedia?.media_details?.sizes?.large?.source_url ||
+        activeFeaturedMedia?.media_details?.sizes?.full?.source_url ||
+        activeFeaturedMedia?.source_url ||
+        baseWordpressBlog.image
+
+    // Attach full content and high-res hero image ONLY to the active blog post being viewed
     const wordpressBlog: BlogPost = {
         ...baseWordpressBlog,
+        image: heroImage,
         content: wordpressPost.content.rendered,
     }
 

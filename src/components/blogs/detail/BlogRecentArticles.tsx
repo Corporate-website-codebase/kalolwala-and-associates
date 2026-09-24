@@ -60,6 +60,7 @@ export default function BlogRecentArticles({
             e.preventDefault()
             e.stopPropagation()
         }
+        console.log(`[BlogRecentArticles] Toggle sidebar: currently ${isOpen ? 'OPEN -> CLOSING' : 'CLOSED -> OPENING'} at ${performance.now().toFixed(1)}ms`)
         if (onToggle) {
             onToggle()
         } else {
@@ -132,6 +133,9 @@ export default function BlogRecentArticles({
                         <Link
                             key={`${blog.slug}-${blog.id}`}
                             href={`/blogs/${blog.slug}`}
+                            onClick={() => {
+                                console.log(`[Blog Navigation] User clicked article: "${blog.title}" -> /blogs/${blog.slug} at ${performance.now().toFixed(1)}ms`)
+                            }}
                             className={`group flex gap-3 p-2.5 transition-colors duration-150 hover:bg-white/10 rounded-sm ${
                                 idx !== 0 ? 'border-t border-white/10' : ''
                             }`}
@@ -144,6 +148,8 @@ export default function BlogRecentArticles({
                                         alt={blog.title}
                                         width={80}
                                         height={36}
+                                        sizes="80px"
+                                        loading="lazy"
                                         className="object-cover object-top-left transition-transform duration-300 group-hover:scale-105 aspect-16/8 transform-gpu"
                                     />
                                 ) : (
