@@ -94,8 +94,8 @@ export default function BlogPaginatedList({
                 id: String(post.id),
                 title: post.title.rendered,
                 slug: post.slug,
-                content: post.content.rendered,
-                excerpt: post.excerpt.rendered,
+                content: '',
+                excerpt: post.excerpt?.rendered ? post.excerpt.rendered.replace(/<[^>]*>/g, '').trim() : '',
                 date: new Date(post.date).toLocaleDateString('en-GB', {
                     day: '2-digit',
                     month: 'short',

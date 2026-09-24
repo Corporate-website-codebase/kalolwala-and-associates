@@ -19,8 +19,8 @@ export default function BlogPostNavigation({
     if (!prevPost && !nextPost) return null
 
     const cardBase = isDarkTheme
-        ? 'group flex flex-col justify-between p-5 rounded-2xl bg-neutral-900/80 hover:bg-neutral-800/90 border border-white/10 hover:border-white/20 transition-all duration-300 shadow-2xs hover:shadow-md hover:-translate-y-0.5'
-        : 'group flex flex-col justify-between p-5 rounded-2xl bg-white/60 hover:bg-white border border-black/10 hover:border-black/30 transition-all duration-300 shadow-2xs hover:shadow-md hover:-translate-y-0.5'
+        ? 'group flex flex-col justify-between p-5 rounded-2xl bg-neutral-900/80 hover:bg-neutral-800/90 border border-white/10 hover:border-white/20 transition-[transform,background-color,border-color] duration-200 shadow-2xs hover:shadow-md hover:-translate-y-0.5 transform-gpu'
+        : 'group flex flex-col justify-between p-5 rounded-2xl bg-white/60 hover:bg-white border border-black/10 hover:border-black/30 transition-[transform,background-color,border-color] duration-200 shadow-2xs hover:shadow-md hover:-translate-y-0.5 transform-gpu'
 
     const titleColor = isDarkTheme
         ? 'text-sm font-normal text-neutral-200 group-hover:text-white line-clamp-2 leading-snug transition-colors'

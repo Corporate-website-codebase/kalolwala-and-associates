@@ -203,13 +203,13 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
         lenisRef.current = lenis
     })
 
-    // Scroll to top on article switch
+    // Instant scroll to top on article switch
     useEffect(() => {
         if (lenisRef.current) {
             lenisRef.current.scrollTo(0, { immediate: true })
         }
-        window.scrollTo(0, 0)
-    }, [post.id])
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+    }, [post.id, post.slug])
 
     const authorInitials = parseAuthorInitials(post.author)
 

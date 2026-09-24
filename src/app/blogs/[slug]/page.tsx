@@ -240,8 +240,8 @@ export default async function BlogPostPage({ params }: Props) {
                 title: post.title.rendered,
                 metaTitle: post.title.rendered,
                 slug: post.slug,
-                content: post.content.rendered,
-                excerpt: post.excerpt.rendered.replace(/<[^>]*>/g, '').trim(),
+                content: '', // Omit heavy HTML from recommendations array to keep RSC payload under 25KB
+                excerpt: post.excerpt?.rendered ? post.excerpt.rendered.replace(/<[^>]*>/g, '').trim() : '',
                 date: new Date(post.date).toLocaleDateString('en-GB', {
                     day: '2-digit',
                     month: 'long',
@@ -325,15 +325,16 @@ export default async function BlogPostPage({ params }: Props) {
      * ========================================================
      */
 
-    const wordpressBlog = wordpressBlogs.find((blog) => blog.slug === wordpressPost.slug)
+    const baseWordpressBlog = wordpressBlogs.find((blog) => blog.slug === wordpressPost.slug)
 
-    /*
-     * This should normally never happen, but keeps the page
-     * safe if the current post wasn't included in the mapped
-     * published posts.
-     */
-    if (!wordpressBlog) {
+    if (!baseWordpressBlog) {
         notFound()
+    }
+
+    // Attach full content ONLY to the active blog post being viewed
+    const wordpressBlog: BlogPost = {
+        ...baseWordpressBlog,
+        content: wordpressPost.content.rendered,
     }
 
     /*
