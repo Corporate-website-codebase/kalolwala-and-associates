@@ -291,11 +291,11 @@ const Footers = ({
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
       variants={containerVariants}
-      className="relative w-full marginal font-noto-sans bg-black text-white py-12 md:py-16 px-6 md:px-12 flex flex-col justify-between overflow-hidden"
+      className="relative z-30 w-full marginal font-noto-sans bg-black text-white py-12 md:py-16 px-6 md:px-12 flex flex-col justify-between overflow-hidden"
     >
       {/* === TOP SECTION === */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative z-10">
-        <div className="flex flex-col gap-4 md:gap-6 md:w-2/3">
+        <div className="flex flex-col gap-4 md:gap-6 md:w-2/3 ">
           <div className="flex items-center gap-3">
             <AestheticDot />
             <div className="overflow-hidden">

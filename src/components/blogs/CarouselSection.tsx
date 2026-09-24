@@ -389,15 +389,15 @@ export default function BlogPaginatedList({
 
                 {/* Blog post cards grid with smooth coordinated entrance */}
                 <motion.div
-                    initial={{ opacity: 0, y: 36 }}
+                    initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.9, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ duration: 0.4, delay: 0.1, ease: 'easeOut' }}
                     className="min-h-100 marginal"
                 >
                     <div
-                        className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 pt-2 gap-6 lg:gap-8 2xl:gap-5 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+                        className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 pt-2 gap-6 lg:gap-8 2xl:gap-5 transition-all duration-300 ease-out ${
                             isPageChanging
-                                ? 'opacity-0 translate-y-8'
+                                ? 'opacity-0 translate-y-4'
                                 : 'opacity-100 translate-y-0'
                         }`}
                     >
@@ -410,10 +410,10 @@ export default function BlogPaginatedList({
                 {/* Pagination navigation */}
                 {totalPages > 1 && (
                     <motion.div
-                        initial={{ opacity: 0, y: 16 }}
+                        initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: hasMounted ? 1 : 0, y: 0 }}
-                        transition={{ duration: 0.7, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
-                        className={`mt-12 marginal pt-0! flex justify-center items-center gap-8 sm:gap-12 transition-opacity duration-500 ${
+                        transition={{ duration: 0.35, delay: 0.15, ease: 'easeOut' }}
+                        className={`mt-12 marginal pt-0! flex justify-center items-center gap-8 sm:gap-12 transition-opacity duration-300 ${
                             hasMounted ? 'opacity-100' : 'opacity-0'
                         }`}
                     >

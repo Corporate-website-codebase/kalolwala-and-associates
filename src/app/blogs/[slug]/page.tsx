@@ -51,9 +51,24 @@ type WordPressPost = {
 }
 
 export async function generateStaticParams() {
-    return BLOG_DATA.filter((post) => post.slug).map((post) => ({
+    const localSlugs = BLOG_DATA.filter((post) => post.slug).map((post) => ({
         slug: post.slug!,
     }))
+
+    try {
+        const wpPosts = await getPosts()
+        const wpSlugs = (wpPosts || [])
+            .filter((p) => p.slug && p.status === 'publish')
+            .map((p) => ({ slug: p.slug }))
+
+        const allSlugs = [...localSlugs, ...wpSlugs]
+        const unique = allSlugs.filter(
+            (item, index, self) => index === self.findIndex((t) => t.slug === item.slug)
+        )
+        return unique
+    } catch {
+        return localSlugs
+    }
 }
 
 export const dynamicParams = true

@@ -1,6 +1,7 @@
 import type { BlogPost } from '@/data/blogs'
 import { ArrowUpRight } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 export interface BlogCardProps {
     post?: BlogPost
@@ -47,39 +48,31 @@ export default function BlogCard({ post, blog, card, className = '' }: BlogCardP
     const image = item.image
     const author = parseAuthor(item.author)
 
-    return (
-        <a
-            href={href}
-            {...(!isInternal && {
-                target: '_blank',
-                rel: 'noopener noreferrer',
-            })}
-            className={`group block w-full h-full outline-none ${className}`.trim()}
-        >
-            <article className="group relative flex flex-col h-full overflow-hidden rounded-2xl bg-white/60 backdrop-blur-xl border border-white/80 shadow-sm hover:shadow-xl transition-all duration-500 ease-out hover:-translate-y-1">
-                {/* Fixed aspect ratio thumbnail container */}
-                <div className="relative w-full px-0.5 pt-0.5">
-                    <div className="relative w-full aspect-16/8 overflow-hidden rounded-[14px] bg-neutral-100">
-                        {image ? (
-                            <>
-                                <Image
-                                    src={image}
-                                    alt={item.imageAlt || item.title}
-                                    fill
-                                    unoptimized
-                                    className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
-                                />
-                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-500" />
-                            </>
-                        ) : (
-                            <div className="w-full h-full bg-neutral-200 flex items-center justify-center">
-                                <span className="text-neutral-400 text-sm">
-                                    Kalolwala & Associates
-                                </span>
-                            </div>
-                        )}
-                    </div>
+    const cardContent = (
+        <article className="group relative flex flex-col h-full overflow-hidden rounded-2xl bg-white/60 backdrop-blur-xl border border-white/80 shadow-sm hover:shadow-xl transition-all duration-500 ease-out hover:-translate-y-1">
+            {/* Fixed aspect ratio thumbnail container */}
+            <div className="relative w-full px-0.5 pt-0.5">
+                <div className="relative w-full aspect-16/8 overflow-hidden rounded-[14px] bg-neutral-100">
+                    {image ? (
+                        <>
+                            <Image
+                                src={image}
+                                alt={item.imageAlt || item.title}
+                                fill
+                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1536px) 33vw, 25vw"
+                                className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                            />
+                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-500" />
+                        </>
+                    ) : (
+                        <div className="w-full h-full bg-neutral-200 flex items-center justify-center">
+                            <span className="text-neutral-400 text-sm">
+                                Kalolwala & Associates
+                            </span>
+                        </div>
+                    )}
                 </div>
+            </div>
 
                 {/* Article details and action footer */}
                 <div className="flex flex-col grow px-6 pt-5 pb-6">
@@ -128,6 +121,28 @@ export default function BlogCard({ post, blog, card, className = '' }: BlogCardP
                     </div>
                 </div>
             </article>
+    )
+
+    if (isInternal) {
+        return (
+            <Link
+                href={href}
+                prefetch={true}
+                className={`group block w-full h-full outline-none ${className}`.trim()}
+            >
+                {cardContent}
+            </Link>
+        )
+    }
+
+    return (
+        <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`group block w-full h-full outline-none ${className}`.trim()}
+        >
+            {cardContent}
         </a>
     )
 }
