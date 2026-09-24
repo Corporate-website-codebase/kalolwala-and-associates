@@ -6,7 +6,7 @@ import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Copy, Moon, Share2, Sun } f
 import Image from 'next/image'
 import Link from 'next/link'
 import Script from 'next/script'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
 import PublisherMarquee from './PublisherMarquee'
 import BlogBackToTop from './detail/BlogBackToTop'
 import BlogPostNavigation from './detail/BlogPostNavigation'
@@ -103,8 +103,27 @@ function parseDateToTimestamp(dateStr?: string): number {
     return isNaN(ts2) ? 0 : ts2
 }
 
-// Global module-level theme cache to prevent theme flash when switching articles
-let globalReaderTheme: 'dark' | 'light' | null = null
+// Subscribe to browser storage changes for multi-tab sync without hydration mismatch
+const subscribeTheme = (callback: () => void) => {
+    if (typeof window === 'undefined') return () => {}
+    window.addEventListener('storage', callback)
+    return () => window.removeEventListener('storage', callback)
+}
+
+function getThemeSnapshot(): 'dark' | 'light' {
+    if (typeof window === 'undefined') return 'light'
+    try {
+        const saved = localStorage.getItem('blog-reader-theme')
+        if (saved === 'dark' || saved === 'light') {
+            return saved
+        }
+    } catch {}
+    return 'light'
+}
+
+function getThemeServerSnapshot(): 'dark' | 'light' {
+    return 'light'
+}
 
 export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetailPageProps) {
     const containerRef = useRef<HTMLDivElement | null>(null)
@@ -135,34 +154,25 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
         }
     }
 
-    // Reading Theme (Light / Dark mode for comfortable reading with instant persistence)
-    const [isDarkTheme, setIsDarkTheme] = useState(() => {
-        if (globalReaderTheme !== null) return globalReaderTheme === 'dark'
-        if (typeof window !== 'undefined') {
-            try {
-                const saved = localStorage.getItem('blog-reader-theme')
-                if (saved) {
-                    globalReaderTheme = saved === 'dark' ? 'dark' : 'light'
-                    return globalReaderTheme === 'dark'
-                }
-            } catch {
-                // Ignore
-            }
-        }
-        return false
-    })
+    // Reading Theme (Light / Dark mode using useSyncExternalStore to eliminate hydration mismatch)
+    const storedTheme = useSyncExternalStore(
+        subscribeTheme,
+        getThemeSnapshot,
+        getThemeServerSnapshot,
+    )
+    const [themeOverride, setThemeOverride] = useState<'dark' | 'light' | null>(null)
+    const currentTheme = themeOverride ?? storedTheme
+    const isDarkTheme = currentTheme === 'dark'
 
     const handleToggleTheme = () => {
-        setIsDarkTheme((prev) => {
-            const next = !prev
-            globalReaderTheme = next ? 'dark' : 'light'
-            try {
-                localStorage.setItem('blog-reader-theme', next ? 'dark' : 'light')
-            } catch {
-                // Ignore
-            }
-            return next
-        })
+        const next = isDarkTheme ? 'light' : 'dark'
+        setThemeOverride(next)
+        try {
+            localStorage.setItem('blog-reader-theme', next)
+            window.dispatchEvent(new Event('storage'))
+        } catch {
+            // Ignore
+        }
     }
 
     // Process article headings and generate ID anchors
@@ -533,6 +543,7 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
                             {/* Article Body */}
                             <div
                                 itemProp="articleBody"
+                                style={{ contain: 'layout inline-size' }}
                                 className={`article-content text-base sm:text-[17px] leading-[1.85] font-normal antialiased transition-colors duration-300 ${
                                     isDarkTheme
                                         ? 'text-neutral-200 [&>p]:mb-6 [&>p]:text-neutral-200 [&>h2]:text-white [&>h2]:text-2xl [&>h2]:sm:text-3xl [&>h2]:font-semibold [&>h2]:leading-[1.25] [&>h2]:mt-14 [&>h2]:mb-6 [&>h2]:tracking-tight [&>h3]:text-white [&>h3]:text-xl [&>h3]:sm:text-2xl [&>h3]:font-semibold [&>h3]:leading-[1.3] [&>h3]:mt-12 [&>h3]:mb-5 [&>h3]:tracking-tight [&>h4]:text-white [&>h4]:text-lg [&>h4]:sm:text-xl [&>h4]:font-semibold [&>h4]:leading-[1.35] [&>h4]:mt-10 [&>h4]:mb-4 [&>ul]:mb-7 [&>ul]:pl-6 [&>ul]:list-disc [&>ul]:marker:text-white/80 [&>ol]:mb-7 [&>ol]:pl-6 [&>ol]:list-decimal [&>ol]:marker:text-white/80 [&>ul>li]:mb-3 [&>ol>li]:mb-3 [&>ul>li>ul]:mt-3 [&>ul>li>ul]:mb-2 [&>ul>li>ul]:pl-6 [&>ul>li>ul]:list-disc [&>ol>li>ol]:mt-3 [&>ol>li>ol]:mb-2 [&>ol>li>ol]:pl-6 [&>ol>li>ol]:list-decimal [&>blockquote]:border-l-4 [&>blockquote]:border-white [&>blockquote]:pl-6 [&>blockquote]:py-2 [&>blockquote]:my-10 [&>blockquote]:text-neutral-100 [&>blockquote]:text-lg [&>blockquote]:sm:text-xl [&>blockquote]:font-medium [&>blockquote]:leading-[1.7] [&>blockquote]:italic [&_a]:text-white [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-4 [&_a]:decoration-white/40 [&_a:hover]:text-neutral-200 [&_a:hover]:decoration-white [&_a]:transition-colors [&_a]:duration-200 [&>strong]:text-white [&>strong]:font-semibold [&_strong]:text-white [&_strong]:font-semibold [&_em]:text-neutral-300 [&_img]:max-w-full [&_img]:h-auto [&_img]:my-8 [&_img]:rounded-sm [&>table]:w-full [&>table]:my-8 [&>table]:border-collapse [&>table_th]:border [&>table_th]:border-white/20 [&>table_th]:bg-white/10 [&>table_th]:px-4 [&>table_th]:py-3 [&>table_th]:text-left [&>table_th]:font-semibold [&>table_th]:text-white [&>table_td]:border [&>table_td]:border-white/15 [&>table_td]:px-4 [&>table_td]:py-3 [&>table_td]:text-neutral-200'

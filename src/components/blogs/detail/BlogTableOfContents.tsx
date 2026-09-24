@@ -1,7 +1,7 @@
 'use client'
 
 import { useLenis } from 'lenis/react'
-import { ChevronDown, ChevronLeft, List, PanelLeftClose, PanelLeftOpen } from 'lucide-react'
+import { ChevronDown, ChevronLeft, ChevronRight, List, PanelLeftClose, PanelLeftOpen } from 'lucide-react'
 import React, { useEffect, useMemo, useState } from 'react'
 
 export interface TocHeading {
@@ -177,7 +177,7 @@ export default function BlogTableOfContents({
 
     return (
         <aside
-            className={`hidden lg:flex flex-col shrink-0 relative z-10 transition-[width] duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+            className={`hidden lg:flex flex-col shrink-0 relative z-10 transition-[width] duration-200 ease-out will-change-[width] transform-gpu ${
                 isOpen ? 'w-72 xl:w-80' : 'w-12 xl:w-14'
             }`}
         >
@@ -198,7 +198,7 @@ export default function BlogTableOfContents({
                 >
                     {isOpen && (
                         <div className="flex items-center gap-2.5 min-w-0">
-                            <List size={14} className="text-neutral-300 shrink-0" />
+                            <List className="w-4 h-4 text-neutral-300 shrink-0" />
                             <h3 className="font-mono text-xs uppercase tracking-[0.15em] text-neutral-200 font-semibold truncate">
                                 Contents
                             </h3>
@@ -351,13 +351,14 @@ export default function BlogTableOfContents({
                         className="flex-1 py-8 px-1 flex flex-col items-center gap-6 cursor-pointer hover:bg-white/5 transition-colors"
                         title="Click to expand Table of Contents"
                     >
+                        <List className="w-4 h-4 text-neutral-400 shrink-0" />
                         <span
                             className="font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-400 hover:text-white whitespace-nowrap"
                             style={{ writingMode: 'vertical-rl' }}
                         >
                             Table of Contents
                         </span>
-                        <ChevronLeft size={14} className="text-neutral-400" />
+                        <ChevronRight size={14} className="text-neutral-400" />
                     </div>
                 )}
             </div>

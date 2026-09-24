@@ -1,7 +1,7 @@
 'use client'
 
 import type { BlogPost } from '@/data/blogs'
-import { ChevronRight, PanelRightClose, PanelRightOpen } from 'lucide-react'
+import { ChevronLeft, ChevronRight, PanelRightClose, PanelRightOpen } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState } from 'react'
@@ -82,7 +82,7 @@ export default function BlogRecentArticles({
 
     return (
         <aside
-            className={`hidden lg:flex flex-col shrink-0 relative z-10 transition-[width] duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+            className={`hidden lg:flex flex-col shrink-0 relative z-10 transition-[width] duration-150 ease-out will-change-[width] transform-gpu ${
                 isOpen ? 'w-80 xl:w-96' : 'w-12 xl:w-14'
             }`}
         >
@@ -207,7 +207,7 @@ export default function BlogRecentArticles({
                     >
                         Recent Articles ({articles.length})
                     </span>
-                    <ChevronRight size={14} className="text-neutral-400" />
+                    <ChevronLeft size={14} className="text-neutral-400" />
                 </div>
             )}
             </div>
