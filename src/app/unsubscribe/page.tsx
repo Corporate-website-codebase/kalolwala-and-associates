@@ -10,7 +10,7 @@ export default async function UnsubscribePage({ searchParams }: { searchParams: 
     let title = "Unsubscribe";
     let message = "Processing your request...";
     let icon = <AlertCircle className="w-12 h-12 text-neutral-400 mx-auto mb-6" strokeWidth={1.5} />;
-    
+
     let buttonText = "Explore Blogs";
     let buttonLink = "/blogs";
 
@@ -34,7 +34,7 @@ export default async function UnsubscribePage({ searchParams }: { searchParams: 
 
     return (
         <div className="min-h-screen flex flex-col font-sans">
-            <div className="flex-grow flex items-center justify-center bg-[#f3f4f6] px-4 py-16">
+            <div className="flex-grow flex items-center justify-center bg-[#f3f4f6] px-4 py-16 min-h-150 lg:min-h-200">
                 <div className="max-w-md w-full bg-white overflow-hidden border border-neutral-200 text-center rounded-none relative">
                     <div className="p-10">
                         {icon}
@@ -56,7 +56,7 @@ export default async function UnsubscribePage({ searchParams }: { searchParams: 
                     </div>
                 </div>
             </div>
-            
+
             <Footers nextPageLink="/" nextPageName="Home" />
         </div>
     );
