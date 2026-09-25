@@ -74,6 +74,8 @@ export async function POST(request: Request) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light">
+  <meta name="supported-color-schemes" content="light">
   <title>You're Subscribed!</title>
 </head>
 <body style="margin: 0; padding: 0; background-color: #f3f4f6; font-family: system-ui, -apple-system, sans-serif;">
@@ -107,7 +109,7 @@ export async function POST(request: Request) {
               <table cellpadding="0" cellspacing="0" border="0" style="margin: 0 auto 32px auto;">
                 <tr>
                   <td align="center" bgcolor="#f5c518">
-                    <a href="https://www.kalolwala.com/blogs" style="display: inline-block; background-color: #f5c518; color: #000000; font-size: 16px; font-weight: bold; text-decoration: none; padding: 12px 40px; border-radius: 0px;">
+                    <a href="https://www.kalolwala.com/blogs" style="display: inline-block; background-color: #f5c518; color: #010101; font-size: 16px; font-weight: bold; text-decoration: none; padding: 12px 40px; border-radius: 0px;">
                       Explore Blogs
                     </a>
                   </td>
@@ -121,28 +123,9 @@ export async function POST(request: Request) {
           <tr>
             <td align="center" style="background-color: #111111; padding: 32px; border-top: 1px solid #6b7280;">
 
-              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 32px;">
-                <tr>
-                  <td align="center">
-                    <a href="https://www.kalolwala.com/" style="color: #9ca3af; text-decoration: none; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500; margin: 0 12px;">Home</a>
-                    <a href="https://www.kalolwala.com/about" style="color: #9ca3af; text-decoration: none; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500; margin: 0 12px;">About</a>
-                    <a href="https://www.kalolwala.com/services" style="color: #9ca3af; text-decoration: none; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500; margin: 0 12px;">Offerings</a>
-                    <a href="https://www.kalolwala.com/contact" style="color: #9ca3af; text-decoration: none; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500; margin: 0 12px;">Contact</a>
-                  </td>
-                </tr>
-              </table>
-
-              <table width="100%" cellpadding="0" cellspacing="0" border="0">
-                <tr>
-                  <td align="center" style="padding-bottom: 16px;">
-                    <div style="width: 48px; height: 1px; background-color: #1f2937; margin: 0 auto;"></div>
-                  </td>
-                </tr>
-              </table>
-
-              <p style="color: #6b7280; font-size: 12px; font-weight: 300; margin: 0 0 8px 0;">
+              <a href="https://kalolwala.com" style="color: #6b7280; font-size: 12px; font-weight: 300; margin: 0 0 8px 0;">
                 &copy; ${new Date().getFullYear()} Kalolwala & Associates. All rights reserved.
-              </p>
+              </a>
               <p style="color: #6b7280; font-size: 12px; font-weight: 300; margin: 0;">
                 <a href="${unsubscribeUrl}" style="color: #6b7280; text-decoration: underline;">Unsubscribe</a> from these emails.
               </p>
