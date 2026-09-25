@@ -4,7 +4,7 @@ import type { BlogPost } from '@/data/blogs'
 import { ChevronLeft, PanelRightClose, PanelRightOpen } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { memo, useState } from 'react'
 
 interface BlogRecentArticlesProps {
     articles: BlogPost[]
@@ -45,7 +45,71 @@ function ArticleIcon({ className = 'w-4 h-4' }: { className?: string }) {
     )
 }
 
-export default function BlogRecentArticles({
+const RecentArticleCard = memo(function RecentArticleCard({
+    blog,
+    idx,
+}: {
+    blog: BlogPost
+    idx: number
+}) {
+    return (
+        <Link
+            key={`${blog.slug}-${blog.id}`}
+            href={`/blogs/${blog.slug}`}
+            prefetch={false}
+            onClick={() => {
+                console.log(
+                    `[Blog Navigation] User clicked article: "${blog.title}" -> /blogs/${blog.slug} at ${performance.now().toFixed(1)}ms`,
+                )
+            }}
+            className={`group flex gap-3 p-2.5 transition-colors duration-150 hover:bg-white/10 rounded-sm ${
+                idx !== 0 ? 'border-t border-white/10' : ''
+            }`}
+        >
+            {/* Fixed thumbnail container with background placeholder */}
+            <div className="relative w-[80px] h-[36px] bg-neutral-800 rounded-none overflow-hidden shrink-0">
+                {blog.image ? (
+                    <Image
+                        src={blog.image}
+                        alt={blog.title}
+                        width={80}
+                        height={36}
+                        sizes="80px"
+                        loading="lazy"
+                        decoding="async"
+                        unoptimized
+                        className="w-full h-full object-cover object-top-left transition-transform duration-300 group-hover:scale-105"
+                    />
+                ) : (
+                    <div className="w-full h-full flex items-center justify-center font-mono text-[9px] text-neutral-400">
+                        K&A
+                    </div>
+                )}
+            </div>
+
+            {/* Text content with 2-line clamping */}
+            <div className="flex flex-col justify-center min-w-0 flex-1">
+                <h4
+                    className="text-xs font-medium text-neutral-200 leading-snug group-hover:text-white transition-colors"
+                    style={{
+                        display: '-webkit-box',
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                    }}
+                >
+                    {blog.title}
+                </h4>
+                <span className="font-mono text-[10px] text-neutral-400 uppercase tracking-wider mt-1">
+                    {formatDisplayDate(blog.date)}
+                </span>
+            </div>
+        </Link>
+    )
+})
+
+function BlogRecentArticles({
     articles,
     isOpen: controlledOpen,
     onToggle,
@@ -87,7 +151,7 @@ export default function BlogRecentArticles({
 
     return (
         <aside
-            className={`hidden lg:flex flex-col shrink-0 relative z-10 transition-[width] duration-300 ease-linear ${
+            className={`hidden lg:flex flex-col shrink-0 relative z-10 transition-[width] duration-300 ease-linear will-change-[width] ${
                 isOpen ? 'w-80 xl:w-96' : 'w-12 xl:w-14'
             }`}
         >
@@ -126,67 +190,25 @@ export default function BlogRecentArticles({
                 </div>
 
                 {/* Relative Body Container: Layers both expanded articles and collapsed vertical strip with smooth crossfade */}
-                <div className="relative flex-1 w-full overflow-hidden">
+                <div
+                    style={{ contain: 'paint' }}
+                    className="relative flex-1 w-full overflow-hidden"
+                >
                     {/* Expanded Articles List: Fixed width so cards never reflow or jump during width transition */}
                     <div
                         data-lenis-prevent="true"
-                        className={`absolute inset-0 w-80 xl:w-96 p-3.5 pb-16 flex flex-col gap-1 overflow-y-auto overscroll-contain transition-opacity duration-300 ease-linear ${
+                        className={`absolute inset-0 w-80 xl:w-96 p-3.5 pb-16 flex flex-col gap-1 overflow-y-auto overscroll-contain transition-[opacity,visibility] duration-300 ease-linear ${
                             isOpen
-                                ? 'opacity-100 pointer-events-auto'
-                                : 'opacity-0 pointer-events-none'
+                                ? 'opacity-100 visible pointer-events-auto'
+                                : 'opacity-0 invisible pointer-events-none'
                         }`}
                     >
                         {visibleArticles.map((blog, idx) => (
-                            <Link
+                            <RecentArticleCard
                                 key={`${blog.slug}-${blog.id}`}
-                                href={`/blogs/${blog.slug}`}
-                                onClick={() => {
-                                    console.log(
-                                        `[Blog Navigation] User clicked article: "${blog.title}" -> /blogs/${blog.slug} at ${performance.now().toFixed(1)}ms`,
-                                    )
-                                }}
-                                className={`group flex gap-3 p-2.5 transition-colors duration-150 hover:bg-white/10 rounded-sm ${
-                                    idx !== 0 ? 'border-t border-white/10' : ''
-                                }`}
-                            >
-                                {/* Thumbnail without rounded borders */}
-                                <div className="relative rounded-none overflow-hidden shrink-0">
-                                    {blog.image ? (
-                                        <Image
-                                            src={blog.image}
-                                            alt={blog.title}
-                                            width={80}
-                                            height={36}
-                                            sizes="80px"
-                                            loading="lazy"
-                                            className="object-cover object-top-left transition-transform duration-300 group-hover:scale-105 aspect-16/8 transform-gpu"
-                                        />
-                                    ) : (
-                                        <div className="w-full h-full flex items-center justify-center font-mono text-[9px] text-neutral-400">
-                                            K&A
-                                        </div>
-                                    )}
-                                </div>
-
-                                {/* Text content with 2-line clamping */}
-                                <div className="flex flex-col justify-center min-w-0 flex-1">
-                                    <h4
-                                        className="text-xs font-medium text-neutral-200 leading-snug group-hover:text-white transition-colors"
-                                        style={{
-                                            display: '-webkit-box',
-                                            WebkitLineClamp: 2,
-                                            WebkitBoxOrient: 'vertical',
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis',
-                                        }}
-                                    >
-                                        {blog.title}
-                                    </h4>
-                                    <span className="font-mono text-[10px] text-neutral-400 uppercase tracking-wider mt-1">
-                                        {formatDisplayDate(blog.date)}
-                                    </span>
-                                </div>
-                            </Link>
+                                blog={blog}
+                                idx={idx}
+                            />
                         ))}
 
                         {/* Load More Button - text only */}
@@ -212,10 +234,10 @@ export default function BlogRecentArticles({
                     {/* Collapsed vertical strip */}
                     <div
                         onClick={handleToggle}
-                        className={`absolute inset-0 w-12 xl:w-14 py-8 px-1 flex flex-col items-center gap-6 cursor-pointer hover:bg-white/5 transition-opacity duration-300 ease-linear select-none ${
+                        className={`absolute inset-0 w-12 xl:w-14 py-8 px-1 flex flex-col items-center gap-6 cursor-pointer hover:bg-white/5 transition-[opacity,visibility] duration-300 ease-linear select-none ${
                             isOpen
-                                ? 'opacity-0 pointer-events-none'
-                                : 'opacity-100 pointer-events-auto'
+                                ? 'opacity-0 invisible pointer-events-none'
+                                : 'opacity-100 visible pointer-events-auto'
                         }`}
                         title="Click to expand Recent Articles"
                     >
@@ -233,3 +255,5 @@ export default function BlogRecentArticles({
         </aside>
     )
 }
+
+export default memo(BlogRecentArticles)
