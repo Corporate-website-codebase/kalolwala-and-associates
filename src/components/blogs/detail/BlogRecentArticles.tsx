@@ -1,10 +1,10 @@
 'use client'
 
 import type { BlogPost } from '@/data/blogs'
+import { ChevronLeft, PanelRightClose, PanelRightOpen } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ChevronLeft, PanelRightClose, PanelRightOpen } from 'lucide-react'
-import React, { useState, useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 
 interface BlogRecentArticlesProps {
     articles: BlogPost[]
