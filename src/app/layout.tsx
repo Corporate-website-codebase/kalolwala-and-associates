@@ -36,6 +36,20 @@ openGraph: {
     siteName: "Kalolwala & Associates",
     url: process.env.SITE_URL || "https://www.kalolwala.com/",
     type: "website",
+    images: [
+      {
+        url: `/api/og?title=${encodeURIComponent(home.title || '')}&description=${encodeURIComponent(home.description || '')}`,
+        width: 1200,
+        height: 630,
+        alt: home.title,
+      }
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: home.title,
+    description: home.description,
+    images: [`/api/og?title=${encodeURIComponent(home.title || '')}&description=${encodeURIComponent(home.description || '')}`],
   },
   alternates: {
     canonical: home.canonical,

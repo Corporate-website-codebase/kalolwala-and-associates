@@ -120,26 +120,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
                 type: 'article',
                 publishedTime: localPost.date,
                 authors: localPost.author ? [localPost.author] : ['Kalolwala & Associates'],
-                ...(blogImage
-                    ? {
-                          images: [
-                              {
-                                  url: blogImage,
-                                  alt: blogTitle,
-                              },
-                          ],
-                      }
-                    : {}),
+                images: [
+                    {
+                        url: blogImage || `/api/og?title=${encodeURIComponent(blogTitle)}`,
+                        alt: blogTitle,
+                    },
+                ],
             },
             twitter: {
                 card: 'summary_large_image',
                 title: blogTitle,
                 description: blogDescription,
-                ...(blogImage
-                    ? {
-                          images: [blogImage],
-                      }
-                    : {}),
+                images: [blogImage || `/api/og?title=${encodeURIComponent(blogTitle)}`],
             },
         }
     }
@@ -185,16 +177,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             siteName: 'Kalolwala & Associates',
             type: 'article',
 
-            ...(blogImage
-                ? {
-                      images: [
-                          {
-                              url: blogImage,
-                              alt: blogTitle,
-                          },
-                      ],
-                  }
-                : {}),
+            images: [
+                {
+                    url: blogImage || `/api/og?title=${encodeURIComponent(blogTitle)}`,
+                    alt: blogTitle,
+                },
+            ],
         },
 
         twitter: {
@@ -202,11 +190,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             title: blogTitle,
             description: blogDescription,
 
-            ...(blogImage
-                ? {
-                      images: [blogImage],
-                  }
-                : {}),
+            images: [blogImage || `/api/og?title=${encodeURIComponent(blogTitle)}`],
         },
     }
 }
