@@ -4,7 +4,7 @@ import type { BlogPost } from '@/data/blogs'
 import { ChevronLeft, PanelRightClose, PanelRightOpen } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 
 interface BlogRecentArticlesProps {
     articles: BlogPost[]
@@ -72,8 +72,64 @@ export default function BlogRecentArticles({
         }
     }
 
-    const visibleArticles = articles.slice(0, visibleCount)
     const hasMore = visibleCount < articles.length
+
+    const articleCards = useMemo(() => {
+        const currentVisible = articles.slice(0, visibleCount)
+        return currentVisible.map((blog, idx) => (
+            <Link
+                key={`${blog.slug}-${blog.id}`}
+                href={`/blogs/${blog.slug}`}
+                prefetch={false}
+                onClick={() => {
+                    console.log(
+                        `[Blog Navigation] User clicked article: "${blog.title}" -> /blogs/${blog.slug} at ${performance.now().toFixed(1)}ms`,
+                    )
+                }}
+                className={`group flex gap-3 p-2.5 transition-colors duration-150 hover:bg-white/10 rounded-sm ${
+                    idx !== 0 ? 'border-t border-white/10' : ''
+                }`}
+            >
+                {/* Thumbnail without rounded borders */}
+                <div className="relative rounded-none overflow-hidden shrink-0">
+                    {blog.image ? (
+                        <Image
+                            src={blog.image}
+                            alt={blog.title}
+                            width={80}
+                            height={36}
+                            sizes="80px"
+                            loading="lazy"
+                            className="object-cover object-top-left transition-transform duration-300 group-hover:scale-105 aspect-16/8 transform-gpu"
+                        />
+                    ) : (
+                        <div className="w-full h-full flex items-center justify-center font-mono text-[9px] text-neutral-400">
+                            K&A
+                        </div>
+                    )}
+                </div>
+
+                {/* Text content with 2-line clamping */}
+                <div className="flex flex-col justify-center min-w-0 flex-1">
+                    <h4
+                        className="text-xs font-medium text-neutral-200 leading-snug group-hover:text-white transition-colors"
+                        style={{
+                            display: '-webkit-box',
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: 'vertical',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                        }}
+                    >
+                        {blog.title}
+                    </h4>
+                    <span className="font-mono text-[10px] text-neutral-400 uppercase tracking-wider mt-1">
+                        {formatDisplayDate(blog.date)}
+                    </span>
+                </div>
+            </Link>
+        ))
+    }, [articles, visibleCount])
 
     const handleLoadMore = () => {
         setVisibleCount((prev) => {
@@ -136,58 +192,8 @@ export default function BlogRecentArticles({
                                 : 'opacity-0 pointer-events-none'
                         }`}
                     >
-                        {visibleArticles.map((blog, idx) => (
-                            <Link
-                                key={`${blog.slug}-${blog.id}`}
-                                href={`/blogs/${blog.slug}`}
-                                onClick={() => {
-                                    console.log(
-                                        `[Blog Navigation] User clicked article: "${blog.title}" -> /blogs/${blog.slug} at ${performance.now().toFixed(1)}ms`,
-                                    )
-                                }}
-                                className={`group flex gap-3 p-2.5 transition-colors duration-150 hover:bg-white/10 rounded-sm ${
-                                    idx !== 0 ? 'border-t border-white/10' : ''
-                                }`}
-                            >
-                                {/* Thumbnail without rounded borders */}
-                                <div className="relative rounded-none overflow-hidden shrink-0">
-                                    {blog.image ? (
-                                        <Image
-                                            src={blog.image}
-                                            alt={blog.title}
-                                            width={80}
-                                            height={36}
-                                            sizes="80px"
-                                            loading="lazy"
-                                            className="object-cover object-top-left transition-transform duration-300 group-hover:scale-105 aspect-16/8 transform-gpu"
-                                        />
-                                    ) : (
-                                        <div className="w-full h-full flex items-center justify-center font-mono text-[9px] text-neutral-400">
-                                            K&A
-                                        </div>
-                                    )}
-                                </div>
+                        {articleCards}
 
-                                {/* Text content with 2-line clamping */}
-                                <div className="flex flex-col justify-center min-w-0 flex-1">
-                                    <h4
-                                        className="text-xs font-medium text-neutral-200 leading-snug group-hover:text-white transition-colors"
-                                        style={{
-                                            display: '-webkit-box',
-                                            WebkitLineClamp: 2,
-                                            WebkitBoxOrient: 'vertical',
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis',
-                                        }}
-                                    >
-                                        {blog.title}
-                                    </h4>
-                                    <span className="font-mono text-[10px] text-neutral-400 uppercase tracking-wider mt-1">
-                                        {formatDisplayDate(blog.date)}
-                                    </span>
-                                </div>
-                            </Link>
-                        ))}
 
                         {/* Load More Button - text only */}
                         {hasMore ? (
