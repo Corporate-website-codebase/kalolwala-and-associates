@@ -8,7 +8,6 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     
     const title = searchParams.get('title') || 'Kalolwala & Associates';
-    const description = searchParams.get('description') || 'Corporate Reporting, Branding & Digital Solutions';
 
     // Read the logo from the local filesystem and convert to base64
     const logoPath = path.join(process.cwd(), 'public', 'images', 'kna-email.png');
@@ -32,12 +31,12 @@ export async function GET(req: NextRequest) {
           }}
         >
           {/* Logo */}
-          <div style={{ display: 'flex', marginBottom: '40px' }}>
+          <div style={{ display: 'flex', marginBottom: '50px' }}>
             <img
               src={logoBase64}
               alt="Kalolwala & Associates"
-              width={250}
-              height={80}
+              width={350}
+              height={110}
               style={{ objectFit: 'contain' }}
             />
           </div>
@@ -46,30 +45,16 @@ export async function GET(req: NextRequest) {
           <div
             style={{
               display: 'flex',
-              fontSize: 72,
+              fontSize: 80,
               fontWeight: 800,
               color: '#111827',
               lineHeight: 1.2,
               letterSpacing: '-0.02em',
-              marginBottom: '24px',
               textAlign: 'center',
+              maxWidth: '1000px',
             }}
           >
             {title}
-          </div>
-
-          {/* Description */}
-          <div
-            style={{
-              display: 'flex',
-              fontSize: 32,
-              color: '#4b5563',
-              lineHeight: 1.5,
-              textAlign: 'center',
-              maxWidth: '900px',
-            }}
-          >
-            {description}
           </div>
 
           {/* Bottom yellow accent bar */}

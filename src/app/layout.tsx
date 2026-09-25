@@ -38,7 +38,7 @@ openGraph: {
     type: "website",
     images: [
       {
-        url: `/api/og?title=${encodeURIComponent(home.title || '')}&description=${encodeURIComponent(home.description || '')}`,
+        url: `/api/og?title=${encodeURIComponent(home.title || '')}`,
         width: 1200,
         height: 630,
         alt: home.title,
@@ -49,7 +49,7 @@ openGraph: {
     card: "summary_large_image",
     title: home.title,
     description: home.description,
-    images: [`/api/og?title=${encodeURIComponent(home.title || '')}&description=${encodeURIComponent(home.description || '')}`],
+    images: [`/api/og?title=${encodeURIComponent(home.title || '')}`],
   },
   alternates: {
     canonical: home.canonical,
