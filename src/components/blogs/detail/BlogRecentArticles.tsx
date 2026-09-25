@@ -1,8 +1,10 @@
 'use client'
 
 import type { BlogPost } from '@/data/blogs'
+import Image from 'next/image'
+import Link from 'next/link'
 import { ChevronLeft, PanelRightClose, PanelRightOpen } from 'lucide-react'
-import React, { useMemo, useState } from 'react'
+import React, { useState, useMemo } from 'react'
 
 interface BlogRecentArticlesProps {
     articles: BlogPost[]
@@ -73,22 +75,25 @@ export default function BlogRecentArticles({
     const articleCards = useMemo(() => {
         const currentVisible = articles.slice(0, visibleCount)
         return currentVisible.map((blog, idx) => (
-            <a
+            <Link
                 key={`${blog.slug}-${blog.id}`}
                 href={`/blogs/${blog.slug}`}
+                prefetch={false}
                 className={`group flex gap-3 p-2.5 transition-colors duration-150 hover:bg-white/10 rounded-sm ${
                     idx !== 0 ? 'border-t border-white/10' : ''
                 }`}
             >
                 {/* Thumbnail without rounded borders */}
-                <div className="relative rounded-none overflow-hidden shrink-0 bg-white/5 w-20 h-9">
+                <div className="relative rounded-none overflow-hidden shrink-0 w-20 h-9 bg-white/5">
                     {blog.image ? (
-                        <img
+                        <Image
                             src={blog.image}
                             alt={blog.title}
+                            width={80}
+                            height={36}
+                            sizes="80px"
                             loading="lazy"
-                            decoding="async"
-                            className="w-full h-full object-cover object-top-left transition-transform duration-300 group-hover:scale-105 transform-gpu"
+                            className="object-cover object-top-left transition-transform duration-300 group-hover:scale-105 aspect-16/8 transform-gpu"
                         />
                     ) : (
                         <div className="w-full h-full flex items-center justify-center font-mono text-[9px] text-neutral-400">
@@ -115,7 +120,7 @@ export default function BlogRecentArticles({
                         {formatDisplayDate(blog.date)}
                     </span>
                 </div>
-            </a>
+            </Link>
         ))
     }, [articles, visibleCount])
 
