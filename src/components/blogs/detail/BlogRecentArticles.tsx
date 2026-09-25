@@ -4,7 +4,7 @@ import type { BlogPost } from '@/data/blogs'
 import { ChevronLeft, PanelRightClose, PanelRightOpen } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useState, useMemo } from 'react'
+import React, { useMemo, useState, useEffect, useRef } from 'react'
 
 interface BlogRecentArticlesProps {
     articles: BlogPost[]
@@ -50,6 +50,7 @@ export default function BlogRecentArticles({
     isOpen: controlledOpen,
     onToggle,
 }: BlogRecentArticlesProps) {
+    const renderStart = performance.now()
     const [internalOpen, setInternalOpen] = useState(true)
     const isControlled = typeof controlledOpen === 'boolean'
     const isOpen = isControlled ? controlledOpen : internalOpen
@@ -57,14 +58,28 @@ export default function BlogRecentArticles({
         Math.max(INITIAL_COUNT, preservedVisibleCount),
     )
 
+    const toggleCount = useRef(0)
+
+    useEffect(() => {
+        const renderEnd = performance.now()
+        console.log(`[BlogRecentArticles] Rendered in ${(renderEnd - renderStart).toFixed(2)}ms | isOpen: ${isOpen} | toggleCount: ${toggleCount.current}`)
+        
+        requestAnimationFrame(() => {
+            const paintEnd = performance.now()
+            console.log(`[BlogRecentArticles] Frame painted in ${(paintEnd - renderEnd).toFixed(2)}ms after render`)
+        })
+    })
+
     const handleToggle = (e?: React.MouseEvent) => {
         if (e) {
             e.preventDefault()
             e.stopPropagation()
         }
-        console.log(
-            `[BlogRecentArticles] Toggle sidebar: currently ${isOpen ? 'OPEN -> CLOSING' : 'CLOSED -> OPENING'} at ${performance.now().toFixed(1)}ms`,
-        )
+        
+        const tStart = performance.now()
+        console.log(`[BlogRecentArticles] Toggle clicked at ${tStart.toFixed(2)}ms, triggering state update...`)
+        toggleCount.current += 1
+
         if (onToggle) {
             onToggle()
         } else {
@@ -81,11 +96,6 @@ export default function BlogRecentArticles({
                 key={`${blog.slug}-${blog.id}`}
                 href={`/blogs/${blog.slug}`}
                 prefetch={false}
-                onClick={() => {
-                    console.log(
-                        `[Blog Navigation] User clicked article: "${blog.title}" -> /blogs/${blog.slug} at ${performance.now().toFixed(1)}ms`,
-                    )
-                }}
                 className={`group flex gap-3 p-2.5 transition-colors duration-150 hover:bg-white/10 rounded-sm ${
                     idx !== 0 ? 'border-t border-white/10' : ''
                 }`}
@@ -193,7 +203,6 @@ export default function BlogRecentArticles({
                         }`}
                     >
                         {articleCards}
-
 
                         {/* Load More Button - text only */}
                         {hasMore ? (
