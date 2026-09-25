@@ -93,9 +93,6 @@ export async function POST(request: Request) {
           <!-- Body Content -->
           <tr>
             <td align="center" style="padding: 24px 48px 8px 48px;">
-              
-              <!-- Placeholder for uploaded illustration -->
-              <img src="" alt="Email Illustration" style="width: 100%; max-width: 400px; height: auto; margin: 0 auto 32px auto; display: block; background-color: #f9fafb; min-height: 200px;" />
 
               <!-- Exact text -->
               <h1 style="color: #111827; font-size: 30px; font-weight: bold; letter-spacing: -0.025em; margin: 0 0 16px 0;">
