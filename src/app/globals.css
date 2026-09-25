@@ -11,6 +11,10 @@
     initial-value: 0px;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 /* @import "tailwindcss";
 
 :root {

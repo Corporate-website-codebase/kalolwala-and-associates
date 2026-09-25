@@ -58,6 +58,7 @@ const Navbar = () => {
     const [isOfferingsHovered, setIsOfferingsHovered] = useState(false)
     const [isMobileOfferingsOpen, setIsMobileOfferingsOpen] = useState(false)
     const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+    const [hasPlayedIntro, setHasPlayedIntro] = useState(false);
 
     const pathname = usePathname()
     const isHome = pathname === '/'
@@ -184,8 +185,126 @@ const Navbar = () => {
                             </motion.div>
                         </Link>
 
-                        {/* --- DESKTOP MENU --- */}
-                        <ul className="hidden md:flex font-noto-sans items-center space-x-0">
+{/* --- BOOK STORY TEASER --- */}
+{/* --- BOOK STORY TEASER --- */}
+<Link
+    href="/contact#featured-publication"
+    className="hidden lg:flex items-center gap-2.5 mx-5 shrink-0 group"
+>
+    {/* ANIMATION AREA */}
+    <div className="relative flex items-center justify-center h-[48px] w-[330px] overflow-hidden bg-transparent shadow-none">
+        
+        {/* -------------------------------- */}
+        {/* DOTS PHASE (Seamless Blend)     */}
+        {/* -------------------------------- */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            {/* Top Left Dot */}
+            <motion.span
+                className="absolute w-[11px] h-[11px] rounded-full bg-yellow-400"
+                initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
+                animate={{
+                    x: [0, -10, 0, -24, -12, 0, 0],
+                    y: [0, -10, -15, 0, 0, 0, 0],
+                    opacity: [1, 1, 1, 1, 0.4, 0, 0],
+                    scale: [1, 1, 1, 1, 0.6, 0, 0],
+                }}
+                transition={{
+                    duration: 7,
+                    times: [0, 0.14, 0.28, 0.40, 0.48, 0.54, 1],
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                }}
+            />
+            {/* Top Right Dot */}
+            <motion.span
+                className="absolute w-[11px] h-[11px] rounded-full bg-yellow-400"
+                initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
+                animate={{
+                    x: [0, 10, 15, -8, -4, 0, 0],
+                    y: [0, -10, 0, 0, 0, 0, 0],
+                    opacity: [1, 1, 1, 1, 0.4, 0, 0],
+                    scale: [1, 1, 1, 1, 0.6, 0, 0],
+                }}
+                transition={{
+                    duration: 7,
+                    times: [0, 0.14, 0.28, 0.40, 0.48, 0.54, 1],
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                }}
+            />
+            {/* Bottom Left Dot */}
+            <motion.span
+                className="absolute w-[11px] h-[11px] rounded-full bg-yellow-400"
+                initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
+                animate={{
+                    x: [0, -10, -15, 8, 4, 0, 0],
+                    y: [0, 10, 0, 0, 0, 0, 0],
+                    opacity: [1, 1, 1, 1, 0.4, 0, 0],
+                    scale: [1, 1, 1, 1, 0.6, 0, 0],
+                }}
+                transition={{
+                    duration: 7,
+                    times: [0, 0.14, 0.28, 0.40, 0.48, 0.54, 1],
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                }}
+            />
+            {/* Bottom Right Dot */}
+            <motion.span
+                className="absolute w-[11px] h-[11px] rounded-full bg-yellow-400"
+                initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
+                animate={{
+                    x: [0, 10, 0, 24, 12, 0, 0],
+                    y: [0, 10, 15, 0, 0, 0, 0],
+                    opacity: [1, 1, 1, 1, 0.4, 0, 0],
+                    scale: [1, 1, 1, 1, 0.6, 0, 0],
+                }}
+                transition={{
+                    duration: 7,
+                    times: [0, 0.14, 0.28, 0.40, 0.48, 0.54, 1],
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                }}
+            />
+        </div>
+
+        {/* -------------------------------- */}
+        {/* TEXT & ARROW REVEAL              */}
+        {/* -------------------------------- */}
+        <motion.div
+            className="absolute flex items-center whitespace-nowrap text-[15px] tracking-[0.14em] font-bold pointer-events-none bg-transparent shadow-none"
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={{
+                opacity: [0, 0, 1, 1, 0, 0],
+                scale: [0.85, 0.85, 1, 1, 2.5, 2.5],
+            }}
+            transition={{
+                duration: 7,
+                times: [0, 0.42, 0.54, 0.78, 0.90, 1],
+                repeat: Infinity,
+                ease: 'easeInOut',
+            }}
+        >
+            {/* WHITE TEXT */}
+            <span className="text-white">
+                A STORY WORTH
+            </span>
+
+            {/* YELLOW TEXT */}
+            <span className="ml-1.5 text-yellow-400">
+                DISCOVERING
+            </span>
+
+            {/* ANIMATED INLINE ARROW */}
+            <span className="ml-2 text-yellow-400 text-[18px] leading-none transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5">
+                ↗
+            </span>
+        </motion.div>
+    </div>
+</Link>
+
+{/* --- DESKTOP MENU --- */}
+<ul className="hidden md:flex font-noto-sans items-center space-x-0">
                             {navLinks.map((link, i) => {
                                 const isActive =
                                     link.href === '/'
