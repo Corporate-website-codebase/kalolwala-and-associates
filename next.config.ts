@@ -5,12 +5,6 @@ const nextConfig: NextConfig = {
     // allowedDevOrigins : ['172.16.16.61'],
     skipTrailingSlashRedirect: false,
 
-    experimental: {
-        staleTimes: {
-            dynamic: 300,
-            static: 600,
-        },
-    },
 
     images: {
         remotePatterns: [

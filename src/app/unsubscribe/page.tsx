@@ -2,8 +2,9 @@ import React from 'react';
 import Link from 'next/link';
 import { Frown, AlertCircle, XCircle } from 'lucide-react';
 
-export default function UnsubscribePage({ searchParams }: { searchParams: { status?: string } }) {
-    const status = searchParams.status;
+export default async function UnsubscribePage({ searchParams }: { searchParams: Promise<{ status?: string }> }) {
+    const resolvedParams = await searchParams;
+    const status = resolvedParams.status;
     
     let title = "Unsubscribe";
     let message = "Processing your request...";
