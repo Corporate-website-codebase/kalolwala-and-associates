@@ -83,139 +83,141 @@ export default function BlogRecentArticles({
 
     return (
         <aside
-            className={`hidden lg:flex flex-col shrink-0 relative z-10 transition-[width] duration-150 ease-out will-change-[width] transform-gpu ${
+            className={`hidden lg:flex flex-col shrink-0 relative z-10 transition-[width] duration-300 ease-linear will-change-[width] transform-gpu ${
                 isOpen ? 'w-80 xl:w-96' : 'w-12 xl:w-14'
             }`}
         >
-            {/* Sticky sidebar — top/height driven by --navbar-height CSS variable */}
+            {/* Sticky sidebar — top/height driven by --navbar-height CSS variable with matching 300ms linear transition */}
             <div
                 data-lenis-prevent="true"
                 style={{
                     top: 'var(--navbar-height, 92px)',
                     height: 'calc(100vh - var(--navbar-height, 92px))',
+                    transition: 'top 300ms linear, height 300ms linear',
                 }}
-                className="sticky flex flex-col w-full border-l border-white/10 bg-[#161616] text-neutral-200 overscroll-contain z-10"
+                className="sticky flex flex-col w-full border-l border-white/10 bg-[#161616] text-neutral-200 overscroll-contain z-10 will-change-[top,height]"
             >
-                {/* Header bar with toggle */}
-                <div
-                    className={`flex items-center py-3.5 border-b border-white/10 bg-[#1c1c1c] shrink-0 ${
-                        isOpen ? 'justify-between pl-6 pr-6' : 'justify-center p-3.5'
-                    }`}
-                >
-                    {isOpen && (
-                        <div className="flex items-center gap-2.5 min-w-0">
-                            <ArticleIcon className="w-4 h-4 shrink-0 text-neutral-300" />
-                            <h3 className="font-mono text-xs uppercase tracking-[0.15em] text-neutral-200 font-semibold truncate">
-                                Recent Articles
-                            </h3>
-                        </div>
-                    )}
+                {/* Header bar with toggle (fixed height, smooth fade on title without snapping button) */}
+                <div className="flex items-center justify-between h-[49px] px-3.5 border-b border-white/10 bg-[#1c1c1c] shrink-0 overflow-hidden select-none">
+                    <div
+                        className={`flex items-center gap-2.5 min-w-0 transition-opacity duration-200 ease-linear ${
+                            isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                        }`}
+                    >
+                        <ArticleIcon className="w-4 h-4 shrink-0 text-neutral-300" />
+                        <h3 className="font-mono text-xs uppercase tracking-[0.15em] text-neutral-200 font-semibold truncate whitespace-nowrap">
+                            Recent Articles
+                        </h3>
+                    </div>
 
                     <button
                         type="button"
                         onClick={handleToggle}
                         aria-label={isOpen ? 'Collapse recent articles' : 'Expand recent articles'}
                         title={isOpen ? 'Collapse recent articles' : 'Expand recent articles'}
-                        className="p-1 rounded-md text-neutral-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer shrink-0"
+                        className="p-1.5 rounded-md text-neutral-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer shrink-0"
                     >
                         {isOpen ? <PanelRightClose size={16} /> : <PanelRightOpen size={16} />}
                     </button>
                 </div>
 
-                {/* Content body when open */}
-                <div
-                    data-lenis-prevent="true"
-                    className={`flex-1 p-3.5 pb-16 flex-col gap-1 overflow-y-auto overscroll-contain ${
-                        isOpen ? 'flex' : 'hidden'
-                    }`}
-                >
-                    {visibleArticles.map((blog, idx) => (
-                        <Link
-                            key={`${blog.slug}-${blog.id}`}
-                            href={`/blogs/${blog.slug}`}
-                            onClick={() => {
-                                console.log(`[Blog Navigation] User clicked article: "${blog.title}" -> /blogs/${blog.slug} at ${performance.now().toFixed(1)}ms`)
-                            }}
-                            className={`group flex gap-3 p-2.5 transition-colors duration-150 hover:bg-white/10 rounded-sm ${
-                                idx !== 0 ? 'border-t border-white/10' : ''
-                            }`}
-                        >
-                            {/* Thumbnail without rounded borders */}
-                            <div className="relative rounded-none overflow-hidden shrink-0">
-                                {blog.image ? (
-                                    <Image
-                                        src={blog.image}
-                                        alt={blog.title}
-                                        width={80}
-                                        height={36}
-                                        sizes="80px"
-                                        loading="lazy"
-                                        className="object-cover object-top-left transition-transform duration-300 group-hover:scale-105 aspect-16/8 transform-gpu"
-                                    />
-                                ) : (
-                                    <div className="w-full h-full flex items-center justify-center font-mono text-[9px] text-neutral-400">
-                                        K&A
-                                    </div>
-                                )}
-                            </div>
+                {/* Relative Body Container: Layers both expanded articles and collapsed vertical strip with smooth crossfade */}
+                <div className="relative flex-1 w-full overflow-hidden">
+                    {/* Expanded Articles List: Fixed width so cards never reflow or jump during width transition */}
+                    <div
+                        data-lenis-prevent="true"
+                        className={`absolute inset-0 w-80 xl:w-96 p-3.5 pb-16 flex flex-col gap-1 overflow-y-auto overscroll-contain transition-opacity duration-300 ease-linear ${
+                            isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+                        }`}
+                    >
+                        {visibleArticles.map((blog, idx) => (
+                            <Link
+                                key={`${blog.slug}-${blog.id}`}
+                                href={`/blogs/${blog.slug}`}
+                                onClick={() => {
+                                    console.log(`[Blog Navigation] User clicked article: "${blog.title}" -> /blogs/${blog.slug} at ${performance.now().toFixed(1)}ms`)
+                                }}
+                                className={`group flex gap-3 p-2.5 transition-colors duration-150 hover:bg-white/10 rounded-sm ${
+                                    idx !== 0 ? 'border-t border-white/10' : ''
+                                }`}
+                            >
+                                {/* Thumbnail without rounded borders */}
+                                <div className="relative rounded-none overflow-hidden shrink-0">
+                                    {blog.image ? (
+                                        <Image
+                                            src={blog.image}
+                                            alt={blog.title}
+                                            width={80}
+                                            height={36}
+                                            sizes="80px"
+                                            loading="lazy"
+                                            className="object-cover object-top-left transition-transform duration-300 group-hover:scale-105 aspect-16/8 transform-gpu"
+                                        />
+                                    ) : (
+                                        <div className="w-full h-full flex items-center justify-center font-mono text-[9px] text-neutral-400">
+                                            K&A
+                                        </div>
+                                    )}
+                                </div>
 
-                            {/* Text content with 2-line clamping */}
-                            <div className="flex flex-col justify-center min-w-0 flex-1">
-                                <h4
-                                    className="text-xs font-medium text-neutral-200 leading-snug group-hover:text-white transition-colors"
-                                    style={{
-                                        display: '-webkit-box',
-                                        WebkitLineClamp: 2,
-                                        WebkitBoxOrient: 'vertical',
-                                        overflow: 'hidden',
-                                        textOverflow: 'ellipsis',
-                                    }}
+                                {/* Text content with 2-line clamping */}
+                                <div className="flex flex-col justify-center min-w-0 flex-1">
+                                    <h4
+                                        className="text-xs font-medium text-neutral-200 leading-snug group-hover:text-white transition-colors"
+                                        style={{
+                                            display: '-webkit-box',
+                                            WebkitLineClamp: 2,
+                                            WebkitBoxOrient: 'vertical',
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis',
+                                        }}
+                                    >
+                                        {blog.title}
+                                    </h4>
+                                    <span className="font-mono text-[10px] text-neutral-400 uppercase tracking-wider mt-1">
+                                        {formatDisplayDate(blog.date)}
+                                    </span>
+                                </div>
+                            </Link>
+                        ))}
+
+                        {/* Load More Button - text only */}
+                        {hasMore ? (
+                            <div className="pt-3 pb-8 px-1">
+                                <button
+                                    type="button"
+                                    onClick={handleLoadMore}
+                                    className="w-full py-2.5 px-4 rounded-lg bg-neutral-800 text-neutral-200 hover:text-white hover:bg-neutral-700 border border-neutral-700/60 text-xs font-mono uppercase tracking-wider transition-all duration-200 flex items-center justify-center cursor-pointer shadow-xs active:scale-[0.98]"
                                 >
-                                    {blog.title}
-                                </h4>
-                                <span className="font-mono text-[10px] text-neutral-400 uppercase tracking-wider mt-1">
-                                    {formatDisplayDate(blog.date)}
+                                    Load More
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="pt-4 pb-8 text-center">
+                                <span className="font-mono text-[10px] uppercase tracking-widest text-neutral-400">
+                                    All articles loaded
                                 </span>
                             </div>
-                        </Link>
-                    ))}
+                        )}
+                    </div>
 
-                    {/* Load More Button - text only */}
-                    {hasMore ? (
-                        <div className="pt-3 pb-8 px-1">
-                            <button
-                                type="button"
-                                onClick={handleLoadMore}
-                                className="w-full py-2.5 px-4 rounded-lg bg-neutral-800 text-neutral-200 hover:text-white hover:bg-neutral-700 border border-neutral-700/60 text-xs font-mono uppercase tracking-wider transition-all duration-200 flex items-center justify-center cursor-pointer shadow-xs active:scale-[0.98]"
-                            >
-                                Load More
-                            </button>
-                        </div>
-                    ) : (
-                        <div className="pt-4 pb-8 text-center">
-                            <span className="font-mono text-[10px] uppercase tracking-widest text-neutral-400">
-                                All articles loaded
-                            </span>
-                        </div>
-                    )}
-                </div>
-
-                {/* Collapsed vertical strip */}
-                <div
-                    onClick={handleToggle}
-                    className={`flex-1 py-8 px-1 flex-col items-center gap-6 cursor-pointer hover:bg-white/5 transition-colors ${
-                        isOpen ? 'hidden' : 'flex'
-                    }`}
-                    title="Click to expand Recent Articles"
-                >
-                    <ArticleIcon className="w-4 h-4 shrink-0 text-neutral-400" />
-                    <span
-                        className="font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-400 hover:text-white whitespace-nowrap"
-                        style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
+                    {/* Collapsed vertical strip */}
+                    <div
+                        onClick={handleToggle}
+                        className={`absolute inset-0 w-12 xl:w-14 py-8 px-1 flex flex-col items-center gap-6 cursor-pointer hover:bg-white/5 transition-opacity duration-300 ease-linear select-none ${
+                            isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100 pointer-events-auto'
+                        }`}
+                        title="Click to expand Recent Articles"
                     >
-                        Recent Articles ({articles.length})
-                    </span>
-                    <ChevronLeft size={14} className="text-neutral-400" />
+                        <ArticleIcon className="w-4 h-4 shrink-0 text-neutral-400" />
+                        <span
+                            className="font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-400 hover:text-white whitespace-nowrap"
+                            style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
+                        >
+                            Recent Articles ({articles.length})
+                        </span>
+                        <ChevronLeft size={14} className="text-neutral-400" />
+                    </div>
                 </div>
             </div>
         </aside>

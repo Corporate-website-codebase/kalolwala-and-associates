@@ -215,7 +215,9 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
 
     // Instant scroll to top on article switch
     useEffect(() => {
-        console.log(`[BlogDetailPage] Rendered article: "${post.title}" (/blogs/${post.slug}) at ${performance.now().toFixed(1)}ms`)
+        console.log(
+            `[BlogDetailPage] Rendered article: "${post.title}" (/blogs/${post.slug}) at ${performance.now().toFixed(1)}ms`,
+        )
         if (lenisRef.current) {
             lenisRef.current.scrollTo(0, { immediate: true })
         }
@@ -318,7 +320,9 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
             ref={containerRef}
             style={{ marginTop: 'calc(-1 * var(--nav-full-height, 92px))' }}
             className={`w-full min-h-screen font-noto-sans flex flex-col [overflow-anchor:none] ${
-                isDarkTheme ? 'bg-[#0f0f0f] text-neutral-100 blog-dark-reader' : 'bg-[#eeeeee] text-black blog-light-reader'
+                isDarkTheme
+                    ? 'bg-[#0f0f0f] text-neutral-100 blog-dark-reader'
+                    : 'bg-[#eeeeee] text-black blog-light-reader'
             }`}
         >
             <Script
@@ -448,79 +452,12 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
                             <header className="article-header mb-8">
                                 <h1
                                     itemProp="headline"
-                                    className={`font-light text-[clamp(28px,4vw,48px)] leading-[1.15] tracking-tight mb-8 transition-colors duration-300 ${
+                                    className={`font-light text-[clamp(28px,4vw,48px)] leading-[1.15] tracking-tight transition-colors duration-300 ${
                                         isDarkTheme ? 'text-white' : 'text-black'
                                     }`}
                                 >
                                     {post.title}
                                 </h1>
-
-                                {/* Author & Publication Date Byline */}
-                                <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 pb-6 border-b ${
-                                    isDarkTheme ? 'border-white/10' : 'border-black/10'
-                                }`}>
-                                    {post.author && (
-                                        <div
-                                            itemProp="author"
-                                            itemScope
-                                            itemType="https://schema.org/Person"
-                                            className="flex items-center gap-3"
-                                        >
-                                            <div
-                                                className={`size-8 rounded-full flex items-center justify-center font-mono text-xs font-semibold tracking-wider shrink-0 ${
-                                                    isDarkTheme
-                                                        ? 'bg-neutral-800 text-white'
-                                                        : 'bg-neutral-900 text-white'
-                                                }`}
-                                            >
-                                                {authorInitials}
-                                            </div>
-                                            <div className="flex flex-col">
-                                                <span
-                                                    className={`text-[11px] font-mono uppercase tracking-widest ${
-                                                        isDarkTheme
-                                                            ? 'text-neutral-400'
-                                                            : 'text-neutral-500'
-                                                    }`}
-                                                >
-                                                    Written by
-                                                </span>
-                                                <span
-                                                    itemProp="name"
-                                                    rel="author"
-                                                    className={`text-sm font-medium ${
-                                                        isDarkTheme ? 'text-white' : 'text-black'
-                                                    }`}
-                                                >
-                                                    {post.author}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    {post.date && (
-                                        <div className="flex flex-col sm:text-right">
-                                            <span
-                                                className={`text-[11px] font-mono uppercase tracking-widest ${
-                                                    isDarkTheme
-                                                        ? 'text-neutral-400'
-                                                        : 'text-neutral-500'
-                                                }`}
-                                            >
-                                                Published on
-                                            </span>
-                                            <time
-                                                dateTime={post.date}
-                                                itemProp="datePublished"
-                                                className={`font-mono text-xs uppercase tracking-wider mt-0.5 ${
-                                                    isDarkTheme ? 'text-neutral-300' : 'text-black'
-                                                }`}
-                                            >
-                                                {post.date}
-                                            </time>
-                                        </div>
-                                    )}
-                                </div>
                             </header>
 
                             {/* Hero Image - Full width with automatic natural height */}
@@ -554,9 +491,73 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
                             />
                         </article>
 
+                        {/* Author & Publication Date Byline */}
+                        <div
+                            className={`flex flex-row items-center justify-between gap-6 pb-3 pt-8`}
+                        >
+                            {post.author && (
+                                <div
+                                    itemProp="author"
+                                    itemScope
+                                    itemType="https://schema.org/Person"
+                                    className="flex items-center gap-3"
+                                >
+                                    <div
+                                        className={`size-8 rounded-full flex items-center justify-center font-mono text-xs font-semibold tracking-wider shrink-0 ${
+                                            isDarkTheme
+                                                ? 'bg-neutral-800 text-white'
+                                                : 'bg-neutral-900 text-white'
+                                        }`}
+                                    >
+                                        {authorInitials}
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <span
+                                            className={`text-[11px] font-mono uppercase tracking-widest ${
+                                                isDarkTheme
+                                                    ? 'text-neutral-400'
+                                                    : 'text-neutral-500'
+                                            }`}
+                                        >
+                                            Written by
+                                        </span>
+                                        <span
+                                            itemProp="name"
+                                            rel="author"
+                                            className={`text-sm font-medium ${
+                                                isDarkTheme ? 'text-white' : 'text-black'
+                                            }`}
+                                        >
+                                            {post.author}
+                                        </span>
+                                    </div>
+                                </div>
+                            )}
+
+                            {post.date && (
+                                <div className="flex flex-col sm:text-right">
+                                    <span
+                                        className={`text-[11px] font-mono uppercase tracking-widest ${
+                                            isDarkTheme ? 'text-neutral-400' : 'text-neutral-500'
+                                        }`}
+                                    >
+                                        Published on
+                                    </span>
+                                    <time
+                                        dateTime={post.date}
+                                        itemProp="datePublished"
+                                        className={`font-mono text-xs uppercase tracking-wider mt-0.5 ${
+                                            isDarkTheme ? 'text-neutral-300' : 'text-black'
+                                        }`}
+                                    >
+                                        {post.date}
+                                    </time>
+                                </div>
+                            )}
+                        </div>
                         {/* Top Action Bar: Preferred Source + Quick Share Buttons */}
                         <div
-                            className={`mb-8 mt-8 flex flex-wrap items-center justify-between gap-4 py-3 border-y ${
+                            className={`mb-8 flex flex-wrap items-center justify-between gap-4 py-3 border-y ${
                                 isDarkTheme ? 'border-white/10' : 'border-black/10'
                             }`}
                         >
@@ -594,12 +595,12 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
                                     {copiedTop ? (
                                         <>
                                             <Check size={13} className="text-emerald-500" />
-                                            <span>Link Copied!</span>
+                                            <span className='hidden sm:inline'>Link Copied!</span>
                                         </>
                                     ) : (
                                         <>
                                             <Copy size={13} />
-                                            <span>Copy</span>
+                                            <span className='hidden sm:inline'>Copy</span>
                                         </>
                                     )}
                                 </button>

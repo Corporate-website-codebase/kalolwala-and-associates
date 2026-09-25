@@ -177,33 +177,32 @@ export default function BlogTableOfContents({
 
     return (
         <aside
-            className={`hidden lg:flex flex-col shrink-0 relative z-10 transition-[width] duration-200 ease-out will-change-[width] transform-gpu ${
+            className={`hidden lg:flex flex-col shrink-0 relative z-10 transition-[width] duration-300 ease-linear will-change-[width] transform-gpu ${
                 isOpen ? 'w-72 xl:w-80' : 'w-12 xl:w-14'
             }`}
         >
-            {/* Sticky sidebar — top/height driven by --navbar-height CSS variable */}
+            {/* Sticky sidebar — top/height driven by --navbar-height CSS variable with matching 300ms linear transition */}
             <div
                 data-lenis-prevent="true"
                 style={{
                     top: 'var(--navbar-height, 92px)',
                     height: 'calc(100vh - var(--navbar-height, 92px))',
+                    transition: 'top 300ms linear, height 300ms linear',
                 }}
-                className="sticky flex flex-col w-full border-r border-white/10 bg-[#161616] text-neutral-200 overscroll-contain z-10"
+                className="sticky flex flex-col w-full border-r border-white/10 bg-[#161616] text-neutral-200 overscroll-contain z-10 will-change-[top,height]"
             >
-                {/* Header bar with toggle */}
-                <div
-                    className={`flex items-center py-3.5 border-b border-white/10 bg-[#1c1c1c] shrink-0 ${
-                        isOpen ? 'justify-between pl-6 pr-6' : 'justify-center p-3.5'
-                    }`}
-                >
-                    {isOpen && (
-                        <div className="flex items-center gap-2.5 min-w-0">
-                            <List className="w-4 h-4 text-neutral-300 shrink-0" />
-                            <h3 className="font-mono text-xs uppercase tracking-[0.15em] text-neutral-200 font-semibold truncate">
-                                Contents
-                            </h3>
-                        </div>
-                    )}
+                {/* Header bar with toggle (fixed height, smooth fade on title without snapping button) */}
+                <div className="flex items-center justify-between h-[49px] px-3.5 border-b border-white/10 bg-[#1c1c1c] shrink-0 overflow-hidden select-none">
+                    <div
+                        className={`flex items-center gap-2.5 min-w-0 transition-opacity duration-200 ease-linear ${
+                            isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                        }`}
+                    >
+                        <List className="w-4 h-4 text-neutral-300 shrink-0" />
+                        <h3 className="font-mono text-xs uppercase tracking-[0.15em] text-neutral-200 font-semibold truncate whitespace-nowrap">
+                            Contents
+                        </h3>
+                    </div>
 
                     <button
                         type="button"
@@ -212,156 +211,159 @@ export default function BlogTableOfContents({
                             isOpen ? 'Collapse table of contents' : 'Expand table of contents'
                         }
                         title={isOpen ? 'Collapse table of contents' : 'Expand table of contents'}
-                        className="p-1 rounded-md text-neutral-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer shrink-0"
+                        className="p-1.5 rounded-md text-neutral-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer shrink-0"
                     >
                         {isOpen ? <PanelLeftClose size={16} /> : <PanelLeftOpen size={16} />}
                     </button>
                 </div>
 
-                {/* Content body when open */}
-                <nav
-                    data-lenis-prevent="true"
-                    className={`flex-1 p-3.5 flex-col gap-1.5 overflow-y-auto overscroll-contain ${
-                        isOpen ? 'flex' : 'hidden'
-                    }`}
-                >
-                    {sections.map((section) => {
-                        const isSectionActive = activeId === section.id
-                        const hasChildren = section.children.length > 0
-                        const isExpanded = isSectionExpanded(section)
-                        const hasActiveChild = section.children.some((c) => c.id === activeId)
-                        const isHighlighted = isSectionActive || hasActiveChild || isExpanded
+                {/* Relative Body Container: Layers both expanded nav and collapsed vertical strip with smooth crossfade */}
+                <div className="relative flex-1 w-full overflow-hidden">
+                    {/* Expanded Table of Contents: Fixed width so text never reflows or jumps during width transition */}
+                    <nav
+                        data-lenis-prevent="true"
+                        className={`absolute inset-0 w-72 xl:w-80 p-3.5 flex flex-col gap-1.5 overflow-y-auto overscroll-contain transition-opacity duration-300 ease-linear ${
+                            isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+                        }`}
+                    >
+                        {sections.map((section) => {
+                            const isSectionActive = activeId === section.id
+                            const hasChildren = section.children.length > 0
+                            const isExpanded = isSectionExpanded(section)
+                            const hasActiveChild = section.children.some((c) => c.id === activeId)
+                            const isHighlighted = isSectionActive || hasActiveChild || isExpanded
 
-                        if (!hasChildren) {
-                            return (
-                                <a
-                                    key={section.id}
-                                    href={`#${section.id}`}
-                                    onClick={(e) => handleScrollToHeading(section.id, e)}
-                                    className={`group flex items-start gap-2.5 py-2 px-2.5 rounded-lg text-xs transition-all duration-200 ${
-                                        isSectionActive
-                                            ? 'bg-white/10 text-white font-medium shadow-xs border border-white/10'
-                                            : 'text-neutral-400 hover:text-white hover:bg-white/5 border border-transparent'
-                                    }`}
-                                >
-                                    <span
-                                        className={`mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 transition-colors ${
-                                            isSectionActive
-                                                ? 'bg-white'
-                                                : 'bg-neutral-600 group-hover:bg-neutral-300'
-                                        }`}
-                                    />
-                                    <span className={`leading-snug line-clamp-2 ${isSectionActive ? 'text-white' : 'text-neutral-400 group-hover:text-white'}`}>
-                                        {section.text}
-                                    </span>
-                                </a>
-                            )
-                        }
-
-                        return (
-                            <div key={section.id} className="flex flex-col rounded-lg">
-                                {/* Accordion Header */}
-                                <div
-                                    className={`group flex items-center justify-between gap-2 py-1.5 px-2 rounded-lg text-xs transition-all duration-200 ${
-                                        isHighlighted
-                                            ? 'bg-white/10 text-white font-medium shadow-xs border border-white/10'
-                                            : 'text-neutral-400 hover:text-white hover:bg-white/5 border border-transparent'
-                                    }`}
-                                >
+                            if (!hasChildren) {
+                                return (
                                     <a
+                                        key={section.id}
                                         href={`#${section.id}`}
                                         onClick={(e) => handleScrollToHeading(section.id, e)}
-                                        className="flex items-start gap-2.5 flex-1 min-w-0"
+                                        className={`group flex items-start gap-2.5 py-2 px-2.5 rounded-lg text-xs transition-all duration-200 ${
+                                            isSectionActive
+                                                ? 'bg-white/10 text-white font-medium shadow-xs border border-white/10'
+                                                : 'text-neutral-400 hover:text-white hover:bg-white/5 border border-transparent'
+                                        }`}
                                     >
                                         <span
                                             className={`mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 transition-colors ${
-                                                isHighlighted
+                                                isSectionActive
                                                     ? 'bg-white'
                                                     : 'bg-neutral-600 group-hover:bg-neutral-300'
                                             }`}
                                         />
-                                        <span className={`leading-snug line-clamp-2 ${isHighlighted ? 'text-white' : 'text-neutral-400 group-hover:text-white'}`}>
+                                        <span className={`leading-snug line-clamp-2 ${isSectionActive ? 'text-white' : 'text-neutral-400 group-hover:text-white'}`}>
                                             {section.text}
                                         </span>
                                     </a>
+                                )
+                            }
 
-                                    {/* Accordion expand/collapse chevron button */}
-                                    <button
-                                        type="button"
-                                        onClick={(e) => toggleSection(section, e)}
-                                        aria-label={
-                                            isExpanded ? 'Collapse section' : 'Expand section'
-                                        }
-                                        title={
-                                            isExpanded ? 'Collapse section' : 'Expand section'
-                                        }
-                                        className="p-1 rounded text-neutral-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer shrink-0"
+                            return (
+                                <div key={section.id} className="flex flex-col rounded-lg">
+                                    {/* Accordion Header */}
+                                    <div
+                                        className={`group flex items-center justify-between gap-2 py-1.5 px-2 rounded-lg text-xs transition-all duration-200 ${
+                                            isHighlighted
+                                                ? 'bg-white/10 text-white font-medium shadow-xs border border-white/10'
+                                                : 'text-neutral-400 hover:text-white hover:bg-white/5 border border-transparent'
+                                        }`}
                                     >
-                                        <ChevronDown
-                                            size={14}
-                                            className={`transition-transform duration-300 ${
-                                                isExpanded
-                                                    ? 'rotate-180 text-white'
-                                                    : 'text-neutral-400 group-hover:text-white'
-                                            }`}
-                                        />
-                                    </button>
-                                </div>
+                                        <a
+                                            href={`#${section.id}`}
+                                            onClick={(e) => handleScrollToHeading(section.id, e)}
+                                            className="flex items-start gap-2.5 flex-1 min-w-0"
+                                        >
+                                            <span
+                                                className={`mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 transition-colors ${
+                                                    isHighlighted
+                                                        ? 'bg-white'
+                                                        : 'bg-neutral-600 group-hover:bg-neutral-300'
+                                                }`}
+                                            />
+                                            <span className={`leading-snug line-clamp-2 ${isHighlighted ? 'text-white' : 'text-neutral-400 group-hover:text-white'}`}>
+                                                {section.text}
+                                            </span>
+                                        </a>
 
-                                {/* Accordion Collapsible Subheadings */}
-                                {isExpanded && (
-                                    <div className="pl-4 pr-1 py-1 flex flex-col gap-1 border-l border-white/15 ml-3.5 my-1">
-                                        {section.children.map((child) => {
-                                            const isChildActive = activeId === child.id
-                                            return (
-                                                <a
-                                                    key={child.id}
-                                                    href={`#${child.id}`}
-                                                    onClick={(e) =>
-                                                        handleScrollToHeading(child.id, e)
-                                                    }
-                                                    className={`group flex items-start gap-2 py-1 px-2 rounded-md text-[11px] transition-all duration-200 ${
-                                                        isChildActive
-                                                            ? 'bg-white/10 text-white font-medium'
-                                                            : 'text-neutral-400 hover:text-white hover:bg-white/5'
-                                                    }`}
-                                                >
-                                                    <span
-                                                        className={`mt-1.5 w-1 h-1 rounded-full shrink-0 transition-colors ${
-                                                            isChildActive
-                                                                ? 'bg-white'
-                                                                : 'bg-neutral-600 group-hover:bg-neutral-300'
-                                                        }`}
-                                                    />
-                                                    <span className={`leading-snug line-clamp-2 ${isChildActive ? 'text-white' : 'text-neutral-400 group-hover:text-white'}`}>
-                                                        {child.text}
-                                                    </span>
-                                                </a>
-                                            )
-                                        })}
+                                        {/* Accordion expand/collapse chevron button */}
+                                        <button
+                                            type="button"
+                                            onClick={(e) => toggleSection(section, e)}
+                                            aria-label={
+                                                isExpanded ? 'Collapse section' : 'Expand section'
+                                            }
+                                            title={
+                                                isExpanded ? 'Collapse section' : 'Expand section'
+                                            }
+                                            className="p-1 rounded text-neutral-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer shrink-0"
+                                        >
+                                            <ChevronDown
+                                                size={14}
+                                                className={`transition-transform duration-300 ${
+                                                    isExpanded
+                                                        ? 'rotate-180 text-white'
+                                                        : 'text-neutral-400 group-hover:text-white'
+                                                }`}
+                                            />
+                                        </button>
                                     </div>
-                                )}
-                            </div>
-                        )
-                    })}
-                </nav>
 
-                {/* Collapsed vertical strip */}
-                <div
-                    onClick={handleToggle}
-                    className={`flex-1 py-8 px-1 flex-col items-center gap-6 cursor-pointer hover:bg-white/5 transition-colors ${
-                        isOpen ? 'hidden' : 'flex'
-                    }`}
-                    title="Click to expand Table of Contents"
-                >
-                    <List className="w-4 h-4 text-neutral-400 shrink-0" />
-                    <span
-                        className="font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-400 hover:text-white whitespace-nowrap"
-                        style={{ writingMode: 'vertical-rl' }}
+                                    {/* Accordion Collapsible Subheadings */}
+                                    {isExpanded && (
+                                        <div className="pl-4 pr-1 py-1 flex flex-col gap-1 border-l border-white/15 ml-3.5 my-1">
+                                            {section.children.map((child) => {
+                                                const isChildActive = activeId === child.id
+                                                return (
+                                                    <a
+                                                        key={child.id}
+                                                        href={`#${child.id}`}
+                                                        onClick={(e) =>
+                                                            handleScrollToHeading(child.id, e)
+                                                        }
+                                                        className={`group flex items-start gap-2 py-1 px-2 rounded-md text-[11px] transition-all duration-200 ${
+                                                            isChildActive
+                                                                ? 'bg-white/10 text-white font-medium'
+                                                                : 'text-neutral-400 hover:text-white hover:bg-white/5'
+                                                        }`}
+                                                    >
+                                                        <span
+                                                            className={`mt-1.5 w-1 h-1 rounded-full shrink-0 transition-colors ${
+                                                                isChildActive
+                                                                    ? 'bg-white'
+                                                                    : 'bg-neutral-600 group-hover:bg-neutral-300'
+                                                            }`}
+                                                        />
+                                                        <span className={`leading-snug line-clamp-2 ${isChildActive ? 'text-white' : 'text-neutral-400 group-hover:text-white'}`}>
+                                                            {child.text}
+                                                        </span>
+                                                    </a>
+                                                )
+                                            })}
+                                        </div>
+                                    )}
+                                </div>
+                            )
+                        })}
+                    </nav>
+
+                    {/* Collapsed vertical strip */}
+                    <div
+                        onClick={handleToggle}
+                        className={`absolute inset-0 w-12 xl:w-14 py-8 px-1 flex flex-col items-center gap-6 cursor-pointer hover:bg-white/5 transition-opacity duration-300 ease-linear select-none ${
+                            isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100 pointer-events-auto'
+                        }`}
+                        title="Click to expand Table of Contents"
                     >
-                        Table of Contents
-                    </span>
-                    <ChevronRight size={14} className="text-neutral-400" />
+                        <List className="w-4 h-4 text-neutral-400 shrink-0" />
+                        <span
+                            className="font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-400 hover:text-white whitespace-nowrap"
+                            style={{ writingMode: 'vertical-rl' }}
+                        >
+                            Table of Contents
+                        </span>
+                        <ChevronRight size={14} className="text-neutral-400" />
+                    </div>
                 </div>
             </div>
         </aside>
