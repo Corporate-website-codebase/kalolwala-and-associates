@@ -109,7 +109,7 @@ export async function POST(request: Request) {
               <table cellpadding="0" cellspacing="0" border="0" style="margin: 0 auto 32px auto;">
                 <tr>
                   <td align="center" bgcolor="#f5c518">
-                    <a href="https://www.kalolwala.com/blogs" style="display: inline-block; background-color: #f5c518; color: #010101; font-size: 16px; font-weight: bold; text-decoration: none; padding: 12px 40px; border-radius: 0px;">
+                    <a href="https://www.kalolwala.com/blogs" style="display: inline-block; background-color: #f5c518; color: #010101 !important; -webkit-text-fill-color: #010101; font-size: 16px; font-weight: bold; text-decoration: none; padding: 12px 40px; border-radius: 0px;">
                       Explore Blogs
                     </a>
                   </td>
