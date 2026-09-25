@@ -200,7 +200,7 @@ export default function BlogTableOfContents({
                     >
                         <List className="w-4 h-4 text-neutral-300 shrink-0" />
                         <h3 className="font-mono text-xs uppercase tracking-[0.15em] text-neutral-200 font-semibold truncate whitespace-nowrap">
-                            Table of content
+                            Table of contents
                         </h3>
                     </div>
 
