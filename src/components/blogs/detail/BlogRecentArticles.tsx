@@ -2,9 +2,7 @@
 
 import type { BlogPost } from '@/data/blogs'
 import { ChevronLeft, PanelRightClose, PanelRightOpen } from 'lucide-react'
-import Image from 'next/image'
-import Link from 'next/link'
-import React, { useMemo, useState, useEffect, useRef } from 'react'
+import React, { useMemo, useState } from 'react'
 
 interface BlogRecentArticlesProps {
     articles: BlogPost[]
@@ -50,7 +48,6 @@ export default function BlogRecentArticles({
     isOpen: controlledOpen,
     onToggle,
 }: BlogRecentArticlesProps) {
-    const renderStart = performance.now()
     const [internalOpen, setInternalOpen] = useState(true)
     const isControlled = typeof controlledOpen === 'boolean'
     const isOpen = isControlled ? controlledOpen : internalOpen
@@ -58,27 +55,11 @@ export default function BlogRecentArticles({
         Math.max(INITIAL_COUNT, preservedVisibleCount),
     )
 
-    const toggleCount = useRef(0)
-
-    useEffect(() => {
-        const renderEnd = performance.now()
-        console.log(`[BlogRecentArticles] Rendered in ${(renderEnd - renderStart).toFixed(2)}ms | isOpen: ${isOpen} | toggleCount: ${toggleCount.current}`)
-        
-        requestAnimationFrame(() => {
-            const paintEnd = performance.now()
-            console.log(`[BlogRecentArticles] Frame painted in ${(paintEnd - renderEnd).toFixed(2)}ms after render`)
-        })
-    })
-
     const handleToggle = (e?: React.MouseEvent) => {
         if (e) {
             e.preventDefault()
             e.stopPropagation()
         }
-        
-        const tStart = performance.now()
-        console.log(`[BlogRecentArticles] Toggle clicked at ${tStart.toFixed(2)}ms, triggering state update...`)
-        toggleCount.current += 1
 
         if (onToggle) {
             onToggle()
@@ -92,25 +73,22 @@ export default function BlogRecentArticles({
     const articleCards = useMemo(() => {
         const currentVisible = articles.slice(0, visibleCount)
         return currentVisible.map((blog, idx) => (
-            <Link
+            <a
                 key={`${blog.slug}-${blog.id}`}
                 href={`/blogs/${blog.slug}`}
-                prefetch={false}
                 className={`group flex gap-3 p-2.5 transition-colors duration-150 hover:bg-white/10 rounded-sm ${
                     idx !== 0 ? 'border-t border-white/10' : ''
                 }`}
             >
                 {/* Thumbnail without rounded borders */}
-                <div className="relative rounded-none overflow-hidden shrink-0">
+                <div className="relative rounded-none overflow-hidden shrink-0 bg-white/5 w-20 h-9">
                     {blog.image ? (
-                        <Image
+                        <img
                             src={blog.image}
                             alt={blog.title}
-                            width={80}
-                            height={36}
-                            sizes="80px"
                             loading="lazy"
-                            className="object-cover object-top-left transition-transform duration-300 group-hover:scale-105 aspect-16/8 transform-gpu"
+                            decoding="async"
+                            className="w-full h-full object-cover object-top-left transition-transform duration-300 group-hover:scale-105 transform-gpu"
                         />
                     ) : (
                         <div className="w-full h-full flex items-center justify-center font-mono text-[9px] text-neutral-400">
@@ -137,7 +115,7 @@ export default function BlogRecentArticles({
                         {formatDisplayDate(blog.date)}
                     </span>
                 </div>
-            </Link>
+            </a>
         ))
     }, [articles, visibleCount])
 
@@ -196,7 +174,7 @@ export default function BlogRecentArticles({
                     {/* Expanded Articles List: Fixed width so cards never reflow or jump during width transition */}
                     <div
                         data-lenis-prevent="true"
-                        className={`absolute inset-0 w-80 xl:w-96 p-3.5 pb-16 flex flex-col gap-1 overflow-y-auto overscroll-contain transition-opacity duration-300 ease-linear ${
+                        className={`absolute inset-y-0 right-0 w-80 xl:w-96 p-3.5 pb-16 flex flex-col gap-1 overflow-y-auto overscroll-contain transition-opacity duration-300 ease-linear ${
                             isOpen
                                 ? 'opacity-100 pointer-events-auto'
                                 : 'opacity-0 pointer-events-none'
@@ -227,7 +205,7 @@ export default function BlogRecentArticles({
                     {/* Collapsed vertical strip */}
                     <div
                         onClick={handleToggle}
-                        className={`absolute inset-0 w-12 xl:w-14 py-8 px-1 flex flex-col items-center gap-6 cursor-pointer hover:bg-white/5 transition-opacity duration-300 ease-linear select-none ${
+                        className={`absolute inset-y-0 right-0 w-12 xl:w-14 py-8 px-1 flex flex-col items-center gap-6 cursor-pointer hover:bg-white/5 transition-opacity duration-300 ease-linear select-none ${
                             isOpen
                                 ? 'opacity-0 pointer-events-none'
                                 : 'opacity-100 pointer-events-auto'
