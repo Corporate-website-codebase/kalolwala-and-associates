@@ -65,7 +65,7 @@ export async function POST(request: Request) {
 
     // Send confirmation to subscriber
     await resend.emails.send({
-      from: "Kalolwala Blogs <info@kalolwala.com>",
+      from: "K&A - News | Updates & Beyond <info@kalolwala.com>",
       to: normalizedEmail,
       subject: "You're subscribed to Kalolwala & Associates",
       html: `
@@ -82,11 +82,11 @@ export async function POST(request: Request) {
       <td align="center">
         <!-- Email Wrapper -->
         <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width: 600px; width: 100%; background-color: #ffffff; border-radius: 0px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); border: 1px solid #e5e7eb; overflow: hidden;">
-          
+
           <!-- Header - Logo -->
           <tr>
             <td align="center" style="padding-top: 56px; padding-bottom: 24px;">
-              <img src="https://www.kalolwala.com/images/kna.png" alt="Kalolwala & Associates" style="height: 64px; width: auto; display: block;" />
+              <img src="https://www.kalolwala.com/images/kna-email.png" alt="Kalolwala & Associates" style="height: 64px; width: auto; display: block;" />
             </td>
           </tr>
 
@@ -108,7 +108,7 @@ export async function POST(request: Request) {
                 <tr>
                   <td align="center" bgcolor="#f5c518">
                     <a href="https://www.kalolwala.com/blogs" style="display: inline-block; background-color: #f5c518; color: #000000; font-size: 16px; font-weight: bold; text-decoration: none; padding: 12px 40px; border-radius: 0px;">
-                      Visit our Blog
+                      Explore Blogs
                     </a>
                   </td>
                 </tr>
@@ -120,7 +120,7 @@ export async function POST(request: Request) {
           <!-- Footer -->
           <tr>
             <td align="center" style="background-color: #111111; padding: 32px; border-top: 1px solid #6b7280;">
-              
+
               <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 32px;">
                 <tr>
                   <td align="center">
