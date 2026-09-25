@@ -1,7 +1,7 @@
 'use client'
 
 import { useLenis } from 'lenis/react'
-import { ChevronDown, ChevronLeft, ChevronRight, List, PanelLeftClose, PanelLeftOpen } from 'lucide-react'
+import { ChevronDown, ChevronRight, List, PanelLeftClose, PanelLeftOpen } from 'lucide-react'
 import React, { useEffect, useMemo, useState } from 'react'
 
 export interface TocHeading {
@@ -177,7 +177,7 @@ export default function BlogTableOfContents({
 
     return (
         <aside
-            className={`hidden lg:flex flex-col shrink-0 relative z-10 transition-[width] duration-300 ease-linear will-change-[width] transform-gpu ${
+            className={`hidden lg:flex flex-col shrink-0 relative z-10 transition-[width] duration-300 ease-linear ${
                 isOpen ? 'w-72 xl:w-80' : 'w-12 xl:w-14'
             }`}
         >
@@ -223,7 +223,9 @@ export default function BlogTableOfContents({
                     <nav
                         data-lenis-prevent="true"
                         className={`absolute inset-0 w-72 xl:w-80 p-3.5 flex flex-col gap-1.5 overflow-y-auto overscroll-contain transition-opacity duration-300 ease-linear ${
-                            isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+                            isOpen
+                                ? 'opacity-100 pointer-events-auto'
+                                : 'opacity-0 pointer-events-none'
                         }`}
                     >
                         {sections.map((section) => {
@@ -252,7 +254,9 @@ export default function BlogTableOfContents({
                                                     : 'bg-neutral-600 group-hover:bg-neutral-300'
                                             }`}
                                         />
-                                        <span className={`leading-snug line-clamp-2 ${isSectionActive ? 'text-white' : 'text-neutral-400 group-hover:text-white'}`}>
+                                        <span
+                                            className={`leading-snug line-clamp-2 ${isSectionActive ? 'text-white' : 'text-neutral-400 group-hover:text-white'}`}
+                                        >
                                             {section.text}
                                         </span>
                                     </a>
@@ -281,7 +285,9 @@ export default function BlogTableOfContents({
                                                         : 'bg-neutral-600 group-hover:bg-neutral-300'
                                                 }`}
                                             />
-                                            <span className={`leading-snug line-clamp-2 ${isHighlighted ? 'text-white' : 'text-neutral-400 group-hover:text-white'}`}>
+                                            <span
+                                                className={`leading-snug line-clamp-2 ${isHighlighted ? 'text-white' : 'text-neutral-400 group-hover:text-white'}`}
+                                            >
                                                 {section.text}
                                             </span>
                                         </a>
@@ -334,7 +340,9 @@ export default function BlogTableOfContents({
                                                                     : 'bg-neutral-600 group-hover:bg-neutral-300'
                                                             }`}
                                                         />
-                                                        <span className={`leading-snug line-clamp-2 ${isChildActive ? 'text-white' : 'text-neutral-400 group-hover:text-white'}`}>
+                                                        <span
+                                                            className={`leading-snug line-clamp-2 ${isChildActive ? 'text-white' : 'text-neutral-400 group-hover:text-white'}`}
+                                                        >
                                                             {child.text}
                                                         </span>
                                                     </a>
@@ -351,7 +359,9 @@ export default function BlogTableOfContents({
                     <div
                         onClick={handleToggle}
                         className={`absolute inset-0 w-12 xl:w-14 py-8 px-1 flex flex-col items-center gap-6 cursor-pointer hover:bg-white/5 transition-opacity duration-300 ease-linear select-none ${
-                            isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100 pointer-events-auto'
+                            isOpen
+                                ? 'opacity-0 pointer-events-none'
+                                : 'opacity-100 pointer-events-auto'
                         }`}
                         title="Click to expand Table of Contents"
                     >

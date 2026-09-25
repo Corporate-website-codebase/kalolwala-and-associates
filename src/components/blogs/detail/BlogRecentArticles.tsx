@@ -1,7 +1,7 @@
 'use client'
 
 import type { BlogPost } from '@/data/blogs'
-import { ChevronLeft, ChevronRight, PanelRightClose, PanelRightOpen } from 'lucide-react'
+import { ChevronLeft, PanelRightClose, PanelRightOpen } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState } from 'react'
@@ -53,14 +53,18 @@ export default function BlogRecentArticles({
     const [internalOpen, setInternalOpen] = useState(true)
     const isControlled = typeof controlledOpen === 'boolean'
     const isOpen = isControlled ? controlledOpen : internalOpen
-    const [visibleCount, setVisibleCount] = useState(() => Math.max(INITIAL_COUNT, preservedVisibleCount))
+    const [visibleCount, setVisibleCount] = useState(() =>
+        Math.max(INITIAL_COUNT, preservedVisibleCount),
+    )
 
     const handleToggle = (e?: React.MouseEvent) => {
         if (e) {
             e.preventDefault()
             e.stopPropagation()
         }
-        console.log(`[BlogRecentArticles] Toggle sidebar: currently ${isOpen ? 'OPEN -> CLOSING' : 'CLOSED -> OPENING'} at ${performance.now().toFixed(1)}ms`)
+        console.log(
+            `[BlogRecentArticles] Toggle sidebar: currently ${isOpen ? 'OPEN -> CLOSING' : 'CLOSED -> OPENING'} at ${performance.now().toFixed(1)}ms`,
+        )
         if (onToggle) {
             onToggle()
         } else {
@@ -83,7 +87,7 @@ export default function BlogRecentArticles({
 
     return (
         <aside
-            className={`hidden lg:flex flex-col shrink-0 relative z-10 transition-[width] duration-300 ease-linear will-change-[width] transform-gpu ${
+            className={`hidden lg:flex flex-col shrink-0 relative z-10 transition-[width] duration-300 ease-linear ${
                 isOpen ? 'w-80 xl:w-96' : 'w-12 xl:w-14'
             }`}
         >
@@ -127,7 +131,9 @@ export default function BlogRecentArticles({
                     <div
                         data-lenis-prevent="true"
                         className={`absolute inset-0 w-80 xl:w-96 p-3.5 pb-16 flex flex-col gap-1 overflow-y-auto overscroll-contain transition-opacity duration-300 ease-linear ${
-                            isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+                            isOpen
+                                ? 'opacity-100 pointer-events-auto'
+                                : 'opacity-0 pointer-events-none'
                         }`}
                     >
                         {visibleArticles.map((blog, idx) => (
@@ -135,7 +141,9 @@ export default function BlogRecentArticles({
                                 key={`${blog.slug}-${blog.id}`}
                                 href={`/blogs/${blog.slug}`}
                                 onClick={() => {
-                                    console.log(`[Blog Navigation] User clicked article: "${blog.title}" -> /blogs/${blog.slug} at ${performance.now().toFixed(1)}ms`)
+                                    console.log(
+                                        `[Blog Navigation] User clicked article: "${blog.title}" -> /blogs/${blog.slug} at ${performance.now().toFixed(1)}ms`,
+                                    )
                                 }}
                                 className={`group flex gap-3 p-2.5 transition-colors duration-150 hover:bg-white/10 rounded-sm ${
                                     idx !== 0 ? 'border-t border-white/10' : ''
@@ -205,7 +213,9 @@ export default function BlogRecentArticles({
                     <div
                         onClick={handleToggle}
                         className={`absolute inset-0 w-12 xl:w-14 py-8 px-1 flex flex-col items-center gap-6 cursor-pointer hover:bg-white/5 transition-opacity duration-300 ease-linear select-none ${
-                            isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100 pointer-events-auto'
+                            isOpen
+                                ? 'opacity-0 pointer-events-none'
+                                : 'opacity-100 pointer-events-auto'
                         }`}
                         title="Click to expand Recent Articles"
                     >
