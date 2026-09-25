@@ -99,7 +99,7 @@ export async function POST(request: Request) {
                 You're Subscribed!
               </h1>
 
-              <p style="color: #4b5563; font-size: 16px; line-height: 1.625; margin: 0 auto 40px auto; max-width: 480px;">
+              <p style="color: #4b5563; font-size: 16px; line-height: 1.625; margin: 0 auto 40px auto; max-width: 400px;">
                 Thank you for subscribing to K&A updates. You'll now receive our latest blog posts, insights and important updates directly in your inbox.
               </p>
 
