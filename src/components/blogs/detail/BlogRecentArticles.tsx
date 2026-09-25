@@ -179,7 +179,8 @@ export default function BlogRecentArticles({
                     {/* Expanded Articles List: Fixed width so cards never reflow or jump during width transition */}
                     <div
                         data-lenis-prevent="true"
-                        className={`absolute inset-y-0 right-0 w-80 xl:w-96 p-3.5 pb-16 flex flex-col gap-1 overflow-y-auto overscroll-contain transition-opacity duration-300 ease-linear ${
+                        style={{ contain: 'strict' }}
+                        className={`absolute inset-y-0 right-0 w-80 xl:w-96 p-3.5 pb-16 flex flex-col gap-1 overflow-y-auto overscroll-contain transition-opacity duration-300 ease-linear will-change-[opacity] ${
                             isOpen
                                 ? 'opacity-100 pointer-events-auto'
                                 : 'opacity-0 pointer-events-none'
@@ -210,7 +211,8 @@ export default function BlogRecentArticles({
                     {/* Collapsed vertical strip */}
                     <div
                         onClick={handleToggle}
-                        className={`absolute inset-y-0 right-0 w-12 xl:w-14 py-8 px-1 flex flex-col items-center gap-6 cursor-pointer hover:bg-white/5 transition-opacity duration-300 ease-linear select-none ${
+                        style={{ contain: 'strict' }}
+                        className={`absolute inset-y-0 right-0 w-12 xl:w-14 py-8 px-1 flex flex-col items-center gap-6 cursor-pointer hover:bg-white/5 transition-opacity duration-300 ease-linear select-none will-change-[opacity] ${
                             isOpen
                                 ? 'opacity-0 pointer-events-none'
                                 : 'opacity-100 pointer-events-auto'
