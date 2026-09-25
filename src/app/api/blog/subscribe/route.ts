@@ -74,8 +74,6 @@ export async function POST(request: Request) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="color-scheme" content="light">
-  <meta name="supported-color-schemes" content="light">
   <title>You're Subscribed!</title>
 </head>
 <body style="margin: 0; padding: 0; background-color: #f3f4f6; font-family: system-ui, -apple-system, sans-serif;">
@@ -109,7 +107,7 @@ export async function POST(request: Request) {
               <table cellpadding="0" cellspacing="0" border="0" style="margin: 0 auto 32px auto;">
                 <tr>
                   <td align="center" bgcolor="#f5c518">
-                    <a href="https://www.kalolwala.com/blogs" style="display: inline-block; background-color: #f5c518; color: #010101 !important; -webkit-text-fill-color: #010101; font-size: 16px; font-weight: bold; text-decoration: none; padding: 12px 40px; border-radius: 0px;">
+                    <a href="https://www.kalolwala.com/blogs" style="display: inline-block; background-color: #f5c518; color: #000000; font-size: 16px; font-weight: bold; text-decoration: none; padding: 12px 40px; border-radius: 0px;">
                       Explore Blogs
                     </a>
                   </td>
