@@ -195,8 +195,11 @@ export default function LetsTalk() {
             />
           </div>
 
-          {/* BOOK FEATURE */}
-<div className="flex justify-center sm:justify-end mt-8">
+        {/* BOOK FEATURE */}
+<div
+  id="featured-publication"
+  className="flex justify-center sm:justify-end mt-8 scroll-mt-28"
+>
   <BookFeature />
 </div>
         </div>
