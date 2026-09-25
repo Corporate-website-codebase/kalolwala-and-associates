@@ -126,7 +126,7 @@ export default function BlogCard({ post, blog, card, className = '' }: BlogCardP
         return (
             <Link
                 href={href}
-                prefetch={true}
+                prefetch={false}
                 className={`group block w-full h-full outline-none ${className}`.trim()}
             >
                 {cardContent}
