@@ -1,13 +1,13 @@
 'use client'
 
-import type { BlogPost } from '@/data/blogs'
+import type { BlogPost, BlogPostCard } from '@/data/blogs'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 
 interface BlogPostNavigationProps {
-    prevPost: BlogPost | null
-    nextPost: BlogPost | null
+    prevPost: (BlogPost | BlogPostCard) | null
+    nextPost: (BlogPost | BlogPostCard) | null
     isDarkTheme?: boolean
 }
 

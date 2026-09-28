@@ -1,9 +1,9 @@
 'use client'
 
-import { BLOG_DATA, type BlogPost } from '@/data/blogs'
+import type { BlogPostCard } from '@/data/blogs'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
-import React, { useMemo, useRef, useState, useSyncExternalStore } from 'react'
+import React, { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
 import BlogCard from './BlogCard'
 
 const ITEMS_PER_PAGE = 12
@@ -49,17 +49,50 @@ type WordPressPost = {
 }
 
 export default function BlogPaginatedList({
-    cards = BLOG_DATA,
+    initialCards,
+    cards = [],
     wordpressPosts = [],
 }: {
-    cards?: BlogPost[]
+    initialCards?: BlogPostCard[]
+    cards?: BlogPostCard[]
     wordpressPosts?: WordPressPost[]
 }) {
     const hasMounted = useHasMounted()
-    const [currentPage, setCurrentPage] = useState(1)
+
+    // Read initial page from URL query parameter (e.g. /blogs?page=2) on client
+    const [currentPage, setCurrentPage] = useState(() => {
+        if (typeof window !== 'undefined') {
+            const params = new URLSearchParams(window.location.search)
+            const pageParam = params.get('page')
+            const parsed = pageParam ? parseInt(pageParam, 10) : 1
+            if (!isNaN(parsed) && parsed >= 1) return parsed
+        }
+        return 1
+    })
     const [prevPage, setPrevPage] = useState(currentPage)
-    const [pageInputValue, setPageInputValue] = useState('01')
+    const [pageInputValue, setPageInputValue] = useState(() =>
+        String(currentPage).padStart(2, '0')
+    )
     const [isPageChanging, setIsPageChanging] = useState(false)
+
+    // Synchronize browser Back & Forward button navigation
+    useEffect(() => {
+        const handlePopState = () => {
+            const params = new URLSearchParams(window.location.search)
+            const pageParam = params.get('page')
+            const parsed = pageParam ? parseInt(pageParam, 10) : 1
+            if (!isNaN(parsed) && parsed >= 1) {
+                setCurrentPage(parsed)
+                setPageInputValue(String(parsed).padStart(2, '0'))
+            } else {
+                setCurrentPage(1)
+                setPageInputValue('01')
+            }
+        }
+
+        window.addEventListener('popstate', handlePopState)
+        return () => window.removeEventListener('popstate', handlePopState)
+    }, [])
 
     const [email, setEmail] = useState('')
     const [subscriptionStatus, setSubscriptionStatus] = useState<
@@ -72,15 +105,19 @@ export default function BlogPaginatedList({
     const inputRef = useRef<HTMLInputElement>(null)
     const listTopRef = useRef<HTMLDivElement>(null)
 
-    // Sync input value when page changes without triggering useEffect setState cascading renders
+    // Sync input value when page changes
     if (prevPage !== currentPage) {
         setPrevPage(currentPage)
         setPageInputValue(String(currentPage).padStart(2, '0'))
     }
 
-    // Normalize WordPress posts into our local BlogPost format and sort everything newest first
+    // If initialCards is supplied (already pre-sorted and stripped on server), use it directly!
     const sortedCards = useMemo(() => {
-        const wordpressCards: BlogPost[] = wordpressPosts.map((post) => {
+        if (initialCards && initialCards.length > 0) {
+            return initialCards
+        }
+
+        const fallbackCards: BlogPostCard[] = wordpressPosts.map((post) => {
             const featuredMedia = post._embedded?.['wp:featuredmedia']?.[0]
 
             const image =
@@ -94,7 +131,6 @@ export default function BlogPaginatedList({
                 id: String(post.id),
                 title: post.title.rendered,
                 slug: post.slug,
-                content: '',
                 excerpt: post.excerpt?.rendered ? post.excerpt.rendered.replace(/<[^>]*>/g, '').trim() : '',
                 date: new Date(post.date).toLocaleDateString('en-GB', {
                     day: '2-digit',
@@ -107,40 +143,45 @@ export default function BlogPaginatedList({
             }
         })
 
-        return [...cards, ...wordpressCards].sort(
+        return [...cards, ...fallbackCards].sort(
             (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
         )
-    }, [cards, wordpressPosts])
+    }, [initialCards, cards, wordpressPosts])
 
-    const totalPages = Math.ceil(sortedCards.length / ITEMS_PER_PAGE)
+    const totalPages = Math.ceil(sortedCards.length / ITEMS_PER_PAGE) || 1
 
     const currentData = useMemo(() => {
         const start = (currentPage - 1) * ITEMS_PER_PAGE
         return sortedCards.slice(start, start + ITEMS_PER_PAGE)
     }, [currentPage, sortedCards])
 
-    // Smoothly scroll back to the top of the blog grid whenever switching pages
+    // Smoothly switch pages and sync URL history without laggy timeouts
     const handlePageChange = (newPage: number) => {
         if (newPage < 1 || newPage > totalPages || newPage === currentPage || isPageChanging) {
             return
         }
 
         setIsPageChanging(true)
+        setCurrentPage(newPage)
+
+        // Update URL query parameter for seamless bookmarking and browser Back/Forward support
+        try {
+            const targetUrl = newPage === 1 ? '/blogs' : `/blogs?page=${newPage}`
+            window.history.pushState(null, '', targetUrl)
+        } catch {
+            // Ignore
+        }
+
+        if (listTopRef.current) {
+            listTopRef.current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+            })
+        }
 
         setTimeout(() => {
-            setCurrentPage(newPage)
-
-            if (listTopRef.current) {
-                listTopRef.current.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start',
-                })
-            }
-
-            setTimeout(() => {
-                setIsPageChanging(false)
-            }, 100)
-        }, 400)
+            setIsPageChanging(false)
+        }, 150)
     }
 
     const handlePageInputSubmit = (e?: React.FormEvent) => {

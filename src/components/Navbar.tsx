@@ -54,6 +54,7 @@ const navLinks: NavItem[] = [
 
 const Navbar = () => {
     const [isVisible, setIsVisible] = useState(true)
+    const isVisibleRef = useRef(true)
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const [isOfferingsHovered, setIsOfferingsHovered] = useState(false)
     const [isMobileOfferingsOpen, setIsMobileOfferingsOpen] = useState(false)
@@ -63,6 +64,32 @@ const Navbar = () => {
     const pathname = usePathname()
     const isHome = pathname === '/'
     const { scrollY } = useScroll()
+    const navRef = useRef<HTMLElement | null>(null)
+
+    const setNavVisibility = (visible: boolean) => {
+        if (isVisibleRef.current === visible) return
+        isVisibleRef.current = visible
+        setIsVisible(visible)
+
+        const navHeight =
+            navRef.current?.offsetHeight || (window.innerWidth >= 768 ? 92 : 64)
+
+        if (visible) {
+            document.documentElement.style.setProperty('--nav-translate-y', '0px')
+            document.documentElement.style.setProperty('--navbar-height', `${navHeight}px`)
+            if (navRef.current) {
+                navRef.current.style.transform = 'translateY(0px)'
+            }
+        } else {
+            document.documentElement.style.setProperty('--nav-translate-y', `-${navHeight}px`)
+            document.documentElement.style.setProperty('--navbar-height', '0px')
+            if (navRef.current) {
+                navRef.current.style.transform = `translateY(-${navHeight}px)`
+            }
+            setIsMobileMenuOpen(false)
+            setIsOfferingsHovered(false)
+        }
+    }
 
     const handleMouseEnter = () => {
         if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current)
@@ -83,13 +110,7 @@ const Navbar = () => {
     useMotionValueEvent(scrollY, 'change', (latest) => {
         // At the very top of the page (within 10px), always visible
         if (latest <= 10) {
-            if (!isVisible) {
-                const navHeight =
-                    navRef.current?.offsetHeight || (window.innerWidth >= 768 ? 92 : 64)
-                document.documentElement.style.setProperty('--navbar-height', `${navHeight}px`)
-                document.documentElement.style.setProperty('--nav-translate-y', '0px')
-                setIsVisible(true)
-            }
+            setNavVisibility(true)
             accumulatedDeltaRef.current = 0
             lastDirectionRef.current = null
             lastScrollYRef.current = latest
@@ -115,29 +136,13 @@ const Navbar = () => {
 
         // Small scroll to bottom: hide navbar smoothly (accumulated >= 6px works even on slowest scroll)
         if (accumulatedDeltaRef.current > 6 && latest > 20) {
-            if (isVisible) {
-                const navHeight =
-                    navRef.current?.offsetHeight || (window.innerWidth >= 768 ? 92 : 64)
-                document.documentElement.style.setProperty('--navbar-height', '0px')
-                document.documentElement.style.setProperty('--nav-translate-y', `-${navHeight}px`)
-                setIsVisible(false)
-                setIsMobileMenuOpen(false)
-                setIsOfferingsHovered(false)
-            }
+            setNavVisibility(false)
         }
         // Small scroll to top: show navbar smoothly (accumulated <= -6px works even on slowest scroll)
         else if (accumulatedDeltaRef.current < -6) {
-            if (!isVisible) {
-                const navHeight =
-                    navRef.current?.offsetHeight || (window.innerWidth >= 768 ? 92 : 64)
-                document.documentElement.style.setProperty('--navbar-height', `${navHeight}px`)
-                document.documentElement.style.setProperty('--nav-translate-y', '0px')
-                setIsVisible(true)
-            }
+            setNavVisibility(true)
         }
     })
-
-    const navRef = useRef<HTMLElement | null>(null)
 
     // --- INITIAL NAVBAR HEIGHT ---
     // Update once on mount so sidebars know the initial height.
@@ -148,6 +153,9 @@ const Navbar = () => {
             document.documentElement.style.setProperty('--nav-full-height', `${measuredHeight}px`)
             document.documentElement.style.setProperty('--navbar-height', `${measuredHeight}px`)
             document.documentElement.style.setProperty('--nav-translate-y', '0px')
+            if (navRef.current) {
+                navRef.current.style.transform = 'translateY(0px)'
+            }
         }
     }, [])
 
@@ -167,7 +175,7 @@ const Navbar = () => {
                     ref={navRef}
                     style={{
                         transform: 'translateY(var(--nav-translate-y, 0px))',
-                        transition: 'transform 300ms linear',
+                        transition: 'transform 300ms cubic-bezier(0.16, 1, 0.3, 1)',
                     }}
                     className="relative z-[100] w-full pointer-events-auto bg-black shadow-md"
                 >

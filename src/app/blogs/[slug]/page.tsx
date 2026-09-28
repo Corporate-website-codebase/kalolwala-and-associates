@@ -1,6 +1,13 @@
 import BlogDetailPage from '@/components/blogs/BlogDetailPage'
 import Footers from '@/components/Footers'
-import { BLOG_DATA, getBlogBySlug, type BlogPost } from '@/data/blogs'
+import {
+    BLOG_DATA,
+    calculateReadingTime,
+    getBlogBySlug,
+    getLocalBlogCards,
+    type BlogPost,
+    type BlogPostCard,
+} from '@/data/blogs'
 import { getPosts } from '@/lib/wordpress'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
@@ -214,7 +221,7 @@ export default async function BlogPostPage({ params }: Props) {
         console.error('Failed to fetch WordPress posts:', error)
     }
 
-    const wordpressBlogs: BlogPost[] = wordpressPosts
+    const wordpressBlogs: BlogPostCard[] = wordpressPosts
         .filter((post) => post.status === 'publish')
         .map((post) => {
             const featuredMedia = post._embedded?.['wp:featuredmedia']?.[0]
@@ -227,14 +234,18 @@ export default async function BlogPostPage({ params }: Props) {
                 featuredMedia?.source_url ||
                 ''
 
+            const rawExcerpt = post.excerpt?.rendered
+                ? post.excerpt.rendered.replace(/<[^>]*>/g, '').trim()
+                : ''
+
             return {
                 id: String(post.id),
                 source: 'cms' as const,
                 title: post.title.rendered,
                 metaTitle: post.title.rendered,
                 slug: post.slug,
-                content: '', // Omit heavy HTML from recommendations array to keep RSC payload under 25KB
-                excerpt: post.excerpt?.rendered ? post.excerpt.rendered.replace(/<[^>]*>/g, '').trim() : '',
+                excerpt: rawExcerpt,
+                readingTime: calculateReadingTime(post.content?.rendered || rawExcerpt),
                 date: new Date(post.date).toLocaleDateString('en-GB', {
                     day: '2-digit',
                     month: 'long',
@@ -247,6 +258,9 @@ export default async function BlogPostPage({ params }: Props) {
             }
         })
 
+    const localCards = getLocalBlogCards()
+    const allBlogCards: BlogPostCard[] = [...localCards, ...wordpressBlogs]
+
     /*
      * ========================================================
      * 1. CHECK LOCAL / HARDCODED BLOGS FIRST
@@ -257,7 +271,6 @@ export default async function BlogPostPage({ params }: Props) {
 
     if (localPost && localPost.content) {
         const articleSchema = {
-            '@context': 'https://schema.org',
             '@type': 'BlogPosting',
             mainEntityOfPage: {
                 '@type': 'WebPage',
@@ -282,17 +295,46 @@ export default async function BlogPostPage({ params }: Props) {
             },
         }
 
+        const breadcrumbSchema = {
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+                {
+                    '@type': 'ListItem',
+                    position: 1,
+                    name: 'Home',
+                    item: 'https://www.kalolwala.com',
+                },
+                {
+                    '@type': 'ListItem',
+                    position: 2,
+                    name: 'Insights & Blogs',
+                    item: 'https://www.kalolwala.com/blogs',
+                },
+                {
+                    '@type': 'ListItem',
+                    position: 3,
+                    name: localPost.title,
+                    item: `https://www.kalolwala.com/blogs/${slug}`,
+                },
+            ],
+        }
+
+        const jsonLd = {
+            '@context': 'https://schema.org',
+            '@graph': [articleSchema, breadcrumbSchema],
+        }
+
         return (
             <>
                 <script
                     type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
                 />
 
                 <BlogDetailPage
                     key={localPost.id}
                     post={localPost}
-                    wordpressPosts={wordpressBlogs}
+                    recentArticles={allBlogCards}
                 />
 
                 <Footers nextPageName="Careers" nextPageLink="/careers" />
@@ -314,7 +356,7 @@ export default async function BlogPostPage({ params }: Props) {
 
     /*
      * ========================================================
-     * 4. CURRENT WORDPRESS BLOG
+     * 3. CURRENT WORDPRESS BLOG
      * ========================================================
      */
 
@@ -340,19 +382,11 @@ export default async function BlogPostPage({ params }: Props) {
 
     /*
      * ========================================================
-     * 5. RENDER
-     *
-     * wordpressBlogs is now safe to pass to BlogDetailPage.
-     *
-     * The More Articles sidebar can therefore use BOTH:
-     *
-     * - BLOG_DATA
-     * - WordPress CMS articles
+     * 4. RENDER
      * ========================================================
      */
 
     const articleSchema = {
-        '@context': 'https://schema.org',
         '@type': 'BlogPosting',
         mainEntityOfPage: {
             '@type': 'WebPage',
@@ -377,17 +411,46 @@ export default async function BlogPostPage({ params }: Props) {
         },
     }
 
+    const breadcrumbSchema = {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            {
+                '@type': 'ListItem',
+                position: 1,
+                name: 'Home',
+                item: 'https://www.kalolwala.com',
+            },
+            {
+                '@type': 'ListItem',
+                position: 2,
+                name: 'Insights & Blogs',
+                item: 'https://www.kalolwala.com/blogs',
+            },
+            {
+                '@type': 'ListItem',
+                position: 3,
+                name: wordpressBlog.title,
+                item: `https://www.kalolwala.com/blogs/${slug}`,
+            },
+        ],
+    }
+
+    const jsonLd = {
+        '@context': 'https://schema.org',
+        '@graph': [articleSchema, breadcrumbSchema],
+    }
+
     return (
         <>
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
 
             <BlogDetailPage
                 key={wordpressBlog.id}
                 post={wordpressBlog}
-                wordpressPosts={wordpressBlogs}
+                recentArticles={allBlogCards}
             />
 
             <Footers nextPageName="Careers" nextPageLink="/careers" />

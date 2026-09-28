@@ -1,6 +1,6 @@
 'use client'
 
-import { BLOG_DATA, type BlogPost } from '@/data/blogs'
+import { calculateReadingTime, type BlogPost, type BlogPostCard } from '@/data/blogs'
 import { useLenis } from 'lenis/react'
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Copy, Moon, Share2, Sun } from 'lucide-react'
 import Image from 'next/image'
@@ -14,10 +14,12 @@ import BlogPostNavigation from './detail/BlogPostNavigation'
 import BlogRecentArticles from './detail/BlogRecentArticles'
 import BlogSubscribeBottom from './detail/BlogSubscribeBottom'
 import BlogTableOfContents, { type TocHeading } from './detail/BlogTableOfContents'
+import MobileTocDrawer from './detail/MobileTocDrawer'
 
 interface BlogDetailPageProps {
     post: BlogPost
     wordpressPosts?: BlogPost[]
+    recentArticles?: (BlogPost | BlogPostCard)[]
 }
 
 // Parses HTML content to extract headings for the TOC, inject unique IDs, and wrap tables in responsive border containers
@@ -126,7 +128,11 @@ function getThemeServerSnapshot(): 'dark' | 'light' {
     return 'light'
 }
 
-export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetailPageProps) {
+export default function BlogDetailPage({
+    post,
+    wordpressPosts = [],
+    recentArticles,
+}: BlogDetailPageProps) {
     const containerRef = useRef<HTMLDivElement | null>(null)
     const mainContentRef = useRef<HTMLDivElement | null>(null)
     const lenisRef = useRef<ReturnType<typeof useLenis> | null>(null)
@@ -181,24 +187,30 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
         return processContentAndExtractHeadings(post.content)
     }, [post.content])
 
+    // Lightweight articles array for sidebars and prev/next links (no heavy HTML content)
+    const baseArticles = useMemo(() => {
+        if (recentArticles && recentArticles.length > 0) {
+            return recentArticles
+        }
+        return [...wordpressPosts]
+    }, [recentArticles, wordpressPosts])
+
     // Compute unique recent/other blogs sorted newest first by date
     const otherBlogs = useMemo(() => {
-        const combined = [...BLOG_DATA, ...wordpressPosts]
-        const filtered = combined.filter((b) => b.id !== post.id && b.slug && b.slug !== post.slug)
+        const filtered = baseArticles.filter((b) => b.id !== post.id && b.slug && b.slug !== post.slug)
         const unique = filtered.filter(
             (b, index, arr) => index === arr.findIndex((item) => item.slug === b.slug),
         )
         return unique.sort((a, b) => parseDateToTimestamp(b.date) - parseDateToTimestamp(a.date))
-    }, [post.id, post.slug, wordpressPosts])
+    }, [baseArticles, post.id, post.slug])
 
     // Combine all blogs to determine previous and next articles
     const allBlogs = useMemo(() => {
-        const combined = [...BLOG_DATA, ...wordpressPosts]
-        const unique = combined.filter(
+        const unique = baseArticles.filter(
             (b, index, arr) => index === arr.findIndex((item) => item.slug === b.slug),
         )
         return unique.sort((a, b) => parseDateToTimestamp(b.date) - parseDateToTimestamp(a.date))
-    }, [wordpressPosts])
+    }, [baseArticles])
 
     const { prevPost, nextPost } = useMemo(() => {
         const currentIndex = allBlogs.findIndex((b) => b.slug === post.slug || b.id === post.id)
@@ -223,6 +235,44 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
     }, [post.id, post.slug, post.title])
 
     const authorInitials = parseAuthorInitials(post.author)
+    const readingTime = useMemo(
+        () => calculateReadingTime(post.content || post.excerpt),
+        [post.content, post.excerpt]
+    )
+
+    // Reading Progress Indicator (runs via requestAnimationFrame for 60fps GPU performance)
+    const [readingProgress, setReadingProgress] = useState(0)
+
+    useEffect(() => {
+        let ticking = false
+        const updateProgress = () => {
+            const el = mainContentRef.current
+            if (!el) return
+            const rect = el.getBoundingClientRect()
+            const total = el.offsetHeight - window.innerHeight
+            if (total <= 0) {
+                setReadingProgress(0)
+                return
+            }
+            const scrolled = Math.max(0, -rect.top)
+            const pct = Math.min(1, Math.max(0, scrolled / total))
+            setReadingProgress(pct)
+        }
+
+        const onScroll = () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    updateProgress()
+                    ticking = false
+                })
+                ticking = true
+            }
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true })
+        updateProgress()
+        return () => window.removeEventListener('scroll', onScroll)
+    }, [post.id])
 
     // Top action bar share handlers
     const [copiedTop, setCopiedTop] = useState(false)
@@ -249,6 +299,20 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
         if (!url) return
         const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`
         window.open(linkedInUrl, '_blank', 'noopener,noreferrer,width=700,height=600')
+    }
+
+    const handleWhatsAppShare = () => {
+        const url = getShareUrl()
+        if (!url) return
+        const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(post.title + ' ' + url)}`
+        window.open(whatsappUrl, '_blank', 'noopener,noreferrer')
+    }
+
+    const handleXShare = () => {
+        const url = getShareUrl()
+        if (!url) return
+        const xUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(url)}`
+        window.open(xUrl, '_blank', 'noopener,noreferrer,width=600,height=400')
     }
 
     const handleNativeShare = async () => {
@@ -317,12 +381,20 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
         <section
             ref={containerRef}
             style={{ marginTop: 'calc(-1 * var(--nav-full-height, 92px))' }}
-            className={`w-full min-h-screen font-noto-sans flex flex-col [overflow-anchor:none] ${
+            className={`w-full min-h-screen font-noto-sans flex flex-col ${
                 isDarkTheme
                     ? 'bg-[#0f0f0f] text-neutral-100 blog-dark-reader'
                     : 'bg-[#eeeeee] text-black blog-light-reader'
             }`}
         >
+            {/* Minimal Reading Progress Bar fixed at top of viewport */}
+            <div className="fixed top-0 left-0 right-0 h-px z-[120] pointer-events-none bg-black/5">
+                <div
+                    className="h-full bg-[#ffc800] origin-left transition-transform duration-75 ease-out will-change-transform"
+                    style={{ transform: `scaleX(${readingProgress})` }}
+                />
+            </div>
+
             <Script
                 src="https://news.google.com/swg/js/v1/publisher.js"
                 strategy="lazyOnload"
@@ -355,16 +427,13 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
                 {/* MIDDLE COLUMN: Blog Article Content taking the rest of width */}
                 <main
                     ref={mainContentRef}
-                    className="flex-1 min-w-0 px-6 sm:px-10 lg:px-12 xl:px-16 pt-[calc(var(--nav-full-height,92px)+1.5rem)] sm:pt-[calc(var(--nav-full-height,92px)+2rem)] pb-16 [overflow-anchor:none]"
+                    className="flex-1 min-w-0 px-6 sm:px-10 lg:px-12 xl:px-16 pt-[calc(var(--nav-full-height,92px)+1.5rem)] sm:pt-[calc(var(--nav-full-height,92px)+2rem)] pb-16"
                 >
-                    <div
-                        className="max-w-3xl xl:max-w-4xl mx-auto w-full"
-                        style={{ contain: 'content' }}
-                    >
+                    <div className="max-w-3xl xl:max-w-4xl mx-auto w-full">
                         {/* Top navigation row: Back to articles on left, Focus & Theme toggles on right */}
                         <div className="flex items-center justify-between gap-4 mb-6">
                             <Link
-                                href="/blogs#articles"
+                                href="/blogs"
                                 className={`group inline-flex items-center gap-2 transition-colors ${
                                     isDarkTheme
                                         ? 'text-neutral-400 hover:text-white'
@@ -533,7 +602,7 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
                                             isDarkTheme ? 'text-neutral-400' : 'text-neutral-500'
                                         }`}
                                     >
-                                        Published on
+                                        Published on · {readingTime}
                                     </span>
                                     <time
                                         dateTime={post.date}
@@ -713,6 +782,40 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
                                     </svg>
                                 </button>
 
+                                {/* WhatsApp */}
+                                <button
+                                    type="button"
+                                    onClick={handleWhatsAppShare}
+                                    aria-label="Share on WhatsApp"
+                                    title="Share on WhatsApp"
+                                    className={`inline-flex items-center justify-center size-8 rounded-full transition-all duration-200 cursor-pointer ${
+                                        isDarkTheme
+                                            ? 'bg-white/10 hover:bg-[#25D366] text-neutral-200 hover:text-white'
+                                            : 'bg-black/5 hover:bg-[#25D366] text-neutral-700 hover:text-white'
+                                    }`}
+                                >
+                                    <svg viewBox="0 0 24 24" className="size-3.5 fill-current" aria-hidden="true">
+                                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.414-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                                    </svg>
+                                </button>
+
+                                {/* X (Twitter) */}
+                                <button
+                                    type="button"
+                                    onClick={handleXShare}
+                                    aria-label="Share on X"
+                                    title="Share on X"
+                                    className={`inline-flex items-center justify-center size-8 rounded-full transition-all duration-200 cursor-pointer ${
+                                        isDarkTheme
+                                            ? 'bg-white/10 hover:bg-black text-neutral-200 hover:text-white'
+                                            : 'bg-black/5 hover:bg-black text-neutral-700 hover:text-white'
+                                    }`}
+                                >
+                                    <svg viewBox="0 0 24 24" className="size-3 fill-current" aria-hidden="true">
+                                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                                    </svg>
+                                </button>
+
                                 {/* Native Share / Share Icon */}
                                 <button
                                     type="button"
@@ -749,6 +852,9 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
                     onToggle={handleToggleRecent}
                 />
             </div>
+
+            {/* Mobile Table of Contents Floating Button & Bottom Sheet */}
+            <MobileTocDrawer headings={headings} isDarkTheme={isDarkTheme} />
 
             {/* Floating Back to Top button */}
             <BlogBackToTop />

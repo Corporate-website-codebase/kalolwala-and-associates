@@ -1,13 +1,13 @@
 'use client'
 
-import type { BlogPost } from '@/data/blogs'
+import type { BlogPost, BlogPostCard } from '@/data/blogs'
 import { ChevronLeft, PanelRightClose, PanelRightOpen } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useMemo, useState } from 'react'
 
 interface BlogRecentArticlesProps {
-    articles: BlogPost[]
+    articles: (BlogPost | BlogPostCard)[]
     isOpen?: boolean
     onToggle?: () => void
 }
@@ -118,6 +118,7 @@ export default function BlogRecentArticles({
                     </h4>
                     <span className="font-mono text-[10px] text-neutral-400 uppercase tracking-wider mt-1">
                         {formatDisplayDate(blog.date)}
+                        {'readingTime' in blog && blog.readingTime ? ` · ${blog.readingTime}` : ''}
                     </span>
                 </div>
             </Link>
@@ -140,15 +141,16 @@ export default function BlogRecentArticles({
                 isOpen ? 'w-80 xl:w-96' : 'w-12 xl:w-14'
             }`}
         >
-            {/* Sticky sidebar — top/height driven by --navbar-height CSS variable with matching 300ms linear transition */}
+            {/* Sticky sidebar — smoothly slides to top when navbar disappears */}
             <div
                 data-lenis-prevent="true"
                 style={{
                     top: 'var(--navbar-height, 92px)',
                     height: 'calc(100vh - var(--navbar-height, 92px))',
-                    transition: 'top 300ms linear, height 300ms linear',
+                    transition:
+                        'top 300ms cubic-bezier(0.16, 1, 0.3, 1), height 300ms cubic-bezier(0.16, 1, 0.3, 1)',
                 }}
-                className="sticky flex flex-col w-full border-l border-white/10 bg-[#161616] text-neutral-200 overscroll-contain z-10 will-change-[top,height]"
+                className="sticky flex flex-col w-full border-l border-white/10 bg-[#161616] text-neutral-200 overscroll-contain z-10"
             >
                 {/* Header bar with toggle (fixed height, smooth fade on title without snapping button) */}
                 <div className="flex items-center justify-between h-[49px] px-3.5 border-b border-white/10 bg-[#1c1c1c] shrink-0 overflow-hidden select-none">

@@ -773,6 +773,32 @@ export function getInternalBlogs(): BlogPost[] {
     return BLOG_DATA.filter((post) => post.slug && post.content)
 }
 
+export type BlogPostCard = Omit<BlogPost, 'content'> & {
+    readingTime?: string
+}
+
+/**
+ * Calculates estimated reading time from HTML or plain text string.
+ */
+export function calculateReadingTime(textOrHtml?: string): string {
+    if (!textOrHtml) return '3 min read'
+    const cleanText = textOrHtml.replace(/<[^>]*>/g, ' ').trim()
+    const words = cleanText.split(/\s+/).filter(Boolean).length
+    const minutes = Math.max(1, Math.ceil(words / 200))
+    return `${minutes} min read`
+}
+
+/**
+ * Returns all local blog posts formatted as lightweight cards (without heavy HTML content)
+ * with precalculated reading time.
+ */
+export function getLocalBlogCards(): BlogPostCard[] {
+    return BLOG_DATA.map(({ content, ...rest }) => ({
+        ...rest,
+        readingTime: calculateReadingTime(content || rest.excerpt),
+    }))
+}
+
 export interface MarqueeLink {
     url: string
     publisher: string

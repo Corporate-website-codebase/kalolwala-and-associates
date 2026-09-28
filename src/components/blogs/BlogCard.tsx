@@ -1,13 +1,13 @@
-import type { BlogPost } from '@/data/blogs'
+import type { BlogPost, BlogPostCard } from '@/data/blogs'
 import { ArrowUpRight } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import AuthorAvatar from './AuthorAvatar'
 
 export interface BlogCardProps {
-    post?: BlogPost
-    blog?: BlogPost
-    card?: BlogPost
+    post?: BlogPost | BlogPostCard
+    blog?: BlogPost | BlogPostCard
+    card?: BlogPost | BlogPostCard
     className?: string
 }
 
@@ -100,8 +100,9 @@ export default function BlogCard({ post, blog, card, className = '' }: BlogCardP
                             <span className="text-xs font-medium text-neutral-900 truncate">
                                 {author.name}
                             </span>
-                            <span className="text-[11px] text-neutral-500 mt-0.5">
+                            <span className="text-[11px] text-neutral-500 mt-0.5 truncate">
                                 {item.date}
+                                {'readingTime' in item && item.readingTime ? ` · ${item.readingTime}` : ''}
                             </span>
                         </div>
                     </div>
