@@ -8,6 +8,7 @@ import Link from 'next/link'
 import Script from 'next/script'
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
 import PublisherMarquee from './PublisherMarquee'
+import AuthorAvatar from './AuthorAvatar'
 import BlogBackToTop from './detail/BlogBackToTop'
 import BlogPostNavigation from './detail/BlogPostNavigation'
 import BlogRecentArticles from './detail/BlogRecentArticles'
@@ -501,15 +502,7 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
                                     itemType="https://schema.org/Person"
                                     className="flex items-center gap-3"
                                 >
-                                    <div
-                                        className={`size-8 rounded-full flex items-center justify-center font-mono text-xs font-semibold tracking-wider shrink-0 ${
-                                            isDarkTheme
-                                                ? 'bg-neutral-800 text-white'
-                                                : 'bg-neutral-900 text-white'
-                                        }`}
-                                    >
-                                        {authorInitials}
-                                    </div>
+                                    <AuthorAvatar author={post.author} size="md" />
                                     <div className="flex flex-col">
                                         <span
                                             className={`text-[11px] font-mono uppercase tracking-widest ${
@@ -554,9 +547,89 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
                                 </div>
                             )}
                         </div>
+
+                        {/* Publisher section for legacy posts: Marquee if > 2 links, otherwise inline link(s) if available */}
+                        {post.source === 'legacy' && (() => {
+                            const links =
+                                post.additionalLinks && post.additionalLinks.length > 0
+                                    ? post.additionalLinks
+                                    : post.publisher && post.url
+                                      ? [
+                                            {
+                                                publisher: post.publisher,
+                                                publisherLogo: post.publisherLogo || '',
+                                                url: post.url,
+                                            },
+                                        ]
+                                      : []
+
+                            if (links.length === 0) return null
+
+                            if (links.length > 2) {
+                                return (
+                                    <PublisherMarquee
+                                        links={links}
+                                        isDarkTheme={isDarkTheme}
+                                    />
+                                )
+                            }
+
+                            return (
+                                <div
+                                    className={`mt-10 mb-8 pt-6 border-t flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 ${
+                                        isDarkTheme ? 'border-white/10' : 'border-black/10'
+                                    }`}
+                                >
+                                    <span
+                                        className={`text-xs font-mono uppercase tracking-widest ${
+                                            isDarkTheme
+                                                ? 'text-neutral-400'
+                                                : 'text-neutral-500'
+                                        }`}
+                                    >
+                                        Read article on:
+                                    </span>
+                                    <div className="flex flex-wrap items-center gap-6">
+                                        {links.map((link, idx) => (
+                                            <a
+                                                key={idx}
+                                                href={link.url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className={`group inline-flex items-center transition-colors ${
+                                                    isDarkTheme
+                                                        ? 'text-neutral-300 hover:text-white'
+                                                        : 'text-neutral-600 hover:text-black'
+                                                }`}
+                                            >
+                                                {link.publisherLogo && (
+                                                    <Image
+                                                        src={link.publisherLogo}
+                                                        alt={link.publisher}
+                                                        width={100}
+                                                        height={24}
+                                                        unoptimized
+                                                        className="h-6 w-auto object-contain mr-2.5"
+                                                    />
+                                                )}
+                                                <span className="text-sm font-mono">
+                                                    Read on {link.publisher}
+                                                </span>
+                                                <ArrowUpRight
+                                                    size={15}
+                                                    className="ml-1 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                                                />
+                                            </a>
+                                        ))}
+                                    </div>
+                                </div>
+                            )
+                        })()}
+
+
                         {/* Top Action Bar: Preferred Source + Quick Share Buttons */}
                         <div
-                            className={`mb-8 flex flex-wrap items-center justify-between gap-4 py-3 border-y ${
+                            className={`mb-8 mt-8 flex flex-wrap items-center justify-between gap-4 py-3 border-y ${
                                 isDarkTheme ? 'border-white/10' : 'border-black/10'
                             }`}
                         >
@@ -666,67 +739,6 @@ export default function BlogDetailPage({ post, wordpressPosts = [] }: BlogDetail
 
                         {/* Newsletter Subscription directly after next/prev article buttons in middle column */}
                         <BlogSubscribeBottom />
-
-                        {/* Publisher links for legacy posts */}
-                        {post.source === 'legacy' && (
-                            <>
-                                {post.additionalLinks && post.additionalLinks.length > 2 ? (
-                                    <PublisherMarquee links={post.additionalLinks} />
-                                ) : (
-                                    post.additionalLinks &&
-                                    post.additionalLinks.length > 0 && (
-                                        <div
-                                            className={`mt-14 pt-8 border-t flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 ${
-                                                isDarkTheme ? 'border-white/15' : 'border-black/15'
-                                            }`}
-                                        >
-                                            <span
-                                                className={`text-xs font-mono uppercase tracking-widest ${
-                                                    isDarkTheme
-                                                        ? 'text-neutral-400'
-                                                        : 'text-neutral-500'
-                                                }`}
-                                            >
-                                                Read article on:
-                                            </span>
-                                            <div className="flex flex-wrap items-center gap-6">
-                                                {post.additionalLinks.map((link, idx) => (
-                                                    <a
-                                                        key={idx}
-                                                        href={link.url}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className={`group inline-flex items-center transition-colors ${
-                                                            isDarkTheme
-                                                                ? 'text-neutral-300 hover:text-white'
-                                                                : 'text-neutral-600 hover:text-black'
-                                                        }`}
-                                                    >
-                                                        {link.publisherLogo && (
-                                                            <Image
-                                                                src={link.publisherLogo}
-                                                                alt={link.publisher}
-                                                                width={100}
-                                                                height={20}
-                                                                unoptimized
-                                                                className="h-5 w-auto object-contain mr-2"
-                                                            />
-                                                        )}
-                                                        <span className="text-sm font-mono tracking-wider">
-                                                            Read on {link.publisher}
-                                                        </span>
-                                                        <ArrowUpRight
-                                                            size={15}
-                                                            className="ml-1 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                                                        />
-                                                    </a>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    )
-                                )}
-                            </>
-                        )}
                     </div>
                 </main>
 

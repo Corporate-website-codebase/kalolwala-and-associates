@@ -1,108 +1,77 @@
-"use client";
+'use client'
 
-import React, { useState } from "react";
-
-interface MarqueeLink {
-  url: string;
-  publisher: string;
-  publisherLogo: string;
-}
+import type { MarqueeLink } from '@/data/blogs'
+import { useState } from 'react'
 
 interface PublisherMarqueeProps {
-  links: MarqueeLink[];
+    links: MarqueeLink[]
+    isDarkTheme?: boolean
 }
 
-export default function PublisherMarquee({ links }: PublisherMarqueeProps) {
-  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+export default function PublisherMarquee({
+    links,
+    isDarkTheme = true,
+}: PublisherMarqueeProps) {
+    const [hoveredIdx, setHoveredIdx] = useState<number | null>(null)
 
-  // We duplicate the list to create a seamless loop
-  const items = [...links, ...links];
+    if (!links || links.length === 0) return null
 
-  return (
-    <div className=" pt-10 border-t border-white/10">
-      {/* Label */}
-      <span className="block text-xs font-mono text-black uppercase tracking-[0.25em] mb-6">
-        Read article on
-      </span>
+    // Duplicate list to create a seamless infinite scrolling loop
+    const items = [...links, ...links]
 
-      {/* Marquee viewport */}
-      <div
-        className="
-          relative w-full overflow-hidden
-          before:absolute before:left-0 before:top-0 before:bottom-0 before:w-16 before:z-10
-          
-          after:absolute after:right-0 after:top-0 after:bottom-0 after:w-16 after:z-10
-          
-        "
-      >
-        {/* Scrolling track */}
-        <div
-          className="
-            flex items-center gap-10
-            w-max
-            animate-marquee
-          "
-          style={{
-            animationPlayState: hoveredIdx !== null ? "paused" : "running",
-          }}
-        >
-          {items.map((link, idx) => (
-            <a
-              key={`${link.publisher}-${idx}`}
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="
-                relative flex-shrink-0
-                group
-                flex items-center justify-center
-                h-20
-                px-6
-                rounded-lg
-                bg-white/[0.03]
-                border border-white/[0.06]
-                hover:border-[#F4C016]/30
-                hover:bg-[#F4C016]/[0.04]
-                transition-all duration-300
-                cursor-pointer
-              "
-              onMouseEnter={() => setHoveredIdx(idx)}
-              onMouseLeave={() => setHoveredIdx(null)}
+    const cardClasses = isDarkTheme
+        ? 'relative flex-shrink-0 group flex items-center justify-center h-20 px-6 rounded-lg bg-white/[0.04] border border-white/10 hover:border-[#F4C016]/40 hover:bg-[#F4C016]/[0.05] transition-all duration-300 cursor-pointer'
+        : 'relative flex-shrink-0 group flex items-center justify-center h-20 px-6 rounded-lg bg-white border border-black/10 hover:border-[#F4C016] hover:bg-neutral-50 shadow-2xs transition-all duration-300 cursor-pointer'
+
+    const fadeGradientClasses = isDarkTheme
+        ? 'before:bg-gradient-to-r before:from-[#0f0f0f] before:to-transparent after:bg-gradient-to-l after:from-[#0f0f0f] after:to-transparent'
+        : 'before:bg-gradient-to-r before:from-[#eeeeee] before:to-transparent after:bg-gradient-to-l after:from-[#eeeeee] after:to-transparent'
+
+    return (
+        <div className={`pt-10 border-t ${isDarkTheme ? 'border-white/10' : 'border-black/10'}`}>
+            {/* Label */}
+            <span
+                className={`block text-xs font-mono font-medium uppercase tracking-wider mb-6 ${
+                    isDarkTheme ? 'text-neutral-400' : 'text-neutral-600'
+                }`}
             >
-              {/* Publisher logo — doubled size (h-10 vs original h-5) */}
-              <img
-                src={link.publisherLogo}
-                alt={link.publisher}
-                className="
-                  h-10 w-auto max-w-[160px] object-contain
-                "
-              />
+                Read article on
+            </span>
 
-              {/* Tooltip */}
-              <span
-                className="
-                  pointer-events-none
-                  absolute -top-9 left-1/2 -translate-x-1/2
-                  px-3 py-1.5
-                  bg-[#F4C016] text-[#050505]
-                  text-[11px] font-semibold tracking-wide
-                  rounded-md
-                  whitespace-nowrap
-                  opacity-0 translate-y-1
-                  group-hover:opacity-100 group-hover:translate-y-0
-                  transition-all duration-200
-                  z-20
+            {/* Marquee viewport with theme-aware gradient fades */}
+            <div
+                className={`relative w-full overflow-hidden before:absolute before:left-0 before:top-0 before:bottom-0 before:w-16 before:z-10 before:pointer-events-none after:absolute after:right-0 after:top-0 after:bottom-0 after:w-16 after:z-10 after:pointer-events-none ${fadeGradientClasses}`}
+            >
+                {/* Scrolling track */}
+                <div
+                    className="flex items-center gap-10 w-max animate-marquee"
+                    style={{ animationPlayState: hoveredIdx !== null ? 'paused' : 'running' }}
+                >
+                    {items.map((link, idx) => (
+                        <a
+                            key={`${link.publisher}-${idx}`}
+                            href={link.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={cardClasses}
+                            onMouseEnter={() => setHoveredIdx(idx)}
+                            onMouseLeave={() => setHoveredIdx(null)}
+                        >
+                            {/* Publisher logo */}
+                            <img
+                                src={link.publisherLogo}
+                                alt={link.publisher}
+                                className="h-10 w-auto max-w-[160px] object-contain transition-transform duration-300 group-hover:scale-105"
+                            />
 
-                  after:absolute after:top-full after:left-1/2 after:-translate-x-1/2
-                  after:border-4 after:border-transparent after:border-t-[#F4C016]
-                "
-              >
-                {link.publisher}
-              </span>
-            </a>
-          ))}
+                            {/* Tooltip */}
+                            <span className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-[#F4C016] text-[#050505] text-[11px] font-semibold tracking-wide rounded-md whitespace-nowrap opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200 z-20 after:absolute after:top-full after:left-1/2 after:-translate-x-1/2 after:border-4 after:border-transparent after:border-t-[#F4C016]">
+                                {link.publisher}
+                            </span>
+                        </a>
+                    ))}
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    )
 }

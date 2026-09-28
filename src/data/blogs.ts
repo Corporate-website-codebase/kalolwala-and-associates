@@ -1,95 +1,95 @@
 // blog-data.ts
 
 export type Publisher =
-  | "LinkedIn"
-  | "Business Standard"
-  | "ANI News"
-  | "The Tribune"
-  | "Lokmat Times"
-  | "Pioneer Edge"
-  | "The Hans India"
-  | "Punjab Kesari"
-  | "Daily Hunt"
-  | "The CSR Universe"
-  | "Daily Tribune"
-  | "Daily Pioneer"
-  | "CEO Times"
-  | "HeraldPost"
-  | "Cover Magazine"
-  | "ESG News"
-  | "ET Edge Insights";
+    | 'LinkedIn'
+    | 'Business Standard'
+    | 'ANI News'
+    | 'The Tribune'
+    | 'Lokmat Times'
+    | 'Pioneer Edge'
+    | 'The Hans India'
+    | 'Punjab Kesari'
+    | 'Daily Hunt'
+    | 'The CSR Universe'
+    | 'Daily Tribune'
+    | 'Daily Pioneer'
+    | 'CEO Times'
+    | 'HeraldPost'
+    | 'Cover Magazine'
+    | 'ESG News'
+    | 'ET Edge Insights'
 
 export interface BlogPost {
-  id: string;
+    id: string
 
-  // Identifies where the blog comes from
-  source?: "legacy" | "cms";
+    // Identifies where the blog comes from
+    source?: 'legacy' | 'cms'
 
-  title: string;
-  metaTitle?: string;
-  excerpt: string;
-  date: string;
-  url: string;
+    title: string
+    metaTitle?: string
+    excerpt: string
+    date: string
+    url: string
 
-  slug?: string;
-  content?: string;
+    slug?: string
+    content?: string
 
-  image?: string;
-  imageAlt?: string;
+    image?: string
+    imageAlt?: string
 
-  author?: string;
+    author?: string
 
-  publisher?: Publisher;
-  publisherLogo?: string;
+    publisher?: Publisher
+    publisherLogo?: string
 
-  additionalLinks?: Array<{
-    url: string;
-    publisher: Publisher;
-    publisherLogo: string;
-  }>;
+    additionalLinks?: Array<{
+        url: string
+        publisher: Publisher
+        publisherLogo: string
+    }>
 }
 
 export const BLOG_DATA: BlogPost[] = [
-  // ── c12 ─────────────────────────────────────────────────
-  {
-    id: "c12",
-    source: "legacy",
-    title: "From Compliance to Credibility: Why Assurance Is Reshaping ESG Reporting",
-    metaTitle: "Compliance to Credibility: Assurance Is Reshaping ESG Reporting",
-    excerpt:
-      "There is a moment in every reporting regime's life when the question changes from ‘did you disclose?’ to ‘can you prove it?‘",
-    date: "JULY 27, 2026",
-    url: "https://www.linkedin.com/pulse/from-compliance-credibility-why-assurance-gsovf/?trackingId=ljAPU4DJLJ6v2sJazJm6Eg%3D%3D",
-    slug: "why-assurance-is-reshaping-esg-reporting",
-    author: "Hussain Kalolwala, CEO, K&A",
-    image: "/blogs/why-assurance-is-reshaping-esg-reporting.webp",
-    publisher: "LinkedIn",
-    publisherLogo: "/blogs/publishers/linkedin.png",
-    content: `
+    // ── c12 ─────────────────────────────────────────────────
+    {
+        id: 'c12',
+        source: 'legacy',
+        title: 'From Compliance to Credibility: Why Assurance Is Reshaping ESG Reporting',
+        metaTitle: 'Compliance to Credibility: Assurance Is Reshaping ESG Reporting',
+        excerpt:
+            "There is a moment in every reporting regime's life when the question changes from ‘did you disclose?’ to ‘can you prove it?‘",
+        date: 'JULY 27, 2026',
+        url: 'https://www.linkedin.com/pulse/from-compliance-credibility-why-assurance-gsovf/?trackingId=ljAPU4DJLJ6v2sJazJm6Eg%3D%3D',
+        slug: 'why-assurance-is-reshaping-esg-reporting',
+        author: 'Hussain Kalolwala, CEO, K&A',
+        image: '/blogs/why-assurance-is-reshaping-esg-reporting.webp',
+        publisher: 'LinkedIn',
+        publisherLogo: '/blogs/publishers/linkedin.png',
+        content: `
       <p>ESG reporting in India has shifted from disclosure to verification. SEBI's BRSR Core mandates independent assurance of key sustainability metrics, forcing financial-grade rigour, tighter controls, and auditor involvement. Assurance now separates credible companies from the rest, but real value lies in pairing verified numbers with meaningful strategic narrative.</p>
 
       <p>Explore the full article through the link below.</p>
 
       <p><em>The article is authored by <a href="https://www.linkedin.com/in/thekalolwala/" target="_blank" rel="noopener noreferrer">Hussain Kalolwala</a>, CEO, at <a href="https://in.linkedin.com/company/kalolwala-associates-private-limited" target="_blank" rel="noopener noreferrer">Kalolwala & Associates Private Limited</a></em></p>
     `,
-  },
+    },
 
-  // ── c11 ─────────────────────────────────────────────────
-  {
-    id: "c11",
-    source: "legacy",
-    title: "BRSR's Value Chain Moment: Is Your Supply Chain Ready to Be Disclosed?",
-    metaTitle: "BRSR Value Chain: Is Your Supply Chain Ready for Disclosure?",
-    excerpt:
-      "The next phase of India's ESG disclosure journey isn't about your company. It's about everyone your company does business with.",
-    date: "JULY 21, 2026",
-    url: "https://www.linkedin.com/pulse/brsrs-value-chain-moment-your-supply-7vabf?utm_source=share&utm_medium=member_android&utm_campaign=share_via",
-    slug: "is-your-supply-chain-ready-to-be-disclosed",
-    author: "Padmeja Ganjoo, General Manager, Sustainability, K&A",
-    image: "/blogs/is-your-supply-chain-ready-to-be-disclosed.webp",
-    publisher: "LinkedIn",
-    publisherLogo: "/blogs/publishers/linkedin.png",
-    content: `
+    // ── c11 ─────────────────────────────────────────────────
+    {
+        id: 'c11',
+        source: 'legacy',
+        title: "BRSR's Value Chain Moment: Is Your Supply Chain Ready to Be Disclosed?",
+        metaTitle: 'BRSR Value Chain: Is Your Supply Chain Ready for Disclosure?',
+        excerpt:
+            "The next phase of India's ESG disclosure journey isn't about your company. It's about everyone your company does business with.",
+        date: 'JULY 21, 2026',
+        url: 'https://www.linkedin.com/pulse/brsrs-value-chain-moment-your-supply-7vabf?utm_source=share&utm_medium=member_android&utm_campaign=share_via',
+        slug: 'is-your-supply-chain-ready-to-be-disclosed',
+        author: 'Padmeja Ganjoo, General Manager, Sustainability, K&A',
+        image: '/blogs/is-your-supply-chain-ready-to-be-disclosed.webp',
+        publisher: 'LinkedIn',
+        publisherLogo: '/blogs/publishers/linkedin.png',
+        content: `
       <p>The next phase of India's ESG disclosure journey isn't about your company. It's about everyone your company does business with.</p>
 
       <p>SEBI's Business Responsibility and Sustainability Reporting framework began with the entity itself - emissions, workforce, governance, community. But the framework's most ambitious element extends disclosure into the value chain: the suppliers, distributors, and partners that sit upstream and downstream of a listed company's operations.</p>
@@ -121,23 +121,23 @@ export const BLOG_DATA: BlogPost[] = [
       <p>The question worth debating: if your annual report were the only document an investor ever read, would they understand where your company will be in five years?</p>
       <p><em>The article is authored by <a href="https://www.linkedin.com/in/padmeja-ganjoo?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noopener noreferrer">Padmeja Ganjoo</a>, General Manager, Sustainability, at <a href="https://in.linkedin.com/company/kalolwala-associates-private-limited" target="_blank" rel="noopener noreferrer">Kalolwala & Associates Private Limited</a></em></p>
     `,
-  },
+    },
 
-  {
-    id: "c10",
-    source: "legacy",
-    title: "The Annual Report Is No Longer a Rear-View Mirror",
-    metaTitle: "",
-    excerpt:
-      "For decades, the annual report did one job: it looked backwards. That familiar model is now beginning to change, as the annual report takes on a more forward-looking role.",
-    date: "JULY 18, 2026",
-    url: "https://www.linkedin.com/pulse/annual-report-longer-rear-view-mirror-pa7of?trk=public_post_feed-article-content",
-    slug: "the-annual-report-is-no-longer-a-rear-view-mirror",
-    author: "Yatha Lakhtaria, General Manager, Research and Content, K&A",
-    image: "/blogs/the-annual-report-is-no-longer-a-rear-view-mirror.webp",
-    publisher: "LinkedIn",
-    publisherLogo: "/blogs/publishers/linkedin.png",
-    content: `
+    {
+        id: 'c10',
+        source: 'legacy',
+        title: 'The Annual Report Is No Longer a Rear-View Mirror',
+        metaTitle: 'The Annual Report Is No Longer a Rear-View Mirror',
+        excerpt:
+            'For decades, the annual report did one job: it looked backwards. That familiar model is now beginning to change, as the annual report takes on a more forward-looking role.',
+        date: 'JULY 18, 2026',
+        url: 'https://www.linkedin.com/pulse/annual-report-longer-rear-view-mirror-pa7of?trk=public_post_feed-article-content',
+        slug: 'the-annual-report-is-no-longer-a-rear-view-mirror',
+        author: 'Yatha Lakhtaria, General Manager, Research and Content, K&A',
+        image: '/blogs/the-annual-report-is-no-longer-a-rear-view-mirror.webp',
+        publisher: 'LinkedIn',
+        publisherLogo: '/blogs/publishers/linkedin.png',
+        content: `
       <p>For decades, the annual report did one job: it looked backwards, capturing twelve months of performance, audited, bound and filed. Investors read the numbers, regulators checked the boxes, and the document eventually went on a shelf.</p>
 
       <p>That familiar model is now beginning to change, as the annual report takes on a more forward-looking role.</p>
@@ -169,113 +169,112 @@ export const BLOG_DATA: BlogPost[] = [
       <p>The question worth debating: if your annual report were the only document an investor ever read, would they understand where your company will be in five years?</p>
       <p><em>The article is authored by <a href="https://in.linkedin.com/in/yathalakhtaria" target="_blank" rel="noopener noreferrer">Yatha Lakhtaria</a>, General Manager, Research and Content, at <a href="https://in.linkedin.com/company/kalolwala-associates-private-limited" target="_blank" rel="noopener noreferrer">Kalolwala & Associates Private Limited</a></em></p>
     `,
-  },
+    },
 
-  {
-    id: "c9", // Assigned a new ID to sit at the top of the list
-    source: "legacy",
-    title:
-      "Kalolwala & Associates (K&A) joins hands with Travanleo to leverage Ecodrisil to advance ESG reporting for India Inc.",
-      metaTitle: "K&A and Travanleo Partner to Advance ESG Reporting in India.",
-    excerpt:
-      "K&A partners with Travanleo Info Solutions to bring the award-winning, AI-powered Ecodrisil ESG Xpress platform to India, streamlining BRSR compliance and sustainability reporting for enterprises.",
-    date: "JUNE 22, 2026",
-    url: "https://www.aninews.in/news/business/kalolwala-amp-associates-kampa-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc20260622173735/",
-    slug: "ka-partners-with-travanleo-ecodrisil-esg-reporting",
-    author: "VMPL",
-    image: "/blogs/ka-partners-with-travanleo-ecodrisil-esg-reporting-2.webp",
-    publisher: "ANI News",
-    publisherLogo: "/blogs/publishers/ani-logo.webp",
-    additionalLinks: [
-      {
-        url: "https://www.aninews.in/news/business/kalolwala-amp-associates-kampa-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc20260622173735/",
-        publisher: "ANI News",
-        publisherLogo: "/blogs/publishers/ani-logo.webp",
-      },
-      {
-        url: "https://www.business-standard.com/content/press-releases-ani/kalolwala-associates-k-a-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc-126062201024_1.html",
-        publisher: "Business Standard",
-        publisherLogo: "/blogs/publishers/business-standard-logo-2.png",
-      },
-      {
-        url: "https://www.tribuneindia.com/news/business/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/",
-        publisher: "The Tribune",
-        publisherLogo: "/blogs/publishers/marquee/tribune.png",
-      },
-      {
-        url: "https://www.lokmattimes.com/business/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/",
-        publisher: "Lokmat Times",
-        publisherLogo: "/blogs/publishers/marquee/Lokmat.png",
-      },
-      {
-        url: "https://pioneeredge.in/ka-travanleo-partner-to-strengthen-esg-reporting-for-indian-companies/#google_vignette",
-        publisher: "Pioneer Edge",
-        publisherLogo: "/blogs/publishers/marquee/pioneerEdge.png",
-      },
-      {
-        url: "https://www.thehansindia.com/amp/karnataka/ka-partners-with-travanleo-to-strengthen-esg-reporting-for-india-inc-1089150",
-        publisher: "The Hans India",
-        publisherLogo: "/blogs/publishers/marquee/hansIndia.png",
-      },
-      {
-        url: "https://english.punjabkesari.com/business/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/",
-        publisher: "Punjab Kesari",
-        publisherLogo: "/blogs/publishers/marquee/punjubkesari.png",
-      },
-      {
-        url: "https://m.dailyhunt.in/news/india/english/tycoon+world-epaper-dh4c6a646b987d48f5b87f17d40865f089/kalolwala+associates+ka+joins+hands+with+travanleo+to+leverage+ecodrisil+to+advance+esg+reporting+for+india+inc-newsid-dh4c6a646b987d48f5b87f17d40865f089_714b34906e2711f1a9ffe06bfac350a2?sm=Y",
-        publisher: "Daily Hunt",
-        publisherLogo: "/blogs/publishers/marquee/dailyhunt.png",
-      },
-      {
-        url: "https://thecsruniverse.com/articles/kalolwala-associates-partners-with-travanleo-to-bring-ai-powered-esg-reporting-platform-ecodrisil-to-india",
-        publisher: "The CSR Universe",
-        publisherLogo: "/blogs/publishers/marquee/csr-uni.png",
-      },
-      {
-        url: "https://dailytribune.in/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/",
-        publisher: "Daily Tribune",
-        publisherLogo: "/blogs/publishers/marquee/daily-tribune.png",
-      },
-      {
-        url: "https://dailypioneer.in/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/",
-        publisher: "Daily Pioneer",
-        publisherLogo: "/blogs/publishers/marquee/daily-pioneer.png",
-      },
-      {
-        url: "https://ceotimes.in/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/",
-        publisher: "CEO Times",
-        publisherLogo: "/blogs/publishers/marquee/ceo-times.png",
-      },
-      {
-        url: "https://heraldpost.in/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/",
-        publisher: "HeraldPost",
-        publisherLogo: "/blogs/publishers/marquee/heraldpost.png",
-      },
-      {
-        url: "https://thecovermagazine.com/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/",
-        publisher: "Cover Magazine",
-        publisherLogo: "/blogs/publishers/marquee/cover-mag.png",
-      },
-      {
-        url: "https://www.esgnews.earth/latest-news/ka-partners-with-travanleo-for-esg-reporting/20100.html",
-        publisher: "ESG News",
-        publisherLogo: "/blogs/publishers/marquee/esg-news.png",
-      },
-      {
-        url: "https://etedge-insights.com/press-release/kalolwala-associates-partners-with-travanleo-to-advance-esg-reporting-for-india-inc-through-ecodrisil/?amp=1",
-        publisher: "ET Edge Insights",
-        publisherLogo: "/blogs/publishers/marquee/insignts.png",
-      },
-    ],
-    content: `
-      <p><strong>New Delhi [India], June 22:</strong> Kalolwala & Associates (K & A), one of India's leading independent Annual Reports and ESG consultants, has entered into a strategic partnership with Travanleo Info Solutions, a technology company pioneering in Enterprise Cloud, AI and Sustainability Solutions, to advance ESG reporting for India Inc.</p>
+    {
+        id: 'c9', // Assigned a new ID to sit at the top of the list
+        source: 'legacy',
+        title: 'Kalolwala & Associates (K&A) joins hands with Travanleo to leverage Ecodrisil to advance ESG reporting for India Inc.',
+        metaTitle: 'K&A and Travanleo Partner to Advance ESG Reporting in India.',
+        excerpt:
+            'K&A partners with Travanleo Info Solutions to bring the award-winning, AI-powered Ecodrisil ESG Xpress platform to India, streamlining BRSR compliance and sustainability reporting for enterprises.',
+        date: 'JUNE 22, 2026',
+        url: 'https://www.aninews.in/news/business/kalolwala-amp-associates-kampa-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc20260622173735/',
+        slug: 'ka-partners-with-travanleo-ecodrisil-esg-reporting',
+        author: 'VMPL',
+        image: '/blogs/ka-partners-with-travanleo-ecodrisil-esg-reporting-2.webp',
+        publisher: 'ANI News',
+        publisherLogo: '/blogs/publishers/ani-logo.webp',
+        additionalLinks: [
+            {
+                url: 'https://www.aninews.in/news/business/kalolwala-amp-associates-kampa-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc20260622173735/',
+                publisher: 'ANI News',
+                publisherLogo: '/blogs/publishers/ani-logo.webp',
+            },
+            {
+                url: 'https://www.business-standard.com/content/press-releases-ani/kalolwala-associates-k-a-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc-126062201024_1.html',
+                publisher: 'Business Standard',
+                publisherLogo: '/blogs/publishers/business-standard-logo-2.png',
+            },
+            {
+                url: 'https://www.tribuneindia.com/news/business/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/',
+                publisher: 'The Tribune',
+                publisherLogo: '/blogs/publishers/marquee/tribune.png',
+            },
+            {
+                url: 'https://www.lokmattimes.com/business/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/',
+                publisher: 'Lokmat Times',
+                publisherLogo: '/blogs/publishers/marquee/Lokmat.png',
+            },
+            {
+                url: 'https://pioneeredge.in/ka-travanleo-partner-to-strengthen-esg-reporting-for-indian-companies/#google_vignette',
+                publisher: 'Pioneer Edge',
+                publisherLogo: '/blogs/publishers/marquee/pioneerEdge.png',
+            },
+            {
+                url: 'https://www.thehansindia.com/amp/karnataka/ka-partners-with-travanleo-to-strengthen-esg-reporting-for-india-inc-1089150',
+                publisher: 'The Hans India',
+                publisherLogo: '/blogs/publishers/marquee/hansIndia.png',
+            },
+            {
+                url: 'https://english.punjabkesari.com/business/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/',
+                publisher: 'Punjab Kesari',
+                publisherLogo: '/blogs/publishers/marquee/punjubkesari.png',
+            },
+            {
+                url: 'https://m.dailyhunt.in/news/india/english/tycoon+world-epaper-dh4c6a646b987d48f5b87f17d40865f089/kalolwala+associates+ka+joins+hands+with+travanleo+to+leverage+ecodrisil+to+advance+esg+reporting+for+india+inc-newsid-dh4c6a646b987d48f5b87f17d40865f089_714b34906e2711f1a9ffe06bfac350a2?sm=Y',
+                publisher: 'Daily Hunt',
+                publisherLogo: '/blogs/publishers/marquee/dailyhunt.png',
+            },
+            {
+                url: 'https://thecsruniverse.com/articles/kalolwala-associates-partners-with-travanleo-to-bring-ai-powered-esg-reporting-platform-ecodrisil-to-india',
+                publisher: 'The CSR Universe',
+                publisherLogo: '/blogs/publishers/marquee/csr-uni.png',
+            },
+            {
+                url: 'https://dailytribune.in/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/',
+                publisher: 'Daily Tribune',
+                publisherLogo: '/blogs/publishers/marquee/daily-tribune.png',
+            },
+            {
+                url: 'https://dailypioneer.in/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/',
+                publisher: 'Daily Pioneer',
+                publisherLogo: '/blogs/publishers/marquee/daily-pioneer.png',
+            },
+            {
+                url: 'https://ceotimes.in/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/',
+                publisher: 'CEO Times',
+                publisherLogo: '/blogs/publishers/marquee/ceo-times.png',
+            },
+            {
+                url: 'https://heraldpost.in/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/',
+                publisher: 'HeraldPost',
+                publisherLogo: '/blogs/publishers/marquee/heraldpost.png',
+            },
+            {
+                url: 'https://thecovermagazine.com/kalolwala-associates-ka-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc/',
+                publisher: 'Cover Magazine',
+                publisherLogo: '/blogs/publishers/marquee/cover-mag.png',
+            },
+            {
+                url: 'https://www.esgnews.earth/latest-news/ka-partners-with-travanleo-for-esg-reporting/20100.html',
+                publisher: 'ESG News',
+                publisherLogo: '/blogs/publishers/marquee/esg-news.png',
+            },
+            {
+                url: 'https://etedge-insights.com/press-release/kalolwala-associates-partners-with-travanleo-to-advance-esg-reporting-for-india-inc-through-ecodrisil/?amp=1',
+                publisher: 'ET Edge Insights',
+                publisherLogo: '/blogs/publishers/marquee/insignts.png',
+            },
+        ],
+        content: `
+      <p><strong>New Delhi [India], June 22:</strong> Kalolwala & Associates (K&A), one of India's leading independent Annual Reports and ESG consultants, has entered into a strategic partnership with Travanleo Info Solutions, a technology company pioneering in Enterprise Cloud, AI and Sustainability Solutions, to advance ESG reporting for India Inc.</p>
 
-      <p>As Travanleo's exclusive partner in India, K & A will be responsible for delivering and implementing its award-winning AI-powered sustainability reporting platform, Ecodrisil ESG Xpress, along with related services, across the country.</p>
+      <p>As Travanleo's exclusive partner in India, K&A will be responsible for delivering and implementing its award-winning AI-powered sustainability reporting platform, Ecodrisil ESG Xpress, along with related services, across the country.</p>
 
-      <p>This development comes at a time when India Inc. is facing stringent environmental regulations and growing pressure for transparent sustainability metrics in line with India's net-zero ambition. K & A's deep understanding of India's regulatory and reporting landscape, combined with Ecodrisil's advanced ESG AI and automation capabilities, will help Indian companies streamline their ESG reporting, improve data accuracy, support their transition to low-carbon companies, and become future-ready.</p>
+      <p>This development comes at a time when India Inc. is facing stringent environmental regulations and growing pressure for transparent sustainability metrics in line with India's net-zero ambition. K&A's deep understanding of India's regulatory and reporting landscape, combined with Ecodrisil's advanced ESG AI and automation capabilities, will help Indian companies streamline their ESG reporting, improve data accuracy, support their transition to low-carbon companies, and become future-ready.</p>
 
-      <p>The alliance marks a new dawn for ESG reporting in India, and K & A is pleased to introduce a platform that is benchmarked against global best practices and has proven its effectiveness across international markets. The initiative will help improve accuracy, speed, and confidence in ESG reporting.</p>
+      <p>The alliance marks a new dawn for ESG reporting in India, and K&A is pleased to introduce a platform that is benchmarked against global best practices and has proven its effectiveness across international markets. The initiative will help improve accuracy, speed, and confidence in ESG reporting.</p>
 
       <h2>Uniting expertise and innovation</h2>
 
@@ -283,18 +282,18 @@ export const BLOG_DATA: BlogPost[] = [
 
       <ul>
         <li><strong>Ecodrisil's Technological Supremacy:</strong> Travanleo Info Solutions' Ecodrisil ESG Xpress features a proprietary AI co-pilot along with a range of data management and automation capabilities. The platform helps automate complex Scope 1, 2, and 3 carbon emissions tracking and generates audit-ready ESG reports aligned with global and local standards.</li>
-        <li><strong>K & A's Market Expertise:</strong> K & A has an established reputation and extensive domain expertise in Annual Reports, Sustainability Reports, BRSR, and ESG advisory. K & A's strong understanding of the Indian business landscape enables it to offer the strategic implementation, localisation, and advisory support required for companies to adopt the technology and fully realise its value for regulatory compliance and strategic growth.</li>
+        <li><strong>K&A's Market Expertise:</strong> K&A has an established reputation and extensive domain expertise in Annual Reports, Sustainability Reports, BRSR, and ESG advisory. K&A's strong understanding of the Indian business landscape enables it to offer the strategic implementation, localisation, and advisory support required for companies to adopt the technology and fully realise its value for regulatory compliance and strategic growth.</li>
       </ul>
 
-      <p>"Our exclusive partnership with Ecodrisil marks a transformative moment for how India Inc. approaches sustainability," said Jumana Vadnagarwala, Chief Strategy Officer & Co-Founder, K & A.</p>
+      <p>"Our exclusive partnership with Ecodrisil marks a transformative moment for how India Inc. approaches sustainability," said Jumana Vadnagarwala, Chief Strategy Officer & Co-Founder, K&A.</p>
 
-      <p>"Indian businesses are navigating a complex transition, particularly with the rigorous demands of BRSR compliance. By bringing Ecodrisil's incredibly robust ESG AI platform to India, and coupling it with our boots-on-the-ground advisory expertise, we are removing the friction from ESG reporting. Together, we are equipping Indian enterprises to lead on the global sustainability stage," said Hussain Kalolwala, CEO & Co-Founder, K & A.</p>
+      <p>"Indian businesses are navigating a complex transition, particularly with the rigorous demands of BRSR compliance. By bringing Ecodrisil's incredibly robust ESG AI platform to India, and coupling it with our boots-on-the-ground advisory expertise, we are removing the friction from ESG reporting. Together, we are equipping Indian enterprises to lead on the global sustainability stage," said Hussain Kalolwala, CEO & Co-Founder, K&A.</p>
 
-      <p>"India is a critical market in the global ESG landscape, and scaling impact here requires both technological depth and strong local expertise. K & A brings unmatched market understanding and credibility. Together, we aim to enable organizations to move from fragmented ESG efforts to structured, AI-driven, audit-ready sustainability practices through Ecodrisil - delivering clarity, confidence, and compliance", said Mr Sankar Krishnan, CEO of Travanleo.</p>
+      <p>"India is a critical market in the global ESG landscape, and scaling impact here requires both technological depth and strong local expertise. K&A brings unmatched market understanding and credibility. Together, we aim to enable organizations to move from fragmented ESG efforts to structured, AI-driven, audit-ready sustainability practices through Ecodrisil - delivering clarity, confidence, and compliance", said Mr Sankar Krishnan, CEO of Travanleo.</p>
 
       <h2>Value proposition for India Inc.</h2>
 
-      <p>Indian companies using the Ecodrisil platform through K & A will benefit from the following:</p>
+      <p>Indian companies using the Ecodrisil platform through K&A will benefit from the following:</p>
 
       <ul>
         <li><strong>Effortless BRSR & Global Compliance:</strong> Access to pre-mapped frameworks makes it seamless for companies to comply with SEBI's Business Responsibility and Sustainability Reporting (BRSR) requirements, conduct materiality assessments, and fulfil global standards such as GRI, SASB, CDP, GRESB, and more.</li>
@@ -303,23 +302,23 @@ export const BLOG_DATA: BlogPost[] = [
         <li><strong>Audit-Ready Transparency:</strong> End-to-end digital footprints ensure data integrity and make third-party verification smooth and reliable.</li>
       </ul>
     `,
-  },
-  // ── c8 ──────────────────────────────────────────────────
-  {
-    id: "c8",
-    source: "legacy",
-    title: "Fault Lines in West Asia: A Wake-up Call for Global Supply Chains",
-    metaTitle: "Fault Lines in West Asia: Risks for Global Supply Chains 2026",
-    excerpt:
-      "What is unfolding in West Asia may appear geographically contained. For businesses around the world, it is anything but.",
-    date: "MARCH 20, 2026",
-    url: "https://www.linkedin.com/pulse/fault-lines-west-asia-wake-up-call-sl1zc?trk=public_post_feed-article-content",
-    slug: "fault-lines-in-west-asia",
-    author: "Editorial team at Kalolwala & Associates Private Limited",
-    image: "/blogs/Fault Lines in West Asia.png",
-    publisher: "LinkedIn",
-    publisherLogo: "/blogs/publishers/linkedin.png",
-    content: `
+    },
+    // ── c8 ──────────────────────────────────────────────────
+    {
+        id: 'c8',
+        source: 'legacy',
+        title: 'Fault Lines in West Asia: A Wake-up Call for Global Supply Chains',
+        metaTitle: 'Fault Lines in West Asia: Risks for Global Supply Chains 2026',
+        excerpt:
+            'What is unfolding in West Asia may appear geographically contained. For businesses around the world, it is anything but.',
+        date: 'MARCH 20, 2026',
+        url: 'https://www.linkedin.com/pulse/fault-lines-west-asia-wake-up-call-sl1zc?trk=public_post_feed-article-content',
+        slug: 'fault-lines-in-west-asia',
+        author: 'K&A Editorial',
+        image: '/blogs/Fault Lines in West Asia.png',
+        publisher: 'LinkedIn',
+        publisherLogo: '/blogs/publishers/linkedin.png',
+        content: `
       <p>What is unfolding in West Asia may appear geographically contained. For businesses around the world, it is anything but. It is something far more immediate. It is a reminder that supply chains, energy markets and geopolitics remain tightly interwoven and that disruptions in one corner of the world seldom stay contained.</p>
 
       <p>The first tremors can already be felt in energy markets. With the region accounting for a lion’s share of global oil flows, even the perception of disruption has pushed crude prices higher. That, in turn, will translate into higher input costs, compressed margins and renewed inflationary pressure across economies.</p>
@@ -346,24 +345,24 @@ export const BLOG_DATA: BlogPost[] = [
 
       <p>For corporates, the question is no longer whether such disruptions will occur, but how prepared they are when they do.</p>
     `,
-  },
+    },
 
-  // ── c0 ──────────────────────────────────────────────────
-  {
-    id: "c0",
-    source: "legacy",
-    title: 'Why Stakeholder Comms is the new "Marketing."',
-    metaTitle: "",
-    excerpt:
-      "Conventional marketing is a monologue; Stakeholder Communication is a relationship. As we move into the next fiscal year, the brands that lead will be those that communicate with substance, not noise.",
-    date: "MARCH 09, 2026",
-    url: "https://www.linkedin.com/pulse/why-stakeholder-comms-new-marketing-qwrac?trk=public_post_feed-article-content",
-    slug: "why-stakeholder-comms-is-the-new-marketing",
-    author: "Thoughts penned down by Sucharita Mitra , Research & Content, K&A",
-    image: "/blogs/Stakeholder Comms.png",
-    publisher: "LinkedIn",
-    publisherLogo: "/blogs/publishers/linkedin.png",
-    content: `
+    // ── c0 ──────────────────────────────────────────────────
+    {
+        id: 'c0',
+        source: 'legacy',
+        title: 'Why Stakeholder Comms is the new "Marketing."',
+        metaTitle: 'Why Stakeholder Comms is the new "Marketing."',
+        excerpt:
+            'Conventional marketing is a monologue; Stakeholder Communication is a relationship. As we move into the next fiscal year, the brands that lead will be those that communicate with substance, not noise.',
+        date: 'MARCH 09, 2026',
+        url: 'https://www.linkedin.com/pulse/why-stakeholder-comms-new-marketing-qwrac?trk=public_post_feed-article-content',
+        slug: 'why-stakeholder-comms-is-the-new-marketing',
+        author: 'Thoughts penned down by Sucharita Mitra , Research & Content, K&A',
+        image: '/blogs/Stakeholder Comms.png',
+        publisher: 'LinkedIn',
+        publisherLogo: '/blogs/publishers/linkedin.png',
+        content: `
       <p>One Simple question: When you are scrolling through your feed, what actually makes you stop? Is it a rundown of Q2 data, or the story behind how those numbers were earned?</p>
 
       <p>If your answer is the story, you are not alone. As humans, we are naturally attracted to the idea of winning. Data matters, but it is the story behind the numbers that creates the impact. Conventional marketing is lagging because it focuses on the ‘what’, while the world has already shifted to asking ‘how’ and ‘why’.</p>
@@ -388,24 +387,24 @@ export const BLOG_DATA: BlogPost[] = [
 
       <p><strong>Conventional marketing is a monologue; Stakeholder Communication is a relationship.</strong> As we move into the next fiscal year, the brands that lead will be those that communicate with substance, not noise.</p>
     `,
-  },
+    },
 
-  // ── c1 ──────────────────────────────────────────────────
-  {
-    id: "c1",
-    source: "legacy",
-    title: "IFRS S2 Amendments 2025: ISSB Climate Disclosure Reset",
-    metaTitle: "IFRS S2 Amendments 2025: Key ISSB Climate Disclosure Changes",
-    excerpt:
-      "ISSB’s 2025 IFRS S2 amendments simplify Scope 3, financed emissions and GHG reporting, improving global climate disclosure consistency by 2027.",
-    date: "DECEMBER 18, 2025",
-    url: "https://www.linkedin.com/pulse/clearer-climate-lens-issbs-practical-cvy2c?trk=public_post_feed-article-content",
-    slug: "ifrs-s2-amendments-2025-issb-climate-disclosures",
-    author: "Research by Navdip Patel · Edited by Shreya Sarkar",
-    image: "/blogs/A_clearer_climate_lens.png",
-    publisher: "LinkedIn",
-    publisherLogo: "/blogs/publishers/linkedin.png",
-    content: `
+    // ── c1 ──────────────────────────────────────────────────
+    {
+        id: 'c1',
+        source: 'legacy',
+        title: 'IFRS S2 Amendments 2025: ISSB Climate Disclosure Reset',
+        metaTitle: 'IFRS S2 Amendments 2025: Key ISSB Climate Disclosure Changes',
+        excerpt:
+            'ISSB’s 2025 IFRS S2 amendments simplify Scope 3, financed emissions and GHG reporting, improving global climate disclosure consistency by 2027.',
+        date: 'DECEMBER 18, 2025',
+        url: 'https://www.linkedin.com/pulse/clearer-climate-lens-issbs-practical-cvy2c?trk=public_post_feed-article-content',
+        slug: 'ifrs-s2-amendments-2025-issb-climate-disclosures',
+        author: 'Research by Navdip Patel · Edited by Shreya Sarkar',
+        image: '/blogs/A_clearer_climate_lens.png',
+        publisher: 'LinkedIn',
+        publisherLogo: '/blogs/publishers/linkedin.png',
+        content: `
       <p>As global organisations move from stated ambition to actual delivery on climate reporting, the conversation is shifting. The question is no longer "What should we disclose?" but "How do we disclose it consistently, credibly and at scale?"</p>
 
       <p>This transition has surfaced practical hurdles, from emissions measurement to jurisdiction-specific constraints, especially as companies begin applying IFRS S2 – Climate-related Disclosures in real reporting cycles.</p>
@@ -468,24 +467,24 @@ export const BLOG_DATA: BlogPost[] = [
 
       <blockquote>At K&A, we continue to monitor global sustainability reporting frameworks closely, helping organisations transform evolving standards into clear, credible and investor-ready disclosures.</blockquote>
     `,
-  },
+    },
 
-  // ── c2 ──────────────────────────────────────────────────
-  {
-    id: "c2",
-    source: "legacy",
-    title: "Bond Yields in India: What It Means for Banks",
-    metaTitle: "",
-    excerpt:
-      "Rising bond yields in India are squeezing bank treasury income. Understand the inverse bond price-yield link, RBI impact and Q2 banking trends.",
-    date: "NOVEMBER 04, 2025",
-    url: "https://www.linkedin.com/pulse/perpetual-winner-like-james-bond-kalolwala-associates-private-limit-iyioc?trk=public_post_feed-article-content",
-    slug: "bond-yields-india-impact-on-banks",
-    author: "Rajat Chakroborty · Editorial, K&A",
-    image: "/blogs/Not a perpetual winner like James Bond!.png",
-    publisher: "LinkedIn",
-    publisherLogo: "/blogs/publishers/linkedin.png",
-    content: `
+    // ── c2 ──────────────────────────────────────────────────
+    {
+        id: 'c2',
+        source: 'legacy',
+        title: 'Bond Yields in India: What It Means for Banks',
+        metaTitle: 'Bond Yields in India: What It Means for Banks',
+        excerpt:
+            'Rising bond yields in India are squeezing bank treasury income. Understand the inverse bond price-yield link, RBI impact and Q2 banking trends.',
+        date: 'NOVEMBER 04, 2025',
+        url: 'https://www.linkedin.com/pulse/perpetual-winner-like-james-bond-kalolwala-associates-private-limit-iyioc?trk=public_post_feed-article-content',
+        slug: 'bond-yields-india-impact-on-banks',
+        author: 'Rajat Chakroborty · Editorial, K&A',
+        image: '/blogs/Not a perpetual winner like James Bond!.png',
+        publisher: 'LinkedIn',
+        publisherLogo: '/blogs/publishers/linkedin.png',
+        content: `
       <p>Most Indians have watched the iconic James Bond movies or at least heard of them, where the super hero always wins no matter what the odds. However, here we are dealing with a different type of bond.</p>
 
       <p>Bonds are essentially loans given by investors to borrowers such as governments, corporations or public institutions. In India, government bonds are issued through auctions conducted by the Reserve Bank of India (RBI). Commercial banks, insurance companies, mutual funds and large institutional investors buy these bonds. After the initial issue, bonds can be traded like shares in the secondary debt market.</p>
@@ -511,24 +510,24 @@ export const BLOG_DATA: BlogPost[] = [
       <h2>The Silver Lining</h2>
       <p>The instability in bond yields may not continue for long with the RBI expected to step in and Indo-US trade talks reaching finalisation after a long hiatus, which will strengthen confidence of global investors in India's sovereign bonds.</p>
     `,
-  },
+    },
 
-  // ── c3 ──────────────────────────────────────────────────
-  {
-    id: "c3",
-    source: "legacy",
-    title: "FMCG Innovation-Led Marketing in the Digital Era",
-    metaTitle: "",
-    excerpt:
-      "Innovation-led FMCG marketing is reshaping India’s consumer market through digital, influencers, quick commerce and AI-driven personalization.",
-    date: "OCTOBER 27, 2025",
-    url: "https://www.linkedin.com/pulse/fmcg-innovation-led-marketing-kalolwala-associates-private-limit-wfgkc?trk=public_post_feed-article-content",
-    slug: "innovation-led-marketing-in-indian-fmcg-industry",
-    author: "Pinku Shaw",
-    image: "/blogs/FMCG - Innovation-led marketing.png",
-    publisher: "LinkedIn",
-    publisherLogo: "/blogs/publishers/linkedin.png",
-    content: `
+    // ── c3 ──────────────────────────────────────────────────
+    {
+        id: 'c3',
+        source: 'legacy',
+        title: 'FMCG Innovation-Led Marketing in the Digital Era',
+        metaTitle: 'FMCG Innovation-Led Marketing in the Digital Era',
+        excerpt:
+            'Innovation-led FMCG marketing is reshaping India’s consumer market through digital, influencers, quick commerce and AI-driven personalization.',
+        date: 'OCTOBER 27, 2025',
+        url: 'https://www.linkedin.com/pulse/fmcg-innovation-led-marketing-kalolwala-associates-private-limit-wfgkc?trk=public_post_feed-article-content',
+        slug: 'innovation-led-marketing-in-indian-fmcg-industry',
+        author: 'Pinku Shaw',
+        image: '/blogs/FMCG - Innovation-led marketing.png',
+        publisher: 'LinkedIn',
+        publisherLogo: '/blogs/publishers/linkedin.png',
+        content: `
       <p>Pinku Shaw pens down why marketing in FMCG is game-changing.</p>
 
       <p>The FMCG industry has always been a race for consumer attention. But what once depended on packaging and retail display has now shifted to personal screens, emotions and values. In this high-speed market, marketing is no longer a support function, it has become the primary engine of brand survival, loyalty and growth.</p>
@@ -580,24 +579,24 @@ export const BLOG_DATA: BlogPost[] = [
       <h2>The Era of Influencers</h2>
       <p>Influencers have replaced television icons as the new brand ambassadors. They speak the language of the audience and embed products into real life. Influencers create everyday context, making marketing feel natural rather than promotional.</p>
     `,
-  },
+    },
 
-  // ── c4 ──────────────────────────────────────────────────
-  {
-    id: "c4",
-    source: "legacy",
-    title: "AI vs Humans in Client Relationship Management",
-    metaTitle: "",
-    excerpt:
-      "AI can automate project management, but emotional intelligence drives trust in client relationships. Discover why humans still hold the edge.",
-    date: "APRIL 30, 2025",
-    url: "https://www.linkedin.com/pulse/ai-vs-humans-client-relationship-tbp5c?trk=public_post_feed-article-content",
-    slug: "ai-vs-humans-role-in-client-relationship-management",
-    author: "K&A Editorial",
-    image: "/blogs/AI vs Humans - Client Relationship.jpeg",
-    publisher: "LinkedIn",
-    publisherLogo: "/blogs/publishers/linkedin.png",
-    content: `
+    // ── c4 ──────────────────────────────────────────────────
+    {
+        id: 'c4',
+        source: 'legacy',
+        title: 'AI vs Humans in Client Relationship Management',
+        metaTitle: 'AI vs Humans in Client Relationship Management',
+        excerpt:
+            'AI can automate project management, but emotional intelligence drives trust in client relationships. Discover why humans still hold the edge.',
+        date: 'APRIL 30, 2025',
+        url: 'https://www.linkedin.com/pulse/ai-vs-humans-client-relationship-tbp5c?trk=public_post_feed-article-content',
+        slug: 'ai-vs-humans-role-in-client-relationship-management',
+        author: 'Shaun Ward',
+        image: '/blogs/AI vs Humans - Client Relationship.jpeg',
+        publisher: 'LinkedIn',
+        publisherLogo: '/blogs/publishers/linkedin.png',
+        content: `
       <h2>The Human Edge: Why AI Can't Replace Emotional Intelligence in Project Management and Client Relationship</h2>
 
       <p>In today's fast-changing business landscape, Artificial Intelligence (AI) has made its way into many aspects of project management. It can handle scheduling, automate budgeting, optimize communication, and gather insights from data. AI tools are even capable of predicting risks, assigning tasks based on workload, and drafting emails or meeting minutes. While these capabilities are impressive, there is one crucial area where AI falls short — emotional intelligence.</p>
@@ -620,24 +619,24 @@ export const BLOG_DATA: BlogPost[] = [
 
       <blockquote>And that's something no AI prompt can give you… yet.</blockquote>
     `,
-  },
+    },
 
-  // ── c5 ──────────────────────────────────────────────────
-  {
-    id: "c5",
-    source: "legacy",
-    title: "Balance or AI to Build Client Relationship",
-    metaTitle: "",
-    excerpt:
-      "AI is transforming sales automation, but human intuition still drives trust and conversions. Discover how agencies can balance AI and human selling.",
-    date: "APRIL 23, 2025",
-    url: "https://www.linkedin.com/pulse/ai-vs-humans-battlefield-sales-kalolwala-associates-private-limit-qe8uc?trk=public_post_feed-article-content",
-    slug: "ai-vs-humans-sales-strategy-automation-balance",
-    author: "Naeem Kangroo",
-    image: "/blogs/AI vs Humans - Battlefield - Sales.jpeg",
-    publisher: "LinkedIn",
-    publisherLogo: "/blogs/publishers/linkedin.png",
-    content: `
+    // ── c5 ──────────────────────────────────────────────────
+    {
+        id: 'c5',
+        source: 'legacy',
+        title: 'Balance or AI to Build Client Relationship',
+        metaTitle: 'Balance or AI to Build Client Relationship',
+        excerpt:
+            'AI is transforming sales automation, but human intuition still drives trust and conversions. Discover how agencies can balance AI and human selling.',
+        date: 'APRIL 23, 2025',
+        url: 'https://www.linkedin.com/pulse/ai-vs-humans-battlefield-sales-kalolwala-associates-private-limit-qe8uc?trk=public_post_feed-article-content',
+        slug: 'ai-vs-humans-sales-strategy-automation-balance',
+        author: 'Naeem Kangroo',
+        image: '/blogs/AI vs Humans - Battlefield - Sales.jpeg',
+        publisher: 'LinkedIn',
+        publisherLogo: '/blogs/publishers/linkedin.png',
+        content: `
       <p>A large corporation has an army of sales reps, a full-stack AI suite, and a CRM that can practically talk to clients. An agency has few people, a shared spreadsheet, and an inbox full of real conversations.</p>
       <p>Both are in the same market. Both are chasing growth. Who wins?</p>
 
@@ -682,24 +681,24 @@ export const BLOG_DATA: BlogPost[] = [
       <p>While large corporations adopt AI at scale, smaller ones are catching up with intent — but caution. And maybe that's not such a bad thing.</p>
       <p>Sustainable growth is better than sudden disruption. Especially when the strength of smaller agencies lies in human-first business.</p>
     `,
-  },
+    },
 
-  // ── c6 ──────────────────────────────────────────────────
-  {
-    id: "c6",
-    source: "legacy",
-    title: "BRSR Updates 2025: Key Changes for Listed Entities",
-    metaTitle: "",
-    excerpt:
-      "SEBI’s 2025 BRSR updates introduce green credit disclosure, flexible assurance options and revised ESG reporting norms for listed entities.",
-    date: "APRIL 01, 2025",
-    url: "https://www.linkedin.com/pulse/key-updates-brsr-listed-entities-kalolwala-associates-private-limit-xynlc?trk=public_post_feed-article-content",
-    slug: "brsr-updates-sebi-esg-disclosure-listed-entities",
-    author: "K&A Research Desk",
-    image: "/blogs/Key Updates on BRSR for Listed Entities.png",
-    publisher: "LinkedIn",
-    publisherLogo: "/blogs/publishers/linkedin.png",
-    content: `
+    // ── c6 ──────────────────────────────────────────────────
+    {
+        id: 'c6',
+        source: 'legacy',
+        title: 'BRSR Updates 2025: Key Changes for Listed Entities',
+        metaTitle: 'BRSR Updates 2025: Key Changes for Listed Entities',
+        excerpt:
+            'SEBI’s 2025 BRSR updates introduce green credit disclosure, flexible assurance options and revised ESG reporting norms for listed entities.',
+        date: 'APRIL 01, 2025',
+        url: 'https://www.linkedin.com/pulse/key-updates-brsr-listed-entities-kalolwala-associates-private-limit-xynlc?trk=public_post_feed-article-content',
+        slug: 'brsr-updates-sebi-esg-disclosure-listed-entities',
+        author: 'K&A Research Desk',
+        image: '/blogs/Key Updates on BRSR for Listed Entities.png',
+        publisher: 'LinkedIn',
+        publisherLogo: '/blogs/publishers/linkedin.png',
+        content: `
       <h2>Key Updates On BRSR for Listed Entities</h2>
 
       <p>SEBI has introduced key measures to streamline ESG disclosures, enhance transparency, and reduce compliance burdens for listed entities and their value chains.</p>
@@ -714,23 +713,23 @@ export const BLOG_DATA: BlogPost[] = [
 
       <p>Read the full circular here: <a href="https://www.sebi.gov.in/legal/circulars/mar-2025/measures-to-facilitate-ease-of-doing-business-with-respect-to-framework-for-assurance-or-assessment-esg-disclosures-for-value-chain-and-introduction-of-voluntary-disclosure-on-green-credits_93102.html#Sustainability" target="_blank" rel="noopener noreferrer">SEBI Circular — BRSR Framework Updates</a></p>
     `,
-  },
+    },
 
-  // ── c7 ──────────────────────────────────────────────────
-  {
-    id: "c7",
-    source: "legacy",
-    title: "K & A: Unleashing The Power of Stakeholder Reporting",
-    metaTitle: "",
-    excerpt: "Making numbers speak",
-    date: "MARCH 27, 2025",
-    url: "https://www.business-standard.com/content/press-releases-ani/k-a-unleashing-the-power-of-stakeholder-reporting-125032700013_1.html",
-    slug: "unleashing-power-of-stakeholder-reporting",
-    author: "K&A",
-    image: "/images/media/Rectangle20.png",
-    publisher: "Business Standard",
-    publisherLogo: "/blogs/publishers/business-standard-logo-2.png",
-    content: `
+    // ── c7 ──────────────────────────────────────────────────
+    {
+        id: 'c7',
+        source: 'legacy',
+        title: 'K&A: Unleashing The Power of Stakeholder Reporting',
+        metaTitle: 'K&A: Unleashing The Power of Stakeholder Reporting',
+        excerpt: 'Making numbers speak',
+        date: 'MARCH 27, 2025',
+        url: 'https://www.business-standard.com/content/press-releases-ani/k-a-unleashing-the-power-of-stakeholder-reporting-125032700013_1.html',
+        slug: 'unleashing-power-of-stakeholder-reporting',
+        author: 'K&A',
+        image: '/images/media/Rectangle20.png',
+        publisher: 'Business Standard',
+        publisherLogo: '/blogs/publishers/business-standard-logo-2.png',
+        content: `
       <p>In the world of stakeholder reporting, revolutions are fought with the firepower of intellect and the intent to drive long-term positive change in society.</p>
 
       <p>The concept of communicating with shareholders first germinated in the 17th century with the Dutch East India Company (VOC), established in 1602, being the first company to issue shares to the public and provide reports to shareholders, preparing the foundation for modern corporate reporting practices.</p>
@@ -742,34 +741,71 @@ export const BLOG_DATA: BlogPost[] = [
 
       <p>The global financial crisis paved the way for integrated thinking and reporting on financial and non-financial aspects of a business. The intensifying risk of climate change and the pandemic further fuelled efforts towards integrated reporting.</p>
 
-      <p>K & A have also evolved with this changing landscape. As businesses made a decisive move towards more holistic and transparent integrated reporting, K & A rose to the occasion, crafting integrated reports for over 50 companies over the last three years. Through each report, they weave an impactful story with clarity and authenticity for their clients, bridging strategy with sustainability and vision with value creation.</p>
+      <p>K&A have also evolved with this changing landscape. As businesses made a decisive move towards more holistic and transparent integrated reporting, K&A rose to the occasion, crafting integrated reports for over 50 companies over the last three years. Through each report, they weave an impactful story with clarity and authenticity for their clients, bridging strategy with sustainability and vision with value creation.</p>
 
       <h2>ESG and BRSR Expertise</h2>
       <p>A natural extension of this trend is the emphasis on Environmental, Social and Governance (ESG) and Business Responsibility and Sustainability Reporting in India. India's Business Responsibility & Sustainability Reporting is now mandated by the Market Regulator, the Securities & Exchange Board of India (SEBI).</p>
 
-      <p>At K & A, the focus is on ESG reporting and BRSR with the strength and expertise of the internal 10-member ESG Team, who bring experience, passion and precision to each report. Committed to making sustainability efforts measurable and meaningful, the team deciphers complex data to create transparent, insightful and impactful reports that resonate with stakeholders. In FY 24-25 itself, they have managed to make 15+ Sustainability reports and 30+ BRSRs.</p>
+      <p>At K&A, the focus is on ESG reporting and BRSR with the strength and expertise of the internal 10-member ESG Team, who bring experience, passion and precision to each report. Committed to making sustainability efforts measurable and meaningful, the team deciphers complex data to create transparent, insightful and impactful reports that resonate with stakeholders. In FY 24-25 itself, they have managed to make 15+ Sustainability reports and 30+ BRSRs.</p>
 
       <p>Today, there are many global standards and regulations — United Nations Sustainable Development Goals (SDGs) Reporting, Sustainability Accounting Standards Board; Task Force on Climate-related Financial Disclosures; IRIS+ — which emphasise the importance of balancing profit with an inclusive long-term purpose of value creation for all.</p>
 
       <h2>At the Forefront of Stakeholder Communication</h2>
-      <p>As a trusted and leading brand in the realm of stakeholder-centric communication, K & A unleashes the power of stakeholder reporting, telling the stories of brands and businesses to stakeholders in a manner that is transparent, captivating and confidence-enhancing.</p>
+      <p>As a trusted and leading brand in the realm of stakeholder-centric communication, K&A unleashes the power of stakeholder reporting, telling the stories of brands and businesses to stakeholders in a manner that is transparent, captivating and confidence-enhancing.</p>
 
-      <blockquote>K & A: Rising Together</blockquote>
+      <blockquote>K&A: Rising Together</blockquote>
     `,
-  },
-];
+    },
+]
 
 /**
  * Look up a blog post by its slug.
  * Returns undefined if no match is found.
  */
 export function getBlogBySlug(slug: string): BlogPost | undefined {
-  return BLOG_DATA.find((post) => post.slug === slug);
+    return BLOG_DATA.find((post) => post.slug === slug)
 }
 
 /**
  * Returns all blog posts that have internal content (slug + content defined).
  */
 export function getInternalBlogs(): BlogPost[] {
-  return BLOG_DATA.filter((post) => post.slug && post.content);
+    return BLOG_DATA.filter((post) => post.slug && post.content)
+}
+
+export interface MarqueeLink {
+    url: string
+    publisher: string
+    publisherLogo: string
+}
+
+/**
+ * Returns a deduplicated list of all publishers and their logos across all blog posts.
+ */
+export function getAllPublishers(): MarqueeLink[] {
+    const map = new Map<string, MarqueeLink>()
+
+    for (const post of BLOG_DATA) {
+        if (post.publisher && post.publisherLogo && !map.has(post.publisher)) {
+            map.set(post.publisher, {
+                publisher: post.publisher,
+                publisherLogo: post.publisherLogo,
+                url: post.url || '#',
+            })
+        }
+
+        if (post.additionalLinks) {
+            for (const link of post.additionalLinks) {
+                if (!map.has(link.publisher)) {
+                    map.set(link.publisher, {
+                        publisher: link.publisher,
+                        publisherLogo: link.publisherLogo,
+                        url: link.url || '#',
+                    })
+                }
+            }
+        }
+    }
+
+    return Array.from(map.values())
 }
