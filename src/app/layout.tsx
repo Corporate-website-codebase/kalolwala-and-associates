@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Anton, Noto_Sans } from "next/font/google";
 // Import the optimized GTM component
-import { GoogleTagManager } from "@next/third-parties/google"; 
+import { GoogleTagManager } from "@next/third-parties/google";
 import Navbar from "@/components/Navbar";
 import SmoothScroll from "@/components/SmoothScroll";
 import { PassTransitionProvider } from "@/components/StackedCurtainTransition";
@@ -84,7 +84,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           content="nZdF0YGHOkhdaZjvtTM7t5y7tvx23ggkUuKt3HwUopM"
         />
         {/* Add preconnect to speed up Typekit fetching without removing it */}
-        
+
         {/* <link rel="preconnect" href="https://use.typekit.net" crossOrigin="anonymous" /> */}
         {/* <link rel="stylesheet" href="https://use.typekit.net/zmg6oqe.css" /> */}
       </head>
@@ -99,9 +99,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </noscript>
         <PassTransitionProvider colors={["#555555", "#3D3D3D", "#252525"]}>
           <Navbar />
-          <SmoothScroll>
+          {/* <SmoothScroll> */}
             <main className="relative w-full h-full selection:bg-yellow-400/15">{children}</main>
-          </SmoothScroll>
+          {/* </SmoothScroll> */}
           {/* <Popup /> */}
         </PassTransitionProvider>
         {/* Use the native Next.js GTM component which handles hydration automatically */}
