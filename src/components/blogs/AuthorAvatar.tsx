@@ -74,7 +74,7 @@ export default function AuthorAvatar({
                     alt={author || 'K&A'}
                     width={40}
                     height={40}
-                    className="w-full h-full object-contain p-1"
+                    className="w-full h-full object-contain"
                 />
             </div>
         )
