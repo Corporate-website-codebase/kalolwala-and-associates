@@ -18,9 +18,9 @@ export const organizationGraphSchema = {
             logo: {
                 '@type': 'ImageObject',
                 '@id': `${BASE_URL}/#logo`,
-                url: `${BASE_URL}/kna2.svg`,
-                width: 512,
-                height: 512,
+                url: `${BASE_URL}/images/kna.png`,
+                width: 1276,
+                height: 1276,
                 caption: 'Kalolwala & Associates',
             },
             image: { '@id': `${BASE_URL}/#logo` },

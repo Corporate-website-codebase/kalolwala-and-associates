@@ -90,6 +90,9 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params
+    const siteUrl = process.env.SITE_URL || 'https://www.kalolwala.com'
+    const blogPath = `/blogs/${slug}`
+    const blogUrl = `${siteUrl}${blogPath}`
 
     /*
      * Check existing local blogs first
@@ -99,8 +102,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     if (localPost) {
         const blogTitle = localPost.metaTitle || localPost.title
         const blogDescription = localPost.excerpt || localPost.title
-        const blogUrl = `https://www.kalolwala.com/blogs/${slug}`
-        const blogImage = localPost.image || ''
+        const ogImageUrl = `/api/og?title=${encodeURIComponent(blogTitle)}&path=${encodeURIComponent(blogPath)}`
 
         return {
             title: blogTitle,
@@ -110,7 +112,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
                 follow: true,
             },
             alternates: {
-                canonical: `/blogs/${slug}`,
+                canonical: blogPath,
             },
             openGraph: {
                 title: blogTitle,
@@ -122,7 +124,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
                 authors: localPost.author ? [localPost.author] : ['Kalolwala & Associates'],
                 images: [
                     {
-                        url: blogImage || `/api/og?title=${encodeURIComponent(blogTitle)}`,
+                        url: ogImageUrl,
+                        width: 1200,
+                        height: 630,
                         alt: blogTitle,
                     },
                 ],
@@ -131,7 +135,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
                 card: 'summary_large_image',
                 title: blogTitle,
                 description: blogDescription,
-                images: [blogImage || `/api/og?title=${encodeURIComponent(blogTitle)}`],
+                images: [ogImageUrl],
             },
         }
     }
@@ -150,12 +154,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
 
     const blogTitle = wordpressPost.title.rendered
-
     const blogDescription = wordpressPost.excerpt.rendered.replace(/<[^>]*>/g, '').trim()
-
-    const blogUrl = `https://www.kalolwala.com/blogs/${slug}`
-
-    const blogImage = wordpressPost._embedded?.['wp:featuredmedia']?.[0]?.source_url
+    const ogImageUrl = `/api/og?title=${encodeURIComponent(blogTitle)}&path=${encodeURIComponent(blogPath)}`
 
     return {
         title: blogTitle,
@@ -167,7 +167,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         },
 
         alternates: {
-            canonical: blogUrl,
+            canonical: blogPath,
         },
 
         openGraph: {
@@ -179,7 +179,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
             images: [
                 {
-                    url: blogImage || `/api/og?title=${encodeURIComponent(blogTitle)}`,
+                    url: ogImageUrl,
+                    width: 1200,
+                    height: 630,
                     alt: blogTitle,
                 },
             ],
@@ -190,7 +192,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             title: blogTitle,
             description: blogDescription,
 
-            images: [blogImage || `/api/og?title=${encodeURIComponent(blogTitle)}`],
+            images: [ogImageUrl],
         },
     }
 }
@@ -275,7 +277,7 @@ export default async function BlogPostPage({ params }: Props) {
                 name: 'Kalolwala & Associates',
                 logo: {
                     '@type': 'ImageObject',
-                    url: 'https://www.kalolwala.com/kna2.svg',
+                    url: 'https://www.kalolwala.com/images/kna.png',
                 },
             },
         }
@@ -370,7 +372,7 @@ export default async function BlogPostPage({ params }: Props) {
             name: 'Kalolwala & Associates',
             logo: {
                 '@type': 'ImageObject',
-                url: 'https://www.kalolwala.com/kna2.svg',
+                url: 'https://www.kalolwala.com/images/kna.png',
             },
         },
     }

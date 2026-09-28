@@ -28,11 +28,39 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
+  const title = payload.seo.title;
+  const description = payload.seo.description;
+  const path = `/offerings/${slug}`;
+  const siteUrl = process.env.SITE_URL || "https://www.kalolwala.com";
+  const url = `${siteUrl}${path}`;
+  const ogImageUrl = `/api/og?title=${encodeURIComponent(title)}&path=${encodeURIComponent(path)}`;
+
   return {
-    title: payload.seo.title,
-    description: payload.seo.description,
+    title,
+    description,
     alternates: {
-      canonical: `/offerings/${slug}`,
+      canonical: path,
+    },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: "Kalolwala & Associates",
+      type: "website",
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImageUrl],
     },
   };
 }

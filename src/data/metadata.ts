@@ -63,12 +63,36 @@ export const PAGE_METADATA: Record<string, PageMetadata> = {
 
 export function getMetadata(page: keyof typeof PAGE_METADATA): Metadata {
     const { title, description, canonical } = PAGE_METADATA[page]
+    const siteUrl = process.env.SITE_URL || 'https://www.kalolwala.com'
+    const fullCanonical = canonical.startsWith('http') ? canonical : `${siteUrl}${canonical}`
+    const ogImageUrl = `/api/og?title=${encodeURIComponent(title)}&path=${encodeURIComponent(canonical)}`
 
     return {
         title,
         ...(description && { description }),
         alternates: {
             canonical,
+        },
+        openGraph: {
+            title,
+            ...(description && { description }),
+            url: fullCanonical,
+            siteName: 'Kalolwala & Associates',
+            type: 'website',
+            images: [
+                {
+                    url: ogImageUrl,
+                    width: 1200,
+                    height: 630,
+                    alt: title,
+                },
+            ],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title,
+            ...(description && { description }),
+            images: [ogImageUrl],
         },
     }
 }
