@@ -2,6 +2,7 @@ import type { BlogPost } from '@/data/blogs'
 import { ArrowUpRight } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import AuthorAvatar from './AuthorAvatar'
 
 export interface BlogCardProps {
     post?: BlogPost
@@ -90,9 +91,11 @@ export default function BlogCard({ post, blog, card, className = '' }: BlogCardP
                 <div className="pt-3 mt-auto border-t border-neutral-900/10 flex justify-between items-center gap-3">
                     {/* Author & Initial Logo */}
                     <div className="flex items-center gap-2.5 min-w-0">
-                        <div className="size-7 rounded-full bg-neutral-900 text-white flex items-center justify-center font-mono text-[10px] font-semibold tracking-wider shrink-0 transition-colors duration-300 group-hover:bg-neutral-800">
-                            {author.initials}
-                        </div>
+                        <AuthorAvatar
+                            author={item.author}
+                            initials={author.initials}
+                            size="sm"
+                        />
                         <div className="flex flex-col min-w-0 leading-tight">
                             <span className="text-xs font-medium text-neutral-900 truncate">
                                 {author.name}
