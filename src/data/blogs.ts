@@ -315,7 +315,7 @@ export const BLOG_DATA: BlogPost[] = [
         url: 'https://www.linkedin.com/pulse/fault-lines-west-asia-wake-up-call-sl1zc?trk=public_post_feed-article-content',
         slug: 'fault-lines-in-west-asia',
         author: 'K&A Editorial',
-        image: '/blogs/Fault Lines in West Asia.png',
+        image: '/blogs/Fault Lines in West Asia.webp',
         publisher: 'LinkedIn',
         publisherLogo: '/blogs/publishers/linkedin.png',
         content: `
@@ -359,7 +359,7 @@ export const BLOG_DATA: BlogPost[] = [
         url: 'https://www.linkedin.com/pulse/why-stakeholder-comms-new-marketing-qwrac?trk=public_post_feed-article-content',
         slug: 'why-stakeholder-comms-is-the-new-marketing',
         author: 'Thoughts penned down by Sucharita Mitra , Research & Content, K&A',
-        image: '/blogs/Stakeholder Comms.png',
+        image: '/blogs/Stakeholder Comms.webp',
         publisher: 'LinkedIn',
         publisherLogo: '/blogs/publishers/linkedin.png',
         content: `
@@ -481,7 +481,7 @@ export const BLOG_DATA: BlogPost[] = [
         url: 'https://www.linkedin.com/pulse/perpetual-winner-like-james-bond-kalolwala-associates-private-limit-iyioc?trk=public_post_feed-article-content',
         slug: 'bond-yields-india-impact-on-banks',
         author: 'Rajat Chakroborty · Editorial, K&A',
-        image: '/blogs/Not a perpetual winner like James Bond!.png',
+        image: '/blogs/Not a perpetual winner like James Bond!.webp',
         publisher: 'LinkedIn',
         publisherLogo: '/blogs/publishers/linkedin.png',
         content: `
@@ -524,7 +524,7 @@ export const BLOG_DATA: BlogPost[] = [
         url: 'https://www.linkedin.com/pulse/fmcg-innovation-led-marketing-kalolwala-associates-private-limit-wfgkc?trk=public_post_feed-article-content',
         slug: 'innovation-led-marketing-in-indian-fmcg-industry',
         author: 'Pinku Shaw',
-        image: '/blogs/FMCG - Innovation-led marketing.png',
+        image: '/blogs/FMCG - Innovation-led marketing.webp',
         publisher: 'LinkedIn',
         publisherLogo: '/blogs/publishers/linkedin.png',
         content: `
@@ -695,7 +695,7 @@ export const BLOG_DATA: BlogPost[] = [
         url: 'https://www.linkedin.com/pulse/key-updates-brsr-listed-entities-kalolwala-associates-private-limit-xynlc?trk=public_post_feed-article-content',
         slug: 'brsr-updates-sebi-esg-disclosure-listed-entities',
         author: 'K&A Research Desk',
-        image: '/blogs/Key Updates on BRSR for Listed Entities.png',
+        image: '/blogs/Key Updates on BRSR for Listed Entities.webp',
         publisher: 'LinkedIn',
         publisherLogo: '/blogs/publishers/linkedin.png',
         content: `
@@ -726,7 +726,7 @@ export const BLOG_DATA: BlogPost[] = [
         url: 'https://www.business-standard.com/content/press-releases-ani/k-a-unleashing-the-power-of-stakeholder-reporting-125032700013_1.html',
         slug: 'unleashing-power-of-stakeholder-reporting',
         author: 'K&A',
-        image: '/images/media/Rectangle20.png',
+        image: '/images/media/Rectangle20.webp',
         publisher: 'Business Standard',
         publisherLogo: '/blogs/publishers/business-standard-logo-2.png',
         content: `

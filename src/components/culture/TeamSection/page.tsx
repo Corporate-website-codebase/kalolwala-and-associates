@@ -27,7 +27,7 @@ const teamData: TeamMember[] = [
     name: 'Hussain Kalolwala',
     role: 'Managing Director',
     qual: 'CA, CS',
-    imageSrc: '/images/culture/team/Hussain Kalolwala.jpg',
+    imageSrc: '/images/culture/team/Hussain Kalolwala.webp',
     message: 'Hussain Kalolwala built K&A  the way one builds a family. A CA and CS, he started the firm in 2015 with just a few people and a vision that felt larger than the room it was born in.  He knew two things: that communication could shape the way businesses think and that people, when trusted and empowered, could shape the destiny of an organisation.\n\nHussain’s ability to see opportunity where others see complexity, and to navigate the corporate landscape with clarity, courage, and discipline has helped K&A reach where it is now. He has grown the company with the steadiness of a founder who understands both the power of meticulous execution and the value of human connection. To him, K&A is a collective of people whose growth, aspirations and well-being matter as much as the work they produce. That belief has created a culture rooted in trust, mutual respect and shared ambition.\n\nHussain’s contribution to the world of corporate and sustainability communication has been widely recognised. He was honoured in Reputation Today’s ‘40 Young Turks – Class of 2020’, and his insights on annual reporting and ESG have been featured in respected publications. K&A’s Annual Reports and Integrated Reports, crafted under his guidance, continue to earn international acclaim for design, clarity and strategic depth.\n\nWhat sets him apart is his strategic mind and his belief that great work is born from great people. Hussain leads with sharp intuition, holding K&A together like a family while steering it forward with the discipline of a founder who knows exactly where he wants to go, and the humility to take everyone along.'
   },
   {
@@ -35,7 +35,7 @@ const teamData: TeamMember[] = [
     name: 'Jumana Vadnagarwala',
     role: 'Chief Strategy Officer, Director',
     qual: 'B.Com (H), EPBCL IIM Calcutta',
-    imageSrc: '/images/culture/team/Jumana Vadnagarwala.jpg',
+    imageSrc: '/images/culture/team/Jumana Vadnagarwala.webp',
     message: 'Jumana Vadnagarwala has spent close to a decade shaping Kalolwala & Associates (K&A) with vision, discipline and heart. As Director and Chief Strategy Officer, she stands at the intersection of strategy, people and process, guiding the organisation’s growth while nurturing the culture that holds it together.\n\nWhat makes Jumana remarkable is not just her deep understanding of strategy, compliance and corporate laws, but the way she brings humanity into every decision. She thinks long-term, plans with precision and ensures that K&A’s work remains aligned with the highest regulatory and industry standards. At the same time, she has an instinctive ability to connect with clients, teams and young talent finding their footing.\n\nHer role in building K&A’s people ecosystem has been transformative. From expanding teams across Kolkata, Gurugram, Mumbai, Hyderabad and Bengaluru,  to shaping capability-building initiatives for a fast-evolving industry, she has been central to creating a cohesive, future-ready organisation. Her guidance is steady and thoughtful; she leads by listening, mentoring and helping individuals find confidence in their own strengths.\n\nHer contributions have been widely acknowledged, including being honoured as Female Entrepreneur of the Year by the Asia Leadership Awards, an achievement that reflects her professional excellence and her commitment to building K&A with integrity and intention.'
   },
   {
@@ -43,7 +43,7 @@ const teamData: TeamMember[] = [
     name: 'Rajath Bhandarkar',
     role: 'General Manager | Research',
     qual: 'MBA (Energy and Environment)',
-    imageSrc: '/images/culture/team/Rajath Bhandarkar.jpg',
+    imageSrc: '/images/culture/team/Rajath Bhandarkar.webp',
     message: "A mechanical engineer with a keen interest in Renewable Energy and corporate Sustainability. Rajath pursued MBA at Symbiosis Institute of International Business with a specialisation in energy and environment management.\n\nRajath has a quirky personality with a slick wit and an absurd sense of humour. He can go from making F.R.I.E.N.D.S references to discussing Plato's allegory of the cave in a matter of minutes. He keeps humming broken lyrics from Linkin Park under pressure. He still believes Lucky Ali to be the best Indian pop singer. He grew up with an immense passion for Astrophysics and can gaze at the night sky till the sun shines on the horizon."
   },
   {
@@ -51,7 +51,7 @@ const teamData: TeamMember[] = [
     name: 'Yatha Lakhtaria',
     role: 'General Manager | Research',
     qual: 'MBA (Energy and Environment)',
-    imageSrc: '/images/culture/team/Yatha Lakhtaria.jpg',
+    imageSrc: '/images/culture/team/Yatha Lakhtaria.webp',
     message: 'With a Bachelor’s degree in Environmental Science and an MBA in Energy & Environment, Yatha  brings a strong academic foundation to her work in corporate sustainability. An avid reader with a mind that sees the world through many lenses, she approaches every project with curiosity and a commitment to precision.\n\nHer personality is a lively mix of wit, imagination and observation. She is the kind of person who can move effortlessly from discussing climate frameworks to debating the virtues of fictional dragons, all while juggling deadlines with a calm, caffeinated grace. Her browser usually holds more tabs than most laptops can handle, but she navigates them with an efficiency that speaks to her professionalism and disciplined work ethic.\n\nShe has a knack for spotting details others miss, almost as if she sees the fine print through a magnifying glass. A rapid learner, she absorbs new concepts in a heartbeat and folds them seamlessly into her work. Outside office hours, she can journey from dusk to dawn through her favourite novels, and proudly claims allegiance to House Ravenclaw, driven by curiosity, intellect and an unrelenting appetite to learn.'
   },
 
@@ -60,7 +60,7 @@ const teamData: TeamMember[] = [
     name: 'Padmeja Ganjoo',
     role: 'General Manager | Research',
     qual: 'MBA (Energy and Environment)',
-    imageSrc: '/images/culture/team/Padmeja.jpg',
+    imageSrc: '/images/culture/team/Padmeja.webp',
     message: 'Padmeja is equal parts curiosity and conviction. An extrovert with unmistakable Virgo precision, she finds joy in stories, conversations and the subtle details that reveal who people really are.\n\nWith an MBA in Energy & Environment and a background in Chemical Engineering, her academic journey mirrors her personality: structured yet deeply inquisitive. Outside the professional world, she is most at ease in the kitchen, experimenting with flavours that reflect her mood. Lately, she has been drawn to soulful Kashmiri music — its warmth, cadence and emotional pull.\n\nWhether she is  decoding a complex brief or discovering a new artist, Padmeja brings the same thoughtful energy everywhere she goes.'
   },
   {
@@ -68,7 +68,7 @@ const teamData: TeamMember[] = [
     name: 'Pankaj Lal',
     role: 'President | Design and Animation',
     qual: '',
-    imageSrc: '/images/culture/team/Pankaj Lal.jpg',
+    imageSrc: '/images/culture/team/Pankaj Lal.webp',
     message: 'Pankaj approaches design the way some people approach people — with patience, attentiveness and an instinct to truly understand before he creates. His calm presence has a way of steadying the room, turning pressure into flow and chaos into clarity. For him, every project is an opportunity to craft something honest, thoughtful and rooted in purpose'
   },
   {
@@ -76,7 +76,7 @@ const teamData: TeamMember[] = [
     name: 'Pankaj Vishwakarma',
     role: 'President | Print Production',
     qual: '',
-    imageSrc: '/images/culture/team/Pankaj Vishwakarma.jpg',
+    imageSrc: '/images/culture/team/Pankaj Vishwakarma.webp',
     message: 'Pankaj’s journey began unusually early. He stepped into the professional world at just 18. What started with nervous anticipation gradually transformed into a career he has embraced for nearly two decades. From those early days of singing softly at his desk while learning the ropes to becoming a steady, seasoned presence in the field, Pankaj has grown alongside the craft he loves.\n\nMusic once kept him company at work, and that same rhythm now shapes the way he approaches design — with flow, attention and an instinct for harmony. A tiny shift in layout, a fresh nuance in design, a new way an idea can shape an experience,  these sparks continue to fuel his curiosity. He notices things others might miss, and it is in these observations that he finds joy, purpose and connection with his work.\n\nTwo decades in, Pankaj still brings the same sincerity and passion that guided him into the profession. Only now, it is strengthened by experience, intuition and an instinctive understanding of good design.'
   },
   {
@@ -84,7 +84,7 @@ const teamData: TeamMember[] = [
     name: 'Amit Kumar Lal',
     role: 'Vice President | Print Production',
     qual: '',
-    imageSrc: '/images/culture/team/Amit Kumar Lal.jpg',
+    imageSrc: '/images/culture/team/Amit Kumar Lal.webp',
     message: 'Amit is a steady force — a professional shaped as much by discipline as by resilience. Over the years, he has worn many hats, growing from a self-driven professional into a dependable leader who brings calm, clarity and conviction to everything he undertakes. Where others see pressure, Amit sees structure; where others see deadlines, he finds rhythm.\n\nHis humility and warmth draw people in, but it is his consistency that inspires them. Under his watch, work flows with purpose. Amit believes in perseverance as a way of life. He takes challenges head-on, treating each one as an opportunity to refine, uplift and excel. Whether navigating demanding timelines or managing complex workflows, he brings a rare blend of patience, precision and determination.\n\nAt heart, Amit is a man who believes that success is defined by sincerity and that real achievement lies in showing up every day with focus, intent and an unswerving commitment to doing the best one can.'
   },
   {
@@ -92,7 +92,7 @@ const teamData: TeamMember[] = [
     name: 'Subarna Biswas',
     role: 'General Manager | Print Production',
     qual: 'Bachelor of Arts',
-    imageSrc: '/images/culture/team/SubarnaBiswas.jpg',
+    imageSrc: '/images/culture/team/SubarnaBiswas.webp',
     message: 'Subarna orchestrates the entire print ecosystem, from  streamlining workflows, elevating quality, solving last-minute problems and ensuring that every project moves with impeccable accuracy.\n\nBehind his sharp technical eye is a personality that keeps the team grounded. He has a humour that surfaces at the most unexpected moments, the kind that diffuses tension faster than any deadline can build it.\n\nOutside work, Subarna is the kind of person who can lose himself in a perfectly brewed cup of chai while discussing cinema, art or music. He believes that every design carries a story and he makes sure each one is told right.'
   },
   {
@@ -100,7 +100,7 @@ const teamData: TeamMember[] = [
     name: 'Sintu Das',
     role: 'President | Typesetting',
     qual: 'Bachelor of Arts',
-    imageSrc: '/images/culture/team/Sintu Das.jpg',
+    imageSrc: '/images/culture/team/Sintu Das.webp',
     message: 'Sintu is someone who sees meaning in the smallest details — a habit that naturally shapes the way he works. Whether he is typesetting patiently, syncing pages with precision, or bringing cohesion to an entire document, he approaches every project with a quiet commitment to quality, clarity and impact.\n\nCalm under pressure and meticulous even in fast-paced environments, he has built a reputation for dependability. His work is steady, accurate and thoughtful, no matter how tight the deadline.'
   },
   {
@@ -108,7 +108,7 @@ const teamData: TeamMember[] = [
     name: 'Shaun Ward',
     role: 'President | Client Relations & Operations',
     qual: 'Bachelor of Arts',
-    imageSrc: '/images/culture/team/Shaun Ward.jpg',
+    imageSrc: '/images/culture/team/Shaun Ward.webp',
     message: 'Shaun is a dynamic professional whose 15-year journey has taken him through the energy of film sets, the curiosity of classrooms, and the fast-paced rhythm of corporate corridors. He has led 200-member production crews, nurtured relationships with schools, colleges and brands, collaborated closely with producers and actors, and trained young minds in communication and personality development.\n\nA natural storyteller, he has built connections across cities, sets, and institutions, and somewhere along the way, added “film scriptwriter” to his résumé. Off work, he can be found immersed in a gripping thriller or passionately cheering for his favourite Premier League team, often with equal intensity.\n\nAs President of Client Relations and Operations, Shaun brings strategy, creativity, people insight and operational discipline into a single, cohesive leadership style. The outcome is unmistakable—stronger partnerships, smoother processes and a culture where sharp thinking and good storytelling move in step.'
   },
   {
@@ -116,7 +116,7 @@ const teamData: TeamMember[] = [
     name: 'Subhojit Dasgupta',
     role: 'General Manager| Project Management',
     qual: '',
-    imageSrc: '/images/culture/team/Subhojit.jpg',
+    imageSrc: '/images/culture/team/Subhojit.webp',
     message: 'Subhojit brings nearly a decade of experience in marketing, client servicing and project management, anchored by a calm confidence that steadies every project he touches. A Marketing MBA with an instinct for clarity and coordination, he navigates timelines, expectations and last-minute pivots with an ease that reassures both colleagues and clients.\n\nA true Kolkata boy, his heart beats for football, his patience comes from cricket and his soul feels at home in the offbeat mountains he loves to escape to. He believes that inner peace wins more battles than panic ever could, a philosophy that reflects in the measured, thoughtful way he works and leads.'
   },
   {
@@ -124,7 +124,7 @@ const teamData: TeamMember[] = [
     name: 'Shreya Sarkar Tadimalla',
     role: 'Manager | Editorial',
     qual: 'Bachelors in English (Hons), Masters in Journalism and Mass Communication',
-    imageSrc: '/images/culture/team/Shreya Sarkar Tadimalla.jpg',
+    imageSrc: '/images/culture/team/Shreya Sarkar Tadimalla.webp',
     message: 'Shreya is a believer in the magic of words. A former journalist with over a decade of experience and a lifelong love for literature, she knows that language, when shaped with intention, can shift perspectives and stir emotions.\n\nAs Manager, Editorial, she brings a sharp eye for detail and an instinctive sense of rhythm to every assignment. She has a knack for taking the simplest draft and shaping it into writing that is clear, engaging and genuinely enjoyable to read. Even in the most high-pressure moments, she remains composed, managing workflows with confidence.\n\nBeyond work, Shreya immerses herself in detective stories and dystopian novels, drawn to narratives that challenge the mind and stretch the imagination.\n\nTravel excites her deeply; her curiosity about people and cultures draws her towards new places, new stories and new ways of understanding the world.'
   },
   {
@@ -132,7 +132,7 @@ const teamData: TeamMember[] = [
     name: 'Ankita Kundu',
     role: 'Manager | Business Development & Client Relations',
     qual: 'MBA (Agri business)',
-    imageSrc: '/images/culture/team/Ankita Kundu.jpg',
+    imageSrc: '/images/culture/team/Ankita Kundu.webp',
     message: 'Ankita is the kind of person whose words can turn an atheist into a believer—persuasive, articulate and effortlessly impactful. As Manager, Business Development & Client Relations, she identifies new avenues for growth, whether by onboarding promising clients or forging strategic alliances that unlock long-term value.\n\nRelationship-building comes naturally to her. She believes that meaningful engagement is the foundation of enduring partnerships, and she brings that conviction into every interaction.\n\nAnkita is a traveller at heart. New cultures, unfamiliar streets and the stories of people she meets along the way inspire her. And when she is not talking business, she turns to painting, expressing her thoughts that she does not put into words.'
   },
   {
@@ -140,7 +140,7 @@ const teamData: TeamMember[] = [
     name: 'Naeem Kangroo',
     role: 'Manager | Business Development & Client Relations',
     qual: 'B.Com Honours - E-commerce',
-    imageSrc: '/images/culture/team/Naeem Kangroo.jpg',
+    imageSrc: '/images/culture/team/Naeem Kangroo.webp',
     message: 'Naeem is a business development professional with an instinct for understanding what businesses truly need. He is known for turning conversations into meaningful, long-term partnerships and brings clarity, intent and persistence to every engagement, ensuring clients feel supported and understood at every step.\n\nOutside work, Naeem finds his rhythm outdoors, whether it is a game of cricket or simply being in open spaces. He unwinds through music, letting it restore the same calm focus he brings to his work.'
   },
 ];

@@ -10,7 +10,7 @@
 // // // const TILE_COUNT = 80;
 // // // const TILES: TileDef[] = Array.from({ length: TILE_COUNT }).map((_, i) => ({
 // // //   id: i + 1,
-// // //   img: `/preview.jpg`,
+// // //   img: `/preview.webp`,
 // // // }));
 
 // // // const rand = (min: number, max: number) => Math.random() * (max - min) + min;
@@ -442,7 +442,7 @@
 // // const TILES: TileDef[] = Array.from({ length: TILE_COUNT }).map((_, i) => ({
 // //   id: i + 1,
 // //   // local path (uploaded file)
-// //   img: `/mnt/data/preview.jpg`,
+// //   img: `/mnt/data/preview.webp`,
 // // }));
 
 // // const rand = (min: number, max: number) => Math.random() * (max - min) + min;
@@ -936,7 +936,7 @@
 // const TILES: TileDef[] = Array.from({ length: TILE_COUNT }).map((_, i) => ({
 //   id: i + 1,
 //   // local path (uploaded file) — kept as you provided
-//   img: `/mnt/data/preview.jpg`,
+//   img: `/mnt/data/preview.webp`,
 // }));
 
 // const rand = (min: number, max: number) => Math.random() * (max - min) + min;
@@ -1454,7 +1454,7 @@ type TileDef = { id: number; img?: string };
 const TILE_COUNT = 80;
 const TILES: TileDef[] = Array.from({ length: TILE_COUNT }).map((_, i) => ({
   id: i + 1,
-  img: `/preview.jpg`,
+  img: `/preview.webp`,
 }));
 
 const rand = (min: number, max: number) => Math.random() * (max - min) + min;

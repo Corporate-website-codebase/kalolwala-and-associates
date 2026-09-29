@@ -4,7 +4,7 @@ import img_4 from "@/marquee/amara-raja-horigontal-logos.png";
 import img_10 from "@/marquee/Aster DM.png";
 import img_11 from "@/marquee/AU bank.png";
 import img_18 from "@/marquee/Bikaji.png";
-import img_26 from "@/marquee/cipla.png";
+import img_26 from "@/marquee/cipla.webp";
 import img_27 from "@/marquee/Coal India.png";
 import img_31 from "@/marquee/EIL.png";
 import img_37 from "@/marquee/Exim.png";

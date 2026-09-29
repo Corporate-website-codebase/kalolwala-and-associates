@@ -54,7 +54,7 @@ interface ReportShowcaseProps {
 const DEFAULT_CARDS: ImageCard[] = [
   {
     title: "Financial Overview",
-    image: "/images/services/Maskgroup07.png",
+    image: "/images/services/Maskgroup07.webp",
     subtitle: "Read Report",
     category: "Finance",
   },

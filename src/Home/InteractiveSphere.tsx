@@ -18,11 +18,11 @@ const InteractiveSphere: React.FC = () => {
 
   const images: ImageData[] = [
     { src: "/images/kmb.png", url: "https://www.kotak811.com/" },
-    { src: "/images/tata.png", url: "https://www.tatacommunications.com/" },
+    { src: "/images/tata.webp", url: "https://www.tatacommunications.com/" },
     { src: "/images/kmb.png", url: "https://www.kotak811.com/" },
-    { src: "/images/tata.png", url: "https://www.tatacommunications.com/" },
+    { src: "/images/tata.webp", url: "https://www.tatacommunications.com/" },
     { src: "/images/kmb.png", url: "https://www.kotak811.com/" },
-    { src: "/images/tata.png", url: "https://www.tatacommunications.com/" },
+    { src: "/images/tata.webp", url: "https://www.tatacommunications.com/" },
   ];
 
   const allImages = [...images, ...images, ...images]; // triple for better sphere density

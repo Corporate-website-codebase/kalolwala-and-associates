@@ -43,7 +43,7 @@ export const PAYLOADS: Record<string, any> = {
     cards: [
       {
         title: "ABB India Limited",
-        image: "/images/offerings/iar/ABB.jpg",
+        image: "/images/offerings/iar/ABB.webp",
         subtitle: "DISCOVER MORE",
         link: "/docs/offerings/iar/ABB India Limited_IAR_2024 link.pdf",
       },
@@ -55,7 +55,7 @@ export const PAYLOADS: Record<string, any> = {
       },
       {
         title: "Cipla Limited",
-        image: "/images/offerings/iar/Cipla.jpg",
+        image: "/images/offerings/iar/Cipla.webp",
         subtitle: "DISCOVER MORE",
         link: "/docs/offerings/iar/CIPLA_IAR_2024-25.pdf",
       },
@@ -73,13 +73,13 @@ export const PAYLOADS: Record<string, any> = {
       },
       {
         title: "Granules India Ltd",
-        image: "/images/offerings/iar/Granules.jpg",
+        image: "/images/offerings/iar/Granules.webp",
         subtitle: "DISCOVER MORE",
         link: "/docs/offerings/iar/Granules_IAR_2024-25.pdf",
       },
       {
         title: "IndiaMART InterMESH Limited",
-        image: "/images/offerings/iar/Indiamart.jpg",
+        image: "/images/offerings/iar/Indiamart.webp",
         subtitle: "DISCOVER MORE",
         link: "/docs/offerings/iar/IndiaMart-AR_2024-25.pdf",
       },
@@ -97,13 +97,13 @@ export const PAYLOADS: Record<string, any> = {
       },
       {
         title: "Solar Industries Limited",
-        image: "/images/offerings/iar/Solar.jpg",
+        image: "/images/offerings/iar/Solar.webp",
         subtitle: "DISCOVER MORE",
         link: "/docs/offerings/iar/Solar_AR_2024-25.pdf",
       },
       {
         title: "Tata Chemicals Limited",
-        image: "/images/offerings/iar/Tata Chemical.jpg",
+        image: "/images/offerings/iar/Tata Chemical.webp",
         subtitle: "DISCOVER MORE",
         link: "/docs/offerings/iar/TATA Chemicals_IAR_2024-25.pdf",
       },
@@ -147,13 +147,13 @@ export const PAYLOADS: Record<string, any> = {
       },
       {
         title: "Embassy Developments Limited",
-        image: "/images/offerings/sr/EMBASSY.jpg",
+        image: "/images/offerings/sr/EMBASSY.webp",
         subtitle: "DISCOVER MORE",
         link: "/docs/offerings/sr/Embassy REIT.pdf",
       },
       {
         title: "Nxtra by Airtel",
-        image: "/images/offerings/sr/Nxtra.jpg",
+        image: "/images/offerings/sr/Nxtra.webp",
         subtitle: "DISCOVER MORE",
         link: "/docs/offerings/sr/Nxtra SR.pdf",
       },
@@ -191,7 +191,7 @@ export const PAYLOADS: Record<string, any> = {
     cards: [
       {
         title: "Marico Limited",
-        image: "/images/offerings/web/Marico-banner.png",
+        image: "/images/offerings/web/Marico-banner.webp",
         subtitle: "DISCOVER MORE",
         link: "https://marico.com/",
         type: "corporate-websites",
@@ -221,7 +221,7 @@ export const PAYLOADS: Record<string, any> = {
       },
       {
         title: "Rajratan Global Wire Limited",
-        image: "/images/offerings/web/sustainablity-tools/Raj_Ratan.png",
+        image: "/images/offerings/web/sustainablity-tools/Raj_Ratan.webp",
         subtitle: "DISCOVER MORE",
         link: "https://rajratan.co.in/",
         type: "corporate-websites",
@@ -329,7 +329,7 @@ export const PAYLOADS: Record<string, any> = {
       },
       {
         title: "TruAlt Bioenergy Limited",
-        image: "/images/offerings/ppt/Trualt.jpg",
+        image: "/images/offerings/ppt/Trualt.webp",
         subtitle: "DISCOVER MORE",
         link: "/docs/offerings/ppt/TruAlt Investor Presentation 29 10 25.pdf",
       },
@@ -414,7 +414,7 @@ export const PAYLOADS: Record<string, any> = {
       },
       {
         title: "Kanpur Plastipack Ltd",
-        image: "/images/services/kpl.png",
+        image: "/images/services/kpl.webp",
         subtitle: "DISCOVER MORE",
         type: "corporate",
         category: "Corporate Film",
@@ -428,7 +428,7 @@ export const PAYLOADS: Record<string, any> = {
       },
       {
         title: "Teamlease Services Ltd",
-        image: "/images/services/teamlease.png",
+        image: "/images/services/teamlease.webp",
         subtitle: "DISCOVER MORE",
         type: "corporate",
         category: "Corporate Film",
@@ -451,28 +451,28 @@ export const PAYLOADS: Record<string, any> = {
       },
       {
         title: "InterGlobe Aviation Limited",
-        image: "/images/services/indigo.png",
+        image: "/images/services/indigo.webp",
         subtitle: "DISCOVER MORE",
         type: "annual",
         category: "Annual Report Video",
       },
       {
         title: "bharti hexacom limited",
-        image: "/images/services/bharti.png",
+        image: "/images/services/bharti.webp",
         subtitle: "DISCOVER MORE",
         type: "annual",
         category: "Annual Report Video",
       },
       {
         title: "Indian Oil Corporation Limited",
-        image: "/images/services/indianoil.png",
+        image: "/images/services/indianoil.webp",
         subtitle: "DISCOVER MORE",
         type: "annual",
         category: "Annual Report Video",
       },
       {
         title: "cipla limited",
-        image: "/images/services/cipla.png",
+        image: "/images/services/cipla.webp",
         subtitle: "DISCOVER MORE",
         type: "annual",
         category: "Annual Report Video",
@@ -501,17 +501,17 @@ export const PAYLOADS: Record<string, any> = {
     cards: [
       {
         title: "KOTAK MAHINDRA BANK LIMITED",
-        image: "/images/services/tata.png",
+        image: "/images/services/tata.webp",
         subtitle: "DISCOVER MORE",
       },
       {
         title: "tata consumer products",
-        image: "/images/services/tata.png",
+        image: "/images/services/tata.webp",
         subtitle: "DISCOVER MORE",
       },
       {
         title: "marico limited",
-        image: "/images/services/marico.png",
+        image: "/images/services/marico.webp",
         subtitle: "DISCOVER MORE",
       },
       {
@@ -526,22 +526,22 @@ export const PAYLOADS: Record<string, any> = {
       },
       {
         title: "InterGlobe Aviation Limited",
-        image: "/images/services/indigo.png",
+        image: "/images/services/indigo.webp",
         subtitle: "DISCOVER MORE",
       },
       {
         title: "bharti hexacom limited",
-        image: "/images/services/bharti.png",
+        image: "/images/services/bharti.webp",
         subtitle: "DISCOVER MORE",
       },
       {
         title: "Indian Oil Corporation Limited",
-        image: "/images/services/indianoil.png",
+        image: "/images/services/indianoil.webp",
         subtitle: "DISCOVER MORE",
       },
       {
         title: "cipla limited",
-        image: "/images/services/cipla.png",
+        image: "/images/services/cipla.webp",
         subtitle: "DISCOVER MORE",
       },
     ],
