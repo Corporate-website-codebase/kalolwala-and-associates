@@ -290,7 +290,7 @@ export default function BlogPaginatedList({
                     </div>
 
                     {/* Gradient overlay to keep foreground text legible */}
-                    <div className="absolute inset-0 bg-linear-to-r from-black/95 via-black/65 to-transparent pointer-events-none" />
+                    <div className="absolute inset-0 bg-linear-to-r from-black/85 via-black/50 to-transparent pointer-events-none" />
 
                     {/* Hero copy and subscription form */}
                     <div className="relative z-10 flex flex-col h-full justify-center marginal">
@@ -306,7 +306,7 @@ export default function BlogPaginatedList({
                         <p
                             className="text-neutral-100 whitespace-pre-line max-w-3xl font-light"
                             style={{
-                                fontSize: 'clamp(14px, 1.2vw, 18px)',
+                                fontSize: 'clamp(14px, 1.2vw, 20px)',
                                 lineHeight: '1.6',
                             }}
                         >
@@ -358,7 +358,7 @@ export default function BlogPaginatedList({
                                         }
                                         disabled={subscriptionStatus === 'loading'}
                                         style={{ colorScheme: 'dark' }}
-                                        className={`w-full sm:max-w-sm h-12 px-4 bg-white/10 text-white outline-none font-noto-sans transition-all duration-300 disabled:opacity-50 ${
+                                        className={`w-full sm:max-w-sm h-12 px-4 bg-white/10 text-white outline-none backdrop-blur-[2px] font-noto-sans transition-all duration-300 disabled:opacity-50 ${
                                             isShaking ? 'animate-shake-x' : ''
                                         } ${
                                             hasError
