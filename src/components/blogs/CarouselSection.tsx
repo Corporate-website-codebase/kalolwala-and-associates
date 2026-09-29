@@ -4,6 +4,7 @@ import type { BlogPostCard } from '@/data/blogs'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 import React, { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
+import { motion, type Variants } from 'framer-motion'
 import BlogCard from './BlogCard'
 
 const ITEMS_PER_PAGE = 12
@@ -16,6 +17,49 @@ function useHasMounted() {
         () => true,
         () => false
     )
+}
+
+const heroContainerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1,
+        },
+    },
+}
+
+const heroItemVariants: Variants = {
+    hidden: { opacity: 0, y: 18 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            duration: 0.65,
+            ease: [0.16, 1, 0.3, 1],
+        },
+    },
+}
+
+const gridContainerVariants: Variants = {
+    hidden: {},
+    visible: {
+        transition: {
+            staggerChildren: 0.08,
+        },
+    },
+}
+
+const cardItemVariants: Variants = {
+    hidden: { opacity: 0, y: 32 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            duration: 0.55,
+            ease: [0.16, 1, 0.3, 1],
+        },
+    },
 }
 
 type WordPressPost = {
@@ -62,25 +106,14 @@ export default function BlogPaginatedList({
 }) {
     const hasMounted = useHasMounted()
 
-    // Read initial page from URL query parameter (e.g. /blogs?page=2) on client
-    const [currentPage, setCurrentPage] = useState(() => {
-        if (typeof window !== 'undefined') {
-            const params = new URLSearchParams(window.location.search)
-            const pageParam = params.get('page')
-            const parsed = pageParam ? parseInt(pageParam, 10) : 1
-            if (!isNaN(parsed) && parsed >= 1) return parsed
-        }
-        return 1
-    })
-    const [prevPage, setPrevPage] = useState(currentPage)
-    const [pageInputValue, setPageInputValue] = useState(() =>
-        String(currentPage).padStart(2, '0')
-    )
+    const [currentPage, setCurrentPage] = useState(1)
+    const [prevPage, setPrevPage] = useState(1)
+    const [pageInputValue, setPageInputValue] = useState('01')
     const [isPageChanging, setIsPageChanging] = useState(false)
 
-    // Synchronize browser Back & Forward button navigation
+    // Synchronize initial page from URL query parameter and Back & Forward navigation
     useEffect(() => {
-        const handlePopState = () => {
+        const syncPageFromUrl = () => {
             const params = new URLSearchParams(window.location.search)
             const pageParam = params.get('page')
             const parsed = pageParam ? parseInt(pageParam, 10) : 1
@@ -93,8 +126,9 @@ export default function BlogPaginatedList({
             }
         }
 
-        window.addEventListener('popstate', handlePopState)
-        return () => window.removeEventListener('popstate', handlePopState)
+        syncPageFromUrl()
+        window.addEventListener('popstate', syncPageFromUrl)
+        return () => window.removeEventListener('popstate', syncPageFromUrl)
     }, [])
 
     const [email, setEmail] = useState('')
@@ -276,8 +310,13 @@ export default function BlogPaginatedList({
             <div className="w-full min-h-screen font-noto-sans ">
                 {/* Hero header banner */}
                 <div className="relative w-full min-h-[70vh] lg:min-h-[78vh] overflow-hidden flex flex-col justify-center bg-neutral-900">
-                    {/* Background hero image */}
-                    <div className="absolute inset-0 w-full h-full">
+                    {/* Background hero image with smooth in-appear */}
+                    <motion.div
+                        initial={{ opacity: 0, scale: 1.05 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                        className="absolute inset-0 w-full h-full"
+                    >
                         <Image
                             src="/blogs/blogs-banner.webp"
                             alt="Background"
@@ -285,25 +324,32 @@ export default function BlogPaginatedList({
                             priority
                             unoptimized
                             sizes="100vw"
-                            className="w-full h-full object-cover object-bottom transition-opacity duration-500 ease-out"
+                            className="w-full h-full object-cover object-[100%_90%]"
                         />
-                    </div>
+                    </motion.div>
 
                     {/* Gradient overlay to keep foreground text legible */}
                     <div className="absolute inset-0 bg-linear-to-r from-black/85 via-black/50 to-transparent pointer-events-none" />
 
                     {/* Hero copy and subscription form */}
-                    <div className="relative z-10 flex flex-col h-full justify-center marginal">
-                        <h1
+                    <motion.div
+                        variants={heroContainerVariants}
+                        initial="hidden"
+                        animate="visible"
+                        className="relative z-10 flex flex-col h-full justify-center marginal"
+                    >
+                        <motion.h1
+                            variants={heroItemVariants}
                             className="leading-[1.1] mb-4 lg:mb-6 text-white font-light tracking-tight whitespace-pre-line"
                             style={{ fontSize: 'clamp(32px, 4vw, 64px)' }}
                         >
                             Finding the story in the
                             <br />
                             subtle space between words.
-                        </h1>
+                        </motion.h1>
 
-                        <p
+                        <motion.p
+                            variants={heroItemVariants}
                             className="text-neutral-100 whitespace-pre-line max-w-3xl font-light"
                             style={{
                                 fontSize: 'clamp(14px, 1.2vw, 20px)',
@@ -316,10 +362,13 @@ export default function BlogPaginatedList({
                             stakeholder engagement, our blog brings together thoughtful perspectives
                             designed to help businesses understand what is changing, why it matters
                             and what comes next.
-                        </p>
+                        </motion.p>
 
                         {/* Newsletter subscription module */}
-                        <div className="mt-8 lg:mt-16 lg:w-4xl flex flex-col gap-6">
+                        <motion.div
+                            variants={heroItemVariants}
+                            className="mt-8 lg:mt-16 lg:w-4xl flex flex-col gap-6"
+                        >
                             <div className="md:w-1/2">
                                 <p className="font-mono text-xs uppercase tracking-[0.2em] text-neutral-100 mb-3">
                                     Stay informed
@@ -405,26 +454,33 @@ export default function BlogPaginatedList({
                                     </p>
                                 )}
                             </div>
-                        </div>
-                    </div>
+                        </motion.div>
+                    </motion.div>
                 </div>
 
                 {/* Scroll target for pagination */}
                 <div ref={listTopRef} className="scroll-mt-24" />
 
-                {/* Blog post cards grid with smooth clean entrance */}
+                {/* Blog post cards grid with while-in-view card stagger */}
                 <div className="min-h-100 marginal">
-                    <div
-                        className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 pt-2 gap-6 lg:gap-8 2xl:gap-5 transition-all duration-300 ease-out ${
-                            isPageChanging
-                                ? 'opacity-0 translate-y-4'
-                                : 'opacity-100 translate-y-0'
-                        }`}
+                    <motion.div
+                        key={currentPage}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, margin: '-40px' }}
+                        variants={gridContainerVariants}
+                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 pt-2 gap-6 lg:gap-8 2xl:gap-5"
                     >
                         {currentData.map((c) => (
-                            <BlogCard key={c.id} post={c} />
+                            <motion.div
+                                key={c.id}
+                                variants={cardItemVariants}
+                                className="h-full"
+                            >
+                                <BlogCard post={c} />
+                            </motion.div>
                         ))}
-                    </div>
+                    </motion.div>
                 </div>
 
                 {/* Pagination navigation */}
