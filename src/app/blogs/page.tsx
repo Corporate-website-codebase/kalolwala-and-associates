@@ -53,9 +53,12 @@ const Blogs = async () => {
             alt_text?: string;
             media_details?: {
               sizes?: {
-                large?: { source_url?: string };
                 medium_large?: { source_url?: string };
+                medium?: { source_url?: string };
+                large?: { source_url?: string };
+                thumbnail?: { source_url?: string };
                 full?: { source_url?: string };
+                [key: string]: { source_url?: string } | undefined;
               };
             };
           }>;
@@ -64,9 +67,10 @@ const Blogs = async () => {
       }) => {
         const featuredMedia = post._embedded?.["wp:featuredmedia"]?.[0];
         const image =
-          featuredMedia?.media_details?.sizes?.large?.source_url ||
           featuredMedia?.media_details?.sizes?.medium_large?.source_url ||
-          featuredMedia?.media_details?.sizes?.full?.source_url ||
+          featuredMedia?.media_details?.sizes?.medium?.source_url ||
+          featuredMedia?.media_details?.sizes?.large?.source_url ||
+          featuredMedia?.media_details?.sizes?.thumbnail?.source_url ||
           featuredMedia?.source_url ||
           "";
 

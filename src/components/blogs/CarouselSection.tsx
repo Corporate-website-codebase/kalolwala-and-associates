@@ -36,9 +36,12 @@ type WordPressPost = {
             source_url?: string
             media_details?: {
                 sizes?: {
-                    large?: { source_url?: string }
                     medium_large?: { source_url?: string }
+                    medium?: { source_url?: string }
+                    large?: { source_url?: string }
+                    thumbnail?: { source_url?: string }
                     full?: { source_url?: string }
+                    [key: string]: { source_url?: string } | undefined
                 }
             }
         }>
@@ -121,9 +124,10 @@ export default function BlogPaginatedList({
             const featuredMedia = post._embedded?.['wp:featuredmedia']?.[0]
 
             const image =
-                featuredMedia?.media_details?.sizes?.large?.source_url ||
                 featuredMedia?.media_details?.sizes?.medium_large?.source_url ||
-                featuredMedia?.media_details?.sizes?.full?.source_url ||
+                featuredMedia?.media_details?.sizes?.medium?.source_url ||
+                featuredMedia?.media_details?.sizes?.large?.source_url ||
+                featuredMedia?.media_details?.sizes?.thumbnail?.source_url ||
                 featuredMedia?.source_url ||
                 ''
 
@@ -271,7 +275,7 @@ export default function BlogPaginatedList({
         <section id="articles" className="w-full bg-[#d4d4d4] text-black font-noto-sans">
             <div className="w-full min-h-screen font-noto-sans ">
                 {/* Hero header banner */}
-                <div className="relative w-full min-h-[80svh] overflow-hidden flex flex-col justify-center bg-black">
+                <div className="relative w-full min-h-[70vh] lg:min-h-[78vh] overflow-hidden flex flex-col justify-center bg-neutral-900">
                     {/* Background hero image */}
                     <div className="absolute inset-0 w-full h-full">
                         <Image
@@ -279,8 +283,9 @@ export default function BlogPaginatedList({
                             alt="Background"
                             fill
                             priority
+                            unoptimized
                             sizes="100vw"
-                            className="w-full h-full object-cover object-bottom"
+                            className="w-full h-full object-cover object-bottom transition-opacity duration-500 ease-out"
                         />
                     </div>
 

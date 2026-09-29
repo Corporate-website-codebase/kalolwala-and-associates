@@ -60,7 +60,8 @@ export default function BlogCard({ post, blog, card, className = '' }: BlogCardP
                                 src={image}
                                 alt={item.imageAlt || item.title}
                                 fill
-                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1536px) 33vw, 25vw"
+                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1536px) 33vw, 380px"
+                                quality={75}
                                 className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-105 transform-gpu"
                             />
                             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
