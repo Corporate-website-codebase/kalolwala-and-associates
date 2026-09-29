@@ -401,7 +401,7 @@ export const BLOG_DATA: BlogPost[] = [
         url: 'https://www.linkedin.com/pulse/clearer-climate-lens-issbs-practical-cvy2c?trk=public_post_feed-article-content',
         slug: 'ifrs-s2-amendments-2025-issb-climate-disclosures',
         author: 'Research by Navdip Patel · Edited by Shreya Sarkar',
-        image: '/blogs/A_clearer_climate_lens.png',
+        image: '/blogs/A_clearer_climate_lens.webp',
         publisher: 'LinkedIn',
         publisherLogo: '/blogs/publishers/linkedin.png',
         content: `
@@ -593,7 +593,7 @@ export const BLOG_DATA: BlogPost[] = [
         url: 'https://www.linkedin.com/pulse/ai-vs-humans-client-relationship-tbp5c?trk=public_post_feed-article-content',
         slug: 'ai-vs-humans-role-in-client-relationship-management',
         author: 'Shaun Ward',
-        image: '/blogs/AI vs Humans - Client Relationship.jpeg',
+        image: '/blogs/AI vs Humans - Client Relationship.webp',
         publisher: 'LinkedIn',
         publisherLogo: '/blogs/publishers/linkedin.png',
         content: `
