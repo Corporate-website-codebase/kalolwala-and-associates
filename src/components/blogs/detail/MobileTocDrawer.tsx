@@ -1,7 +1,7 @@
 'use client'
 
 import { useLenis } from 'lenis/react'
-import { BookOpen, ChevronRight, X } from 'lucide-react'
+import { ChevronRight, TableOfContents, X } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import type { TocHeading } from './BlogTableOfContents'
 
@@ -72,11 +72,25 @@ export default function MobileTocDrawer({
                     type="button"
                     onClick={() => setIsOpen(true)}
                     aria-label="Open Table of Contents"
-                    className="h-10 px-4 rounded-full bg-black/90 text-white shadow-xl backdrop-blur-md border border-white/20 flex items-center gap-2 text-xs font-mono uppercase tracking-wider cursor-pointer active:scale-95 transition-transform"
+                    className={`h-10 px-4 rounded-full shadow-2xl backdrop-blur-md border flex items-center gap-2 text-xs font-mono uppercase tracking-wider cursor-pointer active:scale-95 transition-all duration-200 ${
+                        isDarkTheme
+                            ? 'bg-[#141414]/90 text-white border-white/20 shadow-black/80 hover:border-white/40'
+                            : 'bg-white/95 text-neutral-900 border-black/15 shadow-black/15 hover:border-black/30'
+                    }`}
                 >
-                    <BookOpen size={14} className="text-[#f5c518]" />
+                    <TableOfContents
+                        size={15}
+                        strokeWidth={2}
+                        className={isDarkTheme ? 'text-white' : 'text-neutral-900'}
+                    />
                     <span>Contents</span>
-                    <span className="size-4.5 rounded-full bg-white/20 text-[10px] flex items-center justify-center font-sans">
+                    <span
+                        className={`size-4.5 rounded-full text-[10px] flex items-center justify-center font-sans font-medium transition-colors ${
+                            isDarkTheme
+                                ? 'bg-white/20 text-neutral-100'
+                                : 'bg-black/10 text-neutral-800'
+                        }`}
+                    >
                         {headings.length}
                     </span>
                 </button>
@@ -105,9 +119,17 @@ export default function MobileTocDrawer({
                 }`}
             >
                 {/* Header */}
-                <div className="flex items-center justify-between px-6 pt-5 pb-3 border-b border-white/10 shrink-0">
+                <div
+                    className={`flex items-center justify-between px-6 pt-5 pb-3 border-b shrink-0 ${
+                        isDarkTheme ? 'border-white/10' : 'border-black/10'
+                    }`}
+                >
                     <div className="flex items-center gap-2">
-                        <BookOpen size={16} className="text-[#f5c518]" />
+                        <TableOfContents
+                            size={16}
+                            strokeWidth={2}
+                            className={isDarkTheme ? 'text-white' : 'text-neutral-900'}
+                        />
                         <h3 className="font-mono text-xs uppercase tracking-widest font-semibold">
                             Table of Contents
                         </h3>
@@ -117,7 +139,11 @@ export default function MobileTocDrawer({
                         type="button"
                         onClick={() => setIsOpen(false)}
                         aria-label="Close Table of Contents"
-                        className="p-1 rounded-full text-neutral-400 hover:text-white transition-colors"
+                        className={`p-1 rounded-full transition-colors ${
+                            isDarkTheme
+                                ? 'text-neutral-400 hover:text-white'
+                                : 'text-neutral-500 hover:text-black'
+                        }`}
                     >
                         <X size={18} />
                     </button>
@@ -153,7 +179,7 @@ export default function MobileTocDrawer({
                                 {isActive && (
                                     <ChevronRight
                                         size={14}
-                                        className="shrink-0 text-[#f5c518]"
+                                        className="shrink-0 text-white"
                                     />
                                 )}
                             </button>

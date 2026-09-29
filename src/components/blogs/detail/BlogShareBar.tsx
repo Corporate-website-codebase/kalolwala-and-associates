@@ -17,18 +17,59 @@ export default function BlogShareBar({ title }: BlogShareBarProps) {
         return window.location.href
     }
 
+    const copyToClipboard = async (text: string): Promise<boolean> => {
+        if (typeof window === 'undefined') return false
+
+        if (navigator?.clipboard && typeof navigator.clipboard.writeText === 'function') {
+            try {
+                await navigator.clipboard.writeText(text)
+                return true
+            } catch {
+                // Fallback below
+            }
+        }
+
+        try {
+            const textarea = document.createElement('textarea')
+            textarea.value = text
+            textarea.style.position = 'fixed'
+            textarea.style.top = '0'
+            textarea.style.left = '0'
+            textarea.style.width = '2em'
+            textarea.style.height = '2em'
+            textarea.style.padding = '0'
+            textarea.style.border = 'none'
+            textarea.style.outline = 'none'
+            textarea.style.boxShadow = 'none'
+            textarea.style.background = 'transparent'
+            textarea.style.opacity = '0'
+            textarea.setAttribute('readonly', '')
+            document.body.appendChild(textarea)
+
+            textarea.focus()
+            textarea.select()
+            textarea.setSelectionRange(0, textarea.value.length)
+
+            const success = document.execCommand('copy')
+            document.body.removeChild(textarea)
+            return success
+        } catch {
+            return false
+        }
+    }
+
     const handleCopyLink = async () => {
         const url = getShareUrl()
         if (!url) return
 
-        try {
-            await navigator.clipboard.writeText(url)
+        const success = await copyToClipboard(url)
+        if (success) {
             setCopied(true)
             setShareError(false)
-            setTimeout(() => setCopied(false), 2200)
-        } catch {
+            setTimeout(() => setCopied(false), 2400)
+        } else {
             setShareError(true)
-            setTimeout(() => setShareError(false), 2200)
+            setTimeout(() => setShareError(false), 2400)
         }
     }
 
@@ -57,16 +98,24 @@ export default function BlogShareBar({ title }: BlogShareBarProps) {
         const url = getShareUrl()
         if (!url) return
 
-        if (typeof navigator !== 'undefined' && navigator.share) {
+        if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
+            const shareData = { title, url }
+            try {
+                if (!navigator.canShare || navigator.canShare(shareData)) {
+                    await navigator.share(shareData)
+                    return
+                }
+            } catch (err: unknown) {
+                if (err instanceof Error && err.name === 'AbortError') {
+                    return
+                }
+            }
             try {
                 await navigator.share({ title, url })
             } catch {
-                // Ignore dismissed native share sheet
+                // Ignore
             }
-            return
         }
-
-        await handleCopyLink()
     }
 
     return (

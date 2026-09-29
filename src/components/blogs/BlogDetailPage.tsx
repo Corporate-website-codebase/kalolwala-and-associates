@@ -7,7 +7,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Script from 'next/script'
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
-import PublisherMarquee from './PublisherMarquee'
 import AuthorAvatar from './AuthorAvatar'
 import BlogBackToTop from './detail/BlogBackToTop'
 import BlogPostNavigation from './detail/BlogPostNavigation'
@@ -15,6 +14,7 @@ import BlogRecentArticles from './detail/BlogRecentArticles'
 import BlogSubscribeBottom from './detail/BlogSubscribeBottom'
 import BlogTableOfContents, { type TocHeading } from './detail/BlogTableOfContents'
 import MobileTocDrawer from './detail/MobileTocDrawer'
+import PublisherMarquee from './PublisherMarquee'
 
 interface BlogDetailPageProps {
     post: BlogPost
@@ -197,7 +197,9 @@ export default function BlogDetailPage({
 
     // Compute unique recent/other blogs sorted newest first by date
     const otherBlogs = useMemo(() => {
-        const filtered = baseArticles.filter((b) => b.id !== post.id && b.slug && b.slug !== post.slug)
+        const filtered = baseArticles.filter(
+            (b) => b.id !== post.id && b.slug && b.slug !== post.slug,
+        )
         const unique = filtered.filter(
             (b, index, arr) => index === arr.findIndex((item) => item.slug === b.slug),
         )
@@ -237,7 +239,7 @@ export default function BlogDetailPage({
     const authorInitials = parseAuthorInitials(post.author)
     const readingTime = useMemo(
         () => calculateReadingTime(post.content || post.excerpt),
-        [post.content, post.excerpt]
+        [post.content, post.excerpt],
     )
 
     // Reading Progress Indicator (runs via requestAnimationFrame for 60fps GPU performance)
@@ -276,22 +278,70 @@ export default function BlogDetailPage({
 
     // Top action bar share handlers
     const [copiedTop, setCopiedTop] = useState(false)
+    const copyTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+    useEffect(() => {
+        return () => {
+            if (copyTimeoutRef.current) clearTimeout(copyTimeoutRef.current)
+        }
+    }, [])
 
     const getShareUrl = () => {
         if (typeof window === 'undefined') return ''
         return window.location.href
     }
 
+    // Robust copy function that works across secure (HTTPS) and non-secure (HTTP LAN IP) contexts
+    const copyToClipboard = async (text: string): Promise<boolean> => {
+        if (typeof window === 'undefined') return false
+
+        // 1. Try modern navigator.clipboard if available (secure context / HTTPS / localhost)
+        if (navigator?.clipboard && typeof navigator.clipboard.writeText === 'function') {
+            try {
+                await navigator.clipboard.writeText(text)
+                return true
+            } catch {
+                // Fall through to fallback
+            }
+        }
+
+        // 2. Fallback for non-secure contexts (e.g. mobile testing over HTTP LAN like 172.16.16.61:3000)
+        try {
+            const textarea = document.createElement('textarea')
+            textarea.value = text
+            textarea.style.position = 'fixed'
+            textarea.style.top = '0'
+            textarea.style.left = '0'
+            textarea.style.width = '2em'
+            textarea.style.height = '2em'
+            textarea.style.padding = '0'
+            textarea.style.border = 'none'
+            textarea.style.outline = 'none'
+            textarea.style.boxShadow = 'none'
+            textarea.style.background = 'transparent'
+            textarea.style.opacity = '0'
+            textarea.setAttribute('readonly', '')
+            document.body.appendChild(textarea)
+
+            textarea.focus()
+            textarea.select()
+            textarea.setSelectionRange(0, textarea.value.length)
+
+            const success = document.execCommand('copy')
+            document.body.removeChild(textarea)
+            return success
+        } catch {
+            return false
+        }
+    }
+
     const handleCopyLink = async () => {
         const url = getShareUrl()
         if (!url) return
-        try {
-            await navigator.clipboard.writeText(url)
-            setCopiedTop(true)
-            setTimeout(() => setCopiedTop(false), 2200)
-        } catch {
-            // Ignore
-        }
+        await copyToClipboard(url)
+        if (copyTimeoutRef.current) clearTimeout(copyTimeoutRef.current)
+        setCopiedTop(true)
+        copyTimeoutRef.current = setTimeout(() => setCopiedTop(false), 2400)
     }
 
     const handleLinkedInShare = () => {
@@ -315,18 +365,27 @@ export default function BlogDetailPage({
         window.open(xUrl, '_blank', 'noopener,noreferrer,width=600,height=400')
     }
 
-    const handleNativeShare = async () => {
-        const url = getShareUrl()
-        if (!url) return
-        if (typeof navigator !== 'undefined' && navigator.share) {
-            try {
-                await navigator.share({ title: post.title, url })
-            } catch {
-                // Ignore
-            }
-            return
+    const handleNativeShare = async (e?: React.MouseEvent) => {
+        if (e) {
+            e.preventDefault()
+            e.stopPropagation()
         }
-        await handleCopyLink()
+        const currentUrl = typeof window !== 'undefined' ? window.location.href : 'https://kalolwala.com'
+        const shareTitle = post.title || 'Kalolwala & Associates'
+        const cleanExcerpt = post.excerpt ? post.excerpt.replace(/<[^>]*>/g, '').trim() : ''
+        const shareText = cleanExcerpt ? `${cleanExcerpt.slice(0, 160)}...` : shareTitle
+
+        if (typeof navigator !== 'undefined' && 'share' in navigator) {
+            try {
+                await navigator.share({
+                    title: shareTitle,
+                    text: shareText,
+                    url: currentUrl,
+                })
+            } catch (err) {
+                console.error('Share failed:', err)
+            }
+        }
     }
 
     // Re-initialize or trigger Google Preferred Source script on article navigation
@@ -355,25 +414,34 @@ export default function BlogDetailPage({
             // Remove data-initialized so publisher.js can process this element
             btn.removeAttribute('data-initialized')
 
-            try {
-                if (win.PREFERRED_SOURCE?.api?.init) {
-                    win.PREFERRED_SOURCE.api.init()
-                } else if (win.preferredSource?.init) {
-                    win.preferredSource.init()
-                } else if (win.PREFERRED_SOURCE?.push) {
-                    win.PREFERRED_SOURCE.push((api) => api.init?.())
+            const runInit = () => {
+                if (!isMounted) return
+                try {
+                    if (win.PREFERRED_SOURCE?.api?.init) {
+                        win.PREFERRED_SOURCE.api.init()
+                    } else if (win.preferredSource?.init) {
+                        win.preferredSource.init()
+                    } else if (win.PREFERRED_SOURCE?.push) {
+                        win.PREFERRED_SOURCE.push((api) => api.init?.())
+                    }
+                } catch {
+                    // Ignore
                 }
-            } catch {
-                // Ignore
             }
+
+            runInit()
+            setTimeout(runInit, 150)
+            setTimeout(runInit, 400)
         }
 
         triggerPreferredSource()
-        const timer = setTimeout(triggerPreferredSource, 200)
+        const timer1 = setTimeout(triggerPreferredSource, 150)
+        const timer2 = setTimeout(triggerPreferredSource, 400)
 
         return () => {
             isMounted = false
-            clearTimeout(timer)
+            clearTimeout(timer1)
+            clearTimeout(timer2)
         }
     }, [post.id, post.slug])
 
@@ -562,19 +630,23 @@ export default function BlogDetailPage({
 
                         {/* Author & Publication Date Byline */}
                         <div
-                            className={`flex flex-row items-center justify-between gap-6 pb-3 pt-8`}
+                            className={`mt-8 pb-4 sm:pb-3 sm:pt-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6 border sm:border-0 rounded-2xl sm:rounded-none p-4 sm:p-0 transition-colors ${
+                                isDarkTheme
+                                    ? 'bg-neutral-900/60 sm:bg-transparent border-neutral-800/80 sm:border-transparent'
+                                    : 'bg-neutral-50/80 sm:bg-transparent border-neutral-200/80 sm:border-transparent'
+                            }`}
                         >
                             {post.author && (
                                 <div
                                     itemProp="author"
                                     itemScope
                                     itemType="https://schema.org/Person"
-                                    className="flex items-center gap-3"
+                                    className="flex items-center gap-3.5 sm:gap-3"
                                 >
                                     <AuthorAvatar author={post.author} size="md" />
-                                    <div className="flex flex-col">
+                                    <div className="flex flex-col min-w-0">
                                         <span
-                                            className={`text-[11px] font-mono uppercase tracking-widest ${
+                                            className={`text-[10px] sm:text-[11px] font-mono uppercase tracking-widest ${
                                                 isDarkTheme
                                                     ? 'text-neutral-400'
                                                     : 'text-neutral-500'
@@ -585,7 +657,7 @@ export default function BlogDetailPage({
                                         <span
                                             itemProp="name"
                                             rel="author"
-                                            className={`text-sm font-medium ${
+                                            className={`text-sm font-semibold sm:font-medium truncate ${
                                                 isDarkTheme ? 'text-white' : 'text-black'
                                             }`}
                                         >
@@ -596,18 +668,24 @@ export default function BlogDetailPage({
                             )}
 
                             {post.date && (
-                                <div className="flex flex-col sm:text-right">
+                                <div
+                                    className={`flex items-center justify-between sm:flex-col sm:items-end pt-3 sm:pt-0 border-t sm:border-t-0 ${
+                                        isDarkTheme
+                                            ? 'border-neutral-800/80'
+                                            : 'border-neutral-200/60'
+                                    }`}
+                                >
                                     <span
-                                        className={`text-[11px] font-mono uppercase tracking-widest ${
+                                        className={`text-[10px] sm:text-[11px] font-mono uppercase tracking-widest ${
                                             isDarkTheme ? 'text-neutral-400' : 'text-neutral-500'
                                         }`}
                                     >
-                                        Published on · {readingTime}
+                                        Published on
                                     </span>
                                     <time
                                         dateTime={post.date}
                                         itemProp="datePublished"
-                                        className={`font-mono text-xs uppercase tracking-wider mt-0.5 ${
+                                        className={`font-mono text-xs uppercase tracking-wider sm:mt-0.5 ${
                                             isDarkTheme ? 'text-neutral-300' : 'text-black'
                                         }`}
                                     >
@@ -618,218 +696,271 @@ export default function BlogDetailPage({
                         </div>
 
                         {/* Publisher section for legacy posts: Marquee if > 2 links, otherwise inline link(s) if available */}
-                        {post.source === 'legacy' && (() => {
-                            const links =
-                                post.additionalLinks && post.additionalLinks.length > 0
-                                    ? post.additionalLinks
-                                    : post.publisher && post.url
-                                      ? [
-                                            {
-                                                publisher: post.publisher,
-                                                publisherLogo: post.publisherLogo || '',
-                                                url: post.url,
-                                            },
-                                        ]
-                                      : []
+                        {post.source === 'legacy' &&
+                            (() => {
+                                const links =
+                                    post.additionalLinks && post.additionalLinks.length > 0
+                                        ? post.additionalLinks
+                                        : post.publisher && post.url
+                                          ? [
+                                                {
+                                                    publisher: post.publisher,
+                                                    publisherLogo: post.publisherLogo || '',
+                                                    url: post.url,
+                                                },
+                                            ]
+                                          : []
 
-                            if (links.length === 0) return null
+                                if (links.length === 0) return null
 
-                            if (links.length > 2) {
+                                if (links.length > 2) {
+                                    return (
+                                        <PublisherMarquee links={links} isDarkTheme={isDarkTheme} />
+                                    )
+                                }
+
                                 return (
-                                    <PublisherMarquee
-                                        links={links}
-                                        isDarkTheme={isDarkTheme}
-                                    />
-                                )
-                            }
-
-                            return (
-                                <div
-                                    className={`mt-10 mb-8 pt-6 border-t flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 ${
-                                        isDarkTheme ? 'border-white/10' : 'border-black/10'
-                                    }`}
-                                >
-                                    <span
-                                        className={`text-xs font-mono uppercase tracking-widest ${
+                                    <div
+                                        className={`my-6 sm:mt-10 sm:mb-8 p-4 sm:p-0 sm:pt-6 rounded-2xl sm:rounded-none border sm:border-0 sm:border-t flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 transition-colors ${
                                             isDarkTheme
-                                                ? 'text-neutral-400'
-                                                : 'text-neutral-500'
+                                                ? 'bg-neutral-900/60 sm:bg-transparent border-neutral-800/80 sm:border-white/10'
+                                                : 'bg-neutral-50/80 sm:bg-transparent border-neutral-200/80 sm:border-black/10'
                                         }`}
                                     >
-                                        Read article on:
-                                    </span>
-                                    <div className="flex flex-wrap items-center gap-6">
-                                        {links.map((link, idx) => (
-                                            <a
-                                                key={idx}
-                                                href={link.url}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className={`group inline-flex items-center transition-colors ${
-                                                    isDarkTheme
-                                                        ? 'text-neutral-300 hover:text-white'
-                                                        : 'text-neutral-600 hover:text-black'
-                                                }`}
-                                            >
-                                                {link.publisherLogo && (
-                                                    <Image
-                                                        src={link.publisherLogo}
-                                                        alt={link.publisher}
-                                                        width={100}
-                                                        height={24}
-                                                        unoptimized
-                                                        className="h-6 w-auto object-contain mr-2.5"
+                                        <span
+                                            className={`text-[10px] sm:text-xs font-mono uppercase tracking-widest ${
+                                                isDarkTheme
+                                                    ? 'text-neutral-400'
+                                                    : 'text-neutral-500'
+                                            }`}
+                                        >
+                                            Read article on:
+                                        </span>
+                                        <div className="flex flex-wrap items-center gap-3 sm:gap-6">
+                                            {links.map((link, idx) => (
+                                                <a
+                                                    key={idx}
+                                                    href={link.url}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className={`group inline-flex items-center text-xs sm:text-sm font-mono transition-colors ${
+                                                        isDarkTheme
+                                                            ? 'text-neutral-300 hover:text-white'
+                                                            : 'text-neutral-700 hover:text-black'
+                                                    }`}
+                                                >
+                                                    {link.publisherLogo && (
+                                                        <Image
+                                                            src={link.publisherLogo}
+                                                            alt={link.publisher}
+                                                            width={100}
+                                                            height={24}
+                                                            unoptimized
+                                                            className="h-5 sm:h-6 w-auto object-contain mr-2"
+                                                        />
+                                                    )}
+                                                    <span>
+                                                        Read on {link.publisher}
+                                                    </span>
+                                                    <ArrowUpRight
+                                                        size={14}
+                                                        className="ml-1 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                                                     />
-                                                )}
-                                                <span className="text-sm font-mono">
-                                                    Read on {link.publisher}
-                                                </span>
-                                                <ArrowUpRight
-                                                    size={15}
-                                                    className="ml-1 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                                                />
-                                            </a>
-                                        ))}
+                                                </a>
+                                            ))}
+                                        </div>
                                     </div>
-                                </div>
-                            )
-                        })()}
-
+                                )
+                            })()}
 
                         {/* Top Action Bar: Preferred Source + Quick Share Buttons */}
                         <div
-                            className={`mb-8 mt-8 flex flex-wrap items-center justify-between gap-4 py-3 border-y ${
-                                isDarkTheme ? 'border-white/10' : 'border-black/10'
+                            className={`mb-8 mt-6 sm:mt-8 rounded-2xl sm:rounded-none border sm:border-x-0 sm:border-t sm:border-b p-4 sm:p-0 sm:py-3 transition-colors ${
+                                isDarkTheme
+                                    ? 'bg-neutral-900/60 sm:bg-transparent border-neutral-800/80 sm:border-white/10'
+                                    : 'bg-neutral-50/80 sm:bg-transparent border-neutral-200/80 sm:border-black/10'
                             }`}
                         >
-                            {/* Google Preferred Source Badge */}
-                            <div className="flex items-center leading-none min-h-[40px] min-w-[140px]">
-                                <div
-                                    key={`${post.id}-${isDarkTheme ? 'dark' : 'light'}`}
-                                    google-add-preferred-source-btn=""
-                                    data-theme={isDarkTheme ? 'dark' : 'light'}
-                                    data-lang="en"
-                                />
-                            </div>
-
-                            {/* Share Icons */}
-                            <div className="flex items-center gap-2">
-                                <span
-                                    className={`text-xs font-mono uppercase tracking-wider mr-1 hidden sm:inline ${
-                                        isDarkTheme ? 'text-neutral-400' : 'text-neutral-500'
-                                    }`}
-                                >
-                                    Share:
-                                </span>
-                                {/* Copy Link */}
-                                <button
-                                    type="button"
-                                    onClick={handleCopyLink}
-                                    aria-label="Copy link"
-                                    title="Copy link"
-                                    className={`inline-flex items-center gap-1.5 h-8 px-3 rounded-full transition-all duration-200 cursor-pointer text-xs font-mono ${
-                                        isDarkTheme
-                                            ? 'bg-white/10 hover:bg-white/20 text-neutral-200 hover:text-white'
-                                            : 'bg-black/5 hover:bg-black text-neutral-700 hover:text-white'
-                                    }`}
-                                >
-                                    {copiedTop ? (
-                                        <>
-                                            <Check size={13} className="text-emerald-500" />
-                                            <span className="hidden sm:inline">Link Copied!</span>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <Copy size={13} />
-                                            <span className="hidden sm:inline">Copy</span>
-                                        </>
-                                    )}
-                                </button>
-
-                                {/* LinkedIn */}
-                                <button
-                                    type="button"
-                                    onClick={handleLinkedInShare}
-                                    aria-label="Share on LinkedIn"
-                                    title="Share on LinkedIn"
-                                    className={`inline-flex items-center justify-center size-8 rounded-full transition-all duration-200 cursor-pointer ${
-                                        isDarkTheme
-                                            ? 'bg-white/10 hover:bg-[#0A66C2] text-neutral-200 hover:text-white'
-                                            : 'bg-black/5 hover:bg-[#0A66C2] text-neutral-700 hover:text-white'
-                                    }`}
-                                >
-                                    <svg
-                                        viewBox="0 -2 44 44"
-                                        className="size-3.5 fill-current"
-                                        aria-hidden="true"
+                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                                {/* Google Preferred Source Badge */}
+                                <div className="flex items-center justify-between sm:justify-start pb-3 sm:pb-0 border-b sm:border-b-0 border-black/[0.06] dark:border-white/[0.08] min-h-[40px]">
+                                    <span
+                                        className={`sm:hidden text-[10px] font-mono uppercase tracking-widest ${
+                                            isDarkTheme ? 'text-neutral-400' : 'text-neutral-500'
+                                        }`}
                                     >
-                                        <g
-                                            stroke="none"
-                                            strokeWidth="1"
-                                            fill="none"
-                                            fillRule="evenodd"
+                                        Follow Updates
+                                    </span>
+                                    <div className="flex items-center leading-none min-h-[40px] min-w-[140px]">
+                                        <div
+                                            key={post.id}
+                                            google-add-preferred-source-btn=""
+                                            data-theme={isDarkTheme ? 'dark' : 'light'}
+                                            data-lang="en"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Share Section */}
+                                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-2">
+                                    {/* Mobile Share Header */}
+                                    <div className="flex sm:hidden items-center justify-between mb-1">
+                                        <span
+                                            className={`text-[10px] font-mono uppercase tracking-widest ${
+                                                isDarkTheme ? 'text-neutral-400' : 'text-neutral-500'
+                                            }`}
                                         >
-                                            <g
-                                                transform="translate(-702.000000, -265.000000)"
-                                                fill="currentColor"
+                                            Share Article
+                                        </span>
+                                        {copiedTop && (
+                                            <span className="text-[11px] font-mono text-emerald-500 font-medium flex items-center gap-1">
+                                                <Check size={12} /> Copied!
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    {/* Desktop "Share:" label */}
+                                    <span
+                                        className={`text-xs font-mono uppercase tracking-wider mr-1 hidden sm:inline ${
+                                            isDarkTheme ? 'text-neutral-400' : 'text-neutral-500'
+                                        }`}
+                                    >
+                                        Share:
+                                    </span>
+
+                                    {/* Share Buttons: 5-Col Grid on Mobile, Flex on Desktop */}
+                                    <div className="grid grid-cols-5 sm:flex sm:items-center gap-2">
+                                        {/* 1. Native Share (order-first on mobile, order-last on desktop) */}
+                                        <button
+                                            type="button"
+                                            onClick={(e) => handleNativeShare(e)}
+                                            aria-label="Share article"
+                                            title="Share article"
+                                            className={`order-first sm:order-last flex flex-col sm:flex-row items-center justify-center py-2.5 sm:py-0 sm:size-8 rounded-xl sm:rounded-full transition-all duration-200 cursor-pointer active:scale-95 ${
+                                                isDarkTheme
+                                                    ? 'bg-white/10 hover:bg-white text-neutral-200 hover:text-black'
+                                                    : 'bg-black/5 hover:bg-black text-neutral-700 hover:text-white'
+                                            }`}
+                                        >
+                                            <Share2 className="size-4 sm:size-3.5" />
+                                            <span className="text-[10px] font-mono mt-1 sm:hidden font-medium">Share</span>
+                                        </button>
+
+                                        {/* 2. WhatsApp */}
+                                        <button
+                                            type="button"
+                                            onClick={handleWhatsAppShare}
+                                            aria-label="Share on WhatsApp"
+                                            title="Share on WhatsApp"
+                                            className={`flex flex-col sm:flex-row items-center justify-center py-2.5 sm:py-0 sm:size-8 rounded-xl sm:rounded-full transition-all duration-200 cursor-pointer active:scale-95 ${
+                                                isDarkTheme
+                                                    ? 'bg-white/10 hover:bg-[#25D366] text-[#25D366] sm:text-neutral-200 hover:text-white'
+                                                    : 'bg-black/5 hover:bg-[#25D366] text-[#128C7E] sm:text-neutral-700 hover:text-white'
+                                            }`}
+                                        >
+                                            <svg
+                                                viewBox="0 0 24 24"
+                                                className="size-4 sm:size-3.5 fill-current"
+                                                aria-hidden="true"
                                             >
-                                                <path
-                                                    d="M746,305 L736.2754,305 L736.2754,290.9384 C736.2754,287.257796 734.754233,284.74515 731.409219,284.74515 C728.850659,284.74515 727.427799,286.440738 726.765522,288.074854 C726.517168,288.661395 726.555974,289.478453 726.555974,290.295511 L726.555974,305 L716.921919,305 C716.921919,305 717.046096,280.091247 716.921919,277.827047 L726.555974,277.827047 L726.555974,282.091631 C727.125118,280.226996 730.203669,277.565794 735.116416,277.565794 C741.21143,277.565794 746,281.474355 746,289.890824 L746,305 L746,305 Z M707.17921,274.428187 L707.117121,274.428187 C704.0127,274.428187 702,272.350964 702,269.717936 C702,267.033681 704.072201,265 707.238711,265 C710.402634,265 712.348071,267.028559 712.41016,269.710252 C712.41016,272.34328 710.402634,274.428187 707.17921,274.428187 L707.17921,274.428187 L707.17921,274.428187 Z M703.109831,277.827047 L711.685795,277.827047 L711.685795,305 L703.109831,305 L703.109831,277.827047 L703.109831,277.827047 Z"
-                                                    id="LinkedIn"
-                                                />
-                                            </g>
-                                        </g>
-                                    </svg>
-                                </button>
+                                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.414-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+                                            </svg>
+                                            <span className="text-[10px] font-mono mt-1 sm:hidden font-medium">WhatsApp</span>
+                                        </button>
 
-                                {/* WhatsApp */}
-                                <button
-                                    type="button"
-                                    onClick={handleWhatsAppShare}
-                                    aria-label="Share on WhatsApp"
-                                    title="Share on WhatsApp"
-                                    className={`inline-flex items-center justify-center size-8 rounded-full transition-all duration-200 cursor-pointer ${
-                                        isDarkTheme
-                                            ? 'bg-white/10 hover:bg-[#25D366] text-neutral-200 hover:text-white'
-                                            : 'bg-black/5 hover:bg-[#25D366] text-neutral-700 hover:text-white'
-                                    }`}
-                                >
-                                    <svg viewBox="0 0 24 24" className="size-3.5 fill-current" aria-hidden="true">
-                                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.414-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-                                    </svg>
-                                </button>
+                                        {/* 3. LinkedIn */}
+                                        <button
+                                            type="button"
+                                            onClick={handleLinkedInShare}
+                                            aria-label="Share on LinkedIn"
+                                            title="Share on LinkedIn"
+                                            className={`flex flex-col sm:flex-row items-center justify-center py-2.5 sm:py-0 sm:size-8 rounded-xl sm:rounded-full transition-all duration-200 cursor-pointer active:scale-95 ${
+                                                isDarkTheme
+                                                    ? 'bg-white/10 hover:bg-[#0A66C2] text-[#0A66C2] sm:text-neutral-200 hover:text-white'
+                                                    : 'bg-black/5 hover:bg-[#0A66C2] text-[#0A66C2] sm:text-neutral-700 hover:text-white'
+                                            }`}
+                                        >
+                                            <svg
+                                                viewBox="0 -2 44 44"
+                                                className="size-4 sm:size-3.5 fill-current"
+                                                aria-hidden="true"
+                                            >
+                                                <g
+                                                    stroke="none"
+                                                    strokeWidth="1"
+                                                    fill="none"
+                                                    fillRule="evenodd"
+                                                >
+                                                    <g
+                                                        transform="translate(-702.000000, -265.000000)"
+                                                        fill="currentColor"
+                                                    >
+                                                        <path
+                                                            d="M746,305 L736.2754,305 L736.2754,290.9384 C736.2754,287.257796 734.754233,284.74515 731.409219,284.74515 C728.850659,284.74515 727.427799,286.440738 726.765522,288.074854 C726.517168,288.661395 726.555974,289.478453 726.555974,290.295511 L726.555974,305 L716.921919,305 C716.921919,305 717.046096,280.091247 716.921919,277.827047 L726.555974,277.827047 L726.555974,282.091631 C727.125118,280.226996 730.203669,277.565794 735.116416,277.565794 C741.21143,277.565794 746,281.474355 746,289.890824 L746,305 L746,305 Z M707.17921,274.428187 L707.117121,274.428187 C704.0127,274.428187 702,272.350964 702,269.717936 C702,267.033681 704.072201,265 707.238711,265 C710.402634,265 712.348071,267.028559 712.41016,269.710252 C712.41016,272.34328 710.402634,274.428187 707.17921,274.428187 L707.17921,274.428187 L707.17921,274.428187 Z M703.109831,277.827047 L711.685795,277.827047 L711.685795,305 L703.109831,305 L703.109831,277.827047 L703.109831,277.827047 Z"
+                                                            id="LinkedIn"
+                                                        />
+                                                    </g>
+                                                </g>
+                                            </svg>
+                                            <span className="text-[10px] font-mono mt-1 sm:hidden font-medium">LinkedIn</span>
+                                        </button>
 
-                                {/* X (Twitter) */}
-                                <button
-                                    type="button"
-                                    onClick={handleXShare}
-                                    aria-label="Share on X"
-                                    title="Share on X"
-                                    className={`inline-flex items-center justify-center size-8 rounded-full transition-all duration-200 cursor-pointer ${
-                                        isDarkTheme
-                                            ? 'bg-white/10 hover:bg-black text-neutral-200 hover:text-white'
-                                            : 'bg-black/5 hover:bg-black text-neutral-700 hover:text-white'
-                                    }`}
-                                >
-                                    <svg viewBox="0 0 24 24" className="size-3 fill-current" aria-hidden="true">
-                                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                                    </svg>
-                                </button>
+                                        {/* 4. X (Twitter) */}
+                                        <button
+                                            type="button"
+                                            onClick={handleXShare}
+                                            aria-label="Share on X"
+                                            title="Share on X"
+                                            className={`flex flex-col sm:flex-row items-center justify-center py-2.5 sm:py-0 sm:size-8 rounded-xl sm:rounded-full transition-all duration-200 cursor-pointer active:scale-95 ${
+                                                isDarkTheme
+                                                    ? 'bg-white/10 hover:bg-black text-neutral-200 hover:text-white'
+                                                    : 'bg-black/5 hover:bg-black text-neutral-700 hover:text-white'
+                                            }`}
+                                        >
+                                            <svg
+                                                viewBox="0 0 24 24"
+                                                className="size-4 sm:size-3 fill-current"
+                                                aria-hidden="true"
+                                            >
+                                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                                            </svg>
+                                            <span className="text-[10px] font-mono mt-1 sm:hidden font-medium">X</span>
+                                        </button>
 
-                                {/* Native Share / Share Icon */}
-                                <button
-                                    type="button"
-                                    onClick={handleNativeShare}
-                                    aria-label="Share article"
-                                    title="Share article"
-                                    className={`inline-flex items-center justify-center size-8 rounded-full transition-all duration-200 cursor-pointer ${
-                                        isDarkTheme
-                                            ? 'bg-white/10 hover:bg-white text-neutral-200 hover:text-black'
-                                            : 'bg-black/5 hover:bg-black text-neutral-700 hover:text-white'
-                                    }`}
-                                >
-                                    <Share2 size={14} />
-                                </button>
+                                        {/* 5. Copy Link */}
+                                        <button
+                                            type="button"
+                                            onClick={handleCopyLink}
+                                            aria-label="Copy link"
+                                            title="Copy link"
+                                            className={`flex flex-col sm:inline-flex sm:flex-row items-center justify-center py-2.5 sm:py-0 sm:h-8 sm:px-3 rounded-xl sm:rounded-full transition-all duration-200 cursor-pointer text-xs font-mono active:scale-95 ${
+                                                copiedTop
+                                                    ? 'bg-emerald-500/15 text-emerald-500 border border-emerald-500/30'
+                                                    : isDarkTheme
+                                                      ? 'bg-white/10 hover:bg-white/20 text-neutral-200 hover:text-white'
+                                                      : 'bg-black/5 hover:bg-black text-neutral-700 hover:text-white'
+                                            }`}
+                                        >
+                                            {copiedTop ? (
+                                                <>
+                                                    <Check className="size-4 sm:size-3.5 text-emerald-500" />
+                                                    <span className="text-[10px] sm:text-xs font-mono mt-1 sm:mt-0 font-medium">
+                                                        <span className="sm:hidden">Copied!</span>
+                                                        <span className="hidden sm:inline sm:ml-1.5">Link Copied!</span>
+                                                    </span>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <Copy className="size-4 sm:size-3.5" />
+                                                    <span className="text-[10px] sm:text-xs font-mono mt-1 sm:mt-0 font-medium">
+                                                        <span className="sm:hidden">Copy</span>
+                                                        <span className="hidden sm:inline sm:ml-1.5">Copy</span>
+                                                    </span>
+                                                </>
+                                            )}
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -858,6 +989,32 @@ export default function BlogDetailPage({
 
             {/* Floating Back to Top button */}
             <BlogBackToTop />
+
+            {/* Floating confirmation toast for copied link (placed at root level to sit above mobile TOC button & drawer) */}
+            <div
+                style={{ zIndex: 100 }}
+                className={`fixed bottom-6 left-1/2 -translate-x-1/2 pointer-events-none transition-all duration-300 ${
+                    copiedTop ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-4 opacity-0 scale-95'
+                }`}
+                aria-live="polite"
+            >
+                <div
+                    className={`flex items-center gap-2.5 px-4 py-2.5 rounded-full shadow-2xl border transition-colors ${
+                        isDarkTheme
+                            ? 'bg-[#181818] text-white border-white/20 shadow-black/80'
+                            : 'bg-white text-neutral-900 border-black/10 shadow-black/20'
+                    }`}
+                >
+                    <Check
+                        size={14}
+                        strokeWidth={2.5}
+                        className={isDarkTheme ? 'text-emerald-400 shrink-0' : 'text-emerald-600 shrink-0'}
+                    />
+                    <span className="text-xs font-mono font-medium tracking-wide">
+                        Link copied!
+                    </span>
+                </div>
+            </div>
         </section>
     )
 }
