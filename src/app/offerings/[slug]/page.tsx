@@ -33,7 +33,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const path = `/offerings/${slug}`;
   const siteUrl = process.env.SITE_URL || "https://www.kalolwala.com";
   const url = `${siteUrl}${path}`;
-  const ogImageUrl = `/api/og?title=${encodeURIComponent(title)}&path=${encodeURIComponent(path)}`;
+  const cleanTitle = title.replace(/[\u2018\u2019]/g, "'");
+  const ogImageUrl = `/api/og.png?title=${encodeURIComponent(cleanTitle)}&path=${encodeURIComponent(path)}`;
 
   return {
     title,
@@ -50,6 +51,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: [
         {
           url: ogImageUrl,
+          type: "image/png",
           width: 1200,
           height: 630,
           alt: title,

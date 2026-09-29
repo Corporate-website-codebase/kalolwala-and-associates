@@ -65,7 +65,8 @@ export function getMetadata(page: keyof typeof PAGE_METADATA): Metadata {
     const { title, description, canonical } = PAGE_METADATA[page]
     const siteUrl = process.env.SITE_URL || 'https://www.kalolwala.com'
     const fullCanonical = canonical.startsWith('http') ? canonical : `${siteUrl}${canonical}`
-    const ogImageUrl = `/api/og?title=${encodeURIComponent(title)}&path=${encodeURIComponent(canonical)}`
+    const cleanTitle = title.replace(/[\u2018\u2019]/g, "'")
+    const ogImageUrl = `/api/og.png?title=${encodeURIComponent(cleanTitle)}&path=${encodeURIComponent(canonical)}`
 
     return {
         title,
@@ -82,6 +83,7 @@ export function getMetadata(page: keyof typeof PAGE_METADATA): Metadata {
             images: [
                 {
                     url: ogImageUrl,
+                    type: 'image/png',
                     width: 1200,
                     height: 630,
                     alt: title,

@@ -38,7 +38,8 @@ openGraph: {
     type: "website",
     images: [
       {
-        url: `/api/og?title=${encodeURIComponent(home.title || '')}&path=%2F`,
+        url: `/api/og.png?title=${encodeURIComponent((home.title || '').replace(/[\u2018\u2019]/g, "'"))}&path=%2F`,
+        type: "image/png",
         width: 1200,
         height: 630,
         alt: home.title,
@@ -49,7 +50,7 @@ openGraph: {
     card: "summary_large_image",
     title: home.title,
     description: home.description,
-    images: [`/api/og?title=${encodeURIComponent(home.title || '')}&path=%2F`],
+    images: [`/api/og.png?title=${encodeURIComponent((home.title || '').replace(/[\u2018\u2019]/g, "'"))}&path=%2F`],
   },
   alternates: {
     canonical: home.canonical,
@@ -57,6 +58,9 @@ openGraph: {
       en: process.env.SITE_URL || "https://www.kalolwala.com",
       "x-default": process.env.SITE_URL || "https://www.kalolwala.com",
     },
+  },
+  verification: {
+    google: "nZdF0YGHOkhdaZjvtTM7t5y7tvx23ggkUuKt3HwUopM",
   },
 };
 
@@ -67,28 +71,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <Script
-          id="gtm"
-          strategy="lazyOnload"
-          dangerouslySetInnerHTML={{
-            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-N6SR3K3C');`,
-          }}
-        />
-        <meta
-          name="google-site-verification"
-          content="nZdF0YGHOkhdaZjvtTM7t5y7tvx23ggkUuKt3HwUopM"
-        />
-        {/* Add preconnect to speed up Typekit fetching without removing it */}
-
-        {/* <link rel="preconnect" href="https://use.typekit.net" crossOrigin="anonymous" /> */}
-        {/* <link rel="stylesheet" href="https://use.typekit.net/zmg6oqe.css" /> */}
-      </head>
       <body className={`${anton.variable} ${noto.variable}  antialiased`}>
+        <GoogleTagManager gtmId="GTM-N6SR3K3C" />
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-N6SR3K3C"
@@ -104,8 +88,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           {/* </SmoothScroll> */}
           {/* <Popup /> */}
         </PassTransitionProvider>
-        {/* Use the native Next.js GTM component which handles hydration automatically */}
-        {/* <GoogleTagManager gtmId="GTM-N6SR3K3C" /> */}
       </body>
     </html>
   );

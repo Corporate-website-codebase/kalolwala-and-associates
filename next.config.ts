@@ -2,7 +2,7 @@ import type { NextConfig } from 'next'
 import withBundleAnalyzer from '@next/bundle-analyzer'
 const nextConfig: NextConfig = {
     // Explicitly enforce removal of trailing slashes (e.g. /offerings/ -> /offerings)
-    // allowedDevOrigins : ['172.16.16.61'],
+    allowedDevOrigins : ['172.16.16.61'],
     skipTrailingSlashRedirect: false,
 
 
@@ -17,6 +17,15 @@ const nextConfig: NextConfig = {
                 hostname: '**.kalolwala.com',
             },
         ],
+    },
+
+    async rewrites() {
+        return [
+            {
+                source: '/api/og.png',
+                destination: '/api/og',
+            },
+        ]
     },
 
     async headers() {

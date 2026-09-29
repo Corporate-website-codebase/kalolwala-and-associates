@@ -109,7 +109,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     if (localPost) {
         const blogTitle = localPost.metaTitle || localPost.title
         const blogDescription = localPost.excerpt || localPost.title
-        const ogImageUrl = `/api/og?title=${encodeURIComponent(blogTitle)}&path=${encodeURIComponent(blogPath)}`
+        const cleanTitle = blogTitle.replace(/[\u2018\u2019]/g, "'")
+        const ogImageUrl = `/api/og.png?title=${encodeURIComponent(cleanTitle)}&path=${encodeURIComponent(blogPath)}`
 
         return {
             title: blogTitle,
@@ -132,6 +133,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
                 images: [
                     {
                         url: ogImageUrl,
+                        type: 'image/png',
                         width: 1200,
                         height: 630,
                         alt: blogTitle,
@@ -162,7 +164,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     const blogTitle = wordpressPost.title.rendered
     const blogDescription = wordpressPost.excerpt.rendered.replace(/<[^>]*>/g, '').trim()
-    const ogImageUrl = `/api/og?title=${encodeURIComponent(blogTitle)}&path=${encodeURIComponent(blogPath)}`
+    const cleanWpTitle = blogTitle.replace(/[\u2018\u2019]/g, "'")
+    const ogImageUrl = `/api/og.png?title=${encodeURIComponent(cleanWpTitle)}&path=${encodeURIComponent(blogPath)}`
 
     return {
         title: blogTitle,
@@ -187,6 +190,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             images: [
                 {
                     url: ogImageUrl,
+                    type: 'image/png',
                     width: 1200,
                     height: 630,
                     alt: blogTitle,
