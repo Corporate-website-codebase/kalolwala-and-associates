@@ -1,10 +1,10 @@
 'use client'
 
 import type { BlogPostCard } from '@/data/blogs'
+import { motion, type Variants } from 'framer-motion'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 import React, { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
-import { motion, type Variants } from 'framer-motion'
 import BlogCard from './BlogCard'
 
 const ITEMS_PER_PAGE = 12
@@ -15,7 +15,7 @@ function useHasMounted() {
     return useSyncExternalStore(
         emptySubscribe,
         () => true,
-        () => false
+        () => false,
     )
 }
 
@@ -169,7 +169,9 @@ export default function BlogPaginatedList({
                 id: String(post.id),
                 title: post.title.rendered,
                 slug: post.slug,
-                excerpt: post.excerpt?.rendered ? post.excerpt.rendered.replace(/<[^>]*>/g, '').trim() : '',
+                excerpt: post.excerpt?.rendered
+                    ? post.excerpt.rendered.replace(/<[^>]*>/g, '').trim()
+                    : '',
                 date: new Date(post.date).toLocaleDateString('en-GB', {
                     day: '2-digit',
                     month: 'short',
@@ -340,29 +342,11 @@ export default function BlogPaginatedList({
                     >
                         <motion.h1
                             variants={heroItemVariants}
-                            className="leading-[1.1] mb-4 lg:mb-6 text-white font-light tracking-tight whitespace-pre-line"
-                            style={{ fontSize: 'clamp(32px, 4vw, 64px)' }}
+                            className="text-[clamp(26px,2.8vw,46px)] leading-[1.2] lg:leading-[1.25] text-white font-light tracking-tight max-w-4xl md:max-w-2xl lg:max-w-3xl xl:max-w-5xl"
                         >
-                            Finding the story in the
-                            <br />
-                            subtle space between words.
+                            A space for ideas that challenge the familiar, perspectives that sharpen
+                            understanding and conversations that shape better communication.
                         </motion.h1>
-
-                        <motion.p
-                            variants={heroItemVariants}
-                            className="text-neutral-100 whitespace-pre-line max-w-3xl font-light"
-                            style={{
-                                fontSize: 'clamp(14px, 1.2vw, 20px)',
-                                lineHeight: '1.6',
-                            }}
-                        >
-                            Explore our latest articles, perspectives and insights across business,
-                            communication, reporting and design. From emerging trends and changing
-                            business landscapes to ideas shaping corporate communication and
-                            stakeholder engagement, our blog brings together thoughtful perspectives
-                            designed to help businesses understand what is changing, why it matters
-                            and what comes next.
-                        </motion.p>
 
                         {/* Newsletter subscription module */}
                         <motion.div
@@ -472,11 +456,7 @@ export default function BlogPaginatedList({
                         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 pt-2 gap-6 lg:gap-8 2xl:gap-5"
                     >
                         {currentData.map((c) => (
-                            <motion.div
-                                key={c.id}
-                                variants={cardItemVariants}
-                                className="h-full"
-                            >
+                            <motion.div key={c.id} variants={cardItemVariants} className="h-full">
                                 <BlogCard post={c} />
                             </motion.div>
                         ))}
