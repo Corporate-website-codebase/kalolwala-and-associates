@@ -342,7 +342,7 @@ export default function BlogPaginatedList({
                     >
                         <motion.h1
                             variants={heroItemVariants}
-                            className="text-[clamp(26px,2.8vw,46px)] leading-[1.2] lg:leading-[1.25] text-white font-light tracking-tight max-w-4xl md:max-w-2xl lg:max-w-3xl xl:max-w-5xl"
+                            className="text-[clamp(26px,2.4vw,46px)] leading-[1.2] lg:leading-[1.25] text-white font-light tracking-tight max-w-4xl md:max-w-2xl lg:max-w-2xl xl:max-w-3xl"
                         >
                             A space for ideas that challenge the familiar, perspectives that sharpen
                             understanding and conversations that shape better communication.
@@ -354,10 +354,6 @@ export default function BlogPaginatedList({
                             className="mt-8 lg:mt-16 lg:w-4xl flex flex-col gap-6"
                         >
                             <div className="md:w-1/2">
-                                <p className="font-mono text-xs uppercase tracking-[0.2em] text-neutral-100 mb-3">
-                                    Stay informed
-                                </p>
-
                                 <h2
                                     className="text-white font-noto-sans font-medium leading-tight tracking-tight"
                                     style={{ fontSize: 'clamp(20px, 2vw, 28px)' }}
