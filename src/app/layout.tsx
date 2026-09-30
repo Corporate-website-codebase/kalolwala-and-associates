@@ -83,9 +83,9 @@ export default function RootLayout({
         </noscript>
         <PassTransitionProvider colors={["#555555", "#3D3D3D", "#252525"]}>
           <Navbar />
-          {/* <SmoothScroll> */}
+          <SmoothScroll>
             <main className="relative w-full h-full selection:bg-yellow-400/15">{children}</main>
-          {/* </SmoothScroll> */}
+          </SmoothScroll>
           {/* <Popup /> */}
         </PassTransitionProvider>
       </body>
