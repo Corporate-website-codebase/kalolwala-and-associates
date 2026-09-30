@@ -36,6 +36,7 @@ import BlogTableOfContents, {
 } from "./detail/BlogTableOfContents";
 import MobileTocDrawer from "./detail/MobileTocDrawer";
 import PublisherMarquee from "./PublisherMarquee";
+import Script from "next/script";
 
 interface BlogDetailPageProps {
   post: BlogPost;
@@ -447,6 +448,12 @@ export default function BlogDetailPage({
           : "bg-[#eeeeee] text-black blog-light-reader"
       }`}
     >
+
+      <Script
+  src="https://news.google.com/swg/js/v1/publisher.js"
+  strategy="afterInteractive"
+/>
+
       {/* Minimal Reading Progress Bar fixed at top of viewport */}
       <div className="fixed top-0 left-0 right-0 h-px z-[120] pointer-events-none bg-black/5">
         <div
@@ -646,80 +653,12 @@ export default function BlogDetailPage({
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     {/* Google Preferred Source */}
                     <div className="flex items-center justify-center sm:justify-start pb-3 sm:pb-0 border-b sm:border-b-0 border-black/[0.06] dark:border-white/[0.08] min-h-[40px]">
-                      <a
-    href="https://www.google.com/preferences/source?q=kalolwala.com"
-    target="_blank"
-    rel="noopener noreferrer"
-    title="Add Kalolwala & Associates to preferred sources on Google"
-    className="
-        group
-        w-fit
-        max-w-full
-        h-[60px]
-        sm:h-[66px]
-        px-3
-        sm:px-4
-        flex
-        items-center
-        justify-center
-        gap-2
-        sm:gap-2.5
-        rounded-xl
-        bg-white
-        border
-        border-neutral-400
-        text-neutral-900
-        transition-all
-        duration-300
-        hover:border-neutral-600
-        hover:shadow-sm
-        active:scale-[0.98]
-    "
->
-                        {/* Google G Logo */}
-                        <svg
-                          className="
-                w-8
-                h-8
-                sm:w-9
-                sm:h-9
-                shrink-0
-                transition-transform
-                duration-300
-                group-hover:scale-105
-            "
-                          viewBox="0 0 24 24"
-                          aria-hidden="true"
-                        >
-                          <path
-                            fill="#4285F4"
-                            d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"
-                          />
-                          <path
-                            fill="#34A853"
-                            d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"
-                          />
-                          <path
-                            fill="#FBBC05"
-                            d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.14-1.55.38-2.27V6.58H1.25C.45 8.16 0 9.97 0 12s.45 3.84 1.25 5.42l4.03-3.15z"
-                          />
-                          <path
-                            fill="#EA4335"
-                            d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"
-                          />
-                        </svg>
-
-                        {/* Button Text */}
-                        <span className="flex flex-col text-left leading-[1.05]">
-    <span className="text-sm sm:text-base font-semibold tracking-tight">
-        Add as a preferred
-    </span>
-
-    <span className="text-sm sm:text-base font-semibold tracking-tight">
-        source on Google
-    </span>
-</span>
-                      </a>
+                      <div
+  className="google-preferred-source"
+  google-add-preferred-source-btn=""
+  data-theme="light"
+  data-lang="en"
+/>
                     </div>
 
                     {/* Share Section */}
