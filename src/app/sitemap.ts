@@ -89,6 +89,7 @@ import path from "path";
 import { PAYLOADS } from "@/data/payloads";
 import { BLOG_DATA } from "@/data/blogs";
 import { getPosts } from "@/lib/wordpress";
+import { getAllVisionarySlugs } from "@/data/visionaries";
 
 function getRoutes(dir: string, basePath: string = ""): string[] {
   const routes: string[] = [];
@@ -130,6 +131,9 @@ function getRoutes(dir: string, basePath: string = ""): string[] {
           "/offerings/video/corporate-films-video-reports",
           "/offerings/video/annual-report-video-reports",
         );
+      } else if (basePath === "/about") {
+        const visionaryRoutes = getAllVisionarySlugs().map((slug) => `/about/${slug}`);
+        routes.push(...visionaryRoutes);
       }
 
       continue;
