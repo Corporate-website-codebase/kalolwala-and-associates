@@ -649,7 +649,7 @@ export default function BlogDetailPage({
                     {/* Google Preferred Source */}
                     <div className="flex items-center justify-center sm:justify-start pb-3 sm:pb-0 border-b sm:border-b-0 border-black/[0.06] dark:border-white/[0.08] min-h-[40px]">
                       <a
-  href="https://www.google.com/preferences/source?q=blogcms.kalolwala.com"
+  href="https://www.google.com/preferences/source?q=kalolwala.com"
   target="_blank"
   rel="noopener noreferrer"
   aria-label="Add Kalolwala & Associates as a preferred source on Google"
