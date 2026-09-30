@@ -312,6 +312,30 @@ export default function BlogDetailPage({
     return () => window.removeEventListener("scroll", onScroll);
   }, [post.id]);
 
+  useEffect(() => {
+  const button = document.getElementById(
+    "google-preferred-source-btn"
+  );
+
+  if (!button) return;
+
+  (window as any).PREFERRED_SOURCE =
+    (window as any).PREFERRED_SOURCE || [];
+
+  (window as any).PREFERRED_SOURCE.push(
+    (preferredSource: any) => {
+      preferredSource.init({
+        theme: "light",
+        lang: "en",
+      });
+
+      button.addEventListener("click", () => {
+        preferredSource.addPreferredSource();
+      });
+    }
+  );
+}, []);
+
   // Top action bar share handlers
   const [copiedTop, setCopiedTop] = useState(false);
   const copyTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -450,10 +474,20 @@ export default function BlogDetailPage({
     >
 
       <Script
-  src="https://news.google.com/swg/js/v1/publisher.js"
+  id="google-preferred-source-script"
   strategy="afterInteractive"
+  dangerouslySetInnerHTML={{
+    __html: `
+      (function() {
+        var script = document.createElement('script');
+        script.async = true;
+        script.setAttribute('preferred-sources-control', 'manual');
+        script.src = 'https://news.google.com/swg/js/v1/publisher.js';
+        document.head.appendChild(script);
+      })();
+    `,
+  }}
 />
-
       {/* Minimal Reading Progress Bar fixed at top of viewport */}
       <div className="fixed top-0 left-0 right-0 h-px z-[120] pointer-events-none bg-black/5">
         <div
@@ -653,12 +687,69 @@ export default function BlogDetailPage({
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     {/* Google Preferred Source */}
                     <div className="flex items-center justify-center sm:justify-start pb-3 sm:pb-0 border-b sm:border-b-0 border-black/[0.06] dark:border-white/[0.08] min-h-[40px]">
-                      <div
-  className="google-preferred-source"
-  google-add-preferred-source-btn=""
-  data-theme="light"
-  data-lang="en"
-/>
+                      <button
+  id="google-preferred-source-btn"
+  type="button"
+  className="
+    group
+    w-fit
+    max-w-full
+    h-[60px]
+    sm:h-[66px]
+    px-3
+    sm:px-4
+    flex
+    items-center
+    justify-center
+    gap-2
+    sm:gap-2.5
+    rounded-xl
+    bg-white
+    border
+    border-neutral-400
+    text-neutral-900
+    transition-all
+    duration-300
+    hover:border-neutral-600
+    hover:shadow-sm
+    active:scale-[0.98]
+    cursor-pointer
+  "
+>
+  {/* Google G */}
+  <svg
+    className="w-8 h-8 sm:w-9 sm:h-9 shrink-0"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
+    <path
+      fill="#4285F4"
+      d="M21.35 12.27c0-.79-.07-1.55-.22-2.27H12v4.3h5.22a4.46 4.46 0 0 1-1.94 2.93v2.43h3.14c1.84-1.69 2.93-4.18 2.93-7.39Z"
+    />
+    <path
+      fill="#34A853"
+      d="M12 21.5c2.63 0 4.84-.87 6.45-2.34l-3.14-2.43c-.87.58-1.98.92-3.31.92-2.54 0-4.69-1.72-5.46-4.03H3.3v2.5A9.74 9.74 0 0 0 12 21.5Z"
+    />
+    <path
+      fill="#FBBC05"
+      d="M6.54 13.62A5.86 5.86 0 0 1 6.23 12c0-.56.1-1.1.31-1.62v-2.5H3.3A9.74 9.74 0 0 0 2.25 12c0 1.57.38 3.05 1.05 4.12l3.24-2.5Z"
+    />
+    <path
+      fill="#EA4335"
+      d="M12 6.35c1.43 0 2.71.49 3.72 1.45l2.79-2.79C16.84 3.45 14.63 2.5 12 2.5a9.74 9.74 0 0 0-8.7 5.38l3.24 2.5C7.31 8.07 9.46 6.35 12 6.35Z"
+    />
+  </svg>
+
+  <span className="flex flex-col text-left leading-[1.05]">
+    <span className="text-sm sm:text-base font-semibold tracking-tight">
+      Add as a preferred
+    </span>
+
+    <span className="text-sm sm:text-base font-semibold tracking-tight">
+      source on Google
+    </span>
+  </span>
+</button>
                     </div>
 
                     {/* Share Section */}
