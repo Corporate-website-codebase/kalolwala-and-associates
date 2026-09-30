@@ -312,30 +312,6 @@ export default function BlogDetailPage({
     return () => window.removeEventListener("scroll", onScroll);
   }, [post.id]);
 
-  useEffect(() => {
-  const button = document.getElementById(
-    "google-preferred-source-btn"
-  );
-
-  if (!button) return;
-
-  (window as any).PREFERRED_SOURCE =
-    (window as any).PREFERRED_SOURCE || [];
-
-  (window as any).PREFERRED_SOURCE.push(
-    (preferredSource: any) => {
-      preferredSource.init({
-        theme: "light",
-        lang: "en",
-      });
-
-      button.addEventListener("click", () => {
-        preferredSource.addPreferredSource();
-      });
-    }
-  );
-}, []);
-
   // Top action bar share handlers
   const [copiedTop, setCopiedTop] = useState(false);
   const copyTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -473,21 +449,6 @@ export default function BlogDetailPage({
       }`}
     >
 
-      <Script
-  id="google-preferred-source-script"
-  strategy="afterInteractive"
-  dangerouslySetInnerHTML={{
-    __html: `
-      (function() {
-        var script = document.createElement('script');
-        script.async = true;
-        script.setAttribute('preferred-sources-control', 'manual');
-        script.src = 'https://news.google.com/swg/js/v1/publisher.js';
-        document.head.appendChild(script);
-      })();
-    `,
-  }}
-/>
       {/* Minimal Reading Progress Bar fixed at top of viewport */}
       <div className="fixed top-0 left-0 right-0 h-px z-[120] pointer-events-none bg-black/5">
         <div
@@ -687,9 +648,11 @@ export default function BlogDetailPage({
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     {/* Google Preferred Source */}
                     <div className="flex items-center justify-center sm:justify-start pb-3 sm:pb-0 border-b sm:border-b-0 border-black/[0.06] dark:border-white/[0.08] min-h-[40px]">
-                      <button
-  id="google-preferred-source-btn"
-  type="button"
+                      <a
+  href="https://www.google.com/preferences/source?q=kalolwala.com"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Add Kalolwala & Associates as a preferred source on Google"
   className="
     group
     w-fit
@@ -749,7 +712,7 @@ export default function BlogDetailPage({
       source on Google
     </span>
   </span>
-</button>
+</a>
                     </div>
 
                     {/* Share Section */}
