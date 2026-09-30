@@ -5,7 +5,6 @@ import { useLenis } from 'lenis/react'
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Copy, Moon, Share2, Sun } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import Script from 'next/script'
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
 import AuthorAvatar from './AuthorAvatar'
 import BlogBackToTop from './detail/BlogBackToTop'
@@ -139,7 +138,7 @@ export default function BlogDetailPage({
 
     // State for controlling sidebar collapse/expand with scroll lock to prevent jumping
     const [isTocOpen, setIsTocOpen] = useState(true)
-    const [isRecentOpen, setIsRecentOpen] = useState(true)
+    const [isRecentOpen, setIsRecentOpen] = useState(false)
 
     const handleToggleToc = useCallback(() => {
         setIsTocOpen((prev) => !prev)
@@ -389,63 +388,6 @@ export default function BlogDetailPage({
         }
     }
 
-    // Re-initialize or trigger Google Preferred Source script on article navigation
-    useEffect(() => {
-        let isMounted = true
-
-        const triggerPreferredSource = () => {
-            if (!isMounted || typeof window === 'undefined') return
-
-            const btn = document.querySelector('[google-add-preferred-source-btn]')
-            if (!btn) return
-
-            // If already rendered with a shadowRoot or children, do not disturb
-            if (btn.shadowRoot || btn.children.length > 0) return
-
-            const win = window as unknown as {
-                PREFERRED_SOURCE?: {
-                    api?: { init?: () => void }
-                    push?: (cb: (api: { init?: () => void }) => void) => void
-                }
-                preferredSource?: {
-                    init?: () => void
-                }
-            }
-
-            // Remove data-initialized so publisher.js can process this element
-            btn.removeAttribute('data-initialized')
-
-            const runInit = () => {
-                if (!isMounted) return
-                try {
-                    if (win.PREFERRED_SOURCE?.api?.init) {
-                        win.PREFERRED_SOURCE.api.init()
-                    } else if (win.preferredSource?.init) {
-                        win.preferredSource.init()
-                    } else if (win.PREFERRED_SOURCE?.push) {
-                        win.PREFERRED_SOURCE.push((api) => api.init?.())
-                    }
-                } catch {
-                    // Ignore
-                }
-            }
-
-            runInit()
-            setTimeout(runInit, 150)
-            setTimeout(runInit, 400)
-        }
-
-        triggerPreferredSource()
-        const timer1 = setTimeout(triggerPreferredSource, 150)
-        const timer2 = setTimeout(triggerPreferredSource, 400)
-
-        return () => {
-            isMounted = false
-            clearTimeout(timer1)
-            clearTimeout(timer2)
-        }
-    }, [post.id, post.slug])
-
     return (
         <section
             ref={containerRef}
@@ -463,26 +405,6 @@ export default function BlogDetailPage({
                     style={{ transform: `scaleX(${readingProgress})` }}
                 />
             </div>
-
-            <Script
-                src="https://news.google.com/swg/js/v1/publisher.js"
-                strategy="lazyOnload"
-                onLoad={() => {
-                    if (typeof window !== 'undefined') {
-                        const win = window as unknown as {
-                            PREFERRED_SOURCE?: {
-                                api?: { init?: () => void }
-                                push?: (cb: (api: { init?: () => void }) => void) => void
-                            }
-                        }
-                        if (win.PREFERRED_SOURCE?.api?.init) {
-                            win.PREFERRED_SOURCE.api.init()
-                        } else if (win.PREFERRED_SOURCE?.push) {
-                            win.PREFERRED_SOURCE.push((api) => api.init?.())
-                        }
-                    }
-                }}
-            />
 
             {/* 3-Column Reading Layout attached edge-to-edge */}
             <div className="w-full flex flex-col lg:flex-row items-stretch relative z-10">
@@ -586,7 +508,7 @@ export default function BlogDetailPage({
                             itemType="https://schema.org/BlogPosting"
                             className="w-full flex flex-col"
                         >
-                            {/* Article Header: Title + Author & Date Byline */}
+                            {/* Article Header: Title + Author & Date Byline + Preferred Source Bar + Subscribe Box */}
                             <header className="article-header mb-8">
                                 <h1
                                     itemProp="headline"
@@ -596,6 +518,311 @@ export default function BlogDetailPage({
                                 >
                                     {post.title}
                                 </h1>
+
+                                {/* Author & Publication Date Byline */}
+                                <div
+                                    className={`mt-6 pb-4 sm:pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6 border sm:border-0 rounded-2xl sm:rounded-none p-4 sm:p-0 transition-colors ${
+                                        isDarkTheme
+                                            ? 'bg-neutral-900/60 sm:bg-transparent border-neutral-800/80 sm:border-transparent'
+                                            : 'bg-neutral-50/80 sm:bg-transparent border-neutral-200/80 sm:border-transparent'
+                                    }`}
+                                >
+                                    {post.author && (
+                                        <div
+                                            itemProp="author"
+                                            itemScope
+                                            itemType="https://schema.org/Person"
+                                            className="flex items-center gap-3.5 sm:gap-3"
+                                        >
+                                            <AuthorAvatar author={post.author} size="md" />
+                                            <div className="flex flex-col min-w-0">
+                                                <span
+                                                    className={`text-[10px] sm:text-[11px] font-mono uppercase tracking-widest ${
+                                                        isDarkTheme
+                                                            ? 'text-neutral-400'
+                                                            : 'text-neutral-500'
+                                                    }`}
+                                                >
+                                                    Written by
+                                                </span>
+                                                <span
+                                                    itemProp="name"
+                                                    rel="author"
+                                                    className={`text-sm font-semibold sm:font-medium truncate ${
+                                                        isDarkTheme ? 'text-white' : 'text-black'
+                                                    }`}
+                                                >
+                                                    {post.author}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {post.date && (
+                                        <div
+                                            className={`flex items-center justify-between sm:flex-col sm:items-end pt-3 sm:pt-0 border-t sm:border-t-0 ${
+                                                isDarkTheme
+                                                    ? 'border-neutral-800/80'
+                                                    : 'border-neutral-200/60'
+                                            }`}
+                                        >
+                                            <span
+                                                className={`text-[10px] sm:text-[11px] font-mono uppercase tracking-widest ${
+                                                    isDarkTheme
+                                                        ? 'text-neutral-400'
+                                                        : 'text-neutral-500'
+                                                }`}
+                                            >
+                                                Published on
+                                            </span>
+                                            <time
+                                                dateTime={post.date}
+                                                itemProp="datePublished"
+                                                className={`font-mono text-xs uppercase tracking-wider sm:mt-0.5 ${
+                                                    isDarkTheme ? 'text-neutral-300' : 'text-black'
+                                                }`}
+                                            >
+                                                {post.date}
+                                            </time>
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Preferred Source + Quick Share Action Bar */}
+                                <div
+                                    className={`my-4 rounded-2xl sm:rounded-none border sm:border-x-0 sm:border-t sm:border-b p-4 sm:p-0 sm:py-3 transition-colors ${
+                                        isDarkTheme
+                                            ? 'bg-neutral-900/60 sm:bg-transparent border-neutral-800/80 sm:border-white/10'
+                                            : 'bg-neutral-50/80 sm:bg-transparent border-neutral-200/80 sm:border-black/10'
+                                    }`}
+                                >
+                                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                                        {/* Google Preferred Source Badge */}
+                                        <div className="flex items-center justify-between sm:justify-start pb-3 sm:pb-0 border-b sm:border-b-0 border-black/[0.06] dark:border-white/[0.08] min-h-[40px]">
+                                            <a
+                                                href="https://www.google.com/preferences/source?q=kalolwala.com"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                title="Add Kalolwala & Associates to preferred sources on Google"
+                                                className={`group inline-flex items-center gap-2 px-2 py-1.5 pr-3 rounded-full text-xs font-mono font-medium transition-all duration-200 active:scale-95 ${
+                                                    isDarkTheme
+                                                        ? 'bg-white/10 hover:bg-white/15 text-neutral-200 hover:text-white border border-white/15'
+                                                        : 'bg-black/5 hover:bg-black/10 text-neutral-800 hover:text-black border border-black/10'
+                                                }`}
+                                            >
+                                                <svg
+                                                    className="size-4 shrink-0"
+                                                    viewBox="0 0 24 24"
+                                                    aria-hidden="true"
+                                                >
+                                                    <path
+                                                        fill="#4285F4"
+                                                        d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"
+                                                    />
+                                                    <path
+                                                        fill="#34A853"
+                                                        d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"
+                                                    />
+                                                    <path
+                                                        fill="#FBBC05"
+                                                        d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.14-1.55.38-2.27V6.58H1.25C.45 8.16 0 9.97 0 12s.45 3.84 1.25 5.42l4.03-3.15z"
+                                                    />
+                                                    <path
+                                                        fill="#EA4335"
+                                                        d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"
+                                                    />
+                                                </svg>
+                                                <span>Add to preferred source</span>
+                                            </a>
+                                        </div>
+
+                                        {/* Share Section */}
+                                        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-2">
+                                            {/* Mobile Share Header */}
+                                            <div className="flex sm:hidden items-center justify-between mb-1">
+                                                <span
+                                                    className={`text-[10px] font-mono uppercase tracking-widest ${
+                                                        isDarkTheme
+                                                            ? 'text-neutral-400'
+                                                            : 'text-neutral-500'
+                                                    }`}
+                                                >
+                                                    Share Article
+                                                </span>
+                                                {copiedTop && (
+                                                    <span className="text-[11px] font-mono text-emerald-500 font-medium flex items-center gap-1">
+                                                        <Check size={12} /> Copied!
+                                                    </span>
+                                                )}
+                                            </div>
+
+                                            {/* Desktop "Share:" label */}
+                                            <span
+                                                className={`text-xs font-mono uppercase tracking-wider mr-1 hidden sm:inline ${
+                                                    isDarkTheme
+                                                        ? 'text-neutral-400'
+                                                        : 'text-neutral-500'
+                                                }`}
+                                            >
+                                                Share:
+                                            </span>
+
+                                            {/* Share Buttons: 5-Col Grid on Mobile, Flex on Desktop */}
+                                            <div className="grid grid-cols-5 sm:flex sm:items-center gap-2">
+                                                {/* 1. Native Share (order-first on mobile, order-last on desktop) */}
+                                                <button
+                                                    type="button"
+                                                    onClick={(e) => handleNativeShare(e)}
+                                                    aria-label="Share article"
+                                                    title="Share article"
+                                                    className={`order-first sm:order-last flex flex-col sm:flex-row items-center justify-center py-2.5 sm:py-0 sm:size-8 rounded-xl sm:rounded-full transition-all duration-200 cursor-pointer active:scale-95 ${
+                                                        isDarkTheme
+                                                            ? 'bg-white/10 hover:bg-white text-neutral-200 hover:text-black'
+                                                            : 'bg-black/5 hover:bg-black text-neutral-700 hover:text-white'
+                                                    }`}
+                                                >
+                                                    <Share2 className="size-4 sm:size-3.5" />
+                                                    <span className="text-[10px] font-mono mt-1 sm:hidden font-medium">
+                                                        Share
+                                                    </span>
+                                                </button>
+
+                                                {/* 2. WhatsApp */}
+                                                <button
+                                                    type="button"
+                                                    onClick={handleWhatsAppShare}
+                                                    aria-label="Share on WhatsApp"
+                                                    title="Share on WhatsApp"
+                                                    className={`flex flex-col sm:flex-row items-center justify-center py-2.5 sm:py-0 sm:size-8 rounded-xl sm:rounded-full transition-all duration-200 cursor-pointer active:scale-95 ${
+                                                        isDarkTheme
+                                                            ? 'bg-white/10 hover:bg-[#25D366] text-[#25D366] sm:text-neutral-200 hover:text-white'
+                                                            : 'bg-black/5 hover:bg-[#25D366] text-[#128C7E] sm:text-neutral-700 hover:text-white'
+                                                    }`}
+                                                >
+                                                    <svg
+                                                        viewBox="0 0 24 24"
+                                                        className="size-4 sm:size-3.5 fill-current"
+                                                        aria-hidden="true"
+                                                    >
+                                                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.414-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+                                                    </svg>
+                                                    <span className="text-[10px] font-mono mt-1 sm:hidden font-medium">
+                                                        WhatsApp
+                                                    </span>
+                                                </button>
+
+                                                {/* 3. LinkedIn */}
+                                                <button
+                                                    type="button"
+                                                    onClick={handleLinkedInShare}
+                                                    aria-label="Share on LinkedIn"
+                                                    title="Share on LinkedIn"
+                                                    className={`flex flex-col sm:flex-row items-center justify-center py-2.5 sm:py-0 sm:size-8 rounded-xl sm:rounded-full transition-all duration-200 cursor-pointer active:scale-95 ${
+                                                        isDarkTheme
+                                                            ? 'bg-white/10 hover:bg-[#0A66C2] text-[#0A66C2] sm:text-neutral-200 hover:text-white'
+                                                            : 'bg-black/5 hover:bg-[#0A66C2] text-[#0A66C2] sm:text-neutral-700 hover:text-white'
+                                                    }`}
+                                                >
+                                                    <svg
+                                                        viewBox="0 -2 44 44"
+                                                        className="size-4 sm:size-3.5 fill-current"
+                                                        aria-hidden="true"
+                                                    >
+                                                        <g
+                                                            stroke="none"
+                                                            strokeWidth="1"
+                                                            fill="none"
+                                                            fillRule="evenodd"
+                                                        >
+                                                            <g
+                                                                transform="translate(-702.000000, -265.000000)"
+                                                                fill="currentColor"
+                                                            >
+                                                                <path
+                                                                    d="M746,305 L736.2754,305 L736.2754,290.9384 C736.2754,287.257796 734.754233,284.74515 731.409219,284.74515 C728.850659,284.74515 727.427799,286.440738 726.765522,288.074854 C726.517168,288.661395 726.555974,289.478453 726.555974,290.295511 L726.555974,305 L716.921919,305 C716.921919,305 717.046096,280.091247 716.921919,277.827047 L726.555974,277.827047 L726.555974,282.091631 C727.125118,280.226996 730.203669,277.565794 735.116416,277.565794 C741.21143,277.565794 746,281.474355 746,289.890824 L746,305 L746,305 Z M707.17921,274.428187 L707.117121,274.428187 C704.0127,274.428187 702,272.350964 702,269.717936 C702,267.033681 704.072201,265 707.238711,265 C710.402634,265 712.348071,267.028559 712.41016,269.710252 C712.41016,272.34328 710.402634,274.428187 707.17921,274.428187 L707.17921,274.428187 L707.17921,274.428187 Z M703.109831,277.827047 L711.685795,277.827047 L711.685795,305 L703.109831,305 L703.109831,277.827047 L703.109831,277.827047 Z"
+                                                                    id="LinkedIn"
+                                                                />
+                                                            </g>
+                                                        </g>
+                                                    </svg>
+                                                    <span className="text-[10px] font-mono mt-1 sm:hidden font-medium">
+                                                        LinkedIn
+                                                    </span>
+                                                </button>
+
+                                                {/* 4. X (Twitter) */}
+                                                <button
+                                                    type="button"
+                                                    onClick={handleXShare}
+                                                    aria-label="Share on X"
+                                                    title="Share on X"
+                                                    className={`flex flex-col sm:flex-row items-center justify-center py-2.5 sm:py-0 sm:size-8 rounded-xl sm:rounded-full transition-all duration-200 cursor-pointer active:scale-95 ${
+                                                        isDarkTheme
+                                                            ? 'bg-white/10 hover:bg-black text-neutral-200 hover:text-white'
+                                                            : 'bg-black/5 hover:bg-black text-neutral-700 hover:text-white'
+                                                    }`}
+                                                >
+                                                    <svg
+                                                        viewBox="0 0 24 24"
+                                                        className="size-4 sm:size-3 fill-current"
+                                                        aria-hidden="true"
+                                                    >
+                                                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                                                    </svg>
+                                                    <span className="text-[10px] font-mono mt-1 sm:hidden font-medium">
+                                                        X
+                                                    </span>
+                                                </button>
+
+                                                {/* 5. Copy Link */}
+                                                <button
+                                                    type="button"
+                                                    onClick={handleCopyLink}
+                                                    aria-label="Copy link"
+                                                    title="Copy link"
+                                                    className={`flex flex-col sm:inline-flex sm:flex-row items-center justify-center py-2.5 sm:py-0 sm:h-8 sm:px-3 rounded-xl sm:rounded-full transition-all duration-200 cursor-pointer text-xs font-mono active:scale-95 ${
+                                                        copiedTop
+                                                            ? 'bg-emerald-500/15 text-emerald-500 border border-emerald-500/30'
+                                                            : isDarkTheme
+                                                              ? 'bg-white/10 hover:bg-white/20 text-neutral-200 hover:text-white'
+                                                              : 'bg-black/5 hover:bg-black text-neutral-700 hover:text-white'
+                                                    }`}
+                                                >
+                                                    {copiedTop ? (
+                                                        <>
+                                                            <Check className="size-4 sm:size-3.5 text-emerald-500" />
+                                                            <span className="text-[10px] sm:text-xs font-mono mt-1 sm:mt-0 font-medium">
+                                                                <span className="sm:hidden">
+                                                                    Copied!
+                                                                </span>
+                                                                <span className="hidden sm:inline sm:ml-1.5">
+                                                                    Link Copied!
+                                                                </span>
+                                                            </span>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <Copy className="size-4 sm:size-3.5" />
+                                                            <span className="text-[10px] sm:text-xs font-mono mt-1 sm:mt-0 font-medium">
+                                                                <span className="sm:hidden">
+                                                                    Copy
+                                                                </span>
+                                                                <span className="hidden sm:inline sm:ml-1.5">
+                                                                    Copy
+                                                                </span>
+                                                            </span>
+                                                        </>
+                                                    )}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Newsletter Subscription Box */}
+                                <div className="mb-2">
+                                    <BlogSubscribeBottom isDarkTheme={isDarkTheme} />
+                                </div>
                             </header>
 
                             {/* Hero Image - Full width with automatic natural height */}
@@ -627,73 +854,6 @@ export default function BlogDetailPage({
                                 dangerouslySetInnerHTML={{ __html: processedHtml }}
                             />
                         </article>
-
-                        {/* Author & Publication Date Byline */}
-                        <div
-                            className={`mt-8 pb-4 sm:pb-3 sm:pt-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6 border sm:border-0 rounded-2xl sm:rounded-none p-4 sm:p-0 transition-colors ${
-                                isDarkTheme
-                                    ? 'bg-neutral-900/60 sm:bg-transparent border-neutral-800/80 sm:border-transparent'
-                                    : 'bg-neutral-50/80 sm:bg-transparent border-neutral-200/80 sm:border-transparent'
-                            }`}
-                        >
-                            {post.author && (
-                                <div
-                                    itemProp="author"
-                                    itemScope
-                                    itemType="https://schema.org/Person"
-                                    className="flex items-center gap-3.5 sm:gap-3"
-                                >
-                                    <AuthorAvatar author={post.author} size="md" />
-                                    <div className="flex flex-col min-w-0">
-                                        <span
-                                            className={`text-[10px] sm:text-[11px] font-mono uppercase tracking-widest ${
-                                                isDarkTheme
-                                                    ? 'text-neutral-400'
-                                                    : 'text-neutral-500'
-                                            }`}
-                                        >
-                                            Written by
-                                        </span>
-                                        <span
-                                            itemProp="name"
-                                            rel="author"
-                                            className={`text-sm font-semibold sm:font-medium truncate ${
-                                                isDarkTheme ? 'text-white' : 'text-black'
-                                            }`}
-                                        >
-                                            {post.author}
-                                        </span>
-                                    </div>
-                                </div>
-                            )}
-
-                            {post.date && (
-                                <div
-                                    className={`flex items-center justify-between sm:flex-col sm:items-end pt-3 sm:pt-0 border-t sm:border-t-0 ${
-                                        isDarkTheme
-                                            ? 'border-neutral-800/80'
-                                            : 'border-neutral-200/60'
-                                    }`}
-                                >
-                                    <span
-                                        className={`text-[10px] sm:text-[11px] font-mono uppercase tracking-widest ${
-                                            isDarkTheme ? 'text-neutral-400' : 'text-neutral-500'
-                                        }`}
-                                    >
-                                        Published on
-                                    </span>
-                                    <time
-                                        dateTime={post.date}
-                                        itemProp="datePublished"
-                                        className={`font-mono text-xs uppercase tracking-wider sm:mt-0.5 ${
-                                            isDarkTheme ? 'text-neutral-300' : 'text-black'
-                                        }`}
-                                    >
-                                        {post.date}
-                                    </time>
-                                </div>
-                            )}
-                        </div>
 
                         {/* Publisher section for legacy posts: Marquee if > 2 links, otherwise inline link(s) if available */}
                         {post.source === 'legacy' &&
@@ -771,220 +931,12 @@ export default function BlogDetailPage({
                                 )
                             })()}
 
-                        {/* Top Action Bar: Preferred Source + Quick Share Buttons */}
-                        <div
-                            className={`mb-8 mt-6 sm:mt-8 rounded-2xl sm:rounded-none border sm:border-x-0 sm:border-t sm:border-b p-4 sm:p-0 sm:py-3 transition-colors ${
-                                isDarkTheme
-                                    ? 'bg-neutral-900/60 sm:bg-transparent border-neutral-800/80 sm:border-white/10'
-                                    : 'bg-neutral-50/80 sm:bg-transparent border-neutral-200/80 sm:border-black/10'
-                            }`}
-                        >
-                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                                {/* Google Preferred Source Badge */}
-                                <div className="flex items-center justify-between sm:justify-start pb-3 sm:pb-0 border-b sm:border-b-0 border-black/[0.06] dark:border-white/[0.08] min-h-[40px]">
-                                    <span
-                                        className={`sm:hidden text-[10px] font-mono uppercase tracking-widest ${
-                                            isDarkTheme ? 'text-neutral-400' : 'text-neutral-500'
-                                        }`}
-                                    >
-                                        Follow Updates
-                                    </span>
-                                    <div className="flex items-center leading-none min-h-[40px] min-w-[140px]">
-                                        <div
-                                            key={post.id}
-                                            google-add-preferred-source-btn=""
-                                            data-theme={isDarkTheme ? 'dark' : 'light'}
-                                            data-lang="en"
-                                        />
-                                    </div>
-                                </div>
-
-                                {/* Share Section */}
-                                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-2">
-                                    {/* Mobile Share Header */}
-                                    <div className="flex sm:hidden items-center justify-between mb-1">
-                                        <span
-                                            className={`text-[10px] font-mono uppercase tracking-widest ${
-                                                isDarkTheme
-                                                    ? 'text-neutral-400'
-                                                    : 'text-neutral-500'
-                                            }`}
-                                        >
-                                            Share Article
-                                        </span>
-                                        {copiedTop && (
-                                            <span className="text-[11px] font-mono text-emerald-500 font-medium flex items-center gap-1">
-                                                <Check size={12} /> Copied!
-                                            </span>
-                                        )}
-                                    </div>
-
-                                    {/* Desktop "Share:" label */}
-                                    <span
-                                        className={`text-xs font-mono uppercase tracking-wider mr-1 hidden sm:inline ${
-                                            isDarkTheme ? 'text-neutral-400' : 'text-neutral-500'
-                                        }`}
-                                    >
-                                        Share:
-                                    </span>
-
-                                    {/* Share Buttons: 5-Col Grid on Mobile, Flex on Desktop */}
-                                    <div className="grid grid-cols-5 sm:flex sm:items-center gap-2">
-                                        {/* 1. Native Share (order-first on mobile, order-last on desktop) */}
-                                        <button
-                                            type="button"
-                                            onClick={(e) => handleNativeShare(e)}
-                                            aria-label="Share article"
-                                            title="Share article"
-                                            className={`order-first sm:order-last flex flex-col sm:flex-row items-center justify-center py-2.5 sm:py-0 sm:size-8 rounded-xl sm:rounded-full transition-all duration-200 cursor-pointer active:scale-95 ${
-                                                isDarkTheme
-                                                    ? 'bg-white/10 hover:bg-white text-neutral-200 hover:text-black'
-                                                    : 'bg-black/5 hover:bg-black text-neutral-700 hover:text-white'
-                                            }`}
-                                        >
-                                            <Share2 className="size-4 sm:size-3.5" />
-                                            <span className="text-[10px] font-mono mt-1 sm:hidden font-medium">
-                                                Share
-                                            </span>
-                                        </button>
-
-                                        {/* 2. WhatsApp */}
-                                        <button
-                                            type="button"
-                                            onClick={handleWhatsAppShare}
-                                            aria-label="Share on WhatsApp"
-                                            title="Share on WhatsApp"
-                                            className={`flex flex-col sm:flex-row items-center justify-center py-2.5 sm:py-0 sm:size-8 rounded-xl sm:rounded-full transition-all duration-200 cursor-pointer active:scale-95 ${
-                                                isDarkTheme
-                                                    ? 'bg-white/10 hover:bg-[#25D366] text-[#25D366] sm:text-neutral-200 hover:text-white'
-                                                    : 'bg-black/5 hover:bg-[#25D366] text-[#128C7E] sm:text-neutral-700 hover:text-white'
-                                            }`}
-                                        >
-                                            <svg
-                                                viewBox="0 0 24 24"
-                                                className="size-4 sm:size-3.5 fill-current"
-                                                aria-hidden="true"
-                                            >
-                                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.414-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
-                                            </svg>
-                                            <span className="text-[10px] font-mono mt-1 sm:hidden font-medium">
-                                                WhatsApp
-                                            </span>
-                                        </button>
-
-                                        {/* 3. LinkedIn */}
-                                        <button
-                                            type="button"
-                                            onClick={handleLinkedInShare}
-                                            aria-label="Share on LinkedIn"
-                                            title="Share on LinkedIn"
-                                            className={`flex flex-col sm:flex-row items-center justify-center py-2.5 sm:py-0 sm:size-8 rounded-xl sm:rounded-full transition-all duration-200 cursor-pointer active:scale-95 ${
-                                                isDarkTheme
-                                                    ? 'bg-white/10 hover:bg-[#0A66C2] text-[#0A66C2] sm:text-neutral-200 hover:text-white'
-                                                    : 'bg-black/5 hover:bg-[#0A66C2] text-[#0A66C2] sm:text-neutral-700 hover:text-white'
-                                            }`}
-                                        >
-                                            <svg
-                                                viewBox="0 -2 44 44"
-                                                className="size-4 sm:size-3.5 fill-current"
-                                                aria-hidden="true"
-                                            >
-                                                <g
-                                                    stroke="none"
-                                                    strokeWidth="1"
-                                                    fill="none"
-                                                    fillRule="evenodd"
-                                                >
-                                                    <g
-                                                        transform="translate(-702.000000, -265.000000)"
-                                                        fill="currentColor"
-                                                    >
-                                                        <path
-                                                            d="M746,305 L736.2754,305 L736.2754,290.9384 C736.2754,287.257796 734.754233,284.74515 731.409219,284.74515 C728.850659,284.74515 727.427799,286.440738 726.765522,288.074854 C726.517168,288.661395 726.555974,289.478453 726.555974,290.295511 L726.555974,305 L716.921919,305 C716.921919,305 717.046096,280.091247 716.921919,277.827047 L726.555974,277.827047 L726.555974,282.091631 C727.125118,280.226996 730.203669,277.565794 735.116416,277.565794 C741.21143,277.565794 746,281.474355 746,289.890824 L746,305 L746,305 Z M707.17921,274.428187 L707.117121,274.428187 C704.0127,274.428187 702,272.350964 702,269.717936 C702,267.033681 704.072201,265 707.238711,265 C710.402634,265 712.348071,267.028559 712.41016,269.710252 C712.41016,272.34328 710.402634,274.428187 707.17921,274.428187 L707.17921,274.428187 L707.17921,274.428187 Z M703.109831,277.827047 L711.685795,277.827047 L711.685795,305 L703.109831,305 L703.109831,277.827047 L703.109831,277.827047 Z"
-                                                            id="LinkedIn"
-                                                        />
-                                                    </g>
-                                                </g>
-                                            </svg>
-                                            <span className="text-[10px] font-mono mt-1 sm:hidden font-medium">
-                                                LinkedIn
-                                            </span>
-                                        </button>
-
-                                        {/* 4. X (Twitter) */}
-                                        <button
-                                            type="button"
-                                            onClick={handleXShare}
-                                            aria-label="Share on X"
-                                            title="Share on X"
-                                            className={`flex flex-col sm:flex-row items-center justify-center py-2.5 sm:py-0 sm:size-8 rounded-xl sm:rounded-full transition-all duration-200 cursor-pointer active:scale-95 ${
-                                                isDarkTheme
-                                                    ? 'bg-white/10 hover:bg-black text-neutral-200 hover:text-white'
-                                                    : 'bg-black/5 hover:bg-black text-neutral-700 hover:text-white'
-                                            }`}
-                                        >
-                                            <svg
-                                                viewBox="0 0 24 24"
-                                                className="size-4 sm:size-3 fill-current"
-                                                aria-hidden="true"
-                                            >
-                                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                                            </svg>
-                                            <span className="text-[10px] font-mono mt-1 sm:hidden font-medium">
-                                                X
-                                            </span>
-                                        </button>
-
-                                        {/* 5. Copy Link */}
-                                        <button
-                                            type="button"
-                                            onClick={handleCopyLink}
-                                            aria-label="Copy link"
-                                            title="Copy link"
-                                            className={`flex flex-col sm:inline-flex sm:flex-row items-center justify-center py-2.5 sm:py-0 sm:h-8 sm:px-3 rounded-xl sm:rounded-full transition-all duration-200 cursor-pointer text-xs font-mono active:scale-95 ${
-                                                copiedTop
-                                                    ? 'bg-emerald-500/15 text-emerald-500 border border-emerald-500/30'
-                                                    : isDarkTheme
-                                                      ? 'bg-white/10 hover:bg-white/20 text-neutral-200 hover:text-white'
-                                                      : 'bg-black/5 hover:bg-black text-neutral-700 hover:text-white'
-                                            }`}
-                                        >
-                                            {copiedTop ? (
-                                                <>
-                                                    <Check className="size-4 sm:size-3.5 text-emerald-500" />
-                                                    <span className="text-[10px] sm:text-xs font-mono mt-1 sm:mt-0 font-medium">
-                                                        <span className="sm:hidden">Copied!</span>
-                                                        <span className="hidden sm:inline sm:ml-1.5">
-                                                            Link Copied!
-                                                        </span>
-                                                    </span>
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <Copy className="size-4 sm:size-3.5" />
-                                                    <span className="text-[10px] sm:text-xs font-mono mt-1 sm:mt-0 font-medium">
-                                                        <span className="sm:hidden">Copy</span>
-                                                        <span className="hidden sm:inline sm:ml-1.5">
-                                                            Copy
-                                                        </span>
-                                                    </span>
-                                                </>
-                                            )}
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                         {/* Previous & Next Article Navigation */}
                         <BlogPostNavigation
                             prevPost={prevPost}
                             nextPost={nextPost}
                             isDarkTheme={isDarkTheme}
                         />
-
-                        {/* Newsletter Subscription directly after next/prev article buttons in middle column */}
-                        <BlogSubscribeBottom />
                     </div>
                 </main>
 

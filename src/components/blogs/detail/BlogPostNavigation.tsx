@@ -32,7 +32,7 @@ export default function BlogPostNavigation({
 
     return (
         <nav aria-label="Article navigation" className="">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className={`grid grid-cols-1 sm:grid-cols-2 gap-4 border-t pt-4  ${isDarkTheme ? 'border-neutral-600' : 'border-neutral-300'}`}>
                 {/* Previous Article Button */}
                 {prevPost ? (
                     <Link
