@@ -414,7 +414,7 @@ const Footers = ({
                 <button
                   type="submit"
                   disabled={status === "loading"}
-                  className="bg-[#f5c518] hover:bg-[#e0b800] text-black font-bold py-3.5 px-8 text-xs tracking-widest uppercase transition-all duration-300 shadow-md hover:shadow-yellow-400/20"
+                  className="bg-[#f5c518] hover:bg-[#e0b800] disabled:cursor-not-allowed cursor-pointer text-black font-bold py-3.5 px-8 text-xs tracking-widest uppercase transition-all duration-300 shadow-md hover:shadow-yellow-400/20"
                 >
                   {status === "loading" ? "Sending..." : "SEND REQUEST"}
                 </button>

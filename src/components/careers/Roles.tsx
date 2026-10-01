@@ -334,7 +334,7 @@ export default function ApplicationForm() {
                   transition-colors duration-200
                   shadow-[0_0_20px_rgba(234,179,8,0.2)]
                   flex items-center justify-center gap-3
-                  ${isSubmitting ? "opacity-70 cursor-not-allowed" : ""}
+                  ${isSubmitting ? "opacity-70 cursor-not-allowed" : "cursor-pointer"}
                 `}
               >
                 {isSubmitting ? (

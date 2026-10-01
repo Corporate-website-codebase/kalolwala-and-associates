@@ -107,7 +107,7 @@ export default function SuccessStoriesSlider({ stories }: Props) {
               onClick={prev}
               disabled={!canPrev}
               aria-label="Previous slide"
-              className="p-3 rounded-full border border-gray-200 hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:hover:border-gray-200 transition-all duration-300 text-gray-800"
+              className="p-3 rounded-full border cursor-pointer border-gray-200 hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:hover:border-gray-200 transition-all duration-300 text-gray-800"
             >
               <ChevronLeft size={24} strokeWidth={1.5} />
             </button>
@@ -116,7 +116,7 @@ export default function SuccessStoriesSlider({ stories }: Props) {
               onClick={next}
               disabled={!canNext}
               aria-label="Next slide"
-              className="p-3 rounded-full border border-gray-200 hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:hover:border-gray-200 transition-all duration-300 text-gray-800"
+              className="p-3 rounded-full border cursor-pointer border-gray-200 hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:hover:border-gray-200 transition-all duration-300 text-gray-800"
             >
               <ChevronRight size={24} strokeWidth={1.5} />
             </button>
@@ -126,7 +126,7 @@ export default function SuccessStoriesSlider({ stories }: Props) {
         {/* SLIDER CONTAINER */}
         <div
           ref={containerRef}
-          className="overflow-hidden w-full relative"
+          className="overflow-visible w-full relative"
         >
           <motion.div
             ref={trackRef}
