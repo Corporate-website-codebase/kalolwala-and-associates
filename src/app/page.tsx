@@ -16,15 +16,9 @@ import Hero from '@/Home/Hero'
 // import Stats from '@/Home/Stats'
 // import StatsTop from '@/Home/StatsTop'
 // import Footers from '@/components/Footers'
-import { organizationGraphSchema } from '@/data/schema'
-
 export default function Home() {
     return (
         <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationGraphSchema) }}
-            />
             <Hero />
             <Discover />
             <Locations />

@@ -7,6 +7,7 @@ import Navbar from '@/components/Navbar'
 import SmoothScroll from '@/components/SmoothScroll'
 import { PassTransitionProvider } from '@/components/StackedCurtainTransition'
 import { PAGE_METADATA } from '@/data/metadata'
+import { organizationGraphSchema } from '@/data/schema'
 import { GoogleTagManager } from '@next/third-parties/google'
 
 const anton = Anton({
@@ -26,8 +27,22 @@ const noto = Noto_Sans({
 const home = PAGE_METADATA.home
 export const metadata: Metadata = {
     metadataBase: new URL(process.env.SITE_URL || 'https://www.kalolwala.com'),
+    applicationName: 'Kalolwala & Associates',
     title: home.title,
     description: home.description,
+    manifest: '/manifest.json',
+    icons: {
+        icon: [
+            { url: '/favicon.ico', sizes: '48x48' },
+            { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+            { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+        ],
+        shortcut: '/favicon.ico',
+        apple: [
+            { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+            { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+        ],
+    },
     openGraph: {
         title: home.title,
         description: home.description,
@@ -59,8 +74,23 @@ export const metadata: Metadata = {
             'x-default': process.env.SITE_URL || 'https://www.kalolwala.com',
         },
     },
+    robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+            index: true,
+            follow: true,
+            'max-video-preview': -1,
+            'max-image-preview': 'large',
+            'max-snippet': -1,
+        },
+    },
     verification: {
         google: 'nZdF0YGHOkhdaZjvtTM7t5y7tvx23ggkUuKt3HwUopM',
+    },
+    other: {
+        thumbnail: `${process.env.SITE_URL || 'https://www.kalolwala.com'}/images/kna.png`,
+        image_src: `${process.env.SITE_URL || 'https://www.kalolwala.com'}/images/kna.png`,
     },
 }
 
@@ -71,6 +101,14 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
+            <head>
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify(organizationGraphSchema),
+                    }}
+                />
+            </head>
             <body className={`${anton.variable} ${noto.variable}  antialiased`}>
                 <GoogleTagManager gtmId="GTM-N6SR3K3C" />
                 <noscript>

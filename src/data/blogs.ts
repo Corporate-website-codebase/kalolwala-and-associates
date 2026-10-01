@@ -61,7 +61,7 @@ export const BLOG_DATA: BlogPost[] = [
         date: 'JULY 27, 2026',
         url: 'https://www.linkedin.com/pulse/from-compliance-credibility-why-assurance-gsovf/?trackingId=ljAPU4DJLJ6v2sJazJm6Eg%3D%3D',
         slug: 'why-assurance-is-reshaping-esg-reporting',
-        author: 'Hussain Kalolwala, CEO & Founder',
+        author: 'Hussain Kalolwala, CEO & Director',
         image: '/blogs/why-assurance-is-reshaping-esg-reporting.webp',
         publisher: 'LinkedIn',
         publisherLogo: '/blogs/publishers/linkedin.png',
@@ -70,7 +70,7 @@ export const BLOG_DATA: BlogPost[] = [
 
       <p>Explore the full article through the link below.</p>
 
-      <p><em>The article is authored by <a href="https://www.linkedin.com/in/thekalolwala/" target="_blank" rel="noopener noreferrer">Hussain Kalolwala</a>, CEO, at <a href="https://in.linkedin.com/company/kalolwala-associates-private-limited" target="_blank" rel="noopener noreferrer">Kalolwala & Associates Private Limited</a></em></p>
+      <p><em>The article is authored by <a href="https://www.linkedin.com/in/thekalolwala/" target="_blank" rel="noopener noreferrer">Hussain Kalolwala</a>, CEO & Director, at <a href="https://in.linkedin.com/company/kalolwala-associates-private-limited" target="_blank" rel="noopener noreferrer">Kalolwala & Associates Private Limited</a></em></p>
     `,
     },
 
@@ -181,7 +181,7 @@ export const BLOG_DATA: BlogPost[] = [
         date: 'JUNE 22, 2026',
         url: 'https://www.aninews.in/news/business/kalolwala-amp-associates-kampa-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc20260622173735/',
         slug: 'ka-partners-with-travanleo-ecodrisil-esg-reporting',
-        author: 'Hussain Kalolwala, CEO & Founder',
+        author: 'Hussain Kalolwala, CEO & Director',
         image: '/blogs/ka-partners-with-travanleo-ecodrisil-esg-reporting-2.webp',
         publisher: 'ANI News',
         publisherLogo: '/blogs/publishers/ani-logo.webp',
@@ -285,9 +285,9 @@ export const BLOG_DATA: BlogPost[] = [
         <li><strong>K&A's Market Expertise:</strong> K&A has an established reputation and extensive domain expertise in Annual Reports, Sustainability Reports, BRSR, and ESG advisory. K&A's strong understanding of the Indian business landscape enables it to offer the strategic implementation, localisation, and advisory support required for companies to adopt the technology and fully realise its value for regulatory compliance and strategic growth.</li>
       </ul>
 
-      <p>"Our exclusive partnership with Ecodrisil marks a transformative moment for how India Inc. approaches sustainability," said Jumana Vadnagarwala, Chief Strategy Officer & Co-Founder, K&A.</p>
+      <p>"Our exclusive partnership with Ecodrisil marks a transformative moment for how India Inc. approaches sustainability," said Jumana Vadnagarwala, Chief Strategy Officer & Director, K&A.</p>
 
-      <p>"Indian businesses are navigating a complex transition, particularly with the rigorous demands of BRSR compliance. By bringing Ecodrisil's incredibly robust ESG AI platform to India, and coupling it with our boots-on-the-ground advisory expertise, we are removing the friction from ESG reporting. Together, we are equipping Indian enterprises to lead on the global sustainability stage," said Hussain Kalolwala, CEO & Co-Founder, K&A.</p>
+      <p>"Indian businesses are navigating a complex transition, particularly with the rigorous demands of BRSR compliance. By bringing Ecodrisil's incredibly robust ESG AI platform to India, and coupling it with our boots-on-the-ground advisory expertise, we are removing the friction from ESG reporting. Together, we are equipping Indian enterprises to lead on the global sustainability stage," said Hussain Kalolwala, CEO & Director, K&A.</p>
 
       <p>"India is a critical market in the global ESG landscape, and scaling impact here requires both technological depth and strong local expertise. K&A brings unmatched market understanding and credibility. Together, we aim to enable organizations to move from fragmented ESG efforts to structured, AI-driven, audit-ready sustainability practices through Ecodrisil - delivering clarity, confidence, and compliance", said Mr Sankar Krishnan, CEO of Travanleo.</p>
 

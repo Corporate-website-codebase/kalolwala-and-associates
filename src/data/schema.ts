@@ -9,6 +9,19 @@ export const organizationGraphSchema = {
     '@context': 'https://schema.org',
     '@graph': [
         {
+            '@type': 'WebSite',
+            '@id': `${BASE_URL}/#website`,
+            url: `${BASE_URL}/`,
+            name: 'Kalolwala & Associates',
+            alternateName: ['K&A', 'Kalolwala and Associates'],
+            description:
+                'K&A is India’s largest independent stakeholder communication agency, specialising in annual reports, ESG and corporate storytelling.',
+            publisher: {
+                '@id': `${BASE_URL}/#organization`,
+            },
+            inLanguage: 'en-US',
+        },
+        {
             '@type': ['Organization', 'ProfessionalService'],
             '@id': `${BASE_URL}/#organization`,
             name: 'Kalolwala & Associates',
