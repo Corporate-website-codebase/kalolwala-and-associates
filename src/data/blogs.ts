@@ -38,6 +38,7 @@ export interface BlogPost {
     imageAlt?: string
 
     author?: string
+    department?:string
 
     publisher?: Publisher
     publisherLogo?: string
@@ -62,6 +63,7 @@ export const BLOG_DATA: BlogPost[] = [
         url: 'https://www.linkedin.com/pulse/from-compliance-credibility-why-assurance-gsovf/?trackingId=ljAPU4DJLJ6v2sJazJm6Eg%3D%3D',
         slug: 'why-assurance-is-reshaping-esg-reporting',
         author: 'Hussain Kalolwala, CEO & Director',
+        department:"CEO & Director",
         image: '/blogs/why-assurance-is-reshaping-esg-reporting.webp',
         publisher: 'LinkedIn',
         publisherLogo: '/blogs/publishers/linkedin.png',
@@ -86,6 +88,7 @@ export const BLOG_DATA: BlogPost[] = [
         url: 'https://www.linkedin.com/pulse/brsrs-value-chain-moment-your-supply-7vabf?utm_source=share&utm_medium=member_android&utm_campaign=share_via',
         slug: 'is-your-supply-chain-ready-to-be-disclosed',
         author: 'Padmeja Ganjoo, General Manager, Sustainability, K&A',
+        department:"Research & Content",
         image: '/blogs/is-your-supply-chain-ready-to-be-disclosed.webp',
         publisher: 'LinkedIn',
         publisherLogo: '/blogs/publishers/linkedin.png',
@@ -134,6 +137,7 @@ export const BLOG_DATA: BlogPost[] = [
         url: 'https://www.linkedin.com/pulse/annual-report-longer-rear-view-mirror-pa7of?trk=public_post_feed-article-content',
         slug: 'the-annual-report-is-no-longer-a-rear-view-mirror',
         author: 'Yatha Lakhtaria, General Manager, Research and Content, K&A',
+        department:"Research & Content",
         image: '/blogs/the-annual-report-is-no-longer-a-rear-view-mirror.webp',
         publisher: 'LinkedIn',
         publisherLogo: '/blogs/publishers/linkedin.png',
@@ -182,6 +186,7 @@ export const BLOG_DATA: BlogPost[] = [
         url: 'https://www.aninews.in/news/business/kalolwala-amp-associates-kampa-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc20260622173735/',
         slug: 'ka-partners-with-travanleo-ecodrisil-esg-reporting',
         author: 'Hussain Kalolwala, CEO & Director',
+        department:"CEO & Director",
         image: '/blogs/ka-partners-with-travanleo-ecodrisil-esg-reporting-2.webp',
         publisher: 'ANI News',
         publisherLogo: '/blogs/publishers/ani-logo.webp',
@@ -315,6 +320,7 @@ export const BLOG_DATA: BlogPost[] = [
         url: 'https://www.linkedin.com/pulse/fault-lines-west-asia-wake-up-call-sl1zc?trk=public_post_feed-article-content',
         slug: 'fault-lines-in-west-asia',
         author: 'Shreya Mukherjee',
+        department:"Research & Content",
         image: '/blogs/Fault Lines in West Asia.webp',
         publisher: 'LinkedIn',
         publisherLogo: '/blogs/publishers/linkedin.png',
@@ -359,6 +365,7 @@ export const BLOG_DATA: BlogPost[] = [
         url: 'https://www.linkedin.com/pulse/why-stakeholder-comms-new-marketing-qwrac?trk=public_post_feed-article-content',
         slug: 'why-stakeholder-comms-is-the-new-marketing',
         author: 'Thoughts penned down by Sucharita Mitra , Research & Content, K&A',
+        department:"Research & Content",
         image: '/blogs/Stakeholder Comms.webp',
         publisher: 'LinkedIn',
         publisherLogo: '/blogs/publishers/linkedin.png',
@@ -401,6 +408,7 @@ export const BLOG_DATA: BlogPost[] = [
         url: 'https://www.linkedin.com/pulse/clearer-climate-lens-issbs-practical-cvy2c?trk=public_post_feed-article-content',
         slug: 'ifrs-s2-amendments-2025-issb-climate-disclosures',
         author: 'Research by Navdip Patel · Edited by Shreya Sarkar',
+        department:"Research & Content",
         image: '/blogs/A_clearer_climate_lens.webp',
         publisher: 'LinkedIn',
         publisherLogo: '/blogs/publishers/linkedin.png',
@@ -481,6 +489,7 @@ export const BLOG_DATA: BlogPost[] = [
         url: 'https://www.linkedin.com/pulse/perpetual-winner-like-james-bond-kalolwala-associates-private-limit-iyioc?trk=public_post_feed-article-content',
         slug: 'bond-yields-india-impact-on-banks',
         author: 'Rajat Chakroborty · Editorial, K&A',
+        department:"Editorial Team",
         image: '/blogs/Not a perpetual winner like James Bond!.webp',
         publisher: 'LinkedIn',
         publisherLogo: '/blogs/publishers/linkedin.png',
@@ -524,6 +533,7 @@ export const BLOG_DATA: BlogPost[] = [
         url: 'https://www.linkedin.com/pulse/fmcg-innovation-led-marketing-kalolwala-associates-private-limit-wfgkc?trk=public_post_feed-article-content',
         slug: 'innovation-led-marketing-in-indian-fmcg-industry',
         author: 'Pinku Shaw',
+        department:"Research & Content",
         image: '/blogs/FMCG - Innovation-led marketing.webp',
         publisher: 'LinkedIn',
         publisherLogo: '/blogs/publishers/linkedin.png',
@@ -633,6 +643,7 @@ export const BLOG_DATA: BlogPost[] = [
         url: 'https://www.linkedin.com/pulse/ai-vs-humans-battlefield-sales-kalolwala-associates-private-limit-qe8uc?trk=public_post_feed-article-content',
         slug: 'ai-vs-humans-sales-strategy-automation-balance',
         author: 'Naeem Kangroo',
+        department:"Project Management",
         image: '/blogs/AI vs Humans - Battlefield - Sales.jpeg',
         publisher: 'LinkedIn',
         publisherLogo: '/blogs/publishers/linkedin.png',
@@ -695,6 +706,7 @@ export const BLOG_DATA: BlogPost[] = [
         url: 'https://www.linkedin.com/pulse/key-updates-brsr-listed-entities-kalolwala-associates-private-limit-xynlc?trk=public_post_feed-article-content',
         slug: 'brsr-updates-sebi-esg-disclosure-listed-entities',
         author: 'Navdip Patel',
+        department:"Research & Content",
         image: '/blogs/Key Updates on BRSR for Listed Entities.webp',
         publisher: 'LinkedIn',
         publisherLogo: '/blogs/publishers/linkedin.png',
@@ -726,6 +738,7 @@ export const BLOG_DATA: BlogPost[] = [
         url: 'https://www.business-standard.com/content/press-releases-ani/k-a-unleashing-the-power-of-stakeholder-reporting-125032700013_1.html',
         slug: 'unleashing-power-of-stakeholder-reporting',
         author: 'Yatha Lakhtaria',
+        department:"Research & Content",
         image: '/images/media/Rectangle20.webp',
         publisher: 'Business Standard',
         publisherLogo: '/blogs/publishers/business-standard-logo-2.png',

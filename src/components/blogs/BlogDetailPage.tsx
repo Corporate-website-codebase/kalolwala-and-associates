@@ -152,7 +152,7 @@ export default function BlogDetailPage({
         setIsRecentOpen((prev) => !prev)
     }, [])
 
-    const areSidebarsOpen = isTocOpen || isRecentOpen
+  const areSidebarsOpen = isTocOpen && isRecentOpen;
 
     const handleToggleAllSidebars = () => {
         if (areSidebarsOpen) {
@@ -239,11 +239,25 @@ export default function BlogDetailPage({
         window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
     }, [post.id, post.slug, post.title])
 
-    const authorInitials = parseAuthorInitials(post.author)
-    const readingTime = useMemo(
-        () => calculateReadingTime(post.content || post.excerpt),
-        [post.content, post.excerpt],
-    )
+  const authorInitials = parseAuthorInitials(post.author);
+  const departmentName =
+    (
+      (post as BlogPost & {
+        department?: string;
+        acf?: { department?: string };
+        meta?: { department?: string };
+      }).department ||
+      (post as BlogPost & { acf?: { department?: string } }).acf?.department ||
+      (post as BlogPost & { meta?: { department?: string } }).meta?.department ||
+      ""
+    ).trim() 
+    // || "Department"
+    ;
+
+  const readingTime = useMemo(
+    () => calculateReadingTime(post.content || post.excerpt),
+    [post.content, post.excerpt],
+  );
 
     // Reading Progress Indicator (runs via requestAnimationFrame for 60fps GPU performance)
     const [readingProgress, setReadingProgress] = useState(0)
@@ -442,40 +456,40 @@ export default function BlogDetailPage({
                                 <span className="text-xs">Back to Articles</span>
                             </Link>
 
-                            <div className="flex items-center gap-2">
-                                {/* Both Sidebars Toggle (Focus Reading Mode) */}
-                                <button
-                                    type="button"
-                                    onClick={handleToggleAllSidebars}
-                                    aria-label={
-                                        areSidebarsOpen
-                                            ? 'Collapse sidebars (focus mode)'
-                                            : 'Expand sidebars'
-                                    }
-                                    title={
-                                        areSidebarsOpen
-                                            ? 'Focus Mode (Collapse Sidebars)'
-                                            : 'Show Sidebars'
-                                    }
-                                    className={`hidden lg:inline-flex items-center gap-1.5 py-1 px-3 rounded-full text-xs font-mono transition-all duration-200 cursor-pointer ${
-                                        isDarkTheme
-                                            ? 'bg-white/10 hover:bg-white/20 text-neutral-200 hover:text-white border border-white/10'
-                                            : 'bg-black/5 hover:bg-black/10 text-neutral-700 hover:text-black border border-black/5'
-                                    }`}
-                                >
-                                    {areSidebarsOpen ? (
-                                        <span className="text-xs flex items-center gap-2">
-                                            <ArrowLeft className="size-3" />
-                                            Expand
-                                            <ArrowRight className="size-3" />
-                                        </span>
-                                    ) : (
-                                        <span className="text-xs  flex items-center gap-2">
-                                            <ArrowRight className="size-3" /> Collapse
-                                            <ArrowLeft className="size-3" />
-                                        </span>
-                                    )}
-                                </button>
+              <div className="flex items-center gap-2">
+                {/* Both Sidebars Toggle (Focus Reading Mode) */}
+                <button
+                  type="button"
+                  onClick={handleToggleAllSidebars}
+                  aria-label={
+                    areSidebarsOpen
+                      ? "Collapse sidebars (focus mode)"
+                      : "Expand sidebars"
+                  }
+                  title={
+                    areSidebarsOpen
+                      ? "Focus Mode (Collapse Sidebars)"
+                      : "Show Sidebars"
+                  }
+                  className={`hidden lg:inline-flex items-center gap-1.5 py-1 px-3 rounded-full text-xs font-mono transition-all duration-200 cursor-pointer ${
+                    isDarkTheme
+                      ? "bg-white/10 hover:bg-white/20 text-neutral-200 hover:text-white border border-white/10"
+                      : "bg-black/5 hover:bg-black/10 text-neutral-700 hover:text-black border border-black/5"
+                  }`}
+                >
+                  {areSidebarsOpen ?  (
+                    <span className="text-xs  flex items-center gap-2">
+                      <ArrowRight className="size-3" /> Collapse
+                      <ArrowLeft className="size-3" />
+                    </span>
+                  ):(
+                    <span className="text-xs flex items-center gap-2">
+                      <ArrowLeft className="size-3" />
+                      Expand
+                      <ArrowRight className="size-3" />
+                    </span>
+                  ) }
+                </button>
 
                                 {/* Reading Theme Toggle (Light / Dark) */}
                                 <button
@@ -546,44 +560,54 @@ export default function BlogDetailPage({
                   {post.title}
                 </h1>
 
-                                {/* Author & Publication Date Byline */}
-                                <div
-                                    className={`mt-6 pb-4 sm:pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6 border sm:border-0 rounded-2xl sm:rounded-none p-4 sm:p-0 transition-colors ${
-                                        isDarkTheme
-                                            ? 'bg-neutral-900/60 sm:bg-transparent border-neutral-800/80 sm:border-transparent'
-                                            : 'bg-neutral-50/80 sm:bg-transparent border-neutral-200/80 sm:border-transparent'
-                                    }`}
-                                >
-                                    {post.author && (
-                                        <div
-                                            itemProp="author"
-                                            itemScope
-                                            itemType="https://schema.org/Person"
-                                            className="flex items-center gap-3.5 sm:gap-3"
-                                        >
-                                            <AuthorAvatar author={post.author} size="md" />
-                                            <div className="flex flex-col min-w-0">
-                                                <span
-                                                    className={`text-[10px] sm:text-[11px] font-mono uppercase tracking-widest ${
-                                                        isDarkTheme
-                                                            ? 'text-neutral-400'
-                                                            : 'text-neutral-500'
-                                                    }`}
-                                                >
-                                                    Written by
-                                                </span>
-                                                <span
-                                                    itemProp="name"
-                                                    rel="author"
-                                                    className={`text-sm font-semibold sm:font-medium truncate ${
-                                                        isDarkTheme ? 'text-white' : 'text-black'
-                                                    }`}
-                                                >
-                                                    {post.author}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    )}
+                {/* Author & Publication Date Byline */}
+                <div
+                  className={`mt-6 pb-4 sm:pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6 border sm:border-0 rounded-2xl sm:rounded-none p-4 sm:p-0 transition-colors ${
+                    isDarkTheme
+                      ? "bg-neutral-900/60 sm:bg-transparent border-neutral-800/80 sm:border-transparent"
+                      : "bg-neutral-50/80 sm:bg-transparent border-neutral-200/80 sm:border-transparent"
+                  }`}
+                >
+                  {post.author && (
+                    <div
+                      itemProp="author"
+                      itemScope
+                      itemType="https://schema.org/Person"
+                      className="flex items-center gap-3.5 sm:gap-3"
+                    >
+                      <AuthorAvatar author={post.author} size="md" />
+                      <div className="flex flex-col min-w-0">
+                        <span
+                          className={`text-[10px] sm:text-[11px] font-mono uppercase tracking-widest ${
+                            isDarkTheme
+                              ? "text-neutral-400"
+                              : "text-neutral-500"
+                          }`}
+                        >
+                          Written by
+                        </span>
+                        <span
+                          itemProp="name"
+                          rel="author"
+                          className={`text-sm font-semibold sm:font-medium truncate ${
+                            isDarkTheme ? "text-white" : "text-black"
+                          }`}
+                        >
+                          {post.author}
+                        </span>
+                       {/* {departmentName && <span
+                          itemProp="jobTitle"
+                          className={`text-xs font-mono truncate mt-0.5 ${
+                            isDarkTheme
+                              ? "text-neutral-400"
+                              : "text-neutral-500"
+                          }`}
+                        >
+                          {departmentName}
+                        </span>} */}
+                      </div>
+                    </div>
+                  )}
 
                   {post.date && (
                     <div
