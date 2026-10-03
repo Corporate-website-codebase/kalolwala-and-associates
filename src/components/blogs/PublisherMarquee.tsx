@@ -20,15 +20,15 @@ export default function PublisherMarquee({
     const items = [...links, ...links]
 
     const cardClasses = isDarkTheme
-        ? 'relative flex-shrink-0 group flex items-center justify-center h-20 px-6 rounded-lg bg-white/[0.04] border border-white/10 hover:border-[#F4C016]/40 hover:bg-[#F4C016]/[0.05] transition-all duration-300 cursor-pointer'
-        : 'relative flex-shrink-0 group flex items-center justify-center h-20 px-6 rounded-lg bg-white border border-black/10 hover:border-[#F4C016] hover:bg-neutral-50 shadow-2xs transition-all duration-300 cursor-pointer'
+        ? 'relative flex-shrink-0 group flex items-center justify-center h-20  rounded-lg  transition-all duration-300 cursor-pointer'
+        : 'relative flex-shrink-0 group flex items-center justify-center h-20  rounded-lg  transition-all duration-300 cursor-pointer'
 
     const fadeGradientClasses = isDarkTheme
         ? 'before:bg-gradient-to-r before:from-[#0f0f0f] before:to-transparent after:bg-gradient-to-l after:from-[#0f0f0f] after:to-transparent'
         : 'before:bg-gradient-to-r before:from-[#eeeeee] before:to-transparent after:bg-gradient-to-l after:from-[#eeeeee] after:to-transparent'
 
     return (
-        <div className={`pt-10 border-t ${isDarkTheme ? 'border-white/10' : 'border-black/10'}`}>
+        <div className={`pt-10 border-t pb-8 ${isDarkTheme ? 'border-white/10' : 'border-black/10'}`}>
             {/* Label */}
             <span
                 className={`block text-xs font-mono font-medium uppercase tracking-wider mb-6 ${
