@@ -389,7 +389,7 @@ export default function BlogDetailPage({
             e.stopPropagation()
         }
         const currentUrl =
-            typeof window !== 'undefined' ? window.location.href : 'https://kalolwala.com'
+            typeof window !== 'undefined' ? window.location.href : 'https://www.kalolwala.com'
         const shareTitle = post.title || 'Kalolwala & Associates'
         const cleanExcerpt = post.excerpt ? post.excerpt.replace(/<[^>]*>/g, '').trim() : ''
         const shareText = cleanExcerpt ? `${cleanExcerpt.slice(0, 160)}...` : shareTitle
@@ -629,7 +629,7 @@ export default function BlogDetailPage({
 
                                         <GooglePreferredSourceButton
                                             theme={isDarkTheme ? 'dark' : 'light'}
-                                            domain="kalolwala.com"
+                                            domain="www.kalolwala.com"
                                         />
 
                                         {/* Share Section */}

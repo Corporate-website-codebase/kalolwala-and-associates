@@ -7,7 +7,7 @@ interface GooglePreferredSourceButtonProps {
 }
 
 export default function GooglePreferredSourceButton({
-    domain = 'kalolwala.com',
+    domain = 'www.kalolwala.com',
     theme = 'light',
     className = '',
 }: GooglePreferredSourceButtonProps) {
