@@ -13,6 +13,7 @@ import BlogRecentArticles from './detail/BlogRecentArticles'
 import BlogSubscribeBottom from './detail/BlogSubscribeBottom'
 import BlogTableOfContents, { type TocHeading } from './detail/BlogTableOfContents'
 import MobileTocDrawer from './detail/MobileTocDrawer'
+import GooglePreferredSourceButton from './GooglePreferredSourceButton'
 import PublisherMarquee from './PublisherMarquee'
 
 interface BlogDetailPageProps {
@@ -105,13 +106,13 @@ function parseDateToTimestamp(dateStr?: string): number {
     return isNaN(ts2) ? 0 : ts2
 }
 function formatIsoDate(dateStr?: string): string {
-  const ts = parseDateToTimestamp(dateStr);
-  if (!ts) return "";
-  return new Date(ts).toISOString();
+    const ts = parseDateToTimestamp(dateStr);
+    if (!ts) return "";
+    return new Date(ts).toISOString();
 }
 // Subscribe to browser storage changes for multi-tab sync without hydration mismatch
 const subscribeTheme = (callback: () => void) => {
-    if (typeof window === 'undefined') return () => {}
+    if (typeof window === 'undefined') return () => { }
     window.addEventListener('storage', callback)
     return () => window.removeEventListener('storage', callback)
 }
@@ -123,7 +124,7 @@ function getThemeSnapshot(): 'dark' | 'light' {
         if (saved === 'dark' || saved === 'light') {
             return saved
         }
-    } catch {}
+    } catch { }
     return 'light'
 }
 
@@ -152,7 +153,7 @@ export default function BlogDetailPage({
         setIsRecentOpen((prev) => !prev)
     }, [])
 
-  const areSidebarsOpen = isTocOpen && isRecentOpen;
+    const areSidebarsOpen = isTocOpen && isRecentOpen;
 
     const handleToggleAllSidebars = () => {
         if (areSidebarsOpen) {
@@ -239,25 +240,25 @@ export default function BlogDetailPage({
         window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
     }, [post.id, post.slug, post.title])
 
-  const authorInitials = parseAuthorInitials(post.author);
-  const departmentName =
-    (
-      (post as BlogPost & {
-        department?: string;
-        acf?: { department?: string };
-        meta?: { department?: string };
-      }).department ||
-      (post as BlogPost & { acf?: { department?: string } }).acf?.department ||
-      (post as BlogPost & { meta?: { department?: string } }).meta?.department ||
-      ""
-    ).trim() 
-    // || "Department"
-    ;
+    const authorInitials = parseAuthorInitials(post.author);
+    const departmentName =
+        (
+            (post as BlogPost & {
+                department?: string;
+                acf?: { department?: string };
+                meta?: { department?: string };
+            }).department ||
+            (post as BlogPost & { acf?: { department?: string } }).acf?.department ||
+            (post as BlogPost & { meta?: { department?: string } }).meta?.department ||
+            ""
+        ).trim()
+        // || "Department"
+        ;
 
-  const readingTime = useMemo(
-    () => calculateReadingTime(post.content || post.excerpt),
-    [post.content, post.excerpt],
-  );
+    const readingTime = useMemo(
+        () => calculateReadingTime(post.content || post.excerpt),
+        [post.content, post.excerpt],
+    );
 
     // Reading Progress Indicator (runs via requestAnimationFrame for 60fps GPU performance)
     const [readingProgress, setReadingProgress] = useState(0)
@@ -410,11 +411,10 @@ export default function BlogDetailPage({
         <section
             ref={containerRef}
             style={{ marginTop: 'calc(-1 * var(--nav-full-height, 92px))' }}
-            className={`w-full min-h-screen font-noto-sans flex flex-col ${
-                isDarkTheme
-                    ? 'bg-[#0f0f0f] text-neutral-100 blog-dark-reader'
-                    : 'bg-[#eeeeee] text-black blog-light-reader'
-            }`}
+            className={`w-full min-h-screen font-noto-sans flex flex-col ${isDarkTheme
+                ? 'bg-[#0f0f0f] text-neutral-100 blog-dark-reader'
+                : 'bg-[#eeeeee] text-black blog-light-reader'
+                }`}
         >
             {/* Minimal Reading Progress Bar fixed at top of viewport */}
             <div className="fixed top-0 left-0 right-0 h-px z-[120] pointer-events-none bg-black/5">
@@ -443,11 +443,10 @@ export default function BlogDetailPage({
                         <div className="flex items-center justify-between gap-4 mb-6">
                             <Link
                                 href="/blogs"
-                                className={`group inline-flex items-center gap-2 transition-colors ${
-                                    isDarkTheme
-                                        ? 'text-neutral-400 hover:text-white'
-                                        : 'text-neutral-600 hover:text-black'
-                                }`}
+                                className={`group inline-flex items-center gap-2 transition-colors ${isDarkTheme
+                                    ? 'text-neutral-400 hover:text-white'
+                                    : 'text-neutral-600 hover:text-black'
+                                    }`}
                             >
                                 <ArrowLeft
                                     size={16}
@@ -456,40 +455,39 @@ export default function BlogDetailPage({
                                 <span className="text-xs">Back to Articles</span>
                             </Link>
 
-              <div className="flex items-center gap-2">
-                {/* Both Sidebars Toggle (Focus Reading Mode) */}
-                <button
-                  type="button"
-                  onClick={handleToggleAllSidebars}
-                  aria-label={
-                    areSidebarsOpen
-                      ? "Collapse sidebars (focus mode)"
-                      : "Expand sidebars"
-                  }
-                  title={
-                    areSidebarsOpen
-                      ? "Focus Mode (Collapse Sidebars)"
-                      : "Show Sidebars"
-                  }
-                  className={`hidden lg:inline-flex items-center gap-1.5 py-1 px-3 rounded-full text-xs font-mono transition-all duration-200 cursor-pointer ${
-                    isDarkTheme
-                      ? "bg-white/10 hover:bg-white/20 text-neutral-200 hover:text-white border border-white/10"
-                      : "bg-black/5 hover:bg-black/10 text-neutral-700 hover:text-black border border-black/5"
-                  }`}
-                >
-                  {areSidebarsOpen ?  (
-                    <span className="text-xs  flex items-center gap-2">
-                      <ArrowRight className="size-3" /> Collapse
-                      <ArrowLeft className="size-3" />
-                    </span>
-                  ):(
-                    <span className="text-xs flex items-center gap-2">
-                      <ArrowLeft className="size-3" />
-                      Expand
-                      <ArrowRight className="size-3" />
-                    </span>
-                  ) }
-                </button>
+                            <div className="flex items-center gap-2">
+                                {/* Both Sidebars Toggle (Focus Reading Mode) */}
+                                <button
+                                    type="button"
+                                    onClick={handleToggleAllSidebars}
+                                    aria-label={
+                                        areSidebarsOpen
+                                            ? "Collapse sidebars (focus mode)"
+                                            : "Expand sidebars"
+                                    }
+                                    title={
+                                        areSidebarsOpen
+                                            ? "Focus Mode (Collapse Sidebars)"
+                                            : "Show Sidebars"
+                                    }
+                                    className={`hidden lg:inline-flex items-center gap-1.5 py-1 px-3 rounded-full text-xs font-mono transition-all duration-200 cursor-pointer ${isDarkTheme
+                                        ? "bg-white/10 hover:bg-white/20 text-neutral-200 hover:text-white border border-white/10"
+                                        : "bg-black/5 hover:bg-black/10 text-neutral-700 hover:text-black border border-black/5"
+                                        }`}
+                                >
+                                    {areSidebarsOpen ? (
+                                        <span className="text-xs  flex items-center gap-2">
+                                            <ArrowRight className="size-3" /> Collapse
+                                            <ArrowLeft className="size-3" />
+                                        </span>
+                                    ) : (
+                                        <span className="text-xs flex items-center gap-2">
+                                            <ArrowLeft className="size-3" />
+                                            Expand
+                                            <ArrowRight className="size-3" />
+                                        </span>
+                                    )}
+                                </button>
 
                                 {/* Reading Theme Toggle (Light / Dark) */}
                                 <button
@@ -505,11 +503,10 @@ export default function BlogDetailPage({
                                             ? 'Switch to Light Theme'
                                             : 'Switch to Dark Reading Theme'
                                     }
-                                    className={`inline-flex items-center gap-1.5 h-8 px-3 rounded-full text-xs font-mono transition-all duration-200 cursor-pointer border-none ${
-                                        isDarkTheme
-                                            ? ' text-white hover:text-white '
-                                            : ' text-neutral-700 hover:text-black border '
-                                    }`}
+                                    className={`inline-flex items-center gap-1.5 h-8 px-3 rounded-full text-xs font-mono transition-all duration-200 cursor-pointer border-none ${isDarkTheme
+                                        ? ' text-white hover:text-white '
+                                        : ' text-neutral-700 hover:text-black border '
+                                        }`}
                                 >
                                     {isDarkTheme ? (
                                         <Sun className="text-white size-5" />
@@ -520,211 +517,130 @@ export default function BlogDetailPage({
                             </div>
                         </div>
 
-            {/* Semantic Article Wrapper containing header, byline, hero figure, and content for Chrome Reading Mode */}
-            <article
-              itemScope
-              itemType="https://schema.org/BlogPosting"
-              className="w-full flex flex-col"
-            >
-              <link
-                itemProp="mainEntityOfPage"
-                href={`https://www.kalolwala.com/blogs/${post.slug}`}
-              />
-              <div
-                itemProp="publisher"
-                itemScope
-                itemType="https://schema.org/Organization"
-                className="sr-only"
-              >
-                <meta itemProp="name" content="Kalolwala & Associates" />
-                <meta itemProp="url" content="https://www.kalolwala.com" />
-                <div
-                  itemProp="logo"
-                  itemScope
-                  itemType="https://schema.org/ImageObject"
-                >
-                  <meta
-                    itemProp="url"
-                    content="https://www.kalolwala.com/favicon.ico"
-                  />
-                </div>
-              </div>
-              {/* Article Header: Title + Author & Date Byline + Preferred Source Bar + Subscribe Box */}
-              <header className="article-header mb-8">
-                <h1
-                  itemProp="headline"
-                  className={`font-light text-[clamp(28px,4vw,48px)] leading-[1.15] tracking-tight transition-colors duration-300 ${
-                    isDarkTheme ? "text-white" : "text-black"
-                  }`}
-                >
-                  {post.title}
-                </h1>
-
-                {/* Author & Publication Date Byline */}
-                <div
-                  className={`mt-6 pb-4 sm:pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6 border sm:border-0 rounded-2xl sm:rounded-none p-4 sm:p-0 transition-colors ${
-                    isDarkTheme
-                      ? "bg-neutral-900/60 sm:bg-transparent border-neutral-800/80 sm:border-transparent"
-                      : "bg-neutral-50/80 sm:bg-transparent border-neutral-200/80 sm:border-transparent"
-                  }`}
-                >
-                  {post.author && (
-                    <div
-                      itemProp="author"
-                      itemScope
-                      itemType="https://schema.org/Person"
-                      className="flex items-center gap-3.5 sm:gap-3"
-                    >
-                      <AuthorAvatar author={post.author} size="md" />
-                      <div className="flex flex-col min-w-0">
-                        <span
-                          className={`text-[10px] sm:text-[11px] font-mono uppercase tracking-widest ${
-                            isDarkTheme
-                              ? "text-neutral-400"
-                              : "text-neutral-500"
-                          }`}
+                        {/* Semantic Article Wrapper containing header, byline, hero figure, and content for Chrome Reading Mode */}
+                        <article
+                            itemScope
+                            itemType="https://schema.org/BlogPosting"
+                            className="w-full flex flex-col"
                         >
-                          Written by
-                        </span>
-                        <span
-                          itemProp="name"
-                          rel="author"
-                          className={`text-sm font-semibold sm:font-medium truncate ${
-                            isDarkTheme ? "text-white" : "text-black"
-                          }`}
-                        >
-                          {post.author}
-                        </span>
-                       {/* {departmentName && <span
-                          itemProp="jobTitle"
-                          className={`text-xs font-mono truncate mt-0.5 ${
-                            isDarkTheme
-                              ? "text-neutral-400"
-                              : "text-neutral-500"
-                          }`}
-                        >
-                          {departmentName}
-                        </span>} */}
-                      </div>
-                    </div>
-                  )}
+                            <link
+                                itemProp="mainEntityOfPage"
+                                href={`https://www.kalolwala.com/blogs/${post.slug}`}
+                            />
+                            <div
+                                itemProp="publisher"
+                                itemScope
+                                itemType="https://schema.org/Organization"
+                                className="sr-only"
+                            >
+                                <meta itemProp="name" content="Kalolwala & Associates" />
+                                <meta itemProp="url" content="https://www.kalolwala.com" />
+                                <div
+                                    itemProp="logo"
+                                    itemScope
+                                    itemType="https://schema.org/ImageObject"
+                                >
+                                    <meta
+                                        itemProp="url"
+                                        content="https://www.kalolwala.com/favicon.ico"
+                                    />
+                                </div>
+                            </div>
+                            {/* Article Header: Title + Author & Date Byline + Preferred Source Bar + Subscribe Box */}
+                            <header className="article-header mb-8">
+                                <h1
+                                    itemProp="headline"
+                                    className={`font-light text-[clamp(28px,4vw,48px)] leading-[1.15] tracking-tight transition-colors duration-300 ${isDarkTheme ? "text-white" : "text-black"
+                                        }`}
+                                >
+                                    {post.title}
+                                </h1>
 
-                  {post.date && (
-                    <div
-                      className={`flex items-center justify-between sm:flex-col sm:items-end pt-3 sm:pt-0 border-t sm:border-t-0 ${
-                        isDarkTheme
-                          ? "border-neutral-800/80"
-                          : "border-neutral-200/60"
-                      }`}
-                    >
-                      <span
-                        className={`text-[10px] sm:text-[11px] font-mono uppercase tracking-widest ${
-                          isDarkTheme ? "text-neutral-400" : "text-neutral-500"
-                        }`}
-                      >
-                        Published on
-                      </span>
-                      <time
-                        dateTime={formatIsoDate(post.date)}
-                        itemProp="datePublished"
-                        className={`font-mono text-xs uppercase tracking-wider sm:mt-0.5 ${
-                          isDarkTheme ? "text-neutral-300" : "text-black"
-                        }`}
-                      >
-                        {post.date}
-                      </time>
-                    </div>
-                  )}
-                </div>
+                                {/* Author & Publication Date Byline */}
+                                <div
+                                    className={`mt-6 pb-4 sm:pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6 border sm:border-0 rounded-2xl sm:rounded-none p-4 sm:p-0 transition-colors ${isDarkTheme
+                                        ? "bg-neutral-900/60 sm:bg-transparent border-neutral-800/80 sm:border-transparent"
+                                        : "bg-neutral-50/80 sm:bg-transparent border-neutral-200/80 sm:border-transparent"
+                                        }`}
+                                >
+                                    {post.author && (
+                                        <div
+                                            itemProp="author"
+                                            itemScope
+                                            itemType="https://schema.org/Person"
+                                            className="flex items-center gap-3.5 sm:gap-3"
+                                        >
+                                            <AuthorAvatar author={post.author} size="md" />
+                                            <div className="flex flex-col min-w-0">
+                                                <span
+                                                    className={`text-[10px] sm:text-[11px] font-mono uppercase tracking-widest ${isDarkTheme
+                                                        ? "text-neutral-400"
+                                                        : "text-neutral-500"
+                                                        }`}
+                                                >
+                                                    Written by
+                                                </span>
+                                                <span
+                                                    itemProp="name"
+                                                    rel="author"
+                                                    className={`text-sm font-semibold sm:font-medium truncate ${isDarkTheme ? "text-white" : "text-black"
+                                                        }`}
+                                                >
+                                                    {post.author}
+                                                </span>
 
-                {/* Preferred Source + Quick Share Action Bar */}
-                <div
-                  className={`my-4 rounded-2xl sm:rounded-none border sm:border-x-0 sm:border-t sm:border-b p-4 sm:p-0 sm:py-3 transition-colors ${
-                    isDarkTheme
-                      ? "bg-neutral-900/60 sm:bg-transparent border-neutral-800/80 sm:border-white/10"
-                      : "bg-neutral-50/80 sm:bg-transparent border-neutral-200/80 sm:border-black/10"
-                  }`}
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                    {/* Google Preferred Source */}
-                    <div className="flex items-center justify-center sm:justify-start pb-3 sm:pb-0 border-b sm:border-b-0 border-black/[0.06] dark:border-white/[0.08] min-h-[40px]">
-                      <a
-                        href="https://www.google.com/preferences/source?q=kalolwala.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="Add Kalolwala & Associates as a preferred source on Google"
-                        className="
-    group
-    w-fit
-    max-w-full
-    h-[60px]
-    sm:h-[66px]
-    px-3
-    sm:px-4
-    flex
-    items-center
-    justify-center
-    gap-2
-    sm:gap-2.5
-    rounded-xl
-    bg-white
-    border
-    border-neutral-400
-    text-neutral-900
-    transition-all
-    duration-300
-    hover:border-neutral-600
-    hover:shadow-sm
-    active:scale-[0.98]
-    cursor-pointer
-  "
-                      >
-                        {/* Google G */}
-                        <svg
-                          className="w-8 h-8 sm:w-9 sm:h-9 shrink-0"
-                          viewBox="0 0 24 24"
-                          aria-hidden="true"
-                        >
-                          <path
-                            fill="#4285F4"
-                            d="M21.35 12.27c0-.79-.07-1.55-.22-2.27H12v4.3h5.22a4.46 4.46 0 0 1-1.94 2.93v2.43h3.14c1.84-1.69 2.93-4.18 2.93-7.39Z"
-                          />
-                          <path
-                            fill="#34A853"
-                            d="M12 21.5c2.63 0 4.84-.87 6.45-2.34l-3.14-2.43c-.87.58-1.98.92-3.31.92-2.54 0-4.69-1.72-5.46-4.03H3.3v2.5A9.74 9.74 0 0 0 12 21.5Z"
-                          />
-                          <path
-                            fill="#FBBC05"
-                            d="M6.54 13.62A5.86 5.86 0 0 1 6.23 12c0-.56.1-1.1.31-1.62v-2.5H3.3A9.74 9.74 0 0 0 2.25 12c0 1.57.38 3.05 1.05 4.12l3.24-2.5Z"
-                          />
-                          <path
-                            fill="#EA4335"
-                            d="M12 6.35c1.43 0 2.71.49 3.72 1.45l2.79-2.79C16.84 3.45 14.63 2.5 12 2.5a9.74 9.74 0 0 0-8.7 5.38l3.24 2.5C7.31 8.07 9.46 6.35 12 6.35Z"
-                          />
-                        </svg>
+                                            </div>
+                                        </div>
+                                    )}
 
-                        <span className="flex flex-col text-left leading-[1.05]">
-                          <span className="text-sm sm:text-base font-semibold tracking-tight">
-                            Add as a preferred
-                          </span>
+                                    {post.date && (
+                                        <div
+                                            className={`flex items-center justify-between sm:flex-col sm:items-end pt-3 sm:pt-0 border-t sm:border-t-0 ${isDarkTheme
+                                                ? "border-neutral-800/80"
+                                                : "border-neutral-200/60"
+                                                }`}
+                                        >
+                                            <span
+                                                className={`text-[10px] sm:text-[11px] font-mono uppercase tracking-widest ${isDarkTheme ? "text-neutral-400" : "text-neutral-500"
+                                                    }`}
+                                            >
+                                                Published on
+                                            </span>
+                                            <time
+                                                dateTime={formatIsoDate(post.date)}
+                                                itemProp="datePublished"
+                                                className={`font-mono text-xs uppercase tracking-wider sm:mt-0.5 ${isDarkTheme ? "text-neutral-300" : "text-black"
+                                                    }`}
+                                            >
+                                                {post.date}
+                                            </time>
+                                        </div>
+                                    )}
+                                </div>
 
-                          <span className="text-sm sm:text-base font-semibold tracking-tight">
-                            source on Google
-                          </span>
-                        </span>
-                      </a>
-                    </div>
+                                {/* Preferred Source + Quick Share Action Bar */}
+                                <div
+                                    className={`my-4 rounded-2xl sm:rounded-none border sm:border-x-0 sm:border-t sm:border-b p-4 sm:p-0 sm:py-3 transition-colors ${isDarkTheme
+                                        ? "bg-neutral-900/60 sm:bg-transparent border-neutral-800/80 sm:border-white/10"
+                                        : "bg-neutral-50/80 sm:bg-transparent border-neutral-200/80 sm:border-black/10"
+                                        }`}
+                                >
+                                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+
+                                        <GooglePreferredSourceButton
+                                            theme={isDarkTheme ? 'dark' : 'light'}
+                                            lang="en"
+                                        />
 
                                         {/* Share Section */}
                                         <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-2">
                                             {/* Mobile Share Header */}
                                             <div className="flex sm:hidden items-center justify-between mb-1">
                                                 <span
-                                                    className={`text-[10px] font-mono uppercase tracking-widest ${
-                                                        isDarkTheme
-                                                            ? 'text-neutral-400'
-                                                            : 'text-neutral-500'
-                                                    }`}
+                                                    className={`text-[10px] font-mono uppercase tracking-widest ${isDarkTheme
+                                                        ? 'text-neutral-400'
+                                                        : 'text-neutral-500'
+                                                        }`}
                                                 >
                                                     Share Article
                                                 </span>
@@ -737,11 +653,10 @@ export default function BlogDetailPage({
 
                                             {/* Desktop "Share:" label */}
                                             <span
-                                                className={`text-xs font-mono uppercase tracking-wider mr-1 hidden sm:inline ${
-                                                    isDarkTheme
-                                                        ? 'text-neutral-400'
-                                                        : 'text-neutral-500'
-                                                }`}
+                                                className={`text-xs font-mono uppercase tracking-wider mr-1 hidden sm:inline ${isDarkTheme
+                                                    ? 'text-neutral-400'
+                                                    : 'text-neutral-500'
+                                                    }`}
                                             >
                                                 Share:
                                             </span>
@@ -754,11 +669,10 @@ export default function BlogDetailPage({
                                                     onClick={(e) => handleNativeShare(e)}
                                                     aria-label="Share article"
                                                     title="Share article"
-                                                    className={`order-first sm:order-last flex flex-col sm:flex-row items-center justify-center py-2.5 sm:py-0 sm:size-8 rounded-xl sm:rounded-full transition-all duration-200 cursor-pointer active:scale-95 ${
-                                                        isDarkTheme
-                                                            ? 'bg-white/10 hover:bg-white text-neutral-200 hover:text-black'
-                                                            : 'bg-black/5 hover:bg-black text-neutral-700 hover:text-white'
-                                                    }`}
+                                                    className={`order-first sm:order-last flex flex-col sm:flex-row items-center justify-center py-2.5 sm:py-0 sm:size-8 rounded-xl sm:rounded-full transition-all duration-200 cursor-pointer active:scale-95 ${isDarkTheme
+                                                        ? 'bg-white/10 hover:bg-white text-neutral-200 hover:text-black'
+                                                        : 'bg-black/5 hover:bg-black text-neutral-700 hover:text-white'
+                                                        }`}
                                                 >
                                                     <Share2 className="size-4 sm:size-3.5" />
                                                     <span className="text-[10px] font-mono mt-1 sm:hidden font-medium">
@@ -772,11 +686,10 @@ export default function BlogDetailPage({
                                                     onClick={handleWhatsAppShare}
                                                     aria-label="Share on WhatsApp"
                                                     title="Share on WhatsApp"
-                                                    className={`flex flex-col sm:flex-row items-center justify-center py-2.5 sm:py-0 sm:size-8 rounded-xl sm:rounded-full transition-all duration-200 cursor-pointer active:scale-95 ${
-                                                        isDarkTheme
-                                                            ? 'bg-white/10 hover:bg-[#25D366] text-[#25D366] sm:text-neutral-200 hover:text-white'
-                                                            : 'bg-black/5 hover:bg-[#25D366] text-[#128C7E] sm:text-neutral-700 hover:text-white'
-                                                    }`}
+                                                    className={`flex flex-col sm:flex-row items-center justify-center py-2.5 sm:py-0 sm:size-8 rounded-xl sm:rounded-full transition-all duration-200 cursor-pointer active:scale-95 ${isDarkTheme
+                                                        ? 'bg-white/10 hover:bg-[#25D366] text-[#25D366] sm:text-neutral-200 hover:text-white'
+                                                        : 'bg-black/5 hover:bg-[#25D366] text-[#128C7E] sm:text-neutral-700 hover:text-white'
+                                                        }`}
                                                 >
                                                     <svg
                                                         viewBox="0 0 24 24"
@@ -796,11 +709,10 @@ export default function BlogDetailPage({
                                                     onClick={handleLinkedInShare}
                                                     aria-label="Share on LinkedIn"
                                                     title="Share on LinkedIn"
-                                                    className={`flex flex-col sm:flex-row items-center justify-center py-2.5 sm:py-0 sm:size-8 rounded-xl sm:rounded-full transition-all duration-200 cursor-pointer active:scale-95 ${
-                                                        isDarkTheme
-                                                            ? 'bg-white/10 hover:bg-[#0A66C2] text-[#0A66C2] sm:text-neutral-200 hover:text-white'
-                                                            : 'bg-black/5 hover:bg-[#0A66C2] text-[#0A66C2] sm:text-neutral-700 hover:text-white'
-                                                    }`}
+                                                    className={`flex flex-col sm:flex-row items-center justify-center py-2.5 sm:py-0 sm:size-8 rounded-xl sm:rounded-full transition-all duration-200 cursor-pointer active:scale-95 ${isDarkTheme
+                                                        ? 'bg-white/10 hover:bg-[#0A66C2] text-[#0A66C2] sm:text-neutral-200 hover:text-white'
+                                                        : 'bg-black/5 hover:bg-[#0A66C2] text-[#0A66C2] sm:text-neutral-700 hover:text-white'
+                                                        }`}
                                                 >
                                                     <svg
                                                         viewBox="0 -2 44 44"
@@ -835,11 +747,10 @@ export default function BlogDetailPage({
                                                     onClick={handleXShare}
                                                     aria-label="Share on X"
                                                     title="Share on X"
-                                                    className={`flex flex-col sm:flex-row items-center justify-center py-2.5 sm:py-0 sm:size-8 rounded-xl sm:rounded-full transition-all duration-200 cursor-pointer active:scale-95 ${
-                                                        isDarkTheme
-                                                            ? 'bg-white/10 hover:bg-black text-neutral-200 hover:text-white'
-                                                            : 'bg-black/5 hover:bg-black text-neutral-700 hover:text-white'
-                                                    }`}
+                                                    className={`flex flex-col sm:flex-row items-center justify-center py-2.5 sm:py-0 sm:size-8 rounded-xl sm:rounded-full transition-all duration-200 cursor-pointer active:scale-95 ${isDarkTheme
+                                                        ? 'bg-white/10 hover:bg-black text-neutral-200 hover:text-white'
+                                                        : 'bg-black/5 hover:bg-black text-neutral-700 hover:text-white'
+                                                        }`}
                                                 >
                                                     <svg
                                                         viewBox="0 0 24 24"
@@ -859,13 +770,12 @@ export default function BlogDetailPage({
                                                     onClick={handleCopyLink}
                                                     aria-label="Copy link"
                                                     title="Copy link"
-                                                    className={`flex flex-col sm:inline-flex sm:flex-row items-center justify-center py-2.5 sm:py-0 sm:h-8 sm:px-3 rounded-xl sm:rounded-full transition-all duration-200 cursor-pointer text-xs font-mono active:scale-95 ${
-                                                        copiedTop
-                                                            ? 'bg-emerald-500/15 text-emerald-500 border border-emerald-500/30'
-                                                            : isDarkTheme
-                                                              ? 'bg-white/10 hover:bg-white/20 text-neutral-200 hover:text-white'
-                                                              : 'bg-black/5 hover:bg-black text-neutral-700 hover:text-white'
-                                                    }`}
+                                                    className={`flex flex-col sm:inline-flex sm:flex-row items-center justify-center py-2.5 sm:py-0 sm:h-8 sm:px-3 rounded-xl sm:rounded-full transition-all duration-200 cursor-pointer text-xs font-mono active:scale-95 ${copiedTop
+                                                        ? 'bg-emerald-500/15 text-emerald-500 border border-emerald-500/30'
+                                                        : isDarkTheme
+                                                            ? 'bg-white/10 hover:bg-white/20 text-neutral-200 hover:text-white'
+                                                            : 'bg-black/5 hover:bg-black text-neutral-700 hover:text-white'
+                                                        }`}
                                                 >
                                                     {copiedTop ? (
                                                         <>
@@ -904,33 +814,32 @@ export default function BlogDetailPage({
                                 </div>
                             </header>
 
-              {/* Hero Image - Full width with automatic natural height */}
-              {post.image && (
-                <figure className="article-featured-image relative w-full mb-10 overflow-hidden rounded-2xl bg-neutral-200 shadow-xs">
-                  <Image
-                    itemProp="image"
-                    src={post.image}
-                    alt={post.imageAlt || post.title}
-                    width={1200}
-                    height={675}
-                    priority
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1000px"
-                    className="w-full h-auto object-contain block"
-                  />
-                  {post.imageAlt && (
-                    <figcaption className="sr-only">{post.imageAlt}</figcaption>
-                  )}
-                </figure>
-              )}
+                            {/* Hero Image - Full width with automatic natural height */}
+                            {post.image && (
+                                <figure className="article-featured-image relative w-full mb-10 overflow-hidden rounded-2xl bg-neutral-200 shadow-xs">
+                                    <Image
+                                        itemProp="image"
+                                        src={post.image}
+                                        alt={post.imageAlt || post.title}
+                                        width={1200}
+                                        height={675}
+                                        priority
+                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1000px"
+                                        className="w-full h-auto object-contain block"
+                                    />
+                                    {post.imageAlt && (
+                                        <figcaption className="sr-only">{post.imageAlt}</figcaption>
+                                    )}
+                                </figure>
+                            )}
 
                             {/* Article Body */}
                             <div
                                 itemProp="articleBody"
-                                className={`article-content text-base sm:text-[17px] leading-[1.85] font-normal antialiased transition-colors duration-300 ${
-                                    isDarkTheme
-                                        ? 'text-neutral-200 [&>p]:mb-6 [&>p]:text-neutral-200 [&>h2]:text-white [&>h2]:text-2xl [&>h2]:sm:text-3xl [&>h2]:font-semibold [&>h2]:leading-[1.25] [&>h2]:mt-14 [&>h2]:mb-6 [&>h2]:tracking-tight [&>h3]:text-white [&>h3]:text-xl [&>h3]:sm:text-2xl [&>h3]:font-semibold [&>h3]:leading-[1.3] [&>h3]:mt-12 [&>h3]:mb-5 [&>h3]:tracking-tight [&>h4]:text-white [&>h4]:text-lg [&>h4]:sm:text-xl [&>h4]:font-semibold [&>h4]:leading-[1.35] [&>h4]:mt-10 [&>h4]:mb-4 [&>ul]:mb-7 [&>ul]:pl-6 [&>ul]:list-disc [&>ul]:marker:text-white/80 [&>ol]:mb-7 [&>ol]:pl-6 [&>ol]:list-decimal [&>ol]:marker:text-white/80 [&>ul>li]:mb-3 [&>ol>li]:mb-3 [&>ul>li>ul]:mt-3 [&>ul>li>ul]:mb-2 [&>ul>li>ul]:pl-6 [&>ul>li>ul]:list-disc [&>ol>li>ol]:mt-3 [&>ol>li>ol]:mb-2 [&>ol>li>ol]:pl-6 [&>ol>li>ol]:list-decimal [&>blockquote]:border-l-4 [&>blockquote]:border-white [&>blockquote]:pl-6 [&>blockquote]:py-2 [&>blockquote]:my-10 [&>blockquote]:text-neutral-100 [&>blockquote]:text-lg [&>blockquote]:sm:text-xl [&>blockquote]:font-medium [&>blockquote]:leading-[1.7] [&>blockquote]:italic [&_a]:text-white [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-4 [&_a]:decoration-white/40 [&_a:hover]:text-neutral-200 [&_a:hover]:decoration-white [&_a]:transition-colors [&_a]:duration-200 [&>strong]:text-white [&>strong]:font-semibold [&_strong]:text-white [&_strong]:font-semibold [&_em]:text-neutral-300 [&_img]:max-w-full [&_img]:h-auto [&_img]:my-8 [&_img]:rounded-sm [&>table]:w-full [&>table]:my-8 [&>table]:border-collapse [&>table_th]:border [&>table_th]:border-white/20 [&>table_th]:bg-white/10 [&>table_th]:px-4 [&>table_th]:py-3 [&>table_th]:text-left [&>table_th]:font-semibold [&>table_th]:text-white [&>table_td]:border [&>table_td]:border-white/15 [&>table_td]:px-4 [&>table_td]:py-3 [&>table_td]:text-neutral-200'
-                                        : 'text-neutral-900 [&>p]:mb-6 [&>p]:text-neutral-900 [&>h2]:text-black [&>h2]:text-2xl [&>h2]:sm:text-3xl [&>h2]:font-semibold [&>h2]:leading-[1.25] [&>h2]:mt-14 [&>h2]:mb-6 [&>h2]:tracking-tight [&>h3]:text-black [&>h3]:text-xl [&>h3]:sm:text-2xl [&>h3]:font-semibold [&>h3]:leading-[1.3] [&>h3]:mt-12 [&>h3]:mb-5 [&>h3]:tracking-tight [&>h4]:text-black [&>h4]:text-lg [&>h4]:sm:text-xl [&>h4]:font-semibold [&>h4]:leading-[1.35] [&>h4]:mt-10 [&>h4]:mb-4 [&>ul]:mb-7 [&>ul]:pl-6 [&>ul]:list-disc [&>ul]:marker:text-black [&>ol]:mb-7 [&>ol]:pl-6 [&>ol]:list-decimal [&>ol]:marker:text-black [&>ul>li]:mb-3 [&>ol>li]:mb-3 [&>ul>li>ul]:mt-3 [&>ul>li>ul]:mb-2 [&>ul>li>ul]:pl-6 [&>ul>li>ul]:list-disc [&>ol>li>ol]:mt-3 [&>ol>li>ol]:mb-2 [&>ol>li>ol]:pl-6 [&>ol>li>ol]:list-decimal [&>blockquote]:border-l-4 [&>blockquote]:border-black [&>blockquote]:pl-6 [&>blockquote]:py-2 [&>blockquote]:my-10 [&>blockquote]:text-black [&>blockquote]:text-lg [&>blockquote]:sm:text-xl [&>blockquote]:font-medium [&>blockquote]:leading-[1.7] [&>blockquote]:italic [&_a]:text-black [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-4 [&_a]:decoration-black/40 [&_a:hover]:text-neutral-600 [&_a:hover]:decoration-black [&_a]:transition-colors [&_a]:duration-200 [&>strong]:text-black [&>strong]:font-semibold [&_strong]:text-black [&_strong]:font-semibold [&_em]:text-neutral-800 [&_img]:max-w-full [&_img]:h-auto [&_img]:my-8 [&_img]:rounded-sm [&>table]:w-full [&>table]:my-8 [&>table]:border-collapse [&>table_th]:border [&>table_th]:border-black/20 [&>table_th]:bg-black/5 [&>table_th]:px-4 [&>table_th]:py-3 [&>table_th]:text-left [&>table_th]:font-semibold [&>table_th]:text-black [&>table_td]:border [&>table_td]:border-black/15 [&>table_td]:px-4 [&>table_td]:py-3 [&>table_td]:text-neutral-900'
-                                }`}
+                                className={`article-content text-base sm:text-[17px] leading-[1.85] font-normal antialiased transition-colors duration-300 ${isDarkTheme
+                                    ? 'text-neutral-200 [&>p]:mb-6 [&>p]:text-neutral-200 [&>h2]:text-white [&>h2]:text-2xl [&>h2]:sm:text-3xl [&>h2]:font-semibold [&>h2]:leading-[1.25] [&>h2]:mt-14 [&>h2]:mb-6 [&>h2]:tracking-tight [&>h3]:text-white [&>h3]:text-xl [&>h3]:sm:text-2xl [&>h3]:font-semibold [&>h3]:leading-[1.3] [&>h3]:mt-12 [&>h3]:mb-5 [&>h3]:tracking-tight [&>h4]:text-white [&>h4]:text-lg [&>h4]:sm:text-xl [&>h4]:font-semibold [&>h4]:leading-[1.35] [&>h4]:mt-10 [&>h4]:mb-4 [&>ul]:mb-7 [&>ul]:pl-6 [&>ul]:list-disc [&>ul]:marker:text-white/80 [&>ol]:mb-7 [&>ol]:pl-6 [&>ol]:list-decimal [&>ol]:marker:text-white/80 [&>ul>li]:mb-3 [&>ol>li]:mb-3 [&>ul>li>ul]:mt-3 [&>ul>li>ul]:mb-2 [&>ul>li>ul]:pl-6 [&>ul>li>ul]:list-disc [&>ol>li>ol]:mt-3 [&>ol>li>ol]:mb-2 [&>ol>li>ol]:pl-6 [&>ol>li>ol]:list-decimal [&>blockquote]:border-l-4 [&>blockquote]:border-white [&>blockquote]:pl-6 [&>blockquote]:py-2 [&>blockquote]:my-10 [&>blockquote]:text-neutral-100 [&>blockquote]:text-lg [&>blockquote]:sm:text-xl [&>blockquote]:font-medium [&>blockquote]:leading-[1.7] [&>blockquote]:italic [&_a]:text-white [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-4 [&_a]:decoration-white/40 [&_a:hover]:text-neutral-200 [&_a:hover]:decoration-white [&_a]:transition-colors [&_a]:duration-200 [&>strong]:text-white [&>strong]:font-semibold [&_strong]:text-white [&_strong]:font-semibold [&_em]:text-neutral-300 [&_img]:max-w-full [&_img]:h-auto [&_img]:my-8 [&_img]:rounded-sm [&>table]:w-full [&>table]:my-8 [&>table]:border-collapse [&>table_th]:border [&>table_th]:border-white/20 [&>table_th]:bg-white/10 [&>table_th]:px-4 [&>table_th]:py-3 [&>table_th]:text-left [&>table_th]:font-semibold [&>table_th]:text-white [&>table_td]:border [&>table_td]:border-white/15 [&>table_td]:px-4 [&>table_td]:py-3 [&>table_td]:text-neutral-200'
+                                    : 'text-neutral-900 [&>p]:mb-6 [&>p]:text-neutral-900 [&>h2]:text-black [&>h2]:text-2xl [&>h2]:sm:text-3xl [&>h2]:font-semibold [&>h2]:leading-[1.25] [&>h2]:mt-14 [&>h2]:mb-6 [&>h2]:tracking-tight [&>h3]:text-black [&>h3]:text-xl [&>h3]:sm:text-2xl [&>h3]:font-semibold [&>h3]:leading-[1.3] [&>h3]:mt-12 [&>h3]:mb-5 [&>h3]:tracking-tight [&>h4]:text-black [&>h4]:text-lg [&>h4]:sm:text-xl [&>h4]:font-semibold [&>h4]:leading-[1.35] [&>h4]:mt-10 [&>h4]:mb-4 [&>ul]:mb-7 [&>ul]:pl-6 [&>ul]:list-disc [&>ul]:marker:text-black [&>ol]:mb-7 [&>ol]:pl-6 [&>ol]:list-decimal [&>ol]:marker:text-black [&>ul>li]:mb-3 [&>ol>li]:mb-3 [&>ul>li>ul]:mt-3 [&>ul>li>ul]:mb-2 [&>ul>li>ul]:pl-6 [&>ul>li>ul]:list-disc [&>ol>li>ol]:mt-3 [&>ol>li>ol]:mb-2 [&>ol>li>ol]:pl-6 [&>ol>li>ol]:list-decimal [&>blockquote]:border-l-4 [&>blockquote]:border-black [&>blockquote]:pl-6 [&>blockquote]:py-2 [&>blockquote]:my-10 [&>blockquote]:text-black [&>blockquote]:text-lg [&>blockquote]:sm:text-xl [&>blockquote]:font-medium [&>blockquote]:leading-[1.7] [&>blockquote]:italic [&_a]:text-black [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-4 [&_a]:decoration-black/40 [&_a:hover]:text-neutral-600 [&_a:hover]:decoration-black [&_a]:transition-colors [&_a]:duration-200 [&>strong]:text-black [&>strong]:font-semibold [&_strong]:text-black [&_strong]:font-semibold [&_em]:text-neutral-800 [&_img]:max-w-full [&_img]:h-auto [&_img]:my-8 [&_img]:rounded-sm [&>table]:w-full [&>table]:my-8 [&>table]:border-collapse [&>table_th]:border [&>table_th]:border-black/20 [&>table_th]:bg-black/5 [&>table_th]:px-4 [&>table_th]:py-3 [&>table_th]:text-left [&>table_th]:font-semibold [&>table_th]:text-black [&>table_td]:border [&>table_td]:border-black/15 [&>table_td]:px-4 [&>table_td]:py-3 [&>table_td]:text-neutral-900'
+                                    }`}
                                 dangerouslySetInnerHTML={{ __html: processedHtml }}
                             />
                         </article>
@@ -942,14 +851,14 @@ export default function BlogDetailPage({
                                     post.additionalLinks && post.additionalLinks.length > 0
                                         ? post.additionalLinks
                                         : post.publisher && post.url
-                                          ? [
+                                            ? [
                                                 {
                                                     publisher: post.publisher,
                                                     publisherLogo: post.publisherLogo || '',
                                                     url: post.url,
                                                 },
                                             ]
-                                          : []
+                                            : []
 
                                 if (links.length === 0) return null
 
@@ -961,18 +870,16 @@ export default function BlogDetailPage({
 
                                 return (
                                     <div
-                                        className={`my-6 sm:mt-10 sm:mb-8 p-4 sm:p-0 sm:pt-6 rounded-2xl sm:rounded-none border sm:border-0 sm:border-t flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 transition-colors ${
-                                            isDarkTheme
-                                                ? 'bg-neutral-900/60 sm:bg-transparent border-neutral-800/80 sm:border-white/10'
-                                                : 'bg-neutral-50/80 sm:bg-transparent border-neutral-200/80 sm:border-black/10'
-                                        }`}
+                                        className={`my-6 sm:mt-10 sm:mb-8 p-4 sm:p-0 sm:pt-6 rounded-2xl sm:rounded-none border sm:border-0 sm:border-t flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 transition-colors ${isDarkTheme
+                                            ? 'bg-neutral-900/60 sm:bg-transparent border-neutral-800/80 sm:border-white/10'
+                                            : 'bg-neutral-50/80 sm:bg-transparent border-neutral-200/80 sm:border-black/10'
+                                            }`}
                                     >
                                         <span
-                                            className={`text-[10px] sm:text-xs font-mono uppercase tracking-widest ${
-                                                isDarkTheme
-                                                    ? 'text-neutral-400'
-                                                    : 'text-neutral-500'
-                                            }`}
+                                            className={`text-[10px] sm:text-xs font-mono uppercase tracking-widest ${isDarkTheme
+                                                ? 'text-neutral-400'
+                                                : 'text-neutral-500'
+                                                }`}
                                         >
                                             Read article on:
                                         </span>
@@ -983,11 +890,10 @@ export default function BlogDetailPage({
                                                     href={link.url}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
-                                                    className={`group inline-flex items-center text-xs sm:text-sm font-mono transition-colors ${
-                                                        isDarkTheme
-                                                            ? 'text-neutral-300 hover:text-white'
-                                                            : 'text-neutral-700 hover:text-black'
-                                                    }`}
+                                                    className={`group inline-flex items-center text-xs sm:text-sm font-mono transition-colors ${isDarkTheme
+                                                        ? 'text-neutral-300 hover:text-white'
+                                                        : 'text-neutral-700 hover:text-black'
+                                                        }`}
                                                 >
                                                     {link.publisherLogo && (
                                                         <Image
@@ -1037,19 +943,17 @@ export default function BlogDetailPage({
             {/* Floating confirmation toast for copied link (placed at root level to sit above mobile TOC button & drawer) */}
             <div
                 style={{ zIndex: 100 }}
-                className={`fixed bottom-6 left-1/2 -translate-x-1/2 pointer-events-none transition-all duration-300 ${
-                    copiedTop
-                        ? 'translate-y-0 opacity-100 scale-100'
-                        : 'translate-y-4 opacity-0 scale-95'
-                }`}
+                className={`fixed bottom-6 left-1/2 -translate-x-1/2 pointer-events-none transition-all duration-300 ${copiedTop
+                    ? 'translate-y-0 opacity-100 scale-100'
+                    : 'translate-y-4 opacity-0 scale-95'
+                    }`}
                 aria-live="polite"
             >
                 <div
-                    className={`flex items-center gap-2.5 px-4 py-2.5 rounded-full shadow-2xl border transition-colors ${
-                        isDarkTheme
-                            ? 'bg-[#181818] text-white border-white/20 shadow-black/80'
-                            : 'bg-white text-neutral-900 border-black/10 shadow-black/20'
-                    }`}
+                    className={`flex items-center gap-2.5 px-4 py-2.5 rounded-full shadow-2xl border transition-colors ${isDarkTheme
+                        ? 'bg-[#181818] text-white border-white/20 shadow-black/80'
+                        : 'bg-white text-neutral-900 border-black/10 shadow-black/20'
+                        }`}
                 >
                     <Check
                         size={14}

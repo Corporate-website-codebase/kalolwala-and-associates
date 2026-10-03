@@ -108,6 +108,11 @@ export default function RootLayout({
                         __html: JSON.stringify(organizationGraphSchema),
                     }}
                 />
+                <script
+                    async
+                    src="https://news.google.com/swg/js/v1/publisher.js"
+                    preferred-sources-control="manual"
+                ></script>
             </head>
             <body className={`${anton.variable} ${noto.variable}  antialiased`}>
                 <GoogleTagManager gtmId="GTM-N6SR3K3C" />
