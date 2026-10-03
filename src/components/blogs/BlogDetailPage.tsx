@@ -153,7 +153,7 @@ export default function BlogDetailPage({
         setIsRecentOpen((prev) => !prev)
     }, [])
 
-    const areSidebarsOpen = isTocOpen && isRecentOpen;
+    const areSidebarsOpen = isTocOpen || isRecentOpen
 
     const handleToggleAllSidebars = () => {
         if (areSidebarsOpen) {
@@ -456,19 +456,19 @@ export default function BlogDetailPage({
                             </Link>
 
                             <div className="flex items-center gap-2">
-                                {/* Both Sidebars Toggle (Focus Reading Mode) */}
+                                {/* Reading View Area Toggle (Expand / Collapse View) */}
                                 <button
                                     type="button"
                                     onClick={handleToggleAllSidebars}
                                     aria-label={
                                         areSidebarsOpen
-                                            ? "Collapse sidebars (focus mode)"
-                                            : "Expand sidebars"
+                                            ? "Expand reading view"
+                                            : "Collapse reading view"
                                     }
                                     title={
                                         areSidebarsOpen
-                                            ? "Focus Mode (Collapse Sidebars)"
-                                            : "Show Sidebars"
+                                            ? "Expand Reading View"
+                                            : "Collapse Reading View"
                                     }
                                     className={`hidden lg:inline-flex items-center gap-1.5 py-1 px-3 rounded-full text-xs font-mono transition-all duration-200 cursor-pointer ${isDarkTheme
                                         ? "bg-white/10 hover:bg-white/20 text-neutral-200 hover:text-white border border-white/10"
@@ -476,15 +476,16 @@ export default function BlogDetailPage({
                                         }`}
                                 >
                                     {areSidebarsOpen ? (
-                                        <span className="text-xs  flex items-center gap-2">
-                                            <ArrowRight className="size-3" /> Collapse
-                                            <ArrowLeft className="size-3" />
-                                        </span>
-                                    ) : (
                                         <span className="text-xs flex items-center gap-2">
                                             <ArrowLeft className="size-3" />
                                             Expand
                                             <ArrowRight className="size-3" />
+                                        </span>
+                                    ) : (
+                                        <span className="text-xs flex items-center gap-2">
+                                            <ArrowRight className="size-3" />
+                                            Collapse
+                                            <ArrowLeft className="size-3" />
                                         </span>
                                     )}
                                 </button>
@@ -627,10 +628,10 @@ export default function BlogDetailPage({
                                 >
                                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 
-                                        <GooglePreferredSourceButton
+                                        {/* <GooglePreferredSourceButton
                                             theme={isDarkTheme ? 'dark' : 'light'}
                                             domain="www.kalolwala.com"
-                                        />
+                                        /> */}
 
                                         {/* Share Section */}
                                         <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-2">
