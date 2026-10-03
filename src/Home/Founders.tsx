@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, useSpring, useMotionValue } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
+import BookFeature from "@/components/about/BookFeature";
 
 /* ---------- DATA ---------- */
 const foundersData = [
@@ -132,6 +133,11 @@ export default function Founders() {
                 </div>
               </Link>
             ))}
+          </div>
+
+          {/* ===== FEATURED PUBLICATION BOOK SHOWCASE ===== */}
+          <div id="featured-publication" className="mt-14 md:mt-20 scroll-mt-28">
+            <BookFeature />
           </div>
         </div>
       </div>

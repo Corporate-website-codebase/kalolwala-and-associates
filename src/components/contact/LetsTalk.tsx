@@ -5,7 +5,6 @@ import React, { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import BookFeature from "./BookFeature";
 
 /* --------------------------------------------
    Map Wrapper Dynamic Import (Performance Fix)
@@ -194,14 +193,6 @@ export default function LetsTalk() {
               setActiveLocation={setActiveLocation} 
             />
           </div>
-
-        {/* BOOK FEATURE */}
-<div
-  id="featured-publication"
-  className="flex justify-center sm:justify-end mt-8 scroll-mt-28"
->
-  <BookFeature />
-</div>
         </div>
       </section>
     </div>

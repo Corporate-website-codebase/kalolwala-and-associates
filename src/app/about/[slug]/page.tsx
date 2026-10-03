@@ -142,7 +142,11 @@ export default async function VisionaryPage({ params }: Props) {
             />
 
             <main className="min-h-screen bg-black pt-16">
-                <VisionaryDetailPage visionary={visionary} otherVisionary={otherVisionary} />
+                <VisionaryDetailPage
+                    key={visionary.slug}
+                    visionary={visionary}
+                    otherVisionary={otherVisionary}
+                />
                 <div className="marginal">
                     <Footers nextPageName="About Us" nextPageLink="/about" />
                 </div>

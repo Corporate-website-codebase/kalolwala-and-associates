@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import AestheticDot from "../AestheticDot";
+import AestheticDot from "@/components/AestheticDot";
 
 export default function BookFeature() {
   const images = [
@@ -161,13 +161,13 @@ export default function BookFeature() {
             {/* DECORATIVE LINE */}
             <div
               className="
-    hidden
-    sm:block
-    h-px
-    w-16
-    bg-white/20
-    mb-5
-  "
+                hidden
+                sm:block
+                h-px
+                w-16
+                bg-white/20
+                mb-5
+              "
             />
 
             {/* DESCRIPTION */}

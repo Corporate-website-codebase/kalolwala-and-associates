@@ -194,9 +194,8 @@ const Navbar = () => {
                         </Link>
 
 {/* --- BOOK STORY TEASER --- */}
-{/* --- BOOK STORY TEASER --- */}
 <Link
-    href="/contact#featured-publication"
+    href="/about#featured-publication"
     className="hidden lg:flex items-center gap-2.5 mx-5 shrink-0 group"
 >
     {/* ANIMATION AREA */}

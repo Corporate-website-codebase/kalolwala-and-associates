@@ -4,6 +4,7 @@ import type { Visionary } from '@/data/visionaries'
 import { motion } from 'framer-motion'
 import { ArrowRight, Linkedin } from 'lucide-react'
 import Image from 'next/image'
+import { useLenis } from 'lenis/react'
 import Link from 'next/link'
 import React from 'react'
 
@@ -17,18 +18,38 @@ export default function VisionaryDetailPage({
     otherVisionary,
 }: VisionaryDetailPageProps) {
     const isCeo = visionary.id === 'ceo'
+    const lenis = useLenis()
+    const lenisRef = React.useRef(lenis)
+    lenisRef.current = lenis
 
-    React.useLayoutEffect(() => {
-        window.scrollTo(0, 0)
+    const scrollToTop = React.useCallback(() => {
+        if (lenisRef.current) {
+            lenisRef.current.scrollTo(0, { immediate: true })
+        }
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+        if (document.documentElement) {
+            document.documentElement.scrollTop = 0
+        }
+        if (document.body) {
+            document.body.scrollTop = 0
+        }
     }, [])
 
+    React.useLayoutEffect(() => {
+        scrollToTop()
+    }, [scrollToTop, visionary.slug])
+
     React.useEffect(() => {
-        window.scrollTo(0, 0)
-        const timer = setTimeout(() => {
-            window.scrollTo(0, 0)
-        }, 50)
-        return () => clearTimeout(timer)
-    }, [visionary.slug])
+        scrollToTop()
+        const t1 = setTimeout(scrollToTop, 50)
+        const t2 = setTimeout(scrollToTop, 150)
+        const t3 = setTimeout(scrollToTop, 300)
+        return () => {
+            clearTimeout(t1)
+            clearTimeout(t2)
+            clearTimeout(t3)
+        }
+    }, [scrollToTop, visionary.slug])
 
     return (
         <article
@@ -51,16 +72,15 @@ export default function VisionaryDetailPage({
                         fill
                         priority
                         sizes="95vw"
-                        className={`w-full h-full object-cover transition-transform duration-1000 group-hover:scale-[1.02] ${
-                            isCeo ? 'object-[center_28%]' : 'object-[center_32%]'
-                        }`}
+                        className={`w-full h-full object-cover transition-transform duration-1000 group-hover:scale-[1.02] ${isCeo ? 'object-[center_28%]' : 'object-[center_32%]'
+                            }`}
                     />
 
                     {/* Atmospheric overlays */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/30 pointer-events-none" />
                     <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/40 pointer-events-none" />
 
-                    {visionary.linkedin && (
+                    {/* {visionary.linkedin && (
                         <div className="absolute top-4 sm:top-8 right-4 sm:right-8 z-20">
                             <a
                                 href={visionary.linkedin}
@@ -72,22 +92,22 @@ export default function VisionaryDetailPage({
                                 <Linkedin className="size-4 sm:size-5 fill-current" />
                             </a>
                         </div>
-                    )}
+                    )} */}
 
                     {/* Name & Designation on Image Overlay */}
                     <div className="absolute bottom-6 sm:bottom-10 left-6 sm:left-10 right-6 sm:right-10 z-20 pointer-events-none">
-                        <p
-                            itemProp="jobTitle"
-                            className="text-yellow-400 font-mono text-xs sm:text-sm md:text-base font-bold uppercase tracking-widest mb-1.5 drop-shadow"
-                        >
-                            {visionary.designation}
-                        </p>
                         <h1
                             itemProp="name"
-                            className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-light text-white tracking-tight drop-shadow-md"
+                            className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-light text-white tracking-tight drop-shadow-md mb-2 md:mb-4"
                         >
                             {visionary.name}
                         </h1>
+                        <p
+                            itemProp="jobTitle"
+                            className="text-yellow-400 font-mono text-xs sm:text-sm md:text-base font-bold uppercase tracking-widest  drop-shadow"
+                        >
+                            {visionary.designation}
+                        </p>
                     </div>
                 </motion.div>
 
@@ -109,7 +129,8 @@ export default function VisionaryDetailPage({
                     <div className="mt-12 sm:mt-16 pt-10 border-t border-white/10">
                         <Link
                             href={`/about/${otherVisionary.slug}`}
-                            scroll={true}
+                            scroll={false}
+                            onClick={scrollToTop}
                             className="group block p-6 sm:p-8 md:p-4 rounded-2xl bg-zinc-950 hover:bg-zinc-900 border border-white/10 hover:border-yellow-400/50 transition-all duration-300 shadow-xl"
                         >
                             <div className="flex items-center justify-between gap-6">
@@ -123,9 +144,7 @@ export default function VisionaryDetailPage({
                                         />
                                     </div>
                                     <div>
-                                        {/* <span className="text-[11px] font-mono uppercase tracking-widest text-yellow-400">
-                                            {isCeo ? 'Next Profile' : 'Previous Profile'}
-                                        </span> */}
+
                                         <h3 className="text-xl sm:text-3xl font-light text-white mt-1 group-hover:text-yellow-400 transition-colors">
                                             {otherVisionary.name}
                                         </h3>
