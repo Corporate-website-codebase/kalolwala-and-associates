@@ -35,6 +35,36 @@ function MapFly({ position }: { position: [number, number] }) {
 }
 
 /* --------------------------------------------
+   Scroll Wheel Zoom Handler (Only after explicit click)
+---------------------------------------------- */
+function ScrollWheelHandler() {
+  const map = useMap();
+
+  useEffect(() => {
+    map.scrollWheelZoom.disable();
+
+    const handleEnable = () => {
+      map.scrollWheelZoom.enable();
+    };
+
+    const handleDisable = () => {
+      map.scrollWheelZoom.disable();
+    };
+
+    const container = map.getContainer();
+    container.addEventListener("click", handleEnable);
+    container.addEventListener("mouseleave", handleDisable);
+
+    return () => {
+      container.removeEventListener("click", handleEnable);
+      container.removeEventListener("mouseleave", handleDisable);
+    };
+  }, [map]);
+
+  return null;
+}
+
+/* --------------------------------------------
    Interfaces
 ---------------------------------------------- */
 interface LocationData {
@@ -60,7 +90,7 @@ export default function MapWrapper({ activeLocation, locations, setActiveLocatio
     <MapContainer
       center={activeLocation}
       zoom={12}
-      scrollWheelZoom
+      scrollWheelZoom={false}
       style={{ height: "100%", width: "100%" }}
     >
       <TileLayer
@@ -69,6 +99,7 @@ export default function MapWrapper({ activeLocation, locations, setActiveLocatio
       />
 
       <MapFly position={activeLocation} />
+      <ScrollWheelHandler />
 
       {locations.map((loc, i) => (
         <Marker
