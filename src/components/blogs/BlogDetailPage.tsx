@@ -629,7 +629,7 @@ export default function BlogDetailPage({
 
                                         <GooglePreferredSourceButton
                                             theme={isDarkTheme ? 'dark' : 'light'}
-                                            lang="en"
+                                            domain="kalolwala.com"
                                         />
 
                                         {/* Share Section */}
