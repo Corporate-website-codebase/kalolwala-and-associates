@@ -628,10 +628,10 @@ export default function BlogDetailPage({
                                 >
                                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 
-                                        {/* <GooglePreferredSourceButton
+                                        <GooglePreferredSourceButton
                                             theme={isDarkTheme ? 'dark' : 'light'}
                                             domain="www.kalolwala.com"
-                                        /> */}
+                                        />
 
                                         {/* Share Section */}
                                         <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-2">

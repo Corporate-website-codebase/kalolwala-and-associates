@@ -53,7 +53,7 @@ export default function GooglePreferredSourceButton({
 
                 {/* Text Label */}
                 <span className="flex flex-col text-left leading-[1.1]">
-                    <span className="text-xs sm:text-[13px] font-medium tracking-tight opacity-75">
+                    <span className="text-xs sm:text-[13px] font-bold tracking-tight">
                         Add as a preferred
                     </span>
                     <span className="text-xs sm:text-[13px] font-bold tracking-tight">
