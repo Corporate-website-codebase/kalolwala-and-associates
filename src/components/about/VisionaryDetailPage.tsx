@@ -2,9 +2,9 @@
 
 import type { Visionary } from '@/data/visionaries'
 import { motion } from 'framer-motion'
-import { ArrowRight, Linkedin } from 'lucide-react'
-import Image from 'next/image'
 import { useLenis } from 'lenis/react'
+import { ArrowRight } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
@@ -118,7 +118,7 @@ export default function VisionaryDetailPage({
                         {/* <Quote className="size-8 sm:size-10 text-yellow-400/40 mb-4" /> */}
                         <blockquote
                             itemProp="description"
-                            className="text-xl sm:text-2xl md:text-3xl lg:text-3xl text-neutral-200 font-light leading-relaxed "
+                            className="text-xl sm:text-2xl md:text-3xl lg:text-3xl text-neutral-200 font-light leading-relaxed md:max-w-[90vw] mx-auto"
                         >
                             <span className="font-anton">&ldquo;</span>{` `} {visionary.quote}{' '}
                             <span className="font-anton">&rdquo;</span>
