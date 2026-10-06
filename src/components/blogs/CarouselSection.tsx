@@ -1,6 +1,6 @@
 'use client'
 
-import type { BlogPostCard } from '@/data/blogs'
+import { decodeHtmlEntities, type BlogPostCard } from '@/data/blogs'
 import { motion, type Variants } from 'framer-motion'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
@@ -167,10 +167,10 @@ export default function BlogPaginatedList({
 
             return {
                 id: String(post.id),
-                title: post.title.rendered,
+                title: decodeHtmlEntities(post.title.rendered),
                 slug: post.slug,
                 excerpt: post.excerpt?.rendered
-                    ? post.excerpt.rendered.replace(/<[^>]*>/g, '').trim()
+                    ? decodeHtmlEntities(post.excerpt.rendered.replace(/<[^>]*>/g, '').trim())
                     : '',
                 date: new Date(post.date).toLocaleDateString('en-GB', {
                     day: '2-digit',
@@ -179,7 +179,7 @@ export default function BlogPaginatedList({
                 }),
                 url: '',
                 image,
-                author: post._embedded?.author?.[0]?.name || 'K&A Editorial',
+                author: decodeHtmlEntities(post._embedded?.author?.[0]?.name || 'K&A Editorial'),
             }
         })
 

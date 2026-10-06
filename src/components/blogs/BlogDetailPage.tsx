@@ -1,6 +1,12 @@
 'use client'
 
-import { calculateReadingTime, type BlogPost, type BlogPostCard } from '@/data/blogs'
+import {
+    calculateReadingTime,
+    decodeHtmlEntities,
+    parseAuthorDetails,
+    type BlogPost,
+    type BlogPostCard,
+} from '@/data/blogs'
 import { useLenis } from 'lenis/react'
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Copy, Moon, Share2, Sun } from 'lucide-react'
 import Image from 'next/image'
@@ -18,7 +24,6 @@ import PublisherMarquee from './PublisherMarquee'
 
 interface BlogDetailPageProps {
     post: BlogPost
-    wordpressPosts?: BlogPost[]
     recentArticles?: (BlogPost | BlogPostCard)[]
 }
 
@@ -74,28 +79,6 @@ function processContentAndExtractHeadings(htmlContent?: string): {
     return { processedHtml, headings }
 }
 
-function parseAuthorInitials(rawAuthor?: string): string {
-    if (!rawAuthor) return 'KA'
-    const clean = rawAuthor
-        .replace(/^thoughts penned down by\s+/i, '')
-        .replace(/^research by\s+/i, '')
-        .replace(/^editorial team at\s+/i, 'Editorial Team, ')
-        .trim()
-    const primaryName = clean.split(/[,·|–-]/)[0]?.trim() || clean
-    const words = primaryName
-        .replace(/[^a-zA-Z\s&]/g, '')
-        .trim()
-        .split(/\s+/)
-        .filter(Boolean)
-    if (words.length >= 2) {
-        return (words[0][0] + words[words.length - 1][0]).toUpperCase()
-    }
-    if (words.length === 1 && words[0].length > 0) {
-        return words[0].slice(0, 2).toUpperCase()
-    }
-    return 'KA'
-}
-
 // Converts string dates from local or CMS posts into timestamps for consistent chronological sorting
 function parseDateToTimestamp(dateStr?: string): number {
     if (!dateStr) return 0
@@ -134,10 +117,8 @@ function getThemeServerSnapshot(): 'dark' | 'light' {
 
 export default function BlogDetailPage({
     post,
-    wordpressPosts = [],
     recentArticles,
 }: BlogDetailPageProps) {
-    const containerRef = useRef<HTMLDivElement | null>(null)
     const mainContentRef = useRef<HTMLDivElement | null>(null)
     const lenisRef = useRef<ReturnType<typeof useLenis> | null>(null)
 
@@ -193,11 +174,8 @@ export default function BlogDetailPage({
 
     // Lightweight articles array for sidebars and prev/next links (no heavy HTML content)
     const baseArticles = useMemo(() => {
-        if (recentArticles && recentArticles.length > 0) {
-            return recentArticles
-        }
-        return [...wordpressPosts]
-    }, [recentArticles, wordpressPosts])
+        return recentArticles || []
+    }, [recentArticles])
 
     // Compute unique recent/other blogs sorted newest first by date
     const otherBlogs = useMemo(() => {
@@ -240,20 +218,15 @@ export default function BlogDetailPage({
         window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
     }, [post.id, post.slug, post.title])
 
-    const authorInitials = parseAuthorInitials(post.author);
-    const departmentName =
-        (
-            (post as BlogPost & {
-                department?: string;
-                acf?: { department?: string };
-                meta?: { department?: string };
-            }).department ||
-            (post as BlogPost & { acf?: { department?: string } }).acf?.department ||
-            (post as BlogPost & { meta?: { department?: string } }).meta?.department ||
-            ""
-        ).trim()
-        // || "Department"
-        ;
+    const authorRole = (post.role || '').trim()
+
+    const authorInfo = useMemo(() => {
+        return parseAuthorDetails(post.author, authorRole)
+    }, [post.author, authorRole])
+
+    const decodedTitle = useMemo(() => {
+        return decodeHtmlEntities(post.title)
+    }, [post.title])
 
     const readingTime = useMemo(
         () => calculateReadingTime(post.content || post.excerpt),
@@ -372,14 +345,14 @@ export default function BlogDetailPage({
     const handleWhatsAppShare = () => {
         const url = getShareUrl()
         if (!url) return
-        const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(post.title + ' ' + url)}`
+        const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(decodedTitle + ' ' + url)}`
         window.open(whatsappUrl, '_blank', 'noopener,noreferrer')
     }
 
     const handleXShare = () => {
         const url = getShareUrl()
         if (!url) return
-        const xUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(url)}`
+        const xUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(decodedTitle)}&url=${encodeURIComponent(url)}`
         window.open(xUrl, '_blank', 'noopener,noreferrer,width=600,height=400')
     }
 
@@ -390,7 +363,7 @@ export default function BlogDetailPage({
         }
         const currentUrl =
             typeof window !== 'undefined' ? window.location.href : 'https://www.kalolwala.com'
-        const shareTitle = post.title || 'Kalolwala & Associates'
+        const shareTitle = decodedTitle || 'Kalolwala & Associates'
         const cleanExcerpt = post.excerpt ? post.excerpt.replace(/<[^>]*>/g, '').trim() : ''
         const shareText = cleanExcerpt ? `${cleanExcerpt.slice(0, 160)}...` : shareTitle
 
@@ -409,7 +382,6 @@ export default function BlogDetailPage({
 
     return (
         <section
-            ref={containerRef}
             style={{ marginTop: 'calc(-1 * var(--nav-full-height, 92px))' }}
             className={`w-full min-h-screen font-noto-sans flex flex-col ${isDarkTheme
                 ? 'bg-[#0f0f0f] text-neutral-100 blog-dark-reader'
@@ -554,7 +526,7 @@ export default function BlogDetailPage({
                                     className={`font-light text-[clamp(28px,4vw,48px)] leading-[1.15] tracking-tight transition-colors duration-300 ${isDarkTheme ? "text-white" : "text-black"
                                         }`}
                                 >
-                                    {post.title}
+                                    {decodedTitle}
                                 </h1>
 
                                 {/* Author & Publication Date Byline */}
@@ -571,7 +543,11 @@ export default function BlogDetailPage({
                                             itemType="https://schema.org/Person"
                                             className="flex items-center gap-3.5 sm:gap-3"
                                         >
-                                            <AuthorAvatar author={post.author} size="md" />
+                                            <AuthorAvatar
+                                                author={authorInfo.name}
+                                                initials={authorInfo.initials}
+                                                size="md"
+                                            />
                                             <div className="flex flex-col min-w-0">
                                                 <span
                                                     className={`text-[10px] sm:text-[11px] font-mono uppercase tracking-widest ${isDarkTheme
@@ -581,15 +557,25 @@ export default function BlogDetailPage({
                                                 >
                                                     Written by
                                                 </span>
-                                                <span
-                                                    itemProp="name"
-                                                    rel="author"
-                                                    className={`text-sm font-semibold sm:font-medium truncate ${isDarkTheme ? "text-white" : "text-black"
-                                                        }`}
-                                                >
-                                                    {post.author}
-                                                </span>
-
+                                                <div className="flex items-center gap-2 flex-wrap">
+                                                    <span
+                                                        itemProp="name"
+                                                        rel="author"
+                                                        className={`text-sm font-semibold sm:font-medium ${isDarkTheme ? "text-white" : "text-black"
+                                                            }`}
+                                                    >
+                                                        {authorInfo.name}
+                                                    </span>
+                                                    {authorInfo.role && (
+                                                        <span
+                                                            className={`text-sm font-semibold sm:font-medium ${isDarkTheme ? "text-white/70" : "text-black/70"
+                                                                }`}
+                                                        >
+                                                            <span className="opacity-40" aria-hidden="true">•</span>{` `}
+                                                            <span itemProp="jobTitle">{authorInfo.role}</span>
+                                                        </span>
+                                                    )}
+                                                </div>
                                             </div>
                                         </div>
                                     )}
@@ -630,7 +616,7 @@ export default function BlogDetailPage({
 
                                         <GooglePreferredSourceButton
                                             theme={isDarkTheme ? 'dark' : 'light'}
-                                            domain="www.kalolwala.com"
+                                            domain="kalolwala.com"
                                         />
 
                                         {/* Share Section */}

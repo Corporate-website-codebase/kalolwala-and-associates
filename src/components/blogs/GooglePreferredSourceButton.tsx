@@ -7,12 +7,17 @@ interface GooglePreferredSourceButtonProps {
 }
 
 export default function GooglePreferredSourceButton({
-    domain = 'www.kalolwala.com',
+    domain = 'kalolwala.com',
     theme = 'light',
     className = '',
 }: GooglePreferredSourceButtonProps) {
     const isDark = theme === 'dark'
-    const deepLinkUrl = `https://www.google.com/preferences/source?q=${encodeURIComponent(domain)}`
+    // Ensure domain is clean: remove protocol (http://, https://), paths, and trailing slashes
+    const cleanDomain = (domain || 'kalolwala.com')
+        .replace(/^https?:\/\//i, '')
+        .replace(/\/.*$/, '')
+        .trim()
+    const deepLinkUrl = `https://www.google.com/preferences/source?q=${encodeURIComponent(cleanDomain)}`
 
     return (
         <div className={`flex items-center justify-center sm:justify-start ${className}`}>

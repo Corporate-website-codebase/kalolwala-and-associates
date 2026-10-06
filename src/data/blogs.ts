@@ -38,7 +38,7 @@ export interface BlogPost {
     imageAlt?: string
 
     author?: string
-    department?:string
+    role?: string
 
     publisher?: Publisher
     publisherLogo?: string
@@ -62,8 +62,8 @@ export const BLOG_DATA: BlogPost[] = [
         date: 'JULY 27, 2026',
         url: 'https://www.linkedin.com/pulse/from-compliance-credibility-why-assurance-gsovf/?trackingId=ljAPU4DJLJ6v2sJazJm6Eg%3D%3D',
         slug: 'why-assurance-is-reshaping-esg-reporting',
-        author: 'Hussain Kalolwala, CEO & Director',
-        department:"CEO & Director",
+        author: 'Hussain Kalolwala',
+        role: 'CEO & Director',
         image: '/blogs/why-assurance-is-reshaping-esg-reporting.webp',
         publisher: 'LinkedIn',
         publisherLogo: '/blogs/publishers/linkedin.png',
@@ -87,8 +87,8 @@ export const BLOG_DATA: BlogPost[] = [
         date: 'JULY 21, 2026',
         url: 'https://www.linkedin.com/pulse/brsrs-value-chain-moment-your-supply-7vabf?utm_source=share&utm_medium=member_android&utm_campaign=share_via',
         slug: 'is-your-supply-chain-ready-to-be-disclosed',
-        author: 'Padmeja Ganjoo, General Manager, Sustainability, K&A',
-        department:"Research & Content",
+        author: 'Padmeja Ganjoo',
+        role: 'General Manager, Research & Content',
         image: '/blogs/is-your-supply-chain-ready-to-be-disclosed.webp',
         publisher: 'LinkedIn',
         publisherLogo: '/blogs/publishers/linkedin.png',
@@ -136,8 +136,8 @@ export const BLOG_DATA: BlogPost[] = [
         date: 'JULY 18, 2026',
         url: 'https://www.linkedin.com/pulse/annual-report-longer-rear-view-mirror-pa7of?trk=public_post_feed-article-content',
         slug: 'the-annual-report-is-no-longer-a-rear-view-mirror',
-        author: 'Yatha Lakhtaria, General Manager, Research and Content, K&A',
-        department:"Research & Content",
+        author: 'Yatha Lakhtaria',
+        role: 'General Manager, Research & Content',
         image: '/blogs/the-annual-report-is-no-longer-a-rear-view-mirror.webp',
         publisher: 'LinkedIn',
         publisherLogo: '/blogs/publishers/linkedin.png',
@@ -185,8 +185,8 @@ export const BLOG_DATA: BlogPost[] = [
         date: 'JUNE 22, 2026',
         url: 'https://www.aninews.in/news/business/kalolwala-amp-associates-kampa-joins-hands-with-travanleo-to-leverage-ecodrisil-to-advance-esg-reporting-for-india-inc20260622173735/',
         slug: 'ka-partners-with-travanleo-ecodrisil-esg-reporting',
-        author: 'Hussain Kalolwala, CEO & Director',
-        department:"CEO & Director",
+        author: 'Hussain Kalolwala',
+        role: 'CEO & Director',
         image: '/blogs/ka-partners-with-travanleo-ecodrisil-esg-reporting-2.webp',
         publisher: 'ANI News',
         publisherLogo: '/blogs/publishers/ani-logo.webp',
@@ -320,7 +320,7 @@ export const BLOG_DATA: BlogPost[] = [
         url: 'https://www.linkedin.com/pulse/fault-lines-west-asia-wake-up-call-sl1zc?trk=public_post_feed-article-content',
         slug: 'fault-lines-in-west-asia',
         author: 'Shreya Mukherjee',
-        department:"Research & Content",
+        role: 'Research & Content',
         image: '/blogs/Fault Lines in West Asia.webp',
         publisher: 'LinkedIn',
         publisherLogo: '/blogs/publishers/linkedin.png',
@@ -364,8 +364,8 @@ export const BLOG_DATA: BlogPost[] = [
         date: 'MARCH 09, 2026',
         url: 'https://www.linkedin.com/pulse/why-stakeholder-comms-new-marketing-qwrac?trk=public_post_feed-article-content',
         slug: 'why-stakeholder-comms-is-the-new-marketing',
-        author: 'Thoughts penned down by Sucharita Mitra , Research & Content, K&A',
-        department:"Research & Content",
+        author: 'Sucharita Mitra',
+        role: 'Research & Content',
         image: '/blogs/Stakeholder Comms.webp',
         publisher: 'LinkedIn',
         publisherLogo: '/blogs/publishers/linkedin.png',
@@ -407,8 +407,8 @@ export const BLOG_DATA: BlogPost[] = [
         date: 'DECEMBER 18, 2025',
         url: 'https://www.linkedin.com/pulse/clearer-climate-lens-issbs-practical-cvy2c?trk=public_post_feed-article-content',
         slug: 'ifrs-s2-amendments-2025-issb-climate-disclosures',
-        author: 'Research by Navdip Patel · Edited by Shreya Sarkar',
-        department:"Research & Content",
+        author: 'Navdip Patel',
+        role: 'Research & Content',
         image: '/blogs/A_clearer_climate_lens.webp',
         publisher: 'LinkedIn',
         publisherLogo: '/blogs/publishers/linkedin.png',
@@ -488,8 +488,8 @@ export const BLOG_DATA: BlogPost[] = [
         date: 'NOVEMBER 04, 2025',
         url: 'https://www.linkedin.com/pulse/perpetual-winner-like-james-bond-kalolwala-associates-private-limit-iyioc?trk=public_post_feed-article-content',
         slug: 'bond-yields-india-impact-on-banks',
-        author: 'Rajat Chakroborty · Editorial, K&A',
-        department:"Editorial Team",
+        author: 'Rajat Chakroborty',
+        role: 'Editorial Team',
         image: '/blogs/Not a perpetual winner like James Bond!.webp',
         publisher: 'LinkedIn',
         publisherLogo: '/blogs/publishers/linkedin.png',
@@ -533,7 +533,7 @@ export const BLOG_DATA: BlogPost[] = [
         url: 'https://www.linkedin.com/pulse/fmcg-innovation-led-marketing-kalolwala-associates-private-limit-wfgkc?trk=public_post_feed-article-content',
         slug: 'innovation-led-marketing-in-indian-fmcg-industry',
         author: 'Pinku Shaw',
-        department:"Research & Content",
+        role: 'Research & Content',
         image: '/blogs/FMCG - Innovation-led marketing.webp',
         publisher: 'LinkedIn',
         publisherLogo: '/blogs/publishers/linkedin.png',
@@ -603,6 +603,7 @@ export const BLOG_DATA: BlogPost[] = [
         url: 'https://www.linkedin.com/pulse/ai-vs-humans-client-relationship-tbp5c?trk=public_post_feed-article-content',
         slug: 'ai-vs-humans-role-in-client-relationship-management',
         author: 'Shaun Ward',
+        role: 'Client Relationships',
         image: '/blogs/AI vs Humans - Client Relationship.webp',
         publisher: 'LinkedIn',
         publisherLogo: '/blogs/publishers/linkedin.png',
@@ -643,7 +644,7 @@ export const BLOG_DATA: BlogPost[] = [
         url: 'https://www.linkedin.com/pulse/ai-vs-humans-battlefield-sales-kalolwala-associates-private-limit-qe8uc?trk=public_post_feed-article-content',
         slug: 'ai-vs-humans-sales-strategy-automation-balance',
         author: 'Naeem Kangroo',
-        department:"Project Management",
+        role: 'Project Management',
         image: '/blogs/AI vs Humans - Battlefield - Sales.jpeg',
         publisher: 'LinkedIn',
         publisherLogo: '/blogs/publishers/linkedin.png',
@@ -706,7 +707,7 @@ export const BLOG_DATA: BlogPost[] = [
         url: 'https://www.linkedin.com/pulse/key-updates-brsr-listed-entities-kalolwala-associates-private-limit-xynlc?trk=public_post_feed-article-content',
         slug: 'brsr-updates-sebi-esg-disclosure-listed-entities',
         author: 'Navdip Patel',
-        department:"Research & Content",
+        role: 'Research & Content',
         image: '/blogs/Key Updates on BRSR for Listed Entities.webp',
         publisher: 'LinkedIn',
         publisherLogo: '/blogs/publishers/linkedin.png',
@@ -738,7 +739,7 @@ export const BLOG_DATA: BlogPost[] = [
         url: 'https://www.business-standard.com/content/press-releases-ani/k-a-unleashing-the-power-of-stakeholder-reporting-125032700013_1.html',
         slug: 'unleashing-power-of-stakeholder-reporting',
         author: 'Yatha Lakhtaria',
-        department:"Research & Content",
+        role: 'Research & Content',
         image: '/images/media/Rectangle20.webp',
         publisher: 'Business Standard',
         publisherLogo: '/blogs/publishers/business-standard-logo-2.png',
@@ -848,3 +849,116 @@ export function getAllPublishers(): MarqueeLink[] {
 
     return Array.from(map.values())
 }
+
+/**
+ * Decodes HTML entities like &amp;, &#038;, &quot;, &#8217;, etc. into clean characters.
+ */
+export function decodeHtmlEntities(text?: string): string {
+    if (!text) return ''
+    return text
+        .replace(/&amp;/g, '&')
+        .replace(/&#038;/g, '&')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"')
+        .replace(/&#039;/g, "'")
+        .replace(/&#8217;/g, '’')
+        .replace(/&#8216;/g, '‘')
+        .replace(/&#8220;/g, '“')
+        .replace(/&#8221;/g, '”')
+        .replace(/&#8211;/g, '–')
+        .replace(/&#8212;/g, '—')
+        .replace(/&nbsp;/g, ' ')
+        .replace(/&hellip;/g, '…')
+        // In case there was double encoding like &amp;amp;
+        .replace(/&amp;/g, '&')
+}
+
+export interface ParsedAuthor {
+    name: string
+    role?: string
+    initials: string
+}
+
+/**
+ * Separates the author's clean name from their role.
+ * - In blog cards: only `name` is displayed (no role).
+ * - Inside the blog detail page: `role` is displayed on the right side of `name`.
+ */
+export function parseAuthorDetails(rawAuthor?: string, rawRole?: string): ParsedAuthor {
+    const cleanRole = decodeHtmlEntities(rawRole?.trim())
+
+    if (!rawAuthor) {
+        return {
+            name: 'Kalolwala & Associates',
+            role: cleanRole || undefined,
+            initials: 'KA',
+        }
+    }
+
+    const decoded = decodeHtmlEntities(rawAuthor).trim()
+
+    // Clean common prefixes
+    const clean = decoded
+        .replace(/^thoughts penned down by\s+/i, '')
+        .replace(/^research by\s+/i, '')
+        .replace(/^editorial team at\s+/i, 'Editorial Team, ')
+        .replace(/^by\s+/i, '')
+        .trim()
+
+    let name = clean
+    let parsedRole: string | undefined = undefined
+
+    // Split on delimiters: comma, bullet (·), pipe (|), em-dash (—), en-dash (–)
+    const delimiterMatch = clean.match(/^([^,·|–—]+?)(?:\s*[,·|–—]\s*(.+))$/)
+    if (delimiterMatch) {
+        name = delimiterMatch[1].trim()
+        parsedRole = delimiterMatch[2].trim()
+    } else {
+        // Also check parentheses: e.g. "John Doe (CEO)"
+        const parenMatch = clean.match(/^([^(]+?)\s*\(([^)]+)\)$/)
+        if (parenMatch) {
+            name = parenMatch[1].trim()
+            parsedRole = parenMatch[2].trim()
+        }
+    }
+
+    // Determine final role
+    let role: string | undefined = undefined
+    if (parsedRole && cleanRole) {
+        if (parsedRole.toLowerCase() === cleanRole.toLowerCase()) {
+            role = parsedRole
+        } else if (parsedRole.toLowerCase().includes(cleanRole.toLowerCase())) {
+            role = parsedRole
+        } else if (cleanRole.toLowerCase().includes(parsedRole.toLowerCase())) {
+            role = cleanRole
+        } else {
+            role = parsedRole
+        }
+    } else {
+        role = parsedRole || cleanRole || undefined
+    }
+
+    // Compute initials from author name only
+    const words = name
+        .replace(/[^a-zA-Z\s&]/g, '')
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean)
+
+    let initials = 'KA'
+    if (words.length >= 2) {
+        initials = (words[0][0] + words[words.length - 1][0]).toUpperCase()
+    } else if (words.length === 1 && words[0].length > 0) {
+        initials = words[0].slice(0, 2).toUpperCase()
+    }
+
+    const resolvedRole = role ? decodeHtmlEntities(role) : undefined
+
+    return {
+        name: name || 'Kalolwala & Associates',
+        role: resolvedRole,
+        initials,
+    }
+}
+

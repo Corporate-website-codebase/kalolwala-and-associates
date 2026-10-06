@@ -3,6 +3,7 @@ import Footers from '@/components/Footers'
 import {
     BLOG_DATA,
     calculateReadingTime,
+    decodeHtmlEntities,
     getBlogBySlug,
     getLocalBlogCards,
     type BlogPost,
@@ -91,6 +92,12 @@ type Props = {
     params: Promise<{ slug: string }>
 }
 
+function toIsoDate(dateStr?: string): string {
+    if (!dateStr) return new Date().toISOString()
+    const parsed = new Date(dateStr)
+    return isNaN(parsed.getTime()) ? new Date().toISOString() : parsed.toISOString()
+}
+
 /* =========================================================
    METADATA
 ========================================================= */
@@ -111,6 +118,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         const blogDescription = localPost.excerpt || localPost.title
         const cleanTitle = blogTitle.replace(/[\u2018\u2019]/g, "'")
         const ogImageUrl = `/api/og.png?title=${encodeURIComponent(cleanTitle)}&path=${encodeURIComponent(blogPath)}`
+        const isoDate = toIsoDate(localPost.date)
 
         return {
             title: blogTitle,
@@ -128,7 +136,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
                 url: blogUrl,
                 siteName: 'Kalolwala & Associates',
                 type: 'article',
-                publishedTime: localPost.date,
+                publishedTime: isoDate,
+                modifiedTime: isoDate,
                 authors: localPost.author ? [localPost.author] : ['Kalolwala & Associates'],
                 images: [
                     {
@@ -162,8 +171,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         }
     }
 
-    const blogTitle = wordpressPost.title.rendered
-    const blogDescription = wordpressPost.excerpt.rendered.replace(/<[^>]*>/g, '').trim()
+    const blogTitle = decodeHtmlEntities(wordpressPost.title.rendered)
+    const blogDescription = decodeHtmlEntities(
+        wordpressPost.excerpt.rendered.replace(/<[^>]*>/g, '').trim()
+    )
     const cleanWpTitle = blogTitle.replace(/[\u2018\u2019]/g, "'")
     const ogImageUrl = `/api/og.png?title=${encodeURIComponent(cleanWpTitle)}&path=${encodeURIComponent(blogPath)}`
 
@@ -186,6 +197,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             url: blogUrl,
             siteName: 'Kalolwala & Associates',
             type: 'article',
+            publishedTime: toIsoDate(wordpressPost.date),
+            modifiedTime: toIsoDate(wordpressPost.modified || wordpressPost.date),
+            authors: wordpressPost._embedded?.author?.[0]?.name ? [wordpressPost._embedded.author[0].name] : ['Kalolwala & Associates'],
 
             images: [
                 {
@@ -242,13 +256,17 @@ export default async function BlogPostPage({ params }: Props) {
                 ? post.excerpt.rendered.replace(/<[^>]*>/g, '').trim()
                 : ''
 
+            const decodedTitle = decodeHtmlEntities(post.title.rendered)
+            const decodedExcerpt = decodeHtmlEntities(rawExcerpt)
+            const decodedAuthor = decodeHtmlEntities(post._embedded?.author?.[0]?.name || '')
+
             return {
                 id: String(post.id),
                 source: 'cms' as const,
-                title: post.title.rendered,
-                metaTitle: post.title.rendered,
+                title: decodedTitle,
+                metaTitle: decodedTitle,
                 slug: post.slug,
-                excerpt: rawExcerpt,
+                excerpt: decodedExcerpt,
                 readingTime: calculateReadingTime(post.content?.rendered || rawExcerpt),
                 date: new Date(post.date).toLocaleDateString('en-GB', {
                     day: '2-digit',
@@ -257,8 +275,8 @@ export default async function BlogPostPage({ params }: Props) {
                 }),
                 url: '',
                 image,
-                imageAlt: featuredMedia?.alt_text || post.title.rendered,
-                author: post._embedded?.author?.[0]?.name || '',
+                imageAlt: decodeHtmlEntities(featuredMedia?.alt_text || post.title.rendered),
+                author: decodedAuthor,
             }
         })
 
@@ -274,6 +292,7 @@ export default async function BlogPostPage({ params }: Props) {
     const localPost = getBlogBySlug(slug)
 
     if (localPost && localPost.content) {
+        const isoDate = toIsoDate(localPost.date)
         const articleSchema = {
             '@type': 'BlogPosting',
             mainEntityOfPage: {
@@ -282,9 +301,11 @@ export default async function BlogPostPage({ params }: Props) {
             },
             headline: localPost.title,
             description: localPost.excerpt || localPost.title,
-            image: localPost.image ? [localPost.image] : [],
-            datePublished: localPost.date,
-            dateModified: localPost.date,
+            image: localPost.image
+                ? [localPost.image.startsWith('http') ? localPost.image : `https://www.kalolwala.com${localPost.image}`]
+                : ['https://www.kalolwala.com/images/kna.png'],
+            datePublished: isoDate,
+            dateModified: isoDate,
             author: {
                 '@type': 'Person',
                 name: localPost.author || 'Kalolwala & Associates',
@@ -390,6 +411,9 @@ export default async function BlogPostPage({ params }: Props) {
      * ========================================================
      */
 
+    const wpPublishedIso = toIsoDate(wordpressPost.date)
+    const wpModifiedIso = toIsoDate(wordpressPost.modified || wordpressPost.date)
+
     const articleSchema = {
         '@type': 'BlogPosting',
         mainEntityOfPage: {
@@ -398,9 +422,11 @@ export default async function BlogPostPage({ params }: Props) {
         },
         headline: wordpressBlog.title,
         description: wordpressBlog.excerpt || wordpressBlog.title,
-        image: wordpressBlog.image ? [wordpressBlog.image] : [],
-        datePublished: wordpressBlog.date,
-        dateModified: wordpressBlog.date,
+        image: wordpressBlog.image
+            ? [wordpressBlog.image.startsWith('http') ? wordpressBlog.image : `https://www.kalolwala.com${wordpressBlog.image}`]
+            : ['https://www.kalolwala.com/images/kna.png'],
+        datePublished: wpPublishedIso,
+        dateModified: wpModifiedIso,
         author: {
             '@type': 'Person',
             name: wordpressBlog.author || 'Kalolwala & Associates',

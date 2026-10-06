@@ -1,4 +1,9 @@
-import type { BlogPost, BlogPostCard } from '@/data/blogs'
+import {
+    decodeHtmlEntities,
+    parseAuthorDetails,
+    type BlogPost,
+    type BlogPostCard,
+} from '@/data/blogs'
 import { ArrowUpRight } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -11,33 +16,6 @@ export interface BlogCardProps {
     className?: string
 }
 
-function parseAuthor(rawAuthor?: string) {
-    if (!rawAuthor) {
-        return { name: 'Kalolwala & Associates', initials: 'KA' }
-    }
-
-    const clean = rawAuthor
-        .replace(/^thoughts penned down by\s+/i, '')
-        .replace(/^research by\s+/i, '')
-        .replace(/^editorial team at\s+/i, 'Editorial Team, ')
-        .trim()
-
-    const primaryName = clean.split(/[,·|–-]/)[0]?.trim() || clean
-    const words = primaryName.replace(/[^a-zA-Z\s&]/g, '').trim().split(/\s+/).filter(Boolean)
-
-    let initials = 'KA'
-    if (words.length >= 2) {
-        initials = (words[0][0] + words[words.length - 1][0]).toUpperCase()
-    } else if (words.length === 1 && words[0].length > 0) {
-        initials = words[0].slice(0, 2).toUpperCase()
-    }
-
-    return {
-        name: primaryName || 'K&A Editorial',
-        initials: initials || 'KA',
-    }
-}
-
 export default function BlogCard({ post, blog, card, className = '' }: BlogCardProps) {
     const item = post || blog || card
 
@@ -47,7 +25,8 @@ export default function BlogCard({ post, blog, card, className = '' }: BlogCardP
     const isInternal = !!item.slug
     const href = isInternal ? `/blogs/${item.slug}` : item.url || '#'
     const image = item.image
-    const author = parseAuthor(item.author)
+    const author = parseAuthorDetails(item.author)
+    const title = decodeHtmlEntities(item.title)
 
     const cardContent = (
         <article className="group relative flex flex-col h-full overflow-hidden rounded-2xl bg-white/95 border border-white/90 shadow-xs hover:shadow-md transition-transform duration-300 ease-out hover:-translate-y-1 transform-gpu">
@@ -84,7 +63,7 @@ export default function BlogCard({ post, blog, card, className = '' }: BlogCardP
                         className="leading-tight font-noto-sans font-normal text-neutral-900 transition-colors duration-300 group-hover:text-black"
                         style={{ fontSize: 'clamp(17px, 1.5vw, 18px)' }}
                     >
-                        {item.title}
+                        {title}
                     </h3>
                 </div>
 
@@ -93,7 +72,7 @@ export default function BlogCard({ post, blog, card, className = '' }: BlogCardP
                     {/* Author & Initial Logo */}
                     <div className="flex items-center gap-2.5 min-w-0">
                         <AuthorAvatar
-                            author={item.author}
+                            author={author.name}
                             initials={author.initials}
                             size="sm"
                         />

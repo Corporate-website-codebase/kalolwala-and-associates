@@ -35,6 +35,7 @@ export function parseAuthorInitials(rawAuthor?: string): string {
 export function isKnaAuthor(rawAuthor?: string): boolean {
     if (!rawAuthor) return true
     const clean = rawAuthor
+        .replace(/&amp;/g, '&')
         .replace(/^thoughts penned down by\s+/i, '')
         .replace(/^research by\s+/i, '')
         .replace(/^editorial team at\s+/i, '')

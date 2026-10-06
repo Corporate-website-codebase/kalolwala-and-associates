@@ -69,6 +69,9 @@ export const metadata: Metadata = {
     },
     alternates: {
         canonical: home.canonical,
+        types: {
+            'application/rss+xml': '/rss.xml',
+        },
         languages: {
             en: process.env.SITE_URL || 'https://www.kalolwala.com',
             'x-default': process.env.SITE_URL || 'https://www.kalolwala.com',
@@ -102,13 +105,18 @@ export default function RootLayout({
     return (
         <html lang="en">
             <head>
+                <link
+                    rel="alternate"
+                    type="application/rss+xml"
+                    title="Kalolwala & Associates - Insights & Blogs"
+                    href="/rss.xml"
+                />
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
                         __html: JSON.stringify(organizationGraphSchema),
                     }}
                 />
-
             </head>
             <body className={`${anton.variable} ${noto.variable}  antialiased`}>
                 <GoogleTagManager gtmId="GTM-N6SR3K3C" />
