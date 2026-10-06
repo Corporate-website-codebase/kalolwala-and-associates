@@ -6,7 +6,9 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 import React, { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
 import BlogCard from './BlogCard'
-
+interface BlogSubscribeProps {
+    isDarkTheme?: boolean
+}
 const ITEMS_PER_PAGE = 12
 
 const emptySubscribe = () => () => {}
@@ -99,10 +101,12 @@ export default function BlogPaginatedList({
     initialCards,
     cards = [],
     wordpressPosts = [],
+    isDarkTheme = false
 }: {
     initialCards?: BlogPostCard[]
     cards?: BlogPostCard[]
     wordpressPosts?: WordPressPost[]
+    isDarkTheme?: boolean
 }) {
     const hasMounted = useHasMounted()
 
@@ -400,26 +404,26 @@ export default function BlogPaginatedList({
                                         type="submit"
                                         disabled={subscriptionStatus === 'loading'}
                                         className={`group relative w-full sm:w-fit h-12 px-7 bg-white text-black uppercase overflow-hidden transition-all duration-300 border flex items-center justify-center shrink-0 ${
-                                            isReady
-                                                ? 'opacity-100 cursor-pointer hover:border-[#f5c518] border-transparent'
-                                                : 'opacity-70 cursor-not-allowed border-transparent'
+                                             'opacity-100 cursor-pointer hover:border-[#f5c518] border-transparent'
+                                               
                                         }`}
                                     >
                                         {/* Slide-up background fill on hover (matching not-found page effect) */}
-                                        {isReady && (
+                                        {  (
                                             <div className="absolute inset-0 bg-[#f5c518] translate-y-full transition-transform duration-500 ease-out group-hover:translate-y-0" />
                                         )}
 
                                         <span
-                                            className={`relative z-10 transition-colors duration-500 ${
-                                                isReady ? 'group-hover:text-black' : ''
-                                            }`}
+                                            className={`relative z-10 transition-colors duration-500 group-hover:text-black' 
+
+                                            `}
                                         >
                                             {subscriptionStatus === 'loading'
                                                 ? 'Subscribing...'
                                                 : 'Subscribe'}
                                         </span>
                                     </button>
+                                     
                                 </form>
 
                                 {subscriptionMessage && (
