@@ -1,6 +1,7 @@
 "use client";
 
 import AestheticDot from "@/components/AestheticDot";
+import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -97,8 +98,8 @@ export default function BookFeature() {
                             className="group inline-flex items-center gap-3 mt-6 px-5 py-2.5 rounded-full border border-[#F4C016]/40 bg-[#F4C016]/5 text-[#F4C016] text-sm md:text-base font-medium transition-all duration-300 hover:bg-[#F4C016] hover:text-black hover:border-[#F4C016] hover:shadow-[0_0_25px_rgba(244,192,22,0.2)]"
                         >
                             <span>Explore the book</span>
-                            <span className="text-lg transition-transform duration-300 group-hover:translate-x-1">
-                                ↗
+                            <span className="text-lg transition-transform duration-300 group-hover:rotate-45 group-hover:translate-x-1">
+                                <ArrowUpRight size={18} />
                             </span>
                         </a>
                     </div>
