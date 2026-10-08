@@ -124,6 +124,16 @@ export default function VisionaryDetailPage({
                             <span className="font-anton">&rdquo;</span>
                         </blockquote>
                     </div>
+                    <div className="relative ">
+                        <p
+
+                            className="text-lg sm:text-xl md:text-2xl whitespace-pre-line mt-14 lg:text-2xl text-neutral-200 font-light leading- md:max-w-[90vw] mx-auto"
+                        >
+                             {visionary.message}{' '}
+
+                        </p>
+
+                    </div>
 
                     {/* Switcher Card: Explore Next Profile */}
                     <div className="mt-12 sm:mt-16 pt-10 border-t border-white/10">
