@@ -114,11 +114,11 @@ export default function VisionaryDetailPage({
                 {/* BELOW IMAGE: Only Quote and Profile Switcher */}
                 <div className="pt-12 sm:pt-16 md:pt-20 pb-12 sm:pb-16 border-b border-white/10">
                     {/* Visionary Quote Box */}
-                    <div className="relative ">
+                    <div className="relative group">
                         {/* <Quote className="size-8 sm:size-10 text-yellow-400/40 mb-4" /> */}
                         <blockquote
                             itemProp="description"
-                            className="text-xl sm:text-2xl md:text-3xl lg:text-3xl text-neutral-200 font-light leading-relaxed md:max-w-[90vw] mx-auto"
+                            className="text-xl sm:text-2xl md:text-3xl lg:text-3xl text-slate-200 italic border p-4 bg-white/10 border-yellow-400/50 group-hover:-translate-y-[2px] group-hover:shadow-[0_10px_20px_-5px_rgba(255,255,255,0.15)]  transition-all duration-500 /20 rounded-3xl -400 font- leading-relaxed md:max-w-[90vw] mx-auto"
                         >
                             <span className="font-anton">&ldquo;</span>{` `} {visionary.quote}{' '}
                             <span className="font-anton">&rdquo;</span>
@@ -127,7 +127,7 @@ export default function VisionaryDetailPage({
                     <div className="relative ">
                         <p
 
-                            className="text-lg sm:text-xl md:text-2xl whitespace-pre-line mt-14 lg:text-2xl text-neutral-200 font-light leading- md:max-w-[90vw] mx-auto"
+                            className="text-lg sm:text-xl md:text-2xl whitespace-pre-line mt-14 lg:text-2xl text-neutral-200 font-light md:max-w-[90vw] mx-auto"
                         >
                              {visionary.message}{' '}
 
