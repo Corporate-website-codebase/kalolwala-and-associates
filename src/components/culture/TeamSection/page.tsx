@@ -4,7 +4,8 @@ import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
 import Image from 'next/image';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { X } from 'lucide-react';
+import { X, ArrowUpRight } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -54,7 +55,6 @@ const teamData: TeamMember[] = [
     imageSrc: '/images/culture/team/Yatha Lakhtaria.webp',
     message: 'With a Bachelor’s degree in Environmental Science and an MBA in Energy & Environment, Yatha  brings a strong academic foundation to her work in corporate sustainability. An avid reader with a mind that sees the world through many lenses, she approaches every project with curiosity and a commitment to precision.\n\nHer personality is a lively mix of wit, imagination and observation. She is the kind of person who can move effortlessly from discussing climate frameworks to debating the virtues of fictional dragons, all while juggling deadlines with a calm, caffeinated grace. Her browser usually holds more tabs than most laptops can handle, but she navigates them with an efficiency that speaks to her professionalism and disciplined work ethic.\n\nShe has a knack for spotting details others miss, almost as if she sees the fine print through a magnifying glass. A rapid learner, she absorbs new concepts in a heartbeat and folds them seamlessly into her work. Outside office hours, she can journey from dusk to dawn through her favourite novels, and proudly claims allegiance to House Ravenclaw, driven by curiosity, intellect and an unrelenting appetite to learn.'
   },
-
   {
     id: 5,
     name: 'Padmeja Ganjoo',
@@ -147,7 +147,65 @@ const teamData: TeamMember[] = [
 
 const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
+// 1. Move MemberCard outside TeamSection to prevent remounting issues.
+// We use forwardRef to safely pass the elements to GSAP in the parent component.
+interface MemberCardProps {
+  member: TeamMember;
+  isLeader?: boolean;
+  onClick: () => void;
+}
+
+const MemberCard = React.forwardRef<HTMLDivElement, MemberCardProps>(
+  ({ member, isLeader = false, onClick }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className={`relative group flex-shrink-0 ${isLeader ? 'w-full max-w-[380px] h-[500px]' : 'w-full max-w-[300px] h-[380px]'}`}
+        style={{ opacity: 0, transform: 'translateY(50px)' }}
+      >
+        <div
+          onClick={onClick}
+          className="card-container relative h-full w-full cursor-pointer bg-zinc-900 border border-white/5 overflow-hidden"
+        >
+          {/* Conditional rendering for the Leader arrow icon */}
+          {isLeader && (
+            <div className="absolute top-3 h-10 w-10 rounded-full bg-black group-hover:bg-yellow-500 group-hover:text-black flex items-center justify-center right-3 z-30 text-white transition-transform duration-500 group-hover:rotate-45 pointer-events-none">
+              <ArrowUpRight size={28} strokeWidth={1.5} />
+            </div>
+          )}
+
+          <div className="absolute inset-0 z-0">
+            <Image
+              src={member.imageSrc}
+              alt={member.name}
+              fill
+              className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-out group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/50 to-transparent opacity-90"></div>
+          </div>
+
+          <div className="absolute bottom-0 left-0 w-full p-6 z-20 flex flex-col justify-end h-full pointer-events-none">
+            <h3 className={`font-bold text-white leading-tight mb-2 ${isLeader ? 'text-2xl' : 'text-xl'}`}>
+              {member.name}
+            </h3>
+            <div className="flex items-center gap-3">
+              <div className="w-6 h-[2px] bg-yellow-500 transition-all duration-300 group-hover:w-10"></div>
+              <p className="text-[11px] font-bold text-zinc-300 uppercase tracking-widest group-hover:text-yellow-500 truncate">
+                {member.role.split(',')[0]}
+              </p>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    );
+  }
+);
+MemberCard.displayName = 'MemberCard';
+
+
 const TeamSection: React.FC = () => {
+  const router = useRouter();
   const [activeMember, setActiveMember] = useState<TeamMember | null>(null);
   const [startRect, setStartRect] = useState<DOMRect | null>(null);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -291,47 +349,9 @@ const TeamSection: React.FC = () => {
           });
         }
       }, 300);
-//v
       return () => clearTimeout(timer);
     }
   }, []);
-
-  const MemberCard = ({ member, index, isLeader = false }: { member: TeamMember, index: number, isLeader?: boolean }) => {
-    return (
-      <div
-        ref={(el) => { cardsRef.current[index] = el; }}
-        className={`relative group flex-shrink-0 ${isLeader ? 'w-full max-w-[380px] h-[500px]' : 'w-full max-w-[300px] h-[380px]'}`}
-        style={{ opacity: 0, transform: 'translateY(50px)' }}
-      >
-        <div
-          onClick={() => handleCardClick(member, index)}
-          className="card-container relative h-full w-full cursor-pointer bg-zinc-900 border border-white/5 overflow-hidden"
-        >
-          <div className="absolute inset-0 z-0">
-            <Image
-              src={member.imageSrc}
-              alt={member.name}
-              fill
-              className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-out group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/50 to-transparent opacity-90"></div>
-          </div>
-
-          <div className="absolute bottom-0 left-0 w-full p-6 z-20 flex flex-col justify-end h-full pointer-events-none">
-            <h3 className={`font-bold text-white leading-tight mb-2 ${isLeader ? 'text-2xl' : 'text-xl'}`}>
-              {member.name}
-            </h3>
-            <div className="flex items-center gap-3">
-              <div className="w-6 h-[2px] bg-yellow-500 transition-all duration-300 group-hover:w-10"></div>
-              <p className="text-[11px] font-bold text-zinc-300 uppercase tracking-widest group-hover:text-yellow-500 truncate">
-                {member.role.split(',')[0]}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
 
   return (
     <section ref={sectionRef} id="team" className="bg-[#191818] font-noto-sans min-h-screen py-20 relative flex flex-col items-center overflow-hidden">
@@ -339,15 +359,37 @@ const TeamSection: React.FC = () => {
         <p className='text-white md:text-4xl text-2xl leading-tight md:w-3/4 mb-14 font-noto-sans font-light mx-auto text-center'>
           We transform ideas into powerful brand moments. Crafted with intelligence, sharpened by design and delivered through technology that resonates.
         </p>
+
+        {/* Leaders Section */}
         <div className="flex flex-wrap justify-center gap-8 mb-8">
           {leaders.map((member, i) => (
-            <MemberCard key={member.id} member={member} index={i} isLeader={true} />
+            <MemberCard
+              key={member.id}
+              ref={(el) => { cardsRef.current[i] = el; }}
+              member={member}
+              isLeader={true}
+              onClick={() => {
+                const slug = member.name.toLowerCase().replace(/\s+/g, '-');
+                router.push(`/about/${slug}`);
+              }}
+            />
           ))}
         </div>
+
+        {/* Remaining Team Section */}
         <div className="flex flex-wrap justify-center gap-6">
-          {teamMembers.map((member, i) => (
-            <MemberCard key={member.id} member={member} index={i + leaders.length} />
-          ))}
+          {teamMembers.map((member, i) => {
+            const index = i + leaders.length;
+            return (
+              <MemberCard
+                key={member.id}
+                ref={(el) => { cardsRef.current[index] = el; }}
+                member={member}
+                isLeader={false}
+                onClick={() => handleCardClick(member, index)}
+              />
+            );
+          })}
         </div>
       </div>
 
@@ -360,7 +402,7 @@ const TeamSection: React.FC = () => {
             <div className="absolute inset-0 bg-linear-to-t from-zinc-950 via-zinc-950/50 to-transparent opacity-90"></div>
           </div>
 
-          <button onClick={handleCloseModal} aria-label="Close modal" className="absolute top-6 right-6 text-white hover:text-yellow-500 transition-colors z-[60] bg-black/40 rounded-full p-2">
+          <button onClick={handleCloseModal} aria-label="Close modal" className="absolute cursor-pointer top-6 right-6 text-white hover:text-yellow-500 transition-colors z-[60] bg-black/40 rounded-full p-2">
             <X size={24} />
           </button>
 
