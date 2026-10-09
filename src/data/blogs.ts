@@ -55,8 +55,8 @@ export const BLOG_DATA: BlogPost[] = [
     {
         id: 'c12',
         source: 'legacy',
-        title: 'From Compliance to Credibility: Why Assurance Is Reshaping ESG Reporting',
-        metaTitle: 'Compliance to Credibility: Assurance Is Reshaping ESG Reporting',
+        title: 'From compliance to credibility: Why assurance is reshaping ESG reporting',
+        metaTitle: 'From compliance to credibility: Why assurance is reshaping ESG reporting',
         excerpt:
             "There is a moment in every reporting regime's life when the question changes from ‘did you disclose?’ to ‘can you prove it?‘",
         date: 'JULY 27, 2026',
@@ -80,8 +80,8 @@ export const BLOG_DATA: BlogPost[] = [
     {
         id: 'c11',
         source: 'legacy',
-        title: "BRSR's Value Chain Moment: Is Your Supply Chain Ready to Be Disclosed?",
-        metaTitle: 'BRSR Value Chain: Is Your Supply Chain Ready for Disclosure?',
+        title: "BRSR's value chain moment: Is your supply chain ready to be disclosed?",
+        metaTitle: "BRSR's value chain moment: Is your supply chain ready to be disclosed?",
         excerpt:
             "The next phase of India's ESG disclosure journey isn't about your company. It's about everyone your company does business with.",
         date: 'JULY 21, 2026',
@@ -129,8 +129,8 @@ export const BLOG_DATA: BlogPost[] = [
     {
         id: 'c10',
         source: 'legacy',
-        title: 'The Annual Report Is No Longer a Rear-View Mirror',
-        metaTitle: 'The Annual Report Is No Longer a Rear-View Mirror',
+        title: 'The annual report is no longer a rear-view mirror',
+        metaTitle: 'The annual report is no longer a rear-view mirror',
         excerpt:
             'For decades, the annual report did one job: it looked backwards. That familiar model is now beginning to change, as the annual report takes on a more forward-looking role.',
         date: 'JULY 18, 2026',
@@ -178,8 +178,8 @@ export const BLOG_DATA: BlogPost[] = [
     {
         id: 'c9', // Assigned a new ID to sit at the top of the list
         source: 'legacy',
-        title: 'Kalolwala & Associates (K&A) joins hands with Travanleo to leverage Ecodrisil to advance ESG reporting for India Inc.',
-        metaTitle: 'K&A and Travanleo Partner to Advance ESG Reporting in India.',
+        title: 'K&amp;A and Travanleo partner to leverage Ecodrisil and advance ESG reporting in India',
+        metaTitle: 'K&amp;A and Travanleo partner to leverage Ecodrisil and advance ESG reporting in India',
         excerpt:
             'K&A partners with Travanleo Info Solutions to bring the award-winning, AI-powered Ecodrisil ESG Xpress platform to India, streamlining BRSR compliance and sustainability reporting for enterprises.',
         date: 'JUNE 22, 2026',
@@ -312,8 +312,8 @@ export const BLOG_DATA: BlogPost[] = [
     {
         id: 'c8',
         source: 'legacy',
-        title: 'Fault Lines in West Asia: A Wake-up Call for Global Supply Chains',
-        metaTitle: 'Fault Lines in West Asia: Risks for Global Supply Chains 2026',
+        title: 'Fault lines in West Asia: A wake-up call for global supply chains',
+        metaTitle: 'Fault lines in West Asia: A wake-up call for global supply chains',
         excerpt:
             'What is unfolding in West Asia may appear geographically contained. For businesses around the world, it is anything but.',
         date: 'MARCH 20, 2026',
@@ -357,8 +357,8 @@ export const BLOG_DATA: BlogPost[] = [
     {
         id: 'c0',
         source: 'legacy',
-        title: 'Why Stakeholder Comms is the new "Marketing."',
-        metaTitle: 'Why Stakeholder Comms is the new "Marketing."',
+        title: 'Why stakeholder comms is the new &quot;marketing&quot;',
+        metaTitle: 'Why stakeholder comms is the new &quot;marketing&quot;',
         excerpt:
             'Conventional marketing is a monologue; Stakeholder Communication is a relationship. As we move into the next fiscal year, the brands that lead will be those that communicate with substance, not noise.',
         date: 'MARCH 09, 2026',
@@ -400,8 +400,8 @@ export const BLOG_DATA: BlogPost[] = [
     {
         id: 'c1',
         source: 'legacy',
-        title: 'IFRS S2 Amendments 2025: ISSB Climate Disclosure Reset',
-        metaTitle: 'IFRS S2 Amendments 2025: Key ISSB Climate Disclosure Changes',
+        title: 'IFRS S2 amendments 2025: ISSB climate disclosure reset',
+        metaTitle: 'IFRS S2 amendments 2025: ISSB climate disclosure reset',
         excerpt:
             'ISSB’s 2025 IFRS S2 amendments simplify Scope 3, financed emissions and GHG reporting, improving global climate disclosure consistency by 2027.',
         date: 'DECEMBER 18, 2025',
@@ -481,8 +481,8 @@ export const BLOG_DATA: BlogPost[] = [
     {
         id: 'c2',
         source: 'legacy',
-        title: 'Bond Yields in India: What It Means for Banks',
-        metaTitle: 'Bond Yields in India: What It Means for Banks',
+        title: 'Bond yields in India: What it means for banks',
+        metaTitle: 'Bond yields in India: What it means for banks',
         excerpt:
             'Rising bond yields in India are squeezing bank treasury income. Understand the inverse bond price-yield link, RBI impact and Q2 banking trends.',
         date: 'NOVEMBER 04, 2025',
