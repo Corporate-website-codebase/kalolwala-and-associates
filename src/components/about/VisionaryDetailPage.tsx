@@ -3,7 +3,7 @@
 import type { Visionary } from '@/data/visionaries'
 import { motion } from 'framer-motion'
 import { useLenis } from 'lenis/react'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Quote } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -18,13 +18,12 @@ export default function VisionaryDetailPage({
     otherVisionary,
 }: VisionaryDetailPageProps) {
     const isCeo = visionary.id === 'ceo'
+    const quoteWords = React.useMemo(() => visionary.quote.split(/\s+/), [visionary.quote])
     const lenis = useLenis()
-    const lenisRef = React.useRef(lenis)
-    lenisRef.current = lenis
 
     const scrollToTop = React.useCallback(() => {
-        if (lenisRef.current) {
-            lenisRef.current.scrollTo(0, { immediate: true })
+        if (lenis) {
+            lenis.scrollTo(0, { immediate: true })
         }
         window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
         if (document.documentElement) {
@@ -33,7 +32,7 @@ export default function VisionaryDetailPage({
         if (document.body) {
             document.body.scrollTop = 0
         }
-    }, [])
+    }, [lenis])
 
     React.useLayoutEffect(() => {
         scrollToTop()
@@ -113,35 +112,108 @@ export default function VisionaryDetailPage({
 
                 {/* BELOW IMAGE: Only Quote and Profile Switcher */}
                 <div className="pt-12 sm:pt-16 md:pt-20 pb-12 sm:pb-16 border-b border-white/10">
-                    {/* Visionary Quote Box */}
-                    <div className="relative group">
-                        {/* <Quote className="size-8 sm:size-10 text-yellow-400/40 mb-4" /> */}
+                    {/* Unique Editorial Quote Gallery Showcase */}
+                    <motion.div
+                        key={visionary.slug}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, amount: 0.18 }}
+                        className="relative group md:max-w-[90vw] mx-auto border-l border-yellow-500 bg-gradient-to-br from-white/[0.04] via-zinc-950/70 to-black/90 backdrop-blur-2xl pl-6 md:pl-12 pt-12 pb-6 overflow-hidden "
+                    >
+
+                        {/* Top-Left Radial Ambient Light */}
+                        <div className="absolute -top-24 -left-24 w-96 h-96 bg-[radial-gradient(circle,rgba(250,204,21,0.12)_0%,transparent_70%)] pointer-events-none blur-2xl" />
+
+                        {/* Giant Quotation Mark */}
+                        <motion.div
+                            variants={{
+                                hidden: { opacity: 0, scale: 0.6, rotate: -8 },
+                                visible: { opacity: 1, scale: 1, rotate: 0 },
+                            }}
+                            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                            className="mb-4 text-yellow-400/90 inline-block"
+                        >
+                            <Quote className="rotate-180 size-10 sm:size-12 stroke-1 drop-shadow-[0_0_16px_rgba(250,204,21,0.4)]" />
+                        </motion.div>
+
+                        {/* Kinetic Word-by-Word Editorial Typography */}
                         <blockquote
                             itemProp="description"
-                            className="text-xl sm:text-2xl md:text-3xl lg:text-3xl text-slate-200 italic border p-4 bg-white/10 border-yellow-400/50 group-hover:-translate-y-[2px] group-hover:shadow-[0_10px_20px_-5px_rgba(255,255,255,0.15)]  transition-all duration-500 /20 rounded-3xl -400 font- leading-relaxed md:max-w-[90vw] mx-auto"
+                            className="relative z-10 text-xl sm:text-2xl md:text-3xl lg:text-[32px] xl:text-[36px] leading-[1.38] sm:leading-[1.42] text-slate-100 font-serif italic"
                         >
-                            <span className="font-anton">&ldquo;</span>{` `} {visionary.quote}{' '}
-                            <span className="font-anton">&rdquo;</span>
+                            <motion.span
+                                variants={{
+                                    hidden: {},
+                                    visible: {
+                                        transition: {
+                                            staggerChildren: 0.02,
+                                            delayChildren: 0.15,
+                                        },
+                                    },
+                                }}
+                                className="inline"
+                            >
+                                {quoteWords.map((word, i) => (
+                                    <span key={i} className="inline-block overflow-hidden align-top mr-[0.28em] py-0.5">
+                                        <motion.span
+                                            variants={{
+                                                hidden: { y: '115%', opacity: 0, filter: 'blur(5px)' },
+                                                visible: {
+                                                    y: 0,
+                                                    opacity: 1,
+                                                    filter: 'blur(0px)',
+                                                    transition: {
+                                                        duration: 0.55,
+                                                        ease: [0.16, 1, 0.3, 1],
+                                                    },
+                                                },
+                                            }}
+                                            className="inline-block"
+                                        >
+                                            {word}
+                                        </motion.span>
+                                    </span>
+                                ))}
+                            </motion.span>
+                            <motion.span
+                                variants={{
+                                    hidden: { opacity: 0, scale: 0 },
+                                    visible: {
+                                        opacity: 1,
+                                        scale: 1,
+                                        transition: {
+                                            delay: quoteWords.length * 0.02 + 0.25,
+                                            duration: 0.45,
+                                            ease: [0.34, 1.56, 0.64, 1],
+                                        },
+                                    },
+                                }}
+                                className="inline-block text-yellow-400 not-italic ml-1 font-serif drop-shadow-[0_0_10px_rgba(250,204,21,0.5)]"
+                            >
+                                &rdquo;
+                            </motion.span>
                         </blockquote>
-                    </div>
+
+
+                    </motion.div>
                     <div className="relative ">
                         <p
 
                             className="text-lg sm:text-xl md:text-2xl whitespace-pre-line mt-14 lg:text-2xl text-neutral-200 font-light md:max-w-[90vw] mx-auto"
                         >
-                             {visionary.message}{' '}
+                            {visionary.message}{' '}
 
                         </p>
 
                     </div>
 
                     {/* Switcher Card: Explore Next Profile */}
-                    <div className="mt-12 sm:mt-16 pt-10 border-t border-white/10">
+                    <div className="mt-12 sm:mt-16 pt-10 border-t border-white/10 md:max-w-[90vw] mx-auto">
                         <Link
                             href={`/about/${otherVisionary.slug}`}
                             scroll={false}
                             onClick={scrollToTop}
-                            className="group block p-6 sm:p-8 md:p-4 rounded-2xl bg-zinc-950 hover:bg-zinc-900 border border-white/10 hover:border-yellow-400/50 transition-all duration-300 shadow-xl"
+                            className="group block p-6 sm:p-8 md:p-4 rounded-2xl  border border-white/10 hover:border-yellow-400/50 transition-all duration-300 shadow-xl"
                         >
                             <div className="flex items-center justify-between gap-6">
                                 <div className="flex items-center gap-5 sm:gap-7">
