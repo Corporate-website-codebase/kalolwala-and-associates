@@ -104,6 +104,11 @@ export default function BlogRecentArticles({
 
                 {/* Text content with 2-line clamping */}
                 <div className="flex flex-col justify-center min-w-0 flex-1">
+                    {'category' in blog && blog.category ? (
+                        <span className="font-mono text-[9.5px] uppercase tracking-wider text-neutral-400 truncate mb-0.5">
+                            {blog.category}
+                        </span>
+                    ) : null}
                     <h4
                         className="text-xs font-medium text-neutral-200 leading-snug group-hover:text-white transition-colors"
                         style={{

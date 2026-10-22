@@ -6,12 +6,23 @@ import {
     decodeHtmlEntities,
     getBlogBySlug,
     getLocalBlogCards,
+    normalizeCategory,
     type BlogPost,
     type BlogPostCard,
 } from '@/data/blogs'
 import { getPosts } from '@/lib/wordpress'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+
+// Curated category overrides from Blog categories.xlsx (Sheet 3)
+const EXCEL_SLUG_CATEGORY_MAP: Record<string, string> = {
+    'annual-report-cover-design-board-approval': 'Corporate Branding & Design',
+    'indias-gdp-grew-7-8-but-what-does-that-really-mean': 'Stakeholder Communication & Presentations',
+    'brsr-core-fy-2026-27-value-chain-reporting': 'ESG, BRSR & Sustainability Reporting',
+    'scope-1-emissions-india': 'ESG, BRSR & Sustainability Reporting',
+    'brsr-vs-gri-vs-integrated-reporting': 'ESG, BRSR & Sustainability Reporting',
+    'sebi-brsr-reporting-format': 'ESG, BRSR & Sustainability Reporting',
+}
 
 type WordPressPost = {
     id: number
@@ -61,6 +72,8 @@ type WordPressPost = {
                 }
             }
         }>
+
+        'wp:term'?: Array<Array<{ taxonomy?: string; name?: string }>>
     }
 }
 
@@ -260,9 +273,28 @@ export default async function BlogPostPage({ params }: Props) {
             const decodedExcerpt = decodeHtmlEntities(rawExcerpt)
             const decodedAuthor = decodeHtmlEntities(post._embedded?.author?.[0]?.name || '')
 
+            // Determine category: Priority 1: Curated override from Excel, Priority 2: WordPress embedded category term
+            let rawCategory = EXCEL_SLUG_CATEGORY_MAP[post.slug] || ''
+            if (!rawCategory) {
+                const terms = post._embedded?.['wp:term'] || []
+                for (const termGroup of terms) {
+                    if (Array.isArray(termGroup)) {
+                        const catTerm = termGroup.find(
+                            (t) => t.taxonomy === 'category' && t.name && t.name.toLowerCase() !== 'uncategorized'
+                        )
+                        if (catTerm?.name) {
+                            rawCategory = catTerm.name
+                            break
+                        }
+                    }
+                }
+            }
+            const category = normalizeCategory(rawCategory || 'ESG, BRSR & Sustainability Reporting')
+
             return {
                 id: String(post.id),
                 source: 'cms' as const,
+                category,
                 title: decodedTitle,
                 metaTitle: decodedTitle,
                 slug: post.slug,

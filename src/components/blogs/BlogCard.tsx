@@ -29,7 +29,7 @@ export default function BlogCard({ post, blog, card, className = '' }: BlogCardP
     const title = decodeHtmlEntities(item.title)
 
     const cardContent = (
-        <article className="group relative flex flex-col h-full overflow-hidden rounded-2xl bg-white/95 border border-white/90 shadow-xs hover:shadow-md transition-transform duration-300 ease-out hover:-translate-y-1 transform-gpu">
+        <article className="group relative flex flex-col h-full overflow-hidden rounded-2xl bg-white/60 backdrop-blur-xl border border-white shadow-none hover:shadow-xl transition-all duration-500 cursor-pointer">
             {/* Fixed aspect ratio thumbnail container */}
             <div className="relative w-full px-0.5 pt-0.5">
                 <div className="relative w-full aspect-16/8 overflow-hidden rounded-[14px] bg-neutral-100">
@@ -57,6 +57,15 @@ export default function BlogCard({ post, blog, card, className = '' }: BlogCardP
 
             {/* Article details and action footer */}
             <div className="flex flex-col grow px-6 pt-5 pb-6">
+                {/* Category tag */}
+                {item.category && (
+                    <div className="mb-2.5">
+                        <span className="inline-flex items-center text-[10.5px] font-mono font-medium uppercase tracking-wider text-neutral-500">
+                            {item.category}
+                        </span>
+                    </div>
+                )}
+
                 {/* Article title */}
                 <div className="min-h-20 flex flex-col items-start mb-4">
                     <h3

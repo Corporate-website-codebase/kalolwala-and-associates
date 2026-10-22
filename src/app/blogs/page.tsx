@@ -1,11 +1,21 @@
 import CarouselSection from "@/components/blogs/CarouselSection";
 import Footers from "@/components/Footers";
 import { getMetadata } from "@/data/metadata";
-import { getLocalBlogCards, calculateReadingTime, type BlogPostCard } from "@/data/blogs";
+import { getLocalBlogCards, calculateReadingTime, normalizeCategory, type BlogPostCard } from "@/data/blogs";
 import { getPosts } from "@/lib/wordpress";
 
 export const metadata = getMetadata("blogs");
 export const revalidate = 600;
+
+// Curated category overrides from Blog categories.xlsx (Sheet 3)
+const EXCEL_SLUG_CATEGORY_MAP: Record<string, string> = {
+  "annual-report-cover-design-board-approval": "Corporate Branding & Design",
+  "indias-gdp-grew-7-8-but-what-does-that-really-mean": "Stakeholder Communication & Presentations",
+  "brsr-core-fy-2026-27-value-chain-reporting": "ESG, BRSR & Sustainability Reporting",
+  "scope-1-emissions-india": "ESG, BRSR & Sustainability Reporting",
+  "brsr-vs-gri-vs-integrated-reporting": "ESG, BRSR & Sustainability Reporting",
+  "sebi-brsr-reporting-format": "ESG, BRSR & Sustainability Reporting",
+};
 
 const breadcrumbSchema = {
   "@context": "https://schema.org",
@@ -63,6 +73,7 @@ const Blogs = async () => {
             };
           }>;
           author?: Array<{ name?: string }>;
+          "wp:term"?: Array<Array<{ taxonomy?: string; name?: string }>>;
         };
       }) => {
         const featuredMedia = post._embedded?.["wp:featuredmedia"]?.[0];
@@ -78,9 +89,28 @@ const Blogs = async () => {
           ? post.excerpt.rendered.replace(/<[^>]*>/g, "").trim()
           : "";
 
+        // Determine category: Priority 1: Curated override from Excel, Priority 2: WordPress embedded category term
+        let rawCategory = EXCEL_SLUG_CATEGORY_MAP[post.slug] || "";
+        if (!rawCategory) {
+          const terms = post._embedded?.["wp:term"] || [];
+          for (const termGroup of terms) {
+            if (Array.isArray(termGroup)) {
+              const catTerm = termGroup.find(
+                (t) => t.taxonomy === "category" && t.name && t.name.toLowerCase() !== "uncategorized"
+              );
+              if (catTerm?.name) {
+                rawCategory = catTerm.name;
+                break;
+              }
+            }
+          }
+        }
+        const category = normalizeCategory(rawCategory || "ESG, BRSR & Sustainability Reporting");
+
         return {
           id: String(post.id),
           source: "cms" as const,
+          category,
           title: post.title.rendered,
           metaTitle: post.title.rendered,
           slug: post.slug,

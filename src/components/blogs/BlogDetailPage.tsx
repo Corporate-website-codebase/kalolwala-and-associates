@@ -519,8 +519,23 @@ export default function BlogDetailPage({
                                     />
                                 </div>
                             </div>
-                            {/* Article Header: Title + Author & Date Byline + Preferred Source Bar + Subscribe Box */}
+                            {/* Article Header: Category Eyebrow + Title + Author & Date Byline + Preferred Source Bar + Subscribe Box */}
                             <header className="article-header mb-8">
+                                {post.category && (
+                                    <div className="mb-4">
+                                        <Link
+                                            href={`/blogs?category=${encodeURIComponent(post.category)}`}
+                                            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-medium tracking-wide uppercase transition-colors duration-200 border ${
+                                                isDarkTheme
+                                                    ? 'bg-white/10 text-neutral-300 border-white/10 hover:bg-white/20 hover:text-white'
+                                                    : 'bg-neutral-100 text-neutral-700 border-neutral-200 hover:bg-neutral-200/80 hover:text-black'
+                                            }`}
+                                        >
+                                            {post.category}
+                                        </Link>
+                                    </div>
+                                )}
+
                                 <h1
                                     itemProp="headline"
                                     className={`font-light text-[clamp(28px,4vw,48px)] leading-[1.15] tracking-tight transition-colors duration-300 ${isDarkTheme ? "text-white" : "text-black"

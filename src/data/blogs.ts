@@ -25,6 +25,8 @@ export interface BlogPost {
     // Identifies where the blog comes from
     source?: 'legacy' | 'cms'
 
+    category?: string
+
     title: string
     metaTitle?: string
     excerpt: string
@@ -55,6 +57,7 @@ export const BLOG_DATA: BlogPost[] = [
     {
         id: 'c12',
         source: 'legacy',
+        category: 'ESG, BRSR & Sustainability Reporting',
         title: 'From compliance to credibility: Why assurance is reshaping ESG reporting',
         metaTitle: 'From compliance to credibility: Why assurance is reshaping ESG reporting',
         excerpt:
@@ -80,6 +83,7 @@ export const BLOG_DATA: BlogPost[] = [
     {
         id: 'c11',
         source: 'legacy',
+        category: 'ESG, BRSR & Sustainability Reporting',
         title: "BRSR's value chain moment: Is your supply chain ready to be disclosed?",
         metaTitle: "BRSR's value chain moment: Is your supply chain ready to be disclosed?",
         excerpt:
@@ -129,6 +133,7 @@ export const BLOG_DATA: BlogPost[] = [
     {
         id: 'c10',
         source: 'legacy',
+        category: 'Annual Reporting & Frameworks',
         title: 'The annual report is no longer a rear-view mirror',
         metaTitle: 'The annual report is no longer a rear-view mirror',
         excerpt:
@@ -178,6 +183,7 @@ export const BLOG_DATA: BlogPost[] = [
     {
         id: 'c9', // Assigned a new ID to sit at the top of the list
         source: 'legacy',
+        category: 'ESG, BRSR & Sustainability Reporting',
         title: 'K&amp;A and Travanleo partner to leverage Ecodrisil and advance ESG reporting in India',
         metaTitle: 'K&amp;A and Travanleo partner to leverage Ecodrisil and advance ESG reporting in India',
         excerpt:
@@ -312,6 +318,7 @@ export const BLOG_DATA: BlogPost[] = [
     {
         id: 'c8',
         source: 'legacy',
+        category: 'Business Insights & Industry Perspectives',
         title: 'Fault lines in West Asia: A wake-up call for global supply chains',
         metaTitle: 'Fault lines in West Asia: A wake-up call for global supply chains',
         excerpt:
@@ -357,6 +364,7 @@ export const BLOG_DATA: BlogPost[] = [
     {
         id: 'c0',
         source: 'legacy',
+        category: 'Stakeholder Communication & Presentations',
         title: 'Why stakeholder comms is the new &quot;marketing&quot;',
         metaTitle: 'Why stakeholder comms is the new &quot;marketing&quot;',
         excerpt:
@@ -400,6 +408,7 @@ export const BLOG_DATA: BlogPost[] = [
     {
         id: 'c1',
         source: 'legacy',
+        category: 'Annual Reporting & Frameworks',
         title: 'IFRS S2 amendments 2025: ISSB climate disclosure reset',
         metaTitle: 'IFRS S2 amendments 2025: ISSB climate disclosure reset',
         excerpt:
@@ -481,6 +490,7 @@ export const BLOG_DATA: BlogPost[] = [
     {
         id: 'c2',
         source: 'legacy',
+        category: 'Stakeholder Communication & Presentations',
         title: 'Bond yields in India: What it means for banks',
         metaTitle: 'Bond yields in India: What it means for banks',
         excerpt:
@@ -525,6 +535,7 @@ export const BLOG_DATA: BlogPost[] = [
     {
         id: 'c3',
         source: 'legacy',
+        category: 'Corporate Branding & Design',
         title: 'FMCG Innovation-Led Marketing in the Digital Era',
         metaTitle: 'FMCG Innovation-Led Marketing in the Digital Era',
         excerpt:
@@ -595,6 +606,7 @@ export const BLOG_DATA: BlogPost[] = [
     {
         id: 'c4',
         source: 'legacy',
+        category: 'Business Insights & Industry Perspectives',
         title: 'AI vs Humans in Client Relationship Management',
         metaTitle: 'AI vs Humans in Client Relationship Management',
         excerpt:
@@ -636,6 +648,7 @@ export const BLOG_DATA: BlogPost[] = [
     {
         id: 'c5',
         source: 'legacy',
+        category: 'Business Insights & Industry Perspectives',
         title: 'Balance or AI to Build Client Relationship',
         metaTitle: 'Balance or AI to Build Client Relationship',
         excerpt:
@@ -699,6 +712,7 @@ export const BLOG_DATA: BlogPost[] = [
     {
         id: 'c6',
         source: 'legacy',
+        category: 'ESG, BRSR & Sustainability Reporting',
         title: 'BRSR Updates 2025: Key Changes for Listed Entities',
         metaTitle: 'BRSR Updates 2025: Key Changes for Listed Entities',
         excerpt:
@@ -732,6 +746,7 @@ export const BLOG_DATA: BlogPost[] = [
     {
         id: 'c7',
         source: 'legacy',
+        category: 'Stakeholder Communication & Presentations',
         title: 'K&A: Unleashing The Power of Stakeholder Reporting',
         metaTitle: 'K&A: Unleashing The Power of Stakeholder Reporting',
         excerpt: 'Making numbers speak',
@@ -961,4 +976,29 @@ export function parseAuthorDetails(rawAuthor?: string, rawRole?: string): Parsed
         initials,
     }
 }
+
+export const BLOG_CATEGORIES = [
+    'Annual Reporting & Frameworks',
+    'ESG, BRSR & Sustainability Reporting',
+    'Stakeholder Communication & Presentations',
+    'Corporate Branding & Design',
+    'Business Insights & Industry Perspectives',
+] as const
+
+export type BlogCategory = (typeof BLOG_CATEGORIES)[number]
+
+/**
+ * Normalizes category names across WordPress API and local data into canonical format.
+ */
+export function normalizeCategory(cat?: string): string {
+    if (!cat) return ''
+    const decoded = decodeHtmlEntities(cat).trim()
+    if (/annual reporting/i.test(decoded)) return 'Annual Reporting & Frameworks'
+    if (/esg|brsr|sustainability/i.test(decoded)) return 'ESG, BRSR & Sustainability Reporting'
+    if (/stakeholder|investor communication/i.test(decoded)) return 'Stakeholder Communication & Presentations'
+    if (/branding|design/i.test(decoded)) return 'Corporate Branding & Design'
+    if (/business insights|perspectives/i.test(decoded)) return 'Business Insights & Industry Perspectives'
+    return decoded
+}
+
 

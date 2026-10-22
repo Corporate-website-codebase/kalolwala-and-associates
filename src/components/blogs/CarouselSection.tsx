@@ -1,17 +1,15 @@
 'use client'
 
-import { decodeHtmlEntities, type BlogPostCard } from '@/data/blogs'
+import { BLOG_CATEGORIES, decodeHtmlEntities, type BlogPostCard } from '@/data/blogs'
 import { motion, type Variants } from 'framer-motion'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Search, X } from 'lucide-react'
 import Image from 'next/image'
 import React, { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
 import BlogCard from './BlogCard'
-interface BlogSubscribeProps {
-    isDarkTheme?: boolean
-}
+
 const ITEMS_PER_PAGE = 12
 
-const emptySubscribe = () => () => {}
+const emptySubscribe = () => () => { }
 
 function useHasMounted() {
     return useSyncExternalStore(
@@ -101,24 +99,53 @@ export default function BlogPaginatedList({
     initialCards,
     cards = [],
     wordpressPosts = [],
-    isDarkTheme = false
 }: {
     initialCards?: BlogPostCard[]
     cards?: BlogPostCard[]
     wordpressPosts?: WordPressPost[]
-    isDarkTheme?: boolean
 }) {
     const hasMounted = useHasMounted()
 
     const [currentPage, setCurrentPage] = useState(1)
     const [prevPage, setPrevPage] = useState(1)
+    const [selectedCategory, setSelectedCategory] = useState<string>('All')
+    const [searchQuery, setSearchQuery] = useState<string>('')
     const [pageInputValue, setPageInputValue] = useState('01')
     const [isPageChanging, setIsPageChanging] = useState(false)
 
-    // Synchronize initial page from URL query parameter and Back & Forward navigation
+    // Helper to update URL query parameters cleanly
+    const updateUrlParams = (cat: string, search: string, page: number) => {
+        try {
+            const params = new URLSearchParams()
+            if (cat && cat !== 'All') params.set('category', cat)
+            if (search.trim()) params.set('search', search.trim())
+            if (page > 1) params.set('page', String(page))
+            const qs = params.toString()
+            const targetUrl = qs ? `/blogs?${qs}` : '/blogs'
+            window.history.pushState(null, '', targetUrl)
+        } catch {
+            // Ignore in non-browser context
+        }
+    }
+
+    // Synchronize initial page & filters from URL query parameters and Back & Forward navigation
     useEffect(() => {
-        const syncPageFromUrl = () => {
+        const syncFiltersFromUrl = () => {
             const params = new URLSearchParams(window.location.search)
+            const catParam = params.get('category')
+            if (catParam) {
+                setSelectedCategory(catParam)
+            } else {
+                setSelectedCategory('All')
+            }
+
+            const searchParam = params.get('search')
+            if (searchParam) {
+                setSearchQuery(searchParam)
+            } else {
+                setSearchQuery('')
+            }
+
             const pageParam = params.get('page')
             const parsed = pageParam ? parseInt(pageParam, 10) : 1
             if (!isNaN(parsed) && parsed >= 1) {
@@ -130,9 +157,9 @@ export default function BlogPaginatedList({
             }
         }
 
-        syncPageFromUrl()
-        window.addEventListener('popstate', syncPageFromUrl)
-        return () => window.removeEventListener('popstate', syncPageFromUrl)
+        syncFiltersFromUrl()
+        window.addEventListener('popstate', syncFiltersFromUrl)
+        return () => window.removeEventListener('popstate', syncFiltersFromUrl)
     }, [])
 
     const [email, setEmail] = useState('')
@@ -192,12 +219,49 @@ export default function BlogPaginatedList({
         )
     }, [initialCards, cards, wordpressPosts])
 
-    const totalPages = Math.ceil(sortedCards.length / ITEMS_PER_PAGE) || 1
+    // Extract available categories preserving canonical order
+    const categoriesList = useMemo(() => {
+        const foundCategories = new Set<string>()
+        for (const card of sortedCards) {
+            if (card.category) {
+                foundCategories.add(card.category)
+            }
+        }
+        const ordered = BLOG_CATEGORIES.filter((cat) => foundCategories.has(cat))
+        const remaining = Array.from(foundCategories).filter(
+            (cat) => !BLOG_CATEGORIES.includes(cat as (typeof BLOG_CATEGORIES)[number])
+        )
+        return ['All', ...ordered, ...remaining]
+    }, [sortedCards])
+
+    // Filter cards based on selected category and search query
+    const filteredCards = useMemo(() => {
+        let result = sortedCards
+
+        if (selectedCategory !== 'All') {
+            result = result.filter((card) => card.category === selectedCategory)
+        }
+
+        const q = searchQuery.trim().toLowerCase()
+        if (q) {
+            result = result.filter((card) => {
+                const title = card.title?.toLowerCase() || ''
+                const excerpt = card.excerpt?.toLowerCase() || ''
+                const author = card.author?.toLowerCase() || ''
+                const cat = card.category?.toLowerCase() || ''
+                return title.includes(q) || excerpt.includes(q) || author.includes(q) || cat.includes(q)
+            })
+        }
+
+        return result
+    }, [sortedCards, selectedCategory, searchQuery])
+
+    const totalPages = Math.ceil(filteredCards.length / ITEMS_PER_PAGE) || 1
 
     const currentData = useMemo(() => {
         const start = (currentPage - 1) * ITEMS_PER_PAGE
-        return sortedCards.slice(start, start + ITEMS_PER_PAGE)
-    }, [currentPage, sortedCards])
+        return filteredCards.slice(start, start + ITEMS_PER_PAGE)
+    }, [currentPage, filteredCards])
 
     // Smoothly switch pages and sync URL history without laggy timeouts
     const handlePageChange = (newPage: number) => {
@@ -207,14 +271,7 @@ export default function BlogPaginatedList({
 
         setIsPageChanging(true)
         setCurrentPage(newPage)
-
-        // Update URL query parameter for seamless bookmarking and browser Back/Forward support
-        try {
-            const targetUrl = newPage === 1 ? '/blogs' : `/blogs?page=${newPage}`
-            window.history.pushState(null, '', targetUrl)
-        } catch {
-            // Ignore
-        }
+        updateUrlParams(selectedCategory, searchQuery, newPage)
 
         if (listTopRef.current) {
             listTopRef.current.scrollIntoView({
@@ -226,6 +283,37 @@ export default function BlogPaginatedList({
         setTimeout(() => {
             setIsPageChanging(false)
         }, 150)
+    }
+
+    const handleCategorySelect = (category: string) => {
+        if (category === selectedCategory) return
+        setSelectedCategory(category)
+        setCurrentPage(1)
+        setPageInputValue('01')
+        updateUrlParams(category, searchQuery, 1)
+    }
+
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const query = e.target.value
+        setSearchQuery(query)
+        setCurrentPage(1)
+        setPageInputValue('01')
+        updateUrlParams(selectedCategory, query, 1)
+    }
+
+    const handleClearSearch = () => {
+        setSearchQuery('')
+        setCurrentPage(1)
+        setPageInputValue('01')
+        updateUrlParams(selectedCategory, '', 1)
+    }
+
+    const handleResetAll = () => {
+        setSelectedCategory('All')
+        setSearchQuery('')
+        setCurrentPage(1)
+        setPageInputValue('01')
+        updateUrlParams('All', '', 1)
     }
 
     const handlePageInputSubmit = (e?: React.FormEvent) => {
@@ -246,8 +334,6 @@ export default function BlogPaginatedList({
     const isEmailFormatted = useMemo(() => {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
     }, [email])
-
-    const isReady = isEmailFormatted && subscriptionStatus !== 'loading'
 
     const triggerError = () => {
         setHasError(true)
@@ -346,7 +432,7 @@ export default function BlogPaginatedList({
                     >
                         <motion.h1
                             variants={heroItemVariants}
-                            className="text-[clamp(26px,2.4vw,46px)] leading-[1.2] lg:leading-[1.25] text-white font-light tracking-tight max-w-4xl md:max-w-2xl lg:max-w-2xl xl:max-w-3xl"
+                            className="text-[clamp(26px,2.4vw,46px)] leading-[1.2] lg:leading-tight text-white font-light tracking-tight max-w-4xl md:max-w-2xl lg:max-w-2xl xl:max-w-3xl"
                         >
                             A space for ideas that challenge the familiar, perspectives that sharpen
                             understanding and conversations that shape better communication.
@@ -391,48 +477,36 @@ export default function BlogPaginatedList({
                                         }
                                         disabled={subscriptionStatus === 'loading'}
                                         style={{ colorScheme: 'dark' }}
-                                        className={`w-full sm:max-w-sm h-12 px-4 bg-white/10 text-white outline-none backdrop-blur-[2px] font-noto-sans transition-all duration-300 disabled:opacity-50 ${
-                                            isShaking ? 'animate-shake-x' : ''
-                                        } ${
-                                            hasError
+                                        className={`w-full sm:max-w-sm h-12 px-4 bg-white/10 text-white outline-none backdrop-blur-[2px] font-noto-sans transition-all duration-300 disabled:opacity-50 ${isShaking ? 'animate-shake-x' : ''
+                                            } ${hasError
                                                 ? 'border border-red-500 placeholder:text-red-400 focus:border-red-400 focus:bg-white/15'
                                                 : 'border border-white/20 placeholder:text-neutral-400 focus:border-white/60'
-                                        }`}
+                                            }`}
                                     />
 
                                     <button
                                         type="submit"
                                         disabled={subscriptionStatus === 'loading'}
-                                        className={`group relative w-full sm:w-fit h-12 px-7 bg-white text-black uppercase overflow-hidden transition-all duration-300 border flex items-center justify-center shrink-0 ${
-                                             'opacity-100 cursor-pointer hover:border-[#f5c518] border-transparent'
-                                               
-                                        }`}
+                                        className="group relative w-full sm:w-fit h-12 px-7 bg-white text-black uppercase overflow-hidden transition-all duration-300 border flex items-center justify-center shrink-0 opacity-100 cursor-pointer hover:border-[#f5c518] border-transparent"
                                     >
                                         {/* Slide-up background fill on hover (matching not-found page effect) */}
-                                        {  (
-                                            <div className="absolute inset-0 bg-[#f5c518] translate-y-full transition-transform duration-500 ease-out group-hover:translate-y-0" />
-                                        )}
+                                        <div className="absolute inset-0 bg-[#f5c518] translate-y-full transition-transform duration-500 ease-out group-hover:translate-y-0" />
 
-                                        <span
-                                            className={`relative z-10 transition-colors duration-500 group-hover:text-black' 
-
-                                            `}
-                                        >
+                                        <span className="relative z-10 transition-colors duration-500 group-hover:text-black">
                                             {subscriptionStatus === 'loading'
                                                 ? 'Subscribing...'
                                                 : 'Subscribe'}
                                         </span>
                                     </button>
-                                     
+
                                 </form>
 
                                 {subscriptionMessage && (
                                     <p
-                                        className={`mt-3 text-xs ${
-                                            subscriptionStatus === 'success'
-                                                ? 'text-emerald-400'
-                                                : 'text-red-400'
-                                        }`}
+                                        className={`mt-3 text-xs ${subscriptionStatus === 'success'
+                                            ? 'text-emerald-400'
+                                            : 'text-red-400'
+                                            }`}
                                     >
                                         {subscriptionMessage}
                                     </p>
@@ -445,56 +519,172 @@ export default function BlogPaginatedList({
                 {/* Scroll target for pagination */}
                 <div ref={listTopRef} className="scroll-mt-24" />
 
-                {/* Blog post cards grid with while-in-view card stagger */}
-                <div className="min-h-100 marginal">
-                    <motion.div
-                        key={currentPage}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, margin: '-40px' }}
-                        variants={gridContainerVariants}
-                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 pt-2 gap-6 lg:gap-8 2xl:gap-5"
-                    >
-                        {currentData.map((c) => (
-                            <motion.div key={c.id} variants={cardItemVariants} className="h-full">
-                                <BlogCard post={c} />
-                            </motion.div>
-                        ))}
-                    </motion.div>
+                {/* Search & Category Filter Section */}
+                <div className="marginal pt-12! pb-0! flex flex-col gap-6">
+                    {/* Header Row: Large Serif Title + Right-Aligned Search Bar */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-black/10">
+                        <h2 className="text-2xl sm:text-3xl font-serif font-normal tracking-tight text-neutral-900">
+                            Explore Insights
+                        </h2>
+
+                        {/* Search Input Bar */}
+                        <div className="relative w-full sm:w-72 lg:w-80">
+                            <div className="relative flex items-center">
+                                <Search
+                                    size={18}
+                                    className="absolute left-4 w-4.5 h-4.5 text-neutral-500 pointer-events-none z-10 shrink-0"
+                                />
+                                <input
+                                    type="text"
+                                    value={searchQuery}
+                                    onChange={handleSearchChange}
+                                    placeholder="Search articles, authors..."
+                                    aria-label="Search articles"
+                                    className="w-full h-11 pl-11 pr-10 bg-white/70 backdrop-blur-xl hover:bg-white/90 focus:bg-white text-neutral-900 placeholder:text-neutral-500 text-sm font-noto-sans rounded-full border border-white focus:border-black/30 focus:ring-1 focus:ring-black/10 outline-none transition-all duration-300 shadow-xs hover:shadow-sm focus:shadow-md"
+                                />
+                                {searchQuery && (
+                                    <button
+                                        type="button"
+                                        onClick={handleClearSearch}
+                                        aria-label="Clear search query"
+                                        className="absolute right-3 p-1 rounded-full text-neutral-400 hover:text-black hover:bg-black/5 transition-colors cursor-pointer z-10"
+                                    >
+                                        <X size={15} className="w-3.5 h-3.5" />
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Horizontal Scrollable Category Pills (Right Aligned) */}
+                    <div className="flex items-center justify-start sm:justify-end gap-2.5 overflow-x-auto pb-1 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
+                        {categoriesList.map((category) => {
+                            const isSelected = selectedCategory === category
+                            return (
+                                <button
+                                    key={category}
+                                    type="button"
+                                    onClick={() => handleCategorySelect(category)}
+                                    className={`inline-flex items-center px-4.5 py-2 rounded-full text-xs font-noto-sans font-medium whitespace-nowrap cursor-pointer shrink-0 border transition-colors duration-200 ${isSelected
+                                        ? 'bg-black text-white border-black'
+                                        : 'bg-white/60 backdrop-blur-xl hover:bg-white text-neutral-800 hover:text-black border-white'
+                                        }`}
+                                >
+                                    {category}
+                                </button>
+                            )
+                        })}
+                    </div>
+                </div>
+
+                {/* Blog post cards grid or empty state */}
+                <div className="min-h-137.5 marginal">
+                    {filteredCards.length === 0 ? (
+                        <div className="py- flex flex-col items-center justify-center text-center px-4">
+                            <div className="size-14 rounded-full bg-neutral-100 flex items-center justify-center mb-4 text-neutral-400">
+                                <Search className="size-6" />
+                            </div>
+                            <h3 className="text-xl font-normal text-neutral-900 mb-2 font-noto-sans">
+                                No articles found
+                            </h3>
+                            <p className="text-sm text-neutral-500 max-w-md mb-6">
+                                We couldn&apos;t find any articles matching{' '}
+                                {searchQuery ? (
+                                    <span>
+                                        search <strong className="text-neutral-800">&ldquo;{searchQuery}&rdquo;</strong>
+                                    </span>
+                                ) : null}
+                                {searchQuery && selectedCategory !== 'All' ? ' in ' : ''}
+                                {selectedCategory !== 'All' ? (
+                                    <span>
+                                        category <strong className="text-neutral-800">&ldquo;{selectedCategory}&rdquo;</strong>
+                                    </span>
+                                ) : null}
+                                .
+                            </p>
+                            <button
+                                type="button"
+                                onClick={handleResetAll}
+                                className="px-5 py-2.5 rounded-full text-xs font-mono uppercase tracking-wider bg-neutral-950 text-white hover:bg-neutral-800 transition-colors cursor-pointer"
+                            >
+                                Clear all filters
+                            </button>
+
+                            {/* Recent Articles fallback tailored to screen size */}
+                            {sortedCards.length > 0 && (
+                                <div className="w-full mt-16 pt-12 border-t border-black/10">
+                                    <div className="flex items-center justify-between mb-8">
+                                        <h4 className="text-2xl sm:text-3xl font-serif font-normal text-neutral-900 tracking-tight text-left">
+                                            Recent Articles
+                                        </h4>
+                                        <button
+                                            type="button"
+                                            onClick={handleResetAll}
+                                            className="text-xs font-mono uppercase tracking-wider text-neutral-600 hover:text-black underline transition-colors cursor-pointer"
+                                        >
+                                            View all articles
+                                        </button>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 lg:gap-8 2xl:gap-5 text-left">
+                                        {sortedCards.slice(0, 4).map((card, idx) => (
+                                            <div
+                                                key={`recent-${card.id}`}
+                                                className={`h-full ${idx === 3 ? 'lg:hidden 2xl:block' : ''}`}
+                                            >
+                                                <BlogCard post={card} />
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    ) : (
+                        <motion.div
+                            key={`${currentPage}-${selectedCategory}-${searchQuery}`}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true, margin: '-40px' }}
+                            variants={gridContainerVariants}
+                            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 pt-2 gap-6 lg:gap-8 2xl:gap-5"
+                        >
+                            {currentData.map((c) => (
+                                <motion.div key={c.id} variants={cardItemVariants} className="h-full">
+                                    <BlogCard post={c} />
+                                </motion.div>
+                            ))}
+                        </motion.div>
+                    )}
                 </div>
 
                 {/* Pagination navigation */}
                 {totalPages > 1 && (
                     <div
-                        className={`mt-12 marginal pt-0! flex justify-center items-center gap-8 sm:gap-12 transition-opacity duration-300 ${
-                            hasMounted ? 'opacity-100' : 'opacity-0'
-                        }`}
+                        className={`mt-12 marginal pt-0! flex justify-center items-center gap-8 sm:gap-12 transition-opacity duration-300 ${hasMounted ? 'opacity-100' : 'opacity-0'
+                            }`}
                     >
                         {/* Previous page button */}
                         <button
                             onClick={() => handlePageChange(currentPage - 1)}
                             disabled={currentPage === 1 || isPageChanging}
                             aria-label="Previous page"
-                            className={`flex items-center gap-2 transition-all ${
-                                currentPage === 1 || isPageChanging
-                                    ? 'opacity-30 cursor-not-allowed'
-                                    : 'group cursor-pointer'
-                            }`}
+                            className={`flex items-center gap-2 transition-all ${currentPage === 1 || isPageChanging
+                                ? 'opacity-30 cursor-not-allowed'
+                                : 'group cursor-pointer'
+                                }`}
                         >
                             <ChevronLeft
                                 size={20}
-                                className={`text-black transition-transform duration-300 ${
-                                    currentPage !== 1 && !isPageChanging
-                                        ? 'group-hover:-translate-x-1'
-                                        : ''
-                                }`}
+                                className={`text-black transition-transform duration-300 ${currentPage !== 1 && !isPageChanging
+                                    ? 'group-hover:-translate-x-1'
+                                    : ''
+                                    }`}
                             />
                             <span
-                                className={`text-base text-black transition-colors ${
-                                    currentPage !== 1 && !isPageChanging
-                                        ? 'group-hover:text-neutral-600'
-                                        : ''
-                                }`}
+                                className={`text-base text-black transition-colors ${currentPage !== 1 && !isPageChanging
+                                    ? 'group-hover:text-neutral-600'
+                                    : ''
+                                    }`}
                             >
                                 Previous
                             </span>
@@ -532,28 +722,25 @@ export default function BlogPaginatedList({
                             onClick={() => handlePageChange(currentPage + 1)}
                             disabled={currentPage === totalPages || isPageChanging}
                             aria-label="Next page"
-                            className={`flex items-center gap-2 transition-all ${
-                                currentPage === totalPages || isPageChanging
-                                    ? 'opacity-30 cursor-not-allowed'
-                                    : 'group cursor-pointer'
-                            }`}
+                            className={`flex items-center gap-2 transition-all ${currentPage === totalPages || isPageChanging
+                                ? 'opacity-30 cursor-not-allowed'
+                                : 'group cursor-pointer'
+                                }`}
                         >
                             <span
-                                className={`text-base text-black transition-colors ${
-                                    currentPage !== totalPages && !isPageChanging
-                                        ? 'group-hover:text-neutral-600'
-                                        : ''
-                                }`}
+                                className={`text-base text-black transition-colors ${currentPage !== totalPages && !isPageChanging
+                                    ? 'group-hover:text-neutral-600'
+                                    : ''
+                                    }`}
                             >
                                 Next
                             </span>
                             <ChevronRight
                                 size={20}
-                                className={`text-black transition-transform duration-300 ${
-                                    currentPage !== totalPages && !isPageChanging
-                                        ? 'group-hover:translate-x-1'
-                                        : ''
-                                }`}
+                                className={`text-black transition-transform duration-300 ${currentPage !== totalPages && !isPageChanging
+                                    ? 'group-hover:translate-x-1'
+                                    : ''
+                                    }`}
                             />
                         </button>
                     </div>
