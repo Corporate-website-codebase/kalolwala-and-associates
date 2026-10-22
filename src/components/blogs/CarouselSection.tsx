@@ -662,7 +662,7 @@ export default function BlogPaginatedList({
                 {/* Pagination navigation */}
                 {totalPages > 1 && (
                     <div
-                        className={`mt-12 marginal pt-0! flex justify-center items-center gap-8 sm:gap-12 transition-opacity duration-300 ${hasMounted ? 'opacity-100' : 'opacity-0'
+                        className={`mt-12 marginal md:pt-0! pt-6! pb-6! flex justify-center items-center gap-8 sm:gap-12 transition-opacity duration-300 ${hasMounted ? 'opacity-100' : 'opacity-0'
                             }`}
                     >
                         {/* Previous page button */}
