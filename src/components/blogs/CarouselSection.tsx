@@ -398,7 +398,7 @@ export default function BlogPaginatedList({
     }
 
     return (
-        <section id="articles" className="w-full bg-[#d4d4d4] text-black font-noto-sans">
+        <section id="articles" className="w-full bg-[#d4d4d4] text-black font-noto-sans overflow-x-clip">
             <div className="w-full min-h-screen font-noto-sans ">
                 {/* Hero header banner */}
                 <div className="relative w-full min-h-[70vh] lg:min-h-[78vh] overflow-hidden flex flex-col justify-center bg-neutral-900">
@@ -520,7 +520,7 @@ export default function BlogPaginatedList({
                 <div ref={listTopRef} className="scroll-mt-24" />
 
                 {/* Search & Category Filter Section */}
-                <div className="marginal pt-12! pb-0! flex flex-col gap-6">
+                <div className="marginal pt-12! pb-0! flex flex-col gap-6 w-full min-w-0 max-w-full">
                     {/* Header Row: Large Serif Title + Right-Aligned Search Bar */}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-black/10">
                         <h2 className="text-2xl sm:text-3xl font-serif font-normal tracking-tight text-neutral-900">
@@ -556,24 +556,26 @@ export default function BlogPaginatedList({
                         </div>
                     </div>
 
-                    {/* Horizontal Scrollable Category Pills (Right Aligned) */}
-                    <div className="flex items-center justify-start sm:justify-end gap-2.5 overflow-x-auto pb-1 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
-                        {categoriesList.map((category) => {
-                            const isSelected = selectedCategory === category
-                            return (
-                                <button
-                                    key={category}
-                                    type="button"
-                                    onClick={() => handleCategorySelect(category)}
-                                    className={`inline-flex items-center px-4.5 py-2 rounded-full text-xs font-noto-sans font-medium whitespace-nowrap cursor-pointer shrink-0 border transition-colors duration-200 ${isSelected
-                                        ? 'bg-black text-white border-black'
-                                        : 'bg-white/60 backdrop-blur-xl hover:bg-white text-neutral-800 hover:text-black border-white'
-                                        }`}
-                                >
-                                    {category}
-                                </button>
-                            )
-                        })}
+                    {/* Horizontal Scrollable Category Pills (Strictly Contained, No Page Overflow) */}
+                    <div className="w-full min-w-0 max-w-full overflow-x-auto pb-1.5 scrollbar-none">
+                        <div className="flex items-center justify-start sm:justify-end gap-2.5 w-max min-w-full">
+                            {categoriesList.map((category) => {
+                                const isSelected = selectedCategory === category
+                                return (
+                                    <button
+                                        key={category}
+                                        type="button"
+                                        onClick={() => handleCategorySelect(category)}
+                                        className={`inline-flex items-center px-4.5 py-2 rounded-full text-xs grow justify-center font-noto-sans font-medium whitespace-nowrap cursor-pointer shrink-0 border transition-colors duration-200 ${isSelected
+                                            ? 'bg-black text-white border-black'
+                                            : 'bg-white/60 backdrop-blur-xl hover:bg-white text-neutral-800 hover:text-black border-white'
+                                            }`}
+                                    >
+                                        {category}
+                                    </button>
+                                )
+                            })}
+                        </div>
                     </div>
                 </div>
 

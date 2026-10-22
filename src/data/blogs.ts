@@ -1001,4 +1001,19 @@ export function normalizeCategory(cat?: string): string {
     return decoded
 }
 
+/**
+ * Curated category overrides mapped by blog slug
+ */
+export const blogs_category: Record<string, string> = {
+    'annual-report-cover-design-board-approval': 'Corporate Branding & Design',
+    'indias-gdp-grew-7-8-but-what-does-that-really-mean': 'Stakeholder Communication & Presentations',
+    'brsr-core-fy-2026-27-value-chain-reporting': 'ESG, BRSR & Sustainability Reporting',
+    'scope-1-emissions-india': 'ESG, BRSR & Sustainability Reporting',
+    'brsr-vs-gri-vs-integrated-reporting': 'ESG, BRSR & Sustainability Reporting',
+    'sebi-brsr-reporting-format': 'ESG, BRSR & Sustainability Reporting',
+}
+
+export const BLOGS_CATEGORY_MAP = blogs_category
+
+
 
