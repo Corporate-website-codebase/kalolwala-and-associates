@@ -70,34 +70,34 @@ const FAQ_DATA:FAQData = {
     answer: "The way we work. We reassess priorities and bring the right teams together and make decisions quickly. The objective is to protect the quality of the final communication without allowing moving parts to become an excuse for delay. "
   },
 ],
-"Where Insight Begins (Research)": [
+"Where Insight Begins (Research & Content)": [
   {
-    question: "What does research mean at K&A?",
-    answer: "Research is where we begin to understand the business behind the brief. We examine the organisation, its industry, competitive landscape, performance, stakeholders and the forces shaping its future. The objective is to build enough context to ask better questions, identify meaningful insights and create communication grounded in substance."
-  },
-  {
-    question: "Why does research matter for corporate communication?",
-    answer: "Good communication begins with understanding. Research gives us the context to distinguish what is genuinely important from what is simply available, helping us build narratives that are more informed, relevant and specific to the organisation."
-  },
-  {
-    question: "How does research influence the final story?",
-    answer: "The value of research lies in what it changes: the questions we ask, the themes we pursue, the comparisons we make and the context we bring to the narrative. It gives the story greater depth without making the communication feel research-heavy."
-  },
-  {
-    question: "How do you separate an interesting fact from a meaningful insight?",
-    answer: "We look at what the facts tell us about the business. A number, trend or market development becomes an insight when it changes how we understand performance, strategy, opportunity or risk. The distinction is important because communication should be built around meaning, not simply information."
-  },
-  {
-    question: "Does K&A conduct primary research?",
+    question: "Does K&A conduct primary research??",
     answer: "Our research approach can draw on both primary inputs and secondary sources, depending on the brief. Management conversations, stakeholder inputs, interviews and subject-matter discussions can happen alongside industry research, public data, company disclosures and market intelligence to build a more complete picture."
   },
   {
-    question: "How can research help shape an annual report?",
-    answer: "Very much so. Research can provide the external context against which performance is understood, identify the themes shaping the industry and help place strategic priorities in perspective. It ensures the annual report reflects what happened during the year, and why it mattered."
+    question: "Does K&A write annual report content, or only design it?",
+    answer: "Both, and content leads. K&A’s content team writes the strategic narrative, CEO/Chair and leadership messages, value creation model, MD&A, BRSR and sustainability disclosures. Design and production follow the narrative, so the story, the numbers and the layout are developed and checked together by one team."
   },
   {
-    question: "How does research work with Editorial?",
-    answer: "Research gives editorial its depth. It helps writers understand the subject before they shape the narrative and bring context into the story. The two disciplines work together: research establishes what we need to understand; Editorial determines how that understanding should be communicated."
+    question: "Which reporting frameworks does K&A work with?",
+    answer: "K&A writes to the Integrated Reporting Framework, GRI Standards, SEBI’s BRSR and BRSR Core, and IFRS S1 and S2. It also prepares statutory content under the Companies Act, 2013 and SEBI LODR Regulations, and runs materiality assessments covering impact, financial and double materiality."
+  },
+  {
+    question: "How can research help shape an annual report?",
+    answer: "Very much so. Our research capability provides the external context against which performance is understood, identify the themes shaping the industry and help place strategic priorities in perspective. It ensures the annual report reflects what happened during the year, and why it mattered."
+  },
+  {
+    question: "What should I look for in an annual report agency in India?",
+    answer: "Look for a consultant that can write as well as design, understands SEBI and BRSR requirements, works to frameworks such as Integrated Reporting and GRI, and has delivered reports for large listed companies. Check that content, design and statutory typesetting happen under one roof, which reduces errors between narrative and financials and ensures data consistency throughout the report. Agency with technology-first approach will make your life easier."
+  },
+  {
+    question: "Does K&A prepare BRSR and sustainability reports?",
+    answer: "Yes. K&A writes BRSR and BRSR Core disclosures to the standard needed for reasonable assurance, along with GRI-aligned sustainability reports and integrated annual reports. All three are built from one consistent dataset, so figures match across the annual report, BRSR and standalone sustainability report. Our team of sustainability helps collect data, do the calculations of emissions and ensure BRSR report is ready along with the annual report, on-time!"
+  },
+  {
+    question: "Who does K&A work with?",
+    answer: "K&A works with listed companies across the Nifty 50 and Sensex 30, mid-cap and IPO-bound companies, and unlisted businesses that report voluntarily. It works directly with CFOs, company secretaries, investor relations, sustainability heads and corporate communication teams."
   },
 ],
 "Utilising The Power of the Right Words (Editorial)": [
