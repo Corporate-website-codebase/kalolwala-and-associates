@@ -12,12 +12,12 @@ if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 const services = [
-  { title: "Integrated Annual Report", key: "integrated" },
-  { title: "Sustainability and ESG", key: "sustainability" },
-  { title: "Presentations", key: "presentations" },
-  { title: "Branding", key: "branding" },
-  { title: "Videos", key: "video" },
-  { title: "Digital & Software Development", key: "web" },
+  { title: "Integrated Annual Reporting", key: "integrated" },
+  { title: "Sustainability & ESG Reporting", key: "sustainability" },
+  { title: "Investor & Corporate Presentations", key: "presentations" },
+  { title: "Corporate Branding & Design", key: "branding" },
+  { title: "Corporate Films & Video Reports", key: "video" },
+  { title: "Software & Digital Solutions", key: "web" },
 ];
 
 const Services = () => {
