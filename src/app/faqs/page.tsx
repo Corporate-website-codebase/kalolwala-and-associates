@@ -70,7 +70,7 @@ const FAQ_DATA:FAQData = {
     answer: "The way we work. We reassess priorities and bring the right teams together and make decisions quickly. The objective is to protect the quality of the final communication without allowing moving parts to become an excuse for delay. "
   },
 ],
-"Where Insight Begins (Research & Content)": [
+"Where Insight Begins \n(Research & Content)": [
   {
     question: "Does K&A conduct primary research??",
     answer: "Our research approach can draw on both primary inputs and secondary sources, depending on the brief. Management conversations, stakeholder inputs, interviews and subject-matter discussions can happen alongside industry research, public data, company disclosures and market intelligence to build a more complete picture."
