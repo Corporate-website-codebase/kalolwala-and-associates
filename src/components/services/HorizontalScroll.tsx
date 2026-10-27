@@ -22,32 +22,32 @@ interface CardData {
 
 const cards: CardData[] = [
   {
-    title: "Integrated\nannual report",
+    title: "Integrated\nAnnual Reporting",
     image: "/images/services/Maskgroup07.webp",
     key: "integrated",
   },
   {
-    title: "Sustainability and\nESG reports",
+    title: "Sustainability &\nESG Reporting",
     image: "/images/services/abc.webp",
     key: "sustainability",
   },
   {
-    title: "Presentations",
+    title: "Investor &\nCorporate Presentations",
     image: "/images/services/Maskgroup04.webp",
     key: "presentations",
   },
   {
-    title: "Branding and\nActivation",
+    title: "Corporate Branding &\nDesign",
     image: "/images/services/branding.webp",
     key: "branding",
   },
   {
-    title: "Videos",
+    title: "Corporate Films &\nVideo Reports",
     image: "/images/services/Maskgroup02.webp",
     key: "video",
   },
   {
-    title: "Digital and\n Software Development",
+    title: "Software &\nDigital Solutions",
     image: "/images/services/Maskgroup05.webp",
     key: "web",
   },
