@@ -461,15 +461,8 @@ const Footers = ({
 
               <div className="flex flex-col gap-3 text-xs md:text-sm text-zinc-400 leading-relaxed font-noto-sans">
                 <p>
-                  Kalolwala & Associates is a stakeholder communication and
-                  design agency that brings corporate stories to life across
-                  print and digital.
-                </p>
-                <p>
-                  From annual reports, ESG and BRSR reports, and investor
-                  presentations to corporate films, websites, and interactive
-                  microsites, we create engaging experiences that connect
-                  organizations with their stakeholders.
+                  
+                K&A (Kalolwala & Associates Private Limited) is India’s largest independent annual report and corporate communication agency. Our team of experts research, write, design and produce integrated annual reports, BRSR and sustainability reports for listed companies, including constituents of the Nifty 50 and Sensex 30, pre-IPO companies, unlisted companies. K&A’s content team specialises in the Integrated Reporting Framework &lt;IR&gt;, GRI Standards, BRSR Core, Materiality Assessment, ESG advisory, Emission calculations (Scope 1, Scope 2 and Scope 3) and ISSB disclosures.
                 </p>
               </div>
 
