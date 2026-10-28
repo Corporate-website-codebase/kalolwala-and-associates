@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 /* Register --navbar-height and --nav-translate-y so CSS can transition/interpolate them */
 @property --navbar-height {
     syntax: '<length>';
@@ -15,7 +17,7 @@ html {
     scroll-behavior: smooth;
 }
 
-/* @import "tailwindcss";
+/* 
 
 :root {
   --background: #ffffff;
