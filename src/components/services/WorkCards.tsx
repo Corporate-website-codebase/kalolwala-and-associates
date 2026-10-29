@@ -108,7 +108,7 @@ export default function WorkCards({ works }: WorkCardsProps) {
                                 className="work-card group block bg-[#F4F4F4] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-500 cursor-pointer"
                             >
                                 {/* Image Container */}
-                                <div className="w-full aspect-[16:9] overflow-hidden bg-gray-200 relative">
+                                <div className="w-full aspect-[16/9] overflow-hidden bg-gray-200 relative">
                                     <img 
                                         src={work.imageUrl} 
                                         alt={work.title}

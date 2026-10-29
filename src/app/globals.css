@@ -17,7 +17,7 @@ html {
     scroll-behavior: smooth;
 }
 
-/* 
+/*
 
 :root {
   --background: #ffffff;
@@ -115,7 +115,7 @@ h1 span {
 
 /* @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"); */
 
-@import 'tailwindcss';
+/* @import 'tailwindcss'; */
 
 /* 3. Configure the Font */
 /* @theme {
@@ -407,4 +407,3 @@ article table tr:hover {
 .dark-theme article table tbody tr:hover {
     background-color: rgba(255, 255, 255, 0.06);
 }
-
