@@ -1,11 +1,13 @@
+
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Footers from "@/components/Footers";
 
 // === TYPES === //
 interface FAQItem {
+    id: string;
     question: string;
     answer: string;
 }
@@ -14,14 +16,62 @@ interface FAQData {
     [category: string]: FAQItem[];
 }
 
+interface RawFAQItem {
+    question: string;
+    answer: string;
+}
+
+interface RawFAQData {
+    [category: string]: RawFAQItem[];
+}
+
 interface AccordionItemProps {
+    id: string;
     question: string;
     answer: string;
     index: number;
+    isOpen: boolean;
+    onToggle: (id: string) => void;
 }
 
-// === DATA === //
-const FAQ_DATA:FAQData = {
+// === UTIL === //
+function slugify(text: string): string {
+    return text
+        .toLowerCase()
+        .trim()
+        .replace(/[^\w\s-]/g, "")
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-");
+}
+
+/**
+ * Adds a unique, URL-safe `id` to every FAQ item, derived from its question.
+ * If two questions slugify to the same string, a numeric suffix is appended
+ * to guarantee uniqueness.
+ */
+function buildFaqData(raw: RawFAQData): FAQData {
+    const data: FAQData = {};
+    const usedIds = new Set<string>();
+
+    Object.entries(raw).forEach(([category, items]) => {
+        data[category] = items.map((item) => {
+            const baseId = slugify(item.question);
+            let id = baseId;
+            let counter = 2;
+            while (usedIds.has(id)) {
+                id = `${baseId}-${counter}`;
+                counter++;
+            }
+            usedIds.add(id);
+            return { ...item, id };
+        });
+    });
+
+    return data;
+}
+
+// === RAW DATA === //
+const FAQ_RAW_DATA: RawFAQData = {
   "The K&A Approach": [
   {
     question: "What does K&A bring to a corporate communication brief?",
@@ -50,7 +100,7 @@ const FAQ_DATA:FAQData = {
     answer: "The project team. We stay close to the content, creative direction and business objective throughout the process, ensuring that decisions made along the way strengthen the original idea rather than dilute it."
   },
   {
-    question: "What happens between ‘approved’ and ‘delivered’?",
+    question: "What happens between 'approved' and 'delivered'?",
     answer: "A great deal. Content is refined, layouts are tested, data is checked, disclosures are reconciled, proofs are reviewed and production details are resolved. We manage this final stretch with the same attention as the creative process, because quality is often determined in the details."
   },
   {
@@ -72,16 +122,16 @@ const FAQ_DATA:FAQData = {
 ],
 "Where Insight Begins \n(Research & Content)": [
   {
-    question: "Does K&A conduct primary research??",
+    question: "Does K&A conduct primary research?",
     answer: "Our research approach can draw on both primary inputs and secondary sources, depending on the brief. Management conversations, stakeholder inputs, interviews and subject-matter discussions can happen alongside industry research, public data, company disclosures and market intelligence to build a more complete picture."
   },
   {
     question: "Does K&A write annual report content, or only design it?",
-    answer: "Both, and content leads. K&A’s content team writes the strategic narrative, CEO/Chair and leadership messages, value creation model, MD&A, BRSR and sustainability disclosures. Design and production follow the narrative, so the story, the numbers and the layout are developed and checked together by one team."
+    answer: "Both, and content leads. K&A's content team writes the strategic narrative, CEO/Chair and leadership messages, value creation model, MD&A, BRSR and sustainability disclosures. Design and production follow the narrative, so the story, the numbers and the layout are developed and checked together by one team."
   },
   {
     question: "Which reporting frameworks does K&A work with?",
-    answer: "K&A writes to the Integrated Reporting Framework, GRI Standards, SEBI’s BRSR and BRSR Core, and IFRS S1 and S2. It also prepares statutory content under the Companies Act, 2013 and SEBI LODR Regulations, and runs materiality assessments covering impact, financial and double materiality."
+    answer: "K&A writes to the Integrated Reporting Framework, GRI Standards, SEBI's BRSR and BRSR Core, and IFRS S1 and S2. It also prepares statutory content under the Companies Act, 2013 and SEBI LODR Regulations, and runs materiality assessments covering impact, financial and double materiality."
   },
   {
     question: "How can research help shape an annual report?",
@@ -102,7 +152,7 @@ const FAQ_DATA:FAQData = {
 ],
 "Utilising The Power of the Right Words (Editorial)": [
   {
-    question: "How do you find the story in a year’s worth of information?",
+    question: "How do you find the story in a year's worth of information?",
     answer: "We look beyond what happened to understand what mattered. By connecting performance, strategy, context and change, we identify the ideas that deserve to lead the narrative and give the rest a meaningful place within it."
   },
   {
@@ -123,7 +173,7 @@ const FAQ_DATA:FAQData = {
   },
   {
     question: "How do you make an annual report worth reading?",
-    answer: "By giving the reader a reason to keep going. A strong narrative has progression, hierarchy and perspective. It connects the year’s performance to the decisions, circumstances and ambitions that shaped it, rather than simply moving from one disclosure to the next."
+    answer: "By giving the reader a reason to keep going. A strong narrative has progression, hierarchy and perspective. It connects the year's performance to the decisions, circumstances and ambitions that shaped it, rather than simply moving from one disclosure to the next."
   },
 ],
 "Shaping the Way Stories are Seen (Design and Typesetting)": [
@@ -195,10 +245,10 @@ const FAQ_DATA:FAQData = {
 "The Story Behind the Report\n(Difference Between AR, IAR and SR and our Approach to Them)": [
   {
     question: "How do you tell a business story through an annual report? ",
-    answer: "We start by looking beyond the year’s performance to understand the forces that shaped the business, the decisions that influenced its direction and the priorities that will define what comes next. We bring these perspectives together with financial performance, strategy, leadership insight and material developments, creating a narrative that gives stakeholders a clear, connected understanding of the business, its progress and the value it is building over time."
+    answer: "We start by looking beyond the year's performance to understand the forces that shaped the business, the decisions that influenced its direction and the priorities that will define what comes next. We bring these perspectives together with financial performance, strategy, leadership insight and material developments, creating a narrative that gives stakeholders a clear, connected understanding of the business, its progress and the value it is building over time."
   },
   {
-    question: "How do you find the story in a year’s worth of numbers?",
+    question: "How do you find the story in a year's worth of numbers?",
     answer: "We look beyond the numbers to understand what moved the business, what shaped the performance and what those changes mean for the organisation. That thinking informs the narrative, hierarchy and visual treatment, allowing data to become part of the story."
   },
   {
@@ -207,11 +257,11 @@ const FAQ_DATA:FAQData = {
   },
   {
     question: "So, how is an Integrated Annual Report different from a conventional Annual Report?",
-    answer: "The distinction lies in the lens. An Annual Report primarily presents the organisation’s financial performance, strategy, governance and statutory disclosures for the year. An Integrated Annual Report goes further by showing how these elements connect with the organisation’s business model, resources, relationships, risks and opportunities to explain value creation over the short-, medium- and long term."
+    answer: "The distinction lies in the lens. An Annual Report primarily presents the organisation's financial performance, strategy, governance and statutory disclosures for the year. An Integrated Annual Report goes further by showing how these elements connect with the organisation's business model, resources, relationships, risks and opportunities to explain value creation over the short-, medium- and long term."
   },
   {
     question: "Where does a Sustainability Report fit into the picture?",
-    answer: "A Sustainability Report focuses specifically on the organisation’s environmental, social and governance performance and its broader impacts. It provides greater depth on material sustainability topics, policies, targets, initiatives, performance indicators and commitments, giving stakeholders a more detailed view of how the organisation manages its sustainability responsibilities."
+    answer: "A Sustainability Report focuses specifically on the organisation's environmental, social and governance performance and its broader impacts. It provides greater depth on material sustainability topics, policies, targets, initiatives, performance indicators and commitments, giving stakeholders a more detailed view of how the organisation manages its sustainability responsibilities."
   },
   {
     question: "Can the same sustainability story work across an Annual Report and a Sustainability Report?",
@@ -236,22 +286,38 @@ const FAQ_DATA:FAQData = {
 ],
 };
 
+// Build the final data structure once, with stable ids attached to every item.
+const FAQ_DATA: FAQData = buildFaqData(FAQ_RAW_DATA);
+
+// Precompute a flat lookup set of every valid id, for fast hash validation.
+const ALL_FAQ_IDS = new Set(
+    Object.values(FAQ_DATA)
+        .flat()
+        .map((item) => item.id)
+);
+
 const premiumEase = [0.16, 1, 0.3, 1] as const;
 
 // === COMPONENTS === //
-const AccordionItem = ({ question, answer, index }: AccordionItemProps) => {
-    const [isOpen, setIsOpen] = useState(false);
-
+const AccordionItem = ({
+    id,
+    question,
+    answer,
+    index,
+    isOpen,
+    onToggle,
+}: AccordionItemProps) => {
     return (
         <motion.div
+            id={id}
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-10%" }}
             transition={{ delay: index * 0.05, duration: 0.6, ease: premiumEase }}
-            className="border-b border-white/10 group"
+            className="border-b border-white/10 group scroll-mt-28 lg:scroll-mt-36"
         >
             <button
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={() => onToggle(id)}
                 className="w-full cursor-pointer py-8 md:py-10 flex justify-between items-start text-left hover:bg-white/[0.01] transition-colors duration-500 px-4 -mx-4"
             >
                 <span className="text-xl md:text-2xl font-normal tracking-tight pr-8 text-white/80 group-hover:text-white transition-colors duration-300">
@@ -294,6 +360,53 @@ const AccordionItem = ({ question, answer, index }: AccordionItemProps) => {
 };
 
 export default function FAQPage() {
+    const [openIds, setOpenIds] = useState<Set<string>>(new Set());
+
+    const toggleAccordion = useCallback((id: string) => {
+        setOpenIds((prev) => {
+            const next = new Set(prev);
+            if (next.has(id)) {
+                next.delete(id);
+            } else {
+                next.add(id);
+            }
+            return next;
+        });
+    }, []);
+
+    // Open the accordion referenced in the URL hash (on load + on hash change)
+    // and scroll it into view.
+    useEffect(() => {
+        const openFromHash = () => {
+            const rawHash = window.location.hash.replace("#", "");
+            if (!rawHash) return;
+
+            const id = decodeURIComponent(rawHash);
+            if (!ALL_FAQ_IDS.has(id)) return;
+
+            setOpenIds((prev) => {
+                if (prev.has(id)) return prev;
+                const next = new Set(prev);
+                next.add(id);
+                return next;
+            });
+
+            // Wait for the open state (and layout) to settle before scrolling.
+            requestAnimationFrame(() => {
+                setTimeout(() => {
+                    document
+                        .getElementById(id)
+                        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+                }, 150);
+            });
+        };
+
+        openFromHash();
+
+        window.addEventListener("hashchange", openFromHash);
+        return () => window.removeEventListener("hashchange", openFromHash);
+    }, []);
+
     return (
         <main className="min-h-screen bg-[#080808] text-white selection:bg-[#f5c518] selection:text-black">
 
@@ -339,9 +452,6 @@ export default function FAQPage() {
                                     <h3 className="text-2xl md:text-3xl lg:text-4xl font-light tracking-tight text-white/90 leading-none whitespace-pre-line">
                                         {category}
                                     </h3>
-                                    {/* <p className="text-[10px] uppercase tracking-[0.3em] text-gray-600 font-bold mt-2">
-                                        Section {catIndex + 1}
-                                    </p> */}
                                 </motion.div>
                             </div>
                         </aside>
@@ -351,10 +461,13 @@ export default function FAQPage() {
                             <div className="space-y-0">
                                 {faqs.map((faq, index) => (
                                     <AccordionItem
-                                        key={index}
+                                        key={faq.id}
+                                        id={faq.id}
                                         index={index}
                                         question={faq.question}
                                         answer={faq.answer}
+                                        isOpen={openIds.has(faq.id)}
+                                        onToggle={toggleAccordion}
                                     />
                                 ))}
                             </div>

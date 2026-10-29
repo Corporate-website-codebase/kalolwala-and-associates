@@ -121,7 +121,7 @@ export default function ServicePillars({
                 
                 <div 
                     ref={horizontalScrollRef} 
-                    className="flex flex-nowrap w-max"
+                    className="overflow-x-hidden flex flex-nowrap w-max"
                 >
                     {pillars.map((pillar, index) => (
                         <div 

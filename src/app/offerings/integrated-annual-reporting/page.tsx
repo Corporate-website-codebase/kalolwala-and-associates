@@ -9,6 +9,28 @@ import OneTeamStatement, { TextSegment } from '@/components/services/OneTeamStat
 import ImpactStats, { StatCard } from '@/components/services/ImpactStats';
 import WorkCards from '@/components/services/WorkCards';
 import LogoMarquee from '@/components/services/LogoMarquee';
+import Footers from '@/components/Footers';
+import StackNav from "@/components/StackNav";
+
+const URL_MAPPING: Record<string, string> = {
+  video: "/offerings/video",
+  integrated: "/offerings/integrated-annual-reporting",
+  sustainability: "/offerings/sustainability-esg-reporting",
+  web: "/offerings/corporate-websites",
+  presentations: "/offerings/investor-corporate-presentations",
+  branding: "/offerings/corporate-branding-design",
+};
+
+// TODO: replace with your actual payload for this page
+const stackForThisPage = [
+  
+  { label: "Sustainability & ESG Reporting", key: "sustainability" },
+
+      { label: "Investor & Corporate Presentations", key: "presentations" },
+      { label: "Corporate Branding & Design", key: "branding" },
+      { label: "Corporate Films & Video Reports", key: "video" },
+      { label: "Software & Digital Solutions", key: "web" },
+];
 
 if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
@@ -17,31 +39,23 @@ if (typeof window !== 'undefined') {
 export default function IntegratedReportPage() {
 
     const irPillarsData = [
-        { id: '1', number: '01', title: 'Content writing', imageUrl: '/images/content-writing.jpg' },
-        { id: '2', number: '02', title: 'ESG Frameworks', imageUrl: '/images/esg.jpg' },
-        { id: '3', number: '03', title: 'Contemporary design', imageUrl: '/images/design.jpg' },
-        { id: '4', number: '04', title: 'Statutory & financial statement typesetting', imageUrl: '/images/typesetting.jpg' },
-        { id: '5', number: '05', title: 'Project Management', imageUrl: '/images/project-management.jpg' },
-        { id: '6', number: '06', title: 'Digital Execution', imageUrl: '/images/digital.jpg' },
+        { id: '1', number: '01', title: 'Content writing', imageUrl: '/images/offerings/iar/pillars/Content.png' },
+        { id: '2', number: '02', title: 'ESG Frameworks', imageUrl: '/images/offerings/iar/pillars/ESG.jpg' },
+        { id: '3', number: '03', title: 'Contemporary design', imageUrl: '/images/offerings/iar/pillars/Contemporary.png' },
+        { id: '4', number: '04', title: 'Statutory & financial statement typesetting', imageUrl: '/images/offerings/iar/pillars/Statutory.png' },
+        { id: '5', number: '05', title: 'Project Management', imageUrl: '/images/offerings/iar/pillars/Project.png' },
+        { id: '6', number: '06', title: 'Digital Execution', imageUrl: '/images/offerings/iar/pillars/Digital.png' },
     ];
 
     const irFaqsData = [
-        { id: 'faq-1', question: 'Does K&A write annual report content, or only design it?', link: '/faqs#content-writing' },
-        { id: 'faq-2', question: 'Which reporting frameworks does K&A work with?', link: '/faqs#frameworks' },
-        { id: 'faq-3', question: 'How long does the integrated reporting process typically take?', link: '/faqs#timeline' },
-        { id: 'faq-4', question: 'Do you assist with digital hosting of the report?', link: '/faqs#digital-hosting' },
-        { id: 'faq-4', question: 'Do you assist with digital hosting of the report?', link: '/faqs#digital-hosting' },
-        { id: 'faq-4', question: 'Do you assist with digital hosting of the report?', link: '/faqs#digital-hosting' },
-        { id: 'faq-4', question: 'Do you assist with digital hosting of the report?', link: '/faqs#digital-hosting' },
-        { id: 'faq-4', question: 'Do you assist with digital hosting of the report?', link: '/faqs#digital-hosting' },
-        { id: 'faq-4', question: 'Do you assist with digital hosting of the report?', link: '/faqs#digital-hosting' },
-        { id: 'faq-4', question: 'Do you assist with digital hosting of the report?', link: '/faqs#digital-hosting' },
-        { id: 'faq-4', question: 'Do you assist with digital hosting of the report?', link: '/faqs#digital-hosting' },
-        { id: 'faq-4', question: 'Do you assist with digital hosting of the report?', link: '/faqs#digital-hosting' },
-        { id: 'faq-4', question: 'Do you assist with digital hosting of the report?', link: '/faqs#digital-hosting' },
-        { id: 'faq-4', question: 'Do you assist with digital hosting of the report?', link: '/faqs#digital-hosting' },
-        { id: 'faq-4', question: 'Do you assist with digital hosting of the report?', link: '/faqs#digital-hosting' },
-        { id: 'faq-4', question: 'Do you assist with digital hosting of the report?', link: '/faqs#digital-hosting' },
+        { id: 'faq-1', question: 'Does K&A conduct primary research?', link: '/faqs#does-ka-conduct-primary-research' },
+        { id: 'faq-2', question: 'Does K&A write annual report content, or only design it?', link: '/faqs#does-ka-write-annual-report-content-or-only-design-it' },
+        { id: 'faq-3', question: 'Which reporting frameworks does K&A work with?', link: '/faqs#which-reporting-frameworks-does-ka-work-with' },
+        { id: 'faq-4', question: 'How can research help shape an annual report?', link: '/faqs#how-can-research-help-shape-an-annual-report' },
+        { id: 'faq-5', question: 'What should I look for in an annual report agency in India?', link: '/faqs#what-should-i-look-for-in-an-annual-report-agency-in-india' },
+        { id: 'faq-6', question: 'Does K&A prepare BRSR and sustainability reports?', link: '/faqs#does-ka-prepare-brsr-and-sustainability-reports' },
+        { id: 'faq-7', question: 'Who does K&A work with?', link: '/faqs#who-does-ka-work-with' },
+        
     ];
 
     const teamParagraph: TextSegment[] = [
@@ -67,19 +81,19 @@ export default function IntegratedReportPage() {
             id: '1',
             title: 'Granules India Limited',
             imageUrl: '/images/services/new/granules.webp',
-            link: '/work/abb-india',
+            link: 'https://assets.granulesindia.com/investors/financial-reports/annual-reports/2026/Granules_Annual-Report-FY26-1.pdf',
         },
         {
             id: '2',
             title: 'Gulf Oil Lubricants India Limited',
             imageUrl: '/images/services/new/gulf.webp',
-            link: '/work/aster-healthcare',
+            link: '/offerings/case-studies/iar/gulf-oil',
         },
         {
             id: '3',
             title: 'Solar Industries India Limited',
             imageUrl: '/images/services/new/solar.webp',
-            link: '/work/cipla-limited',
+            link: 'https://solargroup.com/api/download-file?file=Investors-Relation%2FFinancialReporting%2FAnnual%20Reports%2FFY%202025-26%20Annual%20Reports%2FSolar_AR_20.%2007%2026%20(1).pdf',
         }
     ];
 
@@ -188,13 +202,18 @@ export default function IntegratedReportPage() {
 
             <LogoMarquee/>
 
-            
+             <div className=" bg-[#e2e2e2]">
+        <StackNav stack={stackForThisPage} urlMapping={URL_MAPPING} />
+      </div>
 
             {/* Additional content */}
-            <section className="max-w-[1440px] mx-auto px-8 md:px-16 pb-32 mt-20">
+            {/* <section className="max-w-[1440px] mx-auto px-8 md:px-16 pb-32 mt-20">
                 <h2 className="text-3xl font-medium mb-6">Continue Reading</h2>
                 <div className="w-full h-64 bg-gray-200 rounded-2xl animate-pulse"></div>
-            </section>
+            </section> */}
+            <div className="">
+                                <Footers nextPageName="About Us" nextPageLink="/about" />
+                            </div>
         </main>
     );
 }
