@@ -1,9 +1,11 @@
+
 'use client';
 
 import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLenis } from 'lenis/react';
 
 if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
@@ -22,6 +24,7 @@ export interface WorkCardsProps {
 
 export default function WorkCards({ works }: WorkCardsProps) {
     const router = useRouter();
+    const lenis = useLenis();
     const sectionRef = useRef<HTMLDivElement>(null);
     const yellowOverlayRef = useRef<HTMLDivElement>(null);
     const blackOverlayRef = useRef<HTMLDivElement>(null);
@@ -52,11 +55,20 @@ export default function WorkCards({ works }: WorkCardsProps) {
         return () => ctx.revert();
     }, [works]);
 
+    // Helper: force both native + Lenis scroll position to top
+    const resetScrollToTop = () => {
+        if (lenis) {
+            lenis.scrollTo(0, { immediate: true });
+        }
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    };
+
     // 2. Custom Page Transition Logic
     const handleCardClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
         e.preventDefault(); // Stop instant navigation
 
         if (!yellowOverlayRef.current || !blackOverlayRef.current) {
+            resetScrollToTop();
             router.push(href);
             return;
         }
@@ -64,9 +76,19 @@ export default function WorkCards({ works }: WorkCardsProps) {
         // Modern sweep transition
         const tl = gsap.timeline({
             onComplete: () => {
+                // Reset scroll position BEFORE navigating so the new page
+                // mounts already at the top, instead of inheriting the
+                // current scroll position (no manual scroll-up needed).
+                resetScrollToTop();
+
                 // Navigate to the case study once the black screen covers the viewport
                 router.push(href);
-                
+
+                // Re-apply right after navigation in case the new page's
+                // layout shifts scroll position during mount/hydration.
+                requestAnimationFrame(resetScrollToTop);
+                setTimeout(resetScrollToTop, 50);
+
                 // Optional: Reset overlays after a delay in case the user navigates back
                 setTimeout(() => {
                     gsap.set([yellowOverlayRef.current, blackOverlayRef.current], { xPercent: -100 });

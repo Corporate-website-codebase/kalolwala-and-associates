@@ -81,7 +81,7 @@ export default function IntegratedReportPage() {
             id: '1',
             title: 'Granules India Limited',
             imageUrl: '/images/services/new/granules.webp',
-            link: 'https://assets.granulesindia.com/investors/financial-reports/annual-reports/2026/Granules_Annual-Report-FY26-1.pdf',
+            link: '/offerings/case-studies/iar/granules',
         },
         {
             id: '2',
