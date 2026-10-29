@@ -122,7 +122,7 @@ export default function Closing() {
           "
         >
           <Image
-            src="/images/offerings/case-studies/iar-collage-gulf.webp" // TODO: replace with your image
+            src="/images/offerings/case-studies/gulf-collage.webp" // TODO: replace with your image
             alt="annual-report-collage"
             fill
             sizes="(max-width: 1024px) 100vw, 42vw"

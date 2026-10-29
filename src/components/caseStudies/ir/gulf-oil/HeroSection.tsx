@@ -65,7 +65,7 @@ export default function HeroSection() {
           viewport={{ once: true }}
           custom={0}
           className="
-            text-white font-semibold leading-tight
+            text-white font-medium leading-tight
             text-[clamp(1.5rem,1.1rem+2vw,2.75rem)]
             max-w-[20ch]
           "

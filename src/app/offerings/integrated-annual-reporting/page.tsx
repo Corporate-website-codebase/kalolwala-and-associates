@@ -39,12 +39,12 @@ if (typeof window !== 'undefined') {
 export default function IntegratedReportPage() {
 
     const irPillarsData = [
-        { id: '1', number: '01', title: 'Content writing', imageUrl: '/images/offerings/iar/pillars/Content.png' },
-        { id: '2', number: '02', title: 'ESG Frameworks', imageUrl: '/images/offerings/iar/pillars/ESG.jpg' },
-        { id: '3', number: '03', title: 'Contemporary design', imageUrl: '/images/offerings/iar/pillars/Contemporary.png' },
-        { id: '4', number: '04', title: 'Statutory & financial statement typesetting', imageUrl: '/images/offerings/iar/pillars/Statutory.png' },
-        { id: '5', number: '05', title: 'Project Management', imageUrl: '/images/offerings/iar/pillars/Project.png' },
-        { id: '6', number: '06', title: 'Digital Execution', imageUrl: '/images/offerings/iar/pillars/Digital.png' },
+        { id: '1', number: '01', title: 'Content writing', imageUrl: '/images/offerings/iar/pillars/Content.webp' },
+        { id: '2', number: '02', title: 'ESG Frameworks', imageUrl: '/images/offerings/iar/pillars/ESG.webp' },
+        { id: '3', number: '03', title: 'Contemporary design', imageUrl: '/images/offerings/iar/pillars/Contemporary.webp' },
+        { id: '4', number: '04', title: 'Statutory & financial statement typesetting', imageUrl: '/images/offerings/iar/pillars/Statutory.webp' },
+        { id: '5', number: '05', title: 'Project Management', imageUrl: '/images/offerings/iar/pillars/Project.webp' },
+        { id: '6', number: '06', title: 'Digital Execution', imageUrl: '/images/offerings/iar/pillars/Digital.webp' },
     ];
 
     const irFaqsData = [
@@ -93,7 +93,7 @@ export default function IntegratedReportPage() {
             id: '3',
             title: 'Solar Industries India Limited',
             imageUrl: '/images/services/new/solar.webp',
-            link: 'https://solargroup.com/api/download-file?file=Investors-Relation%2FFinancialReporting%2FAnnual%20Reports%2FFY%202025-26%20Annual%20Reports%2FSolar_AR_20.%2007%2026%20(1).pdf',
+            link: '/offerings/case-studies/iar/solar',
         }
     ];
 

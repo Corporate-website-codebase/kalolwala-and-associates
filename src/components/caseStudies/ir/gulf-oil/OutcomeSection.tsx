@@ -60,7 +60,7 @@ export default function OutcomeSection() {
               "
             >
               <Image
-                src="/images/offerings/case-studies/gulf-mockup.webp" // TODO: replace with your image
+                src="/images/offerings/case-studies/gulf-mock2.webp" // TODO: replace with your image
                 alt="gulf-oil-report-mockup"
                 fill
                 sizes="(max-width: 768px) 80vw, 320px"
