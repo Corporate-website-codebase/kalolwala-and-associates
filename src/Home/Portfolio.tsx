@@ -194,16 +194,22 @@ const CircuitBackground = ({ scrollContainerRef }: { scrollContainerRef: React.R
 
 const items = [
   { id: 1, type: "text", label: "SELECTED WORKS", y: 0, w: "50vw", aspect: "aspect-[1/1]", speed: 1 },
-  { id: 2, type: "image", label: "Marico Limited\nIntegrated Annual report 2024-25", src: "/portfolio/Marico_Cover_page-0001.webp", y: 150, w: "23vw", aspect: "aspect-[3/4]", speed: 0.9 },
-  { id: 3, type: "image", label: "Tata Consumer Products limited\nIntegrated Annual Report 2024-25", src: "/portfolio/TATA Consumer_page-0001.webp", y: -150, w: "22vw", aspect: "aspect-[3/4]", speed: 1.1 },
-  { id: 4, type: "image", label: "Kotak Mahindra Bank Limited\nIntegrated Annual Report\n2024-25", src: "/portfolio/Kotak_Cover_page-0001.webp", y: 140, w: "22vw", aspect: "aspect-[3/4]", speed: 0.8 },
-  { id: 5, type: "image", label: "GSK Coffee Table Book", src: "/portfolio/GSK Coffee table book Cover_page-0001.webp", y: -50, w: "40vw", aspect: "aspect-[16/9]", speed: 1.3 },
-  { id: 6, type: "image", label: "ABB India Limited\nIntegrated Annual Report 2024-25", src: "/portfolio/ABB India Limited_Cover_page-0001.webp", y: -160, w: "22vw", aspect: "aspect-[3/4]", speed: 0.9 },
-  { id: 7, type: "image", label: "Embassy REIT\nESG Report 2024-25", src: "/portfolio/Embassy REIT Cover_page-0001.webp", y: 150, w: "22vw", aspect: "aspect-[3/4]", speed: 1.1 },
-  { id: 8, type: "image", label: "Cipla Limited\nAnnual Report 2024-25", src: "/portfolio/CIPLA_Cover_page-0001.webp", y: -100, w: "25vw", aspect: "aspect-[3/4]", speed: 1 },
-  { id: 9, type: "image", label: "Emami Limited\nAnnual Report 2024-25", src: "/portfolio/Emami_Cover_page-0001.webp", y: 120, w: "22vw", aspect: "aspect-[3/4]", speed: 1 },
-  { id: 10, type: "image", label: "Tata Communications\nIntegrated Report 2024-25", src: "/portfolio/TATA Communication cover.webp", y: -100, w: "23vw", aspect: "aspect-[3/4]", speed: 1 },
-  { id: 11, type: "image", label: "PDS Limited\nSustainability Report\n2024-25", src: "/portfolio/PDS Sustainability Cover_page-0001.webp", y: 120, w: "22vw", aspect: "aspect-[3/4]", speed: 1 },
+  { id: 6, type: "image", label: "ABB India Limited\nIntegrated Annual Report 2025-26", src: "/portfolio/ABB.png", y: -160, w: "22vw", aspect: "aspect-[3/4]", speed: 0.9 },
+  { id: 11, type: "image", label: "Hindustan Unilever Limited\nIntegrated Annual Report\n2025-26", src: "/portfolio/HUL.png", y: 120, w: "22vw", aspect: "aspect-[3/4]", speed: 1 },
+  { id: 9, type: "image", label: "Bharti Airtel Limited\nIntegrated Annual Report & Annual Financial Statements 2025-26", src: "/portfolio/Airtel.png", y: 120, w: "22vw", aspect: "aspect-[3/4]", speed: 1 },
+  { id: 5, type: "image", label: "GSK Coffee Table Book", src: "/portfolio/old/GSK Coffee table book Cover_page-0001.webp", y: -50, w: "40vw", aspect: "aspect-[16/9]", speed: 1.3 },
+  { id: 3, type: "image", label: "Tata Consumer Products limited\nIntegrated Annual Report 2025-26", src: "/portfolio/TATA Consumar.png", y: -150, w: "22vw", aspect: "aspect-[3/4]", speed: 1.1 },
+  { id: 11, type: "image", label: "IndianOil\nIntegrated Annual Report\n2025-26", src: "/portfolio/IndianOil.png", y: 120, w: "22vw", aspect: "aspect-[3/4]", speed: 1 },
+  { id: 4, type: "image", label: "Kotak Mahindra Bank Limited\nIntegrated Annual Report\n2025-26", src: "/portfolio/Kotak.png", y: 140, w: "22vw", aspect: "aspect-[3/4]", speed: 0.8 },
+  { id: 8, type: "image", label: "Cipla Limited\nAnnual Report 2024-25", src: "/portfolio/Cipla.png", y: -100, w: "25vw", aspect: "aspect-[3/4]", speed: 1 },
+  { id: 11, type: "image", label: "Havells India Limited\nAnnual Report\n2025-26", src: "/portfolio/Havells.png", y: 120, w: "22vw", aspect: "aspect-[3/4]", speed: 1 },
+  { id: 11, type: "image", label: "Tata Consultancy Services\nIntegrated Annual Report\n2025-26", src: "/portfolio/TCS.png", y: 120, w: "22vw", aspect: "aspect-[3/4]", speed: 1 },
+  { id: 10, type: "image", label: "Tata Chemicals Limited\nIntegrated Annual Report 2025-26", src: "/portfolio/TATA Chemicals.png", y: -100, w: "23vw", aspect: "aspect-[3/4]", speed: 1 },
+  { id: 2, type: "image", label: "Marico Limited\nIntegrated Annual report 2025-26", src: "/portfolio/Marico.png", y: 150, w: "23vw", aspect: "aspect-[3/4]", speed: 0.9 },
+  { id: 10, type: "image", label: "Tata Communications\nIntegrated Report 2024-25", src: "/portfolio/TATA Communication.png", y: -100, w: "23vw", aspect: "aspect-[3/4]", speed: 1 },
+  { id: 7, type: "image", label: "Noida International Report\nSustainability Report 2025-26", src: "/portfolio/Noida.png", y: 150, w: "22vw", aspect: "aspect-[3/4]", speed: 1.1 },
+  { id: 5, type: "image", label: "nxtra by airtel", src: "/portfolio/NXTRA.png", y: -50, w: "40vw", aspect: "aspect-[16/9]", speed: 1.3 },
+  { id: 7, type: "image", label: "Apollo Tyres Limited\nSustainability Report 2025-26", src: "/portfolio/Apollo tyer.png", y: 150, w: "22vw", aspect: "aspect-[3/4]", speed: 1.1 },
 ];
 
 const Portfolio = () => {
