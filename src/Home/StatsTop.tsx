@@ -88,7 +88,7 @@ const StatsTop = () => {
               // FIXED: Desktop text size restored to 3xl/4xl depending on your preference (kept at 3xl here as per original)
               className="text-sm sm:text-2xl font-noto-sans md:text-3xl leading-relaxe md:leading-[1.25] font-light max-w-full md:max-w-3xl text-left"
             >
-              <span className="font-medium">K&A brings every capability in-house:</span> robust research, compelling communication, meticulous design and leading-edge digital execution — producing annual reports, coffee-table books and websites that speak with the same clarity, precision and impact.
+              <span className="font-medium">K&A is India’s largest independent annual report and corporate communication agency.</span> Our team of experts research, write, design and produce integrated annual reports, BRSR and sustainability reports for listed companies, including constituents of the Nifty 50 and Sensex 30, pre-IPO companies, unlisted companies.
             </motion.h2>
 
         </div>
