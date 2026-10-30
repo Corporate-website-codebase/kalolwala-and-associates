@@ -86,6 +86,138 @@ const FAQ_RAW_DATA: RawFAQData = {
     answer: "A fair amount of thinking. We review the information, understand the organisation, identify the audience and establish the communication objective. We then determine the narrative architecture before developing the story. This means the writing has a clear role within the larger story rather than becoming a collection of well-written pages."
   },
 ],
+
+  "Sustainability and ESG Reports": [
+    {
+      "question": "Does K&A prepare sustainability and ESG reports?",
+      "answer": "Yes. K&A writes, designs and produces sustainability reports, ESG reports and BRSR disclosures for companies in India, including Nifty 50 and Sensex 30 constituents. Its team covers materiality assessment, framework alignment, narrative, data consistency and design, so the report is credible to investors and ready for external assurance."
+    },
+    {
+      "question": "Which sustainability reporting frameworks does K&A work with?",
+      "answer": "K&A works with SEBI’s BRSR and BRSR Core, GRI Standards, IFRS S1 and S2 from the ISSB, SASB metrics, the Integrated Reporting Framework, the GHG Protocol, CDP and the EU’s ESRS and Voluntary Standard. As a member of the IFRS Sustainability Alliance, the team tracks how these standards are evolving."
+    },
+    {
+      "question": "What is the difference between an ESG report and a sustainability report?",
+      "answer": "An ESG report is written mainly for investors and focuses on how sustainability issues affect enterprise value. A sustainability report is written for a wider audience and focuses on a company’s impact on people and the environment. K&A often recommends a sustainability report supported by an ESG data book for analysts."
+    },
+    {
+      "question": "Can K&A help with BRSR Core assurance readiness?",
+      "answer": "Yes. K&A helps companies structure BRSR Core content so each disclosure is traceable to evidence, consistent with the annual report and ready for reasonable assurance. With BRSR Core assessment or assurance applying to the top 1,000 listed companies from FY 2026-27, documentation matters as much as the narrative."
+    },
+    {
+      "question": "Does K&A conduct materiality assessments?",
+      "answer": "Yes. K&A runs materiality assessments covering impact, financial and double materiality, including stakeholder engagement, scoring, board approval and a documented log. The results feed directly into the BRSR material issues table, GRI disclosures and the integrated annual report, so every report draws on the same list of material topics."
+    },
+    {
+      "question": "How does K&A avoid greenwashing in sustainability reports?",
+      "answer": "Every environmental and social claim is checked against its evidence, its assurance status and India’s 2024 greenwashing guidelines before publication. K&A keeps one register of claims across the sustainability report, annual report and marketing materials, so the same figure reads the same way wherever it appears."
+    }
+  ],
+  
+  "Investor and Corporate Presentations": [
+  {
+    "question": "What investor presentation services does K&A offer?",
+    "answer": "K&A creates quarterly earnings decks, analyst and institutional investor presentations, investor day materials, AGM presentations, IPO and QIP roadshow decks, corporate profiles and investor factsheets. It also builds presentation templates and design systems that internal finance and investor relations teams can update across reporting cycles."
+  },
+  {
+    "question": "How quickly can K&A turn around an earnings presentation?",
+    "answer": "K&A’s technology-enabled workflow, using data-linked templates and automated charts, delivers results-season decks within few hours of final numbers. Last-minute changes flow through the whole presentation quickly, so finance and IR teams can meet exchange filing timelines without compromising accuracy."
+  },
+  {
+    "question": "Does K&A write the content or only design the slides?",
+    "answer": "Both, K&A’s team builds the investment narrative, drafts slide content and talking points, and checks every figure against the company’s filings. Design then makes the argument clear and fast to read. Many clients also use K&A for earnings call scripts and anticipated Q&A briefs."
+  },
+  {
+    "question": "How does K&A tailor a presentation to a company’s business?",
+    "answer": "K&A works with the CFO, investor relations and leadership to understand the business model, segment drivers, capital allocation and strategy before drafting. Each deck highlights the metrics investors use to judge that specific business and sector, rather than following a generic template."
+  },
+  {
+    "question": "Are investor presentations regulated in India?",
+    "answer": "Yes. Under SEBI’s LODR Regulations, presentations made to analysts and institutional investors must be disclosed to the stock exchanges, and earnings call recordings and transcripts must be published online. SEBI’s insider trading rules prohibit selective sharing of price-sensitive information. K&A writes presentations with these requirements in mind."
+  },
+  {
+    "question": "Can K&A build templates our internal team can use?",
+    "answer": "Yes. K&A designs presentation systems with master layouts, chart libraries and brand rules that internal teams can update themselves each quarter. This keeps presentations consistent across results cycles and reduces dependence on external support for routine updates."
+  }
+],
+
+"Corporate Branding & Design": [
+  {
+    "question": "What branding and design services does K&A offer?",
+    "answer": "K&A offers brand strategy, positioning, brand architecture, logo and visual identity, verbal identity and tone of voice, brand guidelines, corporate collateral, website and digital interface design, campaigns and rebranding programmes. It also builds design systems for annual reports and investor presentations, so corporate communication stays consistent with the brand."
+  },
+  {
+    "question": "How is a corporate brand different from a consumer brand?",
+    "answer": "A consumer brand speaks mainly to customers. A corporate brand speaks to investors, regulators, employees, lenders, partners and communities as well. It must carry authority in statutory documents and investor materials while remaining distinctive in campaigns. K&A designs corporate identities to work across all of these audiences."
+  },
+  {
+    "question": "Does K&A create brand strategy or only visual design?",
+    "answer": "Both. K&A begins with brand strategy, defining positioning, purpose, values and architecture with leadership, then develops verbal and visual identity together. Strategists, writers and designers work as one team, so the identity expresses a clear point of view rather than a style applied on top."
+  },
+  {
+    "question": "Can K&A manage a complete rebrand?",
+    "answer": "Yes. K&A manages rebranding from strategy and identity design through to guidelines, templates, collateral and rollout planning across physical and digital touchpoints. For listed companies, it also aligns the new identity with the annual report, investor presentations and stakeholder communication around the change."
+  },
+  {
+    "question": "Does K&A design annual reports in line with a company’s brand?",
+    "answer": "Yes. Because K&A works across branding and corporate reporting, it builds annual report and investor presentation design systems that extend the corporate identity. This keeps the company’s most widely read documents consistent with its brand, year after year."
+  }
+],
+
+"Corporate Films & Video Reports": [
+  {
+    "question": "What corporate video services does K&A offer?",
+    "answer": "K&A produces corporate and brand films, video annual reports, ESG and CSR impact films, leadership message films, AGM and investor day films, IPO films, employer brand films, explainer animations and short-form social content. It manages the full process, from concept and scripting to filming, motion design and final edit."
+  },
+  {
+    "question": "What is a video annual report?",
+    "answer": "A video annual report is a short film that brings the year’s strategy, performance, sustainability progress and leadership message to life. It complements the statutory annual report, reaches audiences who will not read a long document, and works well on company websites, LinkedIn, AGMs and investor events."
+  },
+  {
+    "question": "How does K&A ensure facts in a corporate film are accurate?",
+    "answer": "K&A’s writers also work on annual reports, BRSR and investor presentations, so they understand the underlying disclosures. Every figure, target and claim in a script is checked against the company’s published filings before production, and sustainability claims are reviewed against India’s greenwashing guidelines."
+  },
+  {
+    "question": "Does K&A use AI in film production?",
+    "answer": "K&A uses AI-assisted tools for editing, subtitling and translation to speed up production. Where any AI-generated or synthetic visuals or voice are used, they are clearly labelled, in line with India’s 2026 IT Rules on AI-generated media, and only with the client’s approval."
+  },
+  {
+    "question": "Can K&A create ESG and sustainability films?",
+    "answer": "Yes. K&A creates sustainability, ESG and CSR impact films that turn performance data, targets and community stories into clear, credible narratives. Because the same team works on sustainability reports and BRSR, every claim and metric in the film matches what the company has disclosed."
+  },
+  {
+    "question": "How long does it take to produce a corporate film?",
+    "answer": "Timelines depend on scope. A leadership message or highlight film can be delivered in 1–2 weeks, while a full corporate film with location shoots typically takes 2–3 weeks from concept to final edit."
+  }
+],
+
+"Software & Digital Solutions": [
+  {
+    "question": "What digital services does K&A offer?",
+    "answer": "K&A designs and builds corporate websites, investor relations portals, interactive annual report and sustainability report microsites, ESG data hubs, careers sites, campaign microsites and intranets. It also provides content strategy, SEO and AI search optimisation, hosting, maintenance, security and ongoing support across the platform’s lifecycle."
+  },
+  {
+    "question": "What must a listed company’s website include in India?",
+    "answer": "SEBI’s listing regulations require listed companies to maintain a functional website with specified information, including financial results, shareholding patterns, governance policies, stock exchange filings and earnings call recordings, and to keep it updated. K&A designs investor sections that make these disclosures easy to publish and easy for shareholders to find."
+  },
+  {
+    "question": "What is an interactive annual report microsite?",
+    "answer": "An interactive annual report microsite is an online version of the annual report, designed for screens rather than print. It offers searchable content, animated charts, downloadable data and mobile-friendly navigation, helping investors, employees and other stakeholders find key information quickly without downloading a long PDF."
+  },
+  {
+    "question": "How does K&A help companies appear accurately in AI search?",
+    "answer": "K&A structures website content with clear, consistent descriptions of the organisation, schema markup and well-organised information that search engines and AI assistants can read. This helps platforms such as AI chat tools and search engines describe the company accurately when users ask about it."
+  },
+  {
+    "question": "Are K&A websites accessible and secure?",
+    "answer": "Yes. K&A builds platforms to WCAG accessibility standards, follows secure development practices and provides ongoing security updates and monitoring. It also helps clients prepare for India’s Digital Personal Data Protection Act with consent management and privacy notices before its substantive duties take effect in 2027."
+  },
+  {
+    "question": "Does K&A maintain websites after launch?",
+    "answer": "Yes. K&A offers ongoing maintenance, hosting, security updates, performance optimisation and content support, with defined response times. This keeps platforms fast, compliant and current as the organisation, its audiences and regulatory requirements change."
+  }
+],
+
 "Orchestrating the Details (Project Management)": [
   {
     question: "What keeps a project going when there are many moving parts?",
