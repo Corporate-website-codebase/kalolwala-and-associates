@@ -134,7 +134,7 @@ export default function WorkCards({ works }: WorkCardsProps) {
                                     <img 
                                         src={work.imageUrl} 
                                         alt={work.title}
-                                        className="w-full h-full object-contain transform group-hover:scale-105 transition-transform duration-700 ease-out"
+                                        className="w-full h-full object-cover object-top object-right transform group-hover:scale-105 transition-transform duration-700 ease-out"
                                     />
                                 </div>
 

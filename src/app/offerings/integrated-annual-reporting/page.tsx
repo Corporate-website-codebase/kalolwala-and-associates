@@ -15,7 +15,7 @@ import StackNav from "@/components/StackNav";
 const URL_MAPPING: Record<string, string> = {
   video: "/offerings/video",
   integrated: "/offerings/integrated-annual-reporting",
-  sustainability: "/offerings/sustainability-esg-reporting",
+  sustainability: "/offerings/sustainability-and-esg-reporting",
   web: "/offerings/corporate-websites",
   presentations: "/offerings/investor-corporate-presentations",
   branding: "/offerings/corporate-branding-design",
@@ -148,7 +148,7 @@ export default function IntegratedReportPage() {
                             Annual Report
                         </>
                     }
-                    description="At the core of K&A's reporting philosophy lies a commitment to align financial performance with environmental, social and governance (ESG) priorities. Our approach to reporting is based on the Integrated Thinking Principles and enables readers to understand the tangible and intangible value created for the organisation and its stakeholders. We then seamlessly integrate this strategic content with a modern, visually appealing design, making it easier for readers to comprehend."
+                    description="K&A works alongside organisations shaping India’s corporate landscape, including companies across the Nifty 50, Sensex 30 and leading listed and unlisted enterprises across industries. We bring strategic perspective and editorial rigour to the articulation of complex businesses, translating their performance, purpose and long-term ambition into narratives that command clarity, credibility and conviction. Each narrative is anchored in the business and crafted to engage its most consequential stakeholders, from investors and regulators to employees and communities."
                     faqs={irFaqsData}
                 />
 
@@ -183,7 +183,7 @@ export default function IntegratedReportPage() {
             <ServicePillars
                 title="What do we do?"
                 headline="Annual Reports for India’s largest listed companies, written by people who understand the business."
-                description="Our expertise extends end-to-end for the entire Annual Report - from shaping the strategic narrative, strategies, ESG and Sustainability coverage, backed with the visual language to designing, typesetting statutory disclosures and financial statements. We bring content, design and technical production together under one roof, ensuring accuracy, precision and seamless execution of the reporting journey."
+                description="Our capabilities span the entire Annual Report lifecycle, from defining the strategic narrative and articulating business performance, strategy, ESG and sustainability priorities to translating these into a distinctive visual language. We bring equal depth to the design and production of statutory disclosures and financial statements, integrating content, design and technical expertise within a unified delivery framework. This end-to-end approach ensures rigour at every stage, from the first narrative decisions to the final production, with accuracy, consistency and executional precision. "
                 pillars={irPillarsData}
             />
             
