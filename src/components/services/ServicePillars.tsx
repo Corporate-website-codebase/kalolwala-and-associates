@@ -233,7 +233,7 @@ export default function ServicePillars({
                                             {pillar.number}
                                         </h4>
 
-                                        {/* <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden mb-6 bg-gray-200">
+                                        <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden mb-6 bg-gray-200">
                                             <img
                                                 src={pillar.imageUrl}
                                                 alt={pillar.title}
@@ -241,7 +241,7 @@ export default function ServicePillars({
                                                 decoding="async"
                                                 className="w-full h-full object-cover"
                                             />
-                                        </div> */}
+                                        </div>
 
                                         <h5 className="text-xl md:text-2xl font-bold leading-snug">
                                             {pillar.title}
