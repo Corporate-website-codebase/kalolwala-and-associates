@@ -5,6 +5,7 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLenis } from 'lenis/react';
+import { ArrowDownRight, ArrowRight } from 'lucide-react';
 
 if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
@@ -229,11 +230,11 @@ export default function ServicePillars({
                                                 : ''
                                         }`}
                                     >
-                                        <h4 className="text-2xl md:text-3xl font-bold mb-6">
+                                        <h4 className="text-2xl md:text-3xl font-bold mb-2">
                                             {pillar.number}
                                         </h4>
 
-                                        <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden mb-6 bg-gray-200">
+                                        {/* <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden mb-6 bg-gray-200">
                                             <img
                                                 src={pillar.imageUrl}
                                                 alt={pillar.title}
@@ -241,9 +242,9 @@ export default function ServicePillars({
                                                 decoding="async"
                                                 className="w-full h-full object-cover"
                                             />
-                                        </div>
-
-                                        <h5 className="text-xl md:text-2xl font-bold leading-snug">
+                                        </div> */}
+<ArrowRight className="w-12 rotate-40 h-12 text-blackmb-6" style={{fontWeight:1000}}/>
+                                        <h5 className="text-xl md:text-3xl font-bold leading-snug">
                                             {pillar.title}
                                         </h5>
                                     </div>

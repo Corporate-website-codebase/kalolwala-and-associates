@@ -71,7 +71,7 @@ export default function ImpactStats({ stats }: ImpactStatsProps) {
                             key={stat.id} 
                             className="stat-card-reveal bg-white rounded-2xl p-8 lg:p-10 shadow-sm flex flex-col justify-start h-full"
                         >
-                            <h4 className="text-5xl lg:text-6xl font-black text-black mb-8">
+                            <h4 className="text-5xl lg:text-5xl font-black text-black mb-8">
                                 {stat.value}
                             </h4>
                             
