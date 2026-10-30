@@ -15,7 +15,7 @@ import StackNav from "@/components/StackNav";
 const URL_MAPPING: Record<string, string> = {
   video: "/offerings/video",
   integrated: "/offerings/integrated-annual-reporting",
-  sustainability: "/offerings/sustainability-and-esg-reporting",
+  sustainability: "/offerings/sustainability-esg-reporting",
   web: "/offerings/corporate-websites",
   presentations: "/offerings/investor-corporate-presentations",
   branding: "/offerings/corporate-branding-design",
