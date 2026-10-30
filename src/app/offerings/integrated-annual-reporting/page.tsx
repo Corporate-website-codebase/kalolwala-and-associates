@@ -137,7 +137,7 @@ export default function IntegratedReportPage() {
     }, []);
 
     return (
-        <main className='overflow-x-hidden'>
+        <main className='overflow-x-clip'>
             <div className="bg-[#E3E3E3] pt-20 text-[#1A1A1A] font-sans overflow-x-hidden min-h-screen">
 
                 {/* --- EXTRACTED TOP SECTION --- */}
