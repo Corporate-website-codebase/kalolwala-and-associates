@@ -17,13 +17,13 @@ export interface PillarCard {
 
 export interface ServicePillarsProps {
     title?: string;
-    headline: string;
-    description: string;
-    pillars: PillarCard[];
+    headline?: string;
+    description?: string;
+    pillars?: PillarCard[];
 }
 
 export default function ServicePillars({
-    title = "What do we do?",
+    title,
     headline,
     description,
     pillars
@@ -60,32 +60,39 @@ export default function ServicePillars({
                 }
             );
 
-            // --- Horizontal Scroll (Pinned) ---
-            const getScrollAmount = () => horizontalScroll.scrollWidth - window.innerWidth;
-            
-            if (getScrollAmount() > 0) {
-                gsap.to(horizontalScroll, {
-                    x: () => -getScrollAmount(), 
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: pinContainer, 
-                        // Changed to 'top top' to rely on the container's internal top padding for spacing
-                        start: "top top", 
-                        end: () => `+=${getScrollAmount()}`, 
-                        pin: true,
-                        scrub: 1,
-                        anticipatePin: 1, 
-                        invalidateOnRefresh: true, 
-                    }
-                });
-            }
+            // Wait a tick for layouts and images to settle before calculating
+            requestAnimationFrame(() => {
+                // Safely calculate scroll width based on container, not viewport.
+                // Math.max prevents GSAP from breaking if screen is wider than items.
+                const getScrollAmount = () => {
+                    const amount = horizontalScroll.scrollWidth - pinContainer.offsetWidth;
+                    return Math.max(0, amount);
+                };
+                
+                if (getScrollAmount() > 0) {
+                    gsap.to(horizontalScroll, {
+                        x: () => -getScrollAmount(), 
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: pinContainer, 
+                            start: "top top", 
+                            end: () => `+=${getScrollAmount()}`, 
+                            pin: true,
+                            scrub: 0.5, // Reduced from 1 for tighter, less laggy response
+                            invalidateOnRefresh: true,
+                            // Removed anticipatePin as it causes jumps in React SSR
+                        }
+                    });
+                }
+            });
         }, section);
 
         return () => ctx.revert();
     }, [pillars]);
 
     return (
-        <section ref={sectionRef} className="bg-[#E3E3E3] text-[#1A1A1A] font-noto-sans pt-8 overflow-hidden">
+        // REMOVED overflow-hidden from this parent section
+        <section ref={sectionRef} className="bg-[#E3E3E3] text-[#1A1A1A] font-noto-sans pt-8">
             
             {/* --- TOP CONTENT --- */}
             <div className="max-w-[1440px] mx-auto px-8 md:px-16 pb-8">
@@ -105,52 +112,53 @@ export default function ServicePillars({
             </div>
 
             {/* --- PINNED SECTION --- */}
-            {/* Added pt-16 md:pt-20 for breathing room above the pill. Removed bottom padding here. */}
-            <div ref={pinContainerRef} className="w-full bg-[#E3E3E3] pt-16 md:pt-20">
-                
-                <div className="max-w-[1440px] mx-auto px-8 md:px-16 mb-6">
-                    <div className="arrive-fade-up inline-flex items-center bg-white rounded-full pl-6 pr-1 py-1 shadow-sm">
-                        <span className="text-sm font-bold tracking-wide mr-4">Service pillars</span>
-                        <span className="bg-black text-white text-xs font-bold px-3 py-1.5 rounded-full">
-                            {String(pillars.length).padStart(2, '0')}
-                        </span>
+            {/* ADDED overflow-hidden to the specific pinned container instead */}
+            {pillars && (
+                <div ref={pinContainerRef} className="w-full bg-[#E3E3E3] pt-16 md:pt-20 overflow-hidden">
+                    
+                    <div className="max-w-[1440px] mx-auto px-8 md:px-16 mb-6">
+                        <div className="arrive-fade-up inline-flex items-center bg-white rounded-full pl-6 pr-1 py-1 shadow-sm">
+                            <span className="text-sm font-bold tracking-wide mr-4">Service pillars</span>
+                            <span className="bg-black text-white text-xs font-bold px-3 py-1.5 rounded-full">
+                                {String(pillars.length).padStart(2, '0')}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div className="border-t border-white w-full"></div>
+                    
+                    <div 
+                        ref={horizontalScrollRef} 
+                        // Added will-change-transform to force GPU acceleration
+                        className="flex flex-nowrap w-max will-change-transform"
+                    >
+                        {pillars.map((pillar, index) => (
+                            <div 
+                                key={pillar.id} 
+                                className={`w-[85vw] md:w-[350px] lg:w-[400px] flex-shrink-0 flex flex-col px-8 pt-8 pb-16 md:px-10 md:pt-10 md:pb-24 border-white ${
+                                    index !== pillars.length - 1 ? 'border-r' : ''
+                                }`}
+                            >
+                                <h4 className="text-2xl md:text-3xl font-bold mb-6">
+                                    {pillar.number}
+                                </h4>
+                                
+                                <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden mb-6 bg-gray-200">
+                                    <img 
+                                        src={pillar.imageUrl} 
+                                        alt={pillar.title}
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
+                                
+                                <h5 className="text-xl md:text-2xl font-bold leading-snug">
+                                    {pillar.title}
+                                </h5>
+                            </div>
+                        ))}
                     </div>
                 </div>
-
-                <div className="border-t border-white w-full"></div>
-                
-                <div 
-                    ref={horizontalScrollRef} 
-                    className="overflow-x-hidden flex flex-nowrap w-max"
-                >
-                    {pillars.map((pillar, index) => (
-                        <div 
-                            key={pillar.id} 
-                            // Moved the bottom padding (pb-16 md:pb-24) inside the card so borders reach the bottom
-                            className={`w-[85vw] md:w-[350px] lg:w-[400px] flex-shrink-0 flex flex-col px-8 pt-8 pb-16 md:px-10 md:pt-10 md:pb-24 border-white ${
-                                index !== pillars.length - 1 ? 'border-r' : ''
-                            }`}
-                        >
-                            <h4 className="text-2xl md:text-3xl font-bold mb-6">
-                                {pillar.number}
-                            </h4>
-                            
-                            <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden mb-6 bg-gray-200">
-                                <img 
-                                    src={pillar.imageUrl} 
-                                    alt={pillar.title}
-                                    className="w-full h-full object-cover"
-                                />
-                            </div>
-                            
-                            <h5 className="text-xl md:text-2xl font-bold leading-snug">
-                                {pillar.title}
-                            </h5>
-                        </div>
-                    ))}
-                </div>
-            </div>
-            
+            )}
         </section>
     );
 }
