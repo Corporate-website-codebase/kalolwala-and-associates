@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useRef } from 'react';
@@ -12,14 +13,15 @@ export interface StatCard {
     id: string;
     value: string;
     label: string;
-    barColor: string;
+    barColor?: string;
 }
 
 export interface ImpactStatsProps {
+    gridCols?: string;
     stats: StatCard[];
 }
 
-export default function ImpactStats({ stats }: ImpactStatsProps) {
+export default function ImpactStats({ gridCols, stats }: ImpactStatsProps) {
     const containerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -65,26 +67,32 @@ export default function ImpactStats({ stats }: ImpactStatsProps) {
     return (
         <section ref={containerRef} className="bg-[#E3E3E3] font-noto-sans py-24 relative z-10">
             <div className="max-w-[1440px] mx-auto px-8 md:px-16">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className={`grid grid-cols-1 md:grid-cols-2 ${gridCols || 'lg:grid-cols-4'} gap-6`}>
                     {stats.map((stat) => (
                         <div 
                             key={stat.id} 
-                            className="stat-card-reveal bg-white rounded-2xl p-8 lg:p-10 shadow-sm flex flex-col justify-start h-full"
+                            // Added @container for cqw support and min-w-0 to prevent flex grid blowouts
+                            className="stat-card-reveal @container min-w-0 bg-white rounded-2xl p-6 shadow-sm flex flex-col justify-start h-full"
                         >
-                            <h4 className="text-5xl lg:text-5xl font-black text-black mb-8">
+                            <h4 
+                                // Added break-words and w-full to force long strings to wrap inside the padding
+                                className={` ${stat.label.length>1?"text-5xl lg:text-[clamp(1rem,10cqw,3rem)]":"text-3xl lg:text-3xl"} font-black text-black mb-8 break-words w-full`}
+                            >
                                 {stat.value}
                             </h4>
                             
-                            <div className="w-full h-[16px] border-b mb-6 relative">
+                            {stat.barColor && <div className="w-full h-[16px] border-b mb-6 relative">
                                 <div 
                                     className="stat-bar-grow absolute top-0 left-0 h-full w-[45%]" 
                                     style={{ backgroundColor: stat.barColor }}
                                 ></div>
-                            </div>
+                            </div>}
                             
-                            <p className="text-sm md:text-[14px] text-gray-700 leading-relaxed font-medium pr-4">
-                                {stat.label}
-                            </p>
+                            {stat.label && (
+                                <p className="text-sm md:text-[14px] text-gray-700 leading-relaxed font-medium pr-4">
+                                    {stat.label}
+                                </p>
+                            )}
                         </div>
                     ))}
                 </div>

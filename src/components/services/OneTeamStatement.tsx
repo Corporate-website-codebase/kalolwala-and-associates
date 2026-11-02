@@ -162,7 +162,7 @@ export default function OneTeamStatement({
                             <img 
                                 src={outerImage} 
                                 alt="Background blur" 
-                                className="absolute inset-0 w-full h-full object-cover filter grayscale blur-sm scale-110" 
+                                className="absolute inset-0 w-full h-full object-cover filter  blur-xs" 
                             />
                             
                             <div className="absolute inset-0 flex items-center justify-center">

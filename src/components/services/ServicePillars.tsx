@@ -5,21 +5,11 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLenis } from 'lenis/react';
-import { ArrowDownRight, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
-
-    // Ignore resize events caused purely by the mobile address bar
-    // collapsing/expanding mid-scroll — this was forcing GSAP to
-    // recompute pin distances while the user was actively scrolling,
-    // which is what caused the freeze / overflow / partial movement.
     ScrollTrigger.config({ ignoreMobileResize: true });
-
-    // GSAP's dedicated fix for pinning on mobile: unifies touch and
-    // wheel scrolling into one consistent model so scrub math behaves
-    // the same on phone as it does on desktop, instead of fighting
-    // native momentum-scroll physics.
     ScrollTrigger.normalizeScroll(true);
 }
 
@@ -30,20 +20,32 @@ export interface PillarCard {
     imageUrl: string;
 }
 
+export interface ExtraContentItem {
+    heading: string;
+    para: string;
+}
+
 export interface ServicePillarsProps {
     title?: string;
     headline?: string;
+    header?: string;
     description?: string;
     pillars?: PillarCard[];
+    extraContentHeading?: string;
+    extraContentPara?: ExtraContentItem[];
 }
 
 export default function ServicePillars({
     title,
     headline,
+    header,
     description,
     pillars,
+    extraContentHeading,
+    extraContentPara,
 }: ServicePillarsProps) {
     const sectionRef = useRef<HTMLElement>(null);
+    const extraRef = useRef<HTMLDivElement>(null);
     const trackRef = useRef<HTMLDivElement>(null);
     const stickyRef = useRef<HTMLDivElement>(null);
     const viewportRef = useRef<HTMLDivElement>(null);
@@ -77,27 +79,78 @@ export default function ServicePillars({
                 }
             );
 
-            /*
-             * Pin now runs on ALL breakpoints (no matchMedia gate).
-             * `sticky` uses 100dvh (set in JSX) so it tracks the real
-             * visible viewport live instead of the layout viewport,
-             * which stops the "extra space" jump as the address bar
-             * animates in/out.
-             */
+            // --- Extra content section: underline progress + staggered pop-in ---
+            const extra = extraRef.current;
+            if (extra) {
+                const underline = extra.querySelector('.extra-underline');
+                const items = Array.from(extra.querySelectorAll('.extra-item'));
+
+                const extraTimeline = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: extra,
+                        start: 'top 80%',
+                        toggleActions: 'play none none none',
+                    },
+                });
+
+                if (underline) {
+                    extraTimeline.fromTo(
+                        underline,
+                        { scaleX: 0, transformOrigin: 'left center' },
+                        {
+                            scaleX: 1,
+                            transformOrigin: 'left center',
+                            duration: 1,
+                            ease: 'power2.out',
+                        }
+                    );
+                }
+
+                if (items.length > 0) {
+                    extraTimeline.fromTo(
+                        items,
+                        { y: 30, scale: 0.92, opacity: 0 },
+                        {
+                            y: 0,
+                            scale: 1,
+                            opacity: 1,
+                            duration: 0.7,
+                            stagger: 0.12,
+                            ease: 'back.out(1.6)',
+                        },
+                        underline ? '-=0.5' : 0
+                    );
+                }
+            }
+
             const getScrollAmount = () =>
                 Math.max(0, horizontalScroll.scrollWidth - viewport.clientWidth);
 
+            // The track's height is exactly: sticky's own content height
+            // (how long it visually occupies the viewport) + however far
+            // we need to scroll to translate the row fully into view.
+            // If this value is ever stale/too large, CSS `sticky` stays
+            // pinned past the point the horizontal animation finishes —
+            // which reads as "dead space" before the next section. We
+            // keep this perpetually accurate via ResizeObserver instead
+            // of measuring once.
             const setTrackHeight = () => {
-                track.style.height = `${Math.ceil(
-                    sticky.offsetHeight + getScrollAmount()
-                )}px`;
+                const amount = getScrollAmount();
+                track.style.height = `${Math.ceil(sticky.offsetHeight + amount)}px`;
             };
 
-            setTrackHeight();
-
             let tween: gsap.core.Tween | undefined;
+            let scrollTriggerInstance: ScrollTrigger | undefined;
 
-            if (getScrollAmount() > 0) {
+            const setupTween = () => {
+                // Kill any previous instance before re-creating, so we
+                // don't stack multiple tweens/triggers on recalculation.
+                tween?.scrollTrigger?.kill();
+                tween?.kill();
+
+                const amount = getScrollAmount();
+                if (amount <= 0) return;
+
                 tween = gsap.to(horizontalScroll, {
                     x: () => -getScrollAmount(),
                     ease: 'none',
@@ -110,7 +163,32 @@ export default function ServicePillars({
                         invalidateOnRefresh: true,
                     },
                 });
-            }
+                scrollTriggerInstance = tween.scrollTrigger as ScrollTrigger;
+            };
+
+            setTrackHeight();
+            setupTween();
+
+            // --- Keep measurements accurate as content/layout changes ---
+            // Covers: webfont swap reflow, icon/text size changes,
+            // viewport resize, orientation change, removed/added images,
+            // dynamic pillar count — anything that changes scrollWidth
+            // or sticky's natural height gets caught here instead of
+            // relying on a single snapshot taken at mount time.
+            let rafId: number | null = null;
+            const scheduleRecalc = () => {
+                if (rafId) cancelAnimationFrame(rafId);
+                rafId = requestAnimationFrame(() => {
+                    setTrackHeight();
+                    ScrollTrigger.refresh();
+                });
+            };
+
+            const resizeObserver = new ResizeObserver(() => {
+                scheduleRecalc();
+            });
+            resizeObserver.observe(sticky);
+            resizeObserver.observe(horizontalScroll);
 
             const handleRefreshInit = () => setTrackHeight();
             ScrollTrigger.addEventListener('refreshInit', handleRefreshInit);
@@ -118,7 +196,20 @@ export default function ServicePillars({
             const handleLenisScroll = () => ScrollTrigger.update();
             if (lenis) lenis.on('scroll', handleLenisScroll);
 
+            // Double-rAF initial measurement: guarantees layout (fonts,
+            // icon sizing, flex wrapping) has fully settled before we
+            // lock in the first real height, instead of trusting a
+            // measurement taken mid-layout on the very first paint.
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    setTrackHeight();
+                    ScrollTrigger.refresh();
+                });
+            });
+
             return () => {
+                if (rafId) cancelAnimationFrame(rafId);
+                resizeObserver.disconnect();
                 ScrollTrigger.removeEventListener('refreshInit', handleRefreshInit);
                 if (lenis) lenis.off('scroll', handleLenisScroll);
                 tween?.scrollTrigger?.kill();
@@ -126,42 +217,17 @@ export default function ServicePillars({
             };
         }, section);
 
-        // Preload every card image eagerly — otherwise scrollWidth is
-        // measured before images resolve, giving a wrong (too small)
-        // pin distance that then has to jump-correct mid-scroll.
-        const images = Array.from(
-            horizontalScroll.querySelectorAll<HTMLImageElement>('img')
-        );
-        let settled = 0;
-        const onImgSettled = () => {
-            settled += 1;
-            if (settled === images.length) {
-                ScrollTrigger.refresh();
-            }
-        };
-        images.forEach((img) => {
-            if (img.complete) onImgSettled();
-            else {
-                img.addEventListener('load', onImgSettled);
-                img.addEventListener('error', onImgSettled);
-            }
-        });
-
-        // Real layout changes (orientation flip, keyboard dismiss, etc.)
-        // still get a refresh — only the mobile-address-bar noise is
-        // filtered out by `ignoreMobileResize` above.
         const handleOrientation = () => ScrollTrigger.refresh();
         window.addEventListener('orientationchange', handleOrientation);
 
         return () => {
             window.removeEventListener('orientationchange', handleOrientation);
-            images.forEach((img) => {
-                img.removeEventListener('load', onImgSettled);
-                img.removeEventListener('error', onImgSettled);
-            });
             ctx.revert();
         };
-    }, [pillars, lenis]);
+    }, [pillars, lenis, extraContentHeading, extraContentPara]);
+
+    const hasExtraContent =
+        !!extraContentHeading || (extraContentPara && extraContentPara.length > 0);
 
     return (
         <section
@@ -181,27 +247,62 @@ export default function ServicePillars({
                         {headline}
                     </h3>
 
-                    <p className="arrive-fade-up w-full lg:w-[40%] text-base md:text-lg text-gray-700 leading-relaxed font-medium mt-2">
+                    <p className="arrive-fade-up w-full lg:w-[40%] text-base md:text-lg text-gray-700 leading-relaxed whitespace-pre-line font-medium mt-2">
                         {description}
                     </p>
                 </div>
             </div>
 
+            {/* --- EXTRA CONTENT (frameworks / standards) --- */}
+            {hasExtraContent && (
+                <div ref={extraRef} className="w-full">
+                    <div className="max-w-[1440px] mx-auto px-8 md:px-16 pt-8 pb-12 md:pb-16">
+                        {extraContentHeading && (
+                            <div className="mb-10 md:mb-14">
+                                <h3
+                                    className="font-bold text-[#1A1A1A] leading-tight"
+                                    style={{ fontSize: 'clamp(20px, 2vw, 28px)' }}
+                                >
+                                    {extraContentHeading}
+                                </h3>
+                                <div className="extra-underline mt-4 h-[5px] md:h-[6px] bg-black w-[clamp(140px,17vw,240px)] origin-left" />
+                            </div>
+                        )}
+
+                        {extraContentPara && extraContentPara.length > 0 && (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 lg:gap-x-10 gap-y-10 md:gap-y-14">
+                                {extraContentPara.map((item, index) => (
+                                    <div key={index} className="extra-item">
+                                        <h4
+                                            className="font-bold text-[#1A1A1A] leading-[1.15] mb-4"
+                                            style={{ fontSize: 'clamp(20px, 1.9vw, 26px)' }}
+                                        >
+                                            {item.heading}
+                                        </h4>
+                                        <p
+                                            className="text-[#4A4A4A] leading-[1.6] md:max-w-[34ch]"
+                                            style={{ fontSize: 'clamp(15px, 1.2vw, 18px)' }}
+                                        >
+                                            {item.para}
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
+
             {pillars && pillars.length > 0 && (
                 <div ref={trackRef} className="relative w-full">
-                    {/*
-                     * Sticky now active at ALL breakpoints (no `lg:` prefix).
-                     * 100dvh instead of 100vh — follows the real visible
-                     * viewport height live as the browser chrome animates.
-                     */}
                     <div
                         ref={stickyRef}
-                        className="sticky top-0 z-10 w-full  overflow-x-clip bg-[#E3E3E3] pt-16 md:pt-20"
+                        className="sticky top-0 z-10 w-full overflow-x-clip bg-[#E3E3E3] pt-16 md:pt-20"
                     >
                         <div className="max-w-[1440px] mx-auto px-8 md:px-16 mb-6">
                             <div className="arrive-fade-up inline-flex items-center bg-white rounded-full pl-6 pr-1 py-1 shadow-sm">
                                 <span className="text-sm font-bold tracking-wide mr-4">
-                                    Service pillars
+                                    {header || 'Service pillars'}
                                 </span>
                                 <span className="bg-black text-white text-xs font-bold px-3 py-1.5 rounded-full">
                                     {String(pillars.length).padStart(2, '0')}
@@ -211,12 +312,7 @@ export default function ServicePillars({
 
                         <div className="border-t border-white w-full" />
 
-                        {/* VIEWPORT: fixed-width boundary, clips only. */}
-                        <div
-                            ref={viewportRef}
-                            className="w-full overflow-x-clip"
-                        >
-                            {/* ROW: content-sized track, transformed by GSAP. */}
+                        <div ref={viewportRef} className="w-full overflow-x-clip">
                             <div
                                 ref={horizontalScrollRef}
                                 className="flex flex-nowrap w-max will-change-transform"
@@ -234,16 +330,11 @@ export default function ServicePillars({
                                             {pillar.number}
                                         </h4>
 
-                                        {/* <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden mb-6 bg-gray-200">
-                                            <img
-                                                src={pillar.imageUrl}
-                                                alt={pillar.title}
-                                                loading="eager"
-                                                decoding="async"
-                                                className="w-full h-full object-cover"
-                                            />
-                                        </div> */}
-<ArrowRight className="w-12 rotate-40 h-12 text-blackmb-6" style={{fontWeight:1000}}/>
+                                        <ArrowRight
+                                            className="w-12 rotate-40 h-12 text-black mb-6"
+                                            style={{ fontWeight: 1000 }}
+                                        />
+
                                         <h5 className="text-xl md:text-3xl font-bold leading-snug">
                                             {pillar.title}
                                         </h5>
