@@ -20,7 +20,8 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-       "@/marquee/*": ["./public/marquee/*"]
+       "@/marquee/*": ["./public/marquee/*"],
+       "@/marquee1/*": ["./public/marquee1/*"]
     }
   },
   "include": [

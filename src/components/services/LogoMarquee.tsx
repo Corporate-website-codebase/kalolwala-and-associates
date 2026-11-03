@@ -7,31 +7,31 @@ import { motion } from "framer-motion";
 // ---------------------------------------------------------
 // 1. IMAGE IMPORTS
 // ---------------------------------------------------------
-import img_4 from "@/marquee/amara-raja-horigontal-logos.png";
-import img_10 from "@/marquee/Aster DM.png";
-import img_11 from "@/marquee/AU bank.png";
-import img_18 from "@/marquee/Bikaji.png";
-import img_26 from "@/marquee/cipla.png";
-import img_27 from "@/marquee/Coal India.png";
-import img_31 from "@/marquee/EIL.png";
-import img_37 from "@/marquee/Exim.png";
-import img_81 from "@/marquee/federal.png";
-import img_43 from "@/marquee/GSK.png";
-import img_44 from "@/marquee/Gulf.png";
-import img_49 from "@/marquee/Indiamart.png";
-import img_50 from "@/marquee/IndianOil.png";
-import img_53 from "@/marquee/IRCTC.png";
-import img_85 from "@/marquee/irfc.png";
-import img_80 from "@/marquee/ITC.png";
-import img_56 from "@/marquee/Kotak.png";
-import img_63 from "@/marquee/Max healthcare.png";
-import img_66 from "@/marquee/Natco.png";
-import img_82 from "@/marquee/paras.png";
-import img_76 from "@/marquee/Solar.png";
-import img_83 from "@/marquee/tataChem.png";
-import img_78 from "@/marquee/Tata Commu.png";
-import img_79 from "@/marquee/Tata Consumer.png";
-import img_84 from "@/marquee/tatarealty.png";
+import img_4 from "@/marquee1/amara-raja.png";
+import img_10 from "@/marquee1/Aster_DM_Healthcare_Logo.png";
+import img_11 from "@/marquee1/AU.png";
+import img_18 from "@/marquee1/Bikaji.png";
+import img_26 from "@/marquee1/Cipla.png";
+import img_27 from "@/marquee1/Coal india.png";
+import img_31 from "@/marquee1/EIL.png";
+import img_37 from "@/marquee1/Exim Bank.png";
+import img_81 from "@/marquee1/Federal Bank.png";
+import img_43 from "@/marquee1/GSK.png";
+import img_44 from "@/marquee1/Gulf.png";
+import img_49 from "@/marquee1/Indiamart.png";
+import img_50 from "@/marquee1/IndianOil.png";
+import img_53 from "@/marquee1/IRCTC.png";
+import img_85 from "@/marquee1/IRFC.png";
+import img_80 from "@/marquee1/ITC.png";
+import img_56 from "@/marquee1/Kotak.png";
+import img_63 from "@/marquee1/MAX Healthcare.png";
+import img_66 from "@/marquee1/Natco.png";
+import img_82 from "@/marquee1/paras.png";
+import img_76 from "@/marquee1/Solar.png";
+import img_83 from "@/marquee1/TATA Chemicals.png";
+import img_78 from "@/marquee1/TATA Communications.png";
+import img_79 from "@/marquee1/TATA Consumer products.png";
+import img_84 from "@/marquee1/Tata Realty.png";
 
 // ---------------------------------------------------------
 // 2. DATA ARRAY

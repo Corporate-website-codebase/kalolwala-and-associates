@@ -65,7 +65,7 @@ const DEFAULT_STACK: StackItem[] = [
 ];
 
 const URL_MAPPING: Record<string, string> = {
-  video: "/offerings/video",
+  video: "/offerings/corporate-films-video-reports",
   integrated: "/offerings/integrated-annual-reporting",
   sustainability: "/offerings/sustainability-esg-reporting",
   web: "/offerings/corporate-websites",

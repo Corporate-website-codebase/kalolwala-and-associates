@@ -13,7 +13,7 @@ import Footers from '@/components/Footers';
 import StackNav from "@/components/StackNav";
 
 const URL_MAPPING: Record<string, string> = {
-  video: "/offerings/video",
+  video: "/offerings/corporate-films-video-reports",
   integrated: "/offerings/integrated-annual-reporting",
   sustainability: "/offerings/sustainability-esg-reporting",
   web: "/offerings/corporate-websites",
@@ -155,7 +155,7 @@ export default function IntegratedReportPage() {
                 {/* --- NORMAL SCROLL VIDEO REVEAL SECTION --- */}
                 <section
                     ref={sectionRef}
-                    className="relative w-full h-[70vh] md:h-[85vh] my-26 mt-20"
+                    className="relative w-full h-[70vh] md:h-[85vh] my-26 mt-20 "
                 >
                     <div
                         ref={yellowTwinRef}
