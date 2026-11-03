@@ -6,6 +6,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLenis } from 'lenis/react';
 import { ArrowRight } from 'lucide-react';
+import TechStackCarousel from '../techStack/TechStackCarousel';
 
 if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
@@ -26,6 +27,7 @@ export interface ExtraContentItem {
 }
 
 export interface ServicePillarsProps {
+    isTech?:boolean;
     title?: string;
     headline?: string;
     header?: string;
@@ -36,6 +38,7 @@ export interface ServicePillarsProps {
 }
 
 export default function ServicePillars({
+    isTech,
     title,
     headline,
     header,
@@ -235,7 +238,7 @@ export default function ServicePillars({
             className="bg-[#E3E3E3] text-[#1A1A1A] font-noto-sans pt-8 overflow-x-clip"
         >
             {/* --- TOP CONTENT --- */}
-            <div className="max-w-[1440px] mx-auto px-8 md:px-16 pb-8">
+            <div className="max-w-[1600px] mx-auto px-6 md:px-12 pb-8">
                 <h2 className="arrive-fade-up text-5xl md:text-7xl font-bold tracking-tight mb-8">
                     {title}
                 </h2>
@@ -256,7 +259,7 @@ export default function ServicePillars({
             {/* --- EXTRA CONTENT (frameworks / standards) --- */}
             {hasExtraContent && (
                 <div ref={extraRef} className="w-full">
-                    <div className="max-w-[1440px] mx-auto px-8 md:px-16 pt-8 pb-12 md:pb-16">
+                    <div className="max-w-[1600px] mx-auto px-6 md:px-12 pt-8 pb-12 md:pb-16">
                         {extraContentHeading && (
                             <div className="mb-10 md:mb-14">
                                 <h3
@@ -270,9 +273,9 @@ export default function ServicePillars({
                         )}
 
                         {extraContentPara && extraContentPara.length > 0 && (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 lg:gap-x-10 gap-y-10 md:gap-y-14">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 lg:gap-x-10 gap-y-10 md:gap-y-14 items-stretch ">
                                 {extraContentPara.map((item, index) => (
-                                    <div key={index} className="extra-item">
+                                    <div key={index} className="extra-item ">
                                         <h4
                                             className="font-bold text-[#1A1A1A] leading-[1.15] mb-4"
                                             style={{ fontSize: 'clamp(20px, 1.9vw, 26px)' }}
@@ -293,13 +296,16 @@ export default function ServicePillars({
                 </div>
             )}
 
+            {isTech && <div className='max-w-[] -auto px-'><TechStackCarousel /></div>}
+            
+
             {pillars && pillars.length > 0 && (
                 <div ref={trackRef} className="relative w-full">
                     <div
                         ref={stickyRef}
                         className="sticky top-0 z-10 w-full overflow-x-clip bg-[#E3E3E3] pt-16 md:pt-20"
                     >
-                        <div className="max-w-[1440px] mx-auto px-8 md:px-16 mb-6">
+                        <div className="max-w-[1600px] mx-auto px-6 md:px-12 mb-6">
                             <div className="arrive-fade-up inline-flex items-center bg-white rounded-full pl-6 pr-1 py-1 shadow-sm">
                                 <span className="text-sm font-bold tracking-wide mr-4">
                                     {header || 'Service pillars'}

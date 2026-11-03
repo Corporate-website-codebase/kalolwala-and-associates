@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from "react";
@@ -31,7 +32,7 @@ import img_76 from "@/marquee1/Solar.png";
 import img_83 from "@/marquee1/TATA Chemicals.png";
 import img_78 from "@/marquee1/TATA Communications.png";
 import img_79 from "@/marquee1/TATA Consumer products.png";
-import img_84 from "@/marquee1/Tata Realty.png";
+import img_84 from "@/marquee1/Tata Realty 1.png";
 
 // ---------------------------------------------------------
 // 2. DATA ARRAY
@@ -72,9 +73,16 @@ export default function LogoMarquee({
       >
         {items.map((img, i) => {
           const srcString = typeof img === "string" ? img : img.src;
+          
+          // Next.js handles static imports by encoding spaces, so we check broadly
           const isAmaraRaja = srcString.includes("amara-raja");
-          const isTataConsumer = srcString.includes("Tata%20Consumer");
-          const isSpecialLogo = isAmaraRaja || isTataConsumer;
+          const isGSK = srcString.includes("GSK");
+          const isTCP = srcString.includes("TATA Consumer products")||srcString.includes("TATA Communications");
+          const isSpecialLogo = isAmaraRaja ;
+
+          // Create a specific check for Tata Realty
+          const isTataRealty = srcString.includes("Tata%20Realty") || srcString.includes("Tata Realty") || srcString.includes("Realty") ;
+          const isITC = srcString.includes("ITC") || srcString.includes("ITC");
 
           return (
             <div
@@ -84,11 +92,12 @@ export default function LogoMarquee({
             >
               <div
                 className={`relative flex items-center justify-center transition-transform duration-300 hover:scale-110 ${
-                  isSpecialLogo ? "h-20" : "h-14"
+                  isTataRealty ? "h-24" : isITC?"h-22":isSpecialLogo ? "h-20" :isTCP?"h-16": isGSK  ?"h-10":"h-14"
                 }`}
                 style={{
                   width: "auto",
-                  maxWidth: isSpecialLogo ? "300px" : "180px", 
+                  // Allow Tata Realty to expand wider based on its new h-24 height
+                  maxWidth: isTataRealty ? "350px" : isSpecialLogo ? "300px" : isTCP?"220px":"180px", 
                 }}
               >
                 {/* 
@@ -100,7 +109,7 @@ export default function LogoMarquee({
                   alt={`Client Logo ${i}`}
                   width={0}
                   height={0}
-                  sizes="300px"
+                  sizes="(max-width: 768px) 200px, 350px"
                   className="w-auto h-full object-contain"
                 />
               </div>

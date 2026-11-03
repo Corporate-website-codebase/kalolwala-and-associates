@@ -148,7 +148,7 @@ export default function OneTeamStatement({
                 className="relative bg-white pt-24 pb-32 overflow-hidden"
                 style={{ transformStyle: 'preserve-3d', willChange: 'transform, opacity' }}
             >
-                <div className="max-w-[1440px] mx-auto px-8 md:px-16">
+                <div className="max-w-[1600px] mx-auto px-6 md:px-12">
                     
                     <div className="mb-12">
                         <h3 className="text-lg md:text-xl font-bold text-black inline-block border-b-4 border-black pb-1">
@@ -173,22 +173,22 @@ export default function OneTeamStatement({
                                     <img 
                                         src={innerImage} 
                                         alt="Clear subject" 
-                                        className="w-full h-full object-cover" 
+                                        className={`w-full h-full object-cover ${innerImage == "/images/offerings/web/inner-img.png"?"scale-140":"scale-100"}`} 
                                     />
                                 </div>
                             </div>
                         </div>
 
                         <h2 
-                            className="main-title-reveal text-7xl md:text-[110px] lg:text-[140px] font-black leading-none tracking-tight text-black pb-4 md:pb-0" 
+                            className="main-title-reveal text-5xl md:text-[110px] lg:text-[140px] font-black leading-none tracking-tight text-black pb-4 md:pb-0" 
                             style={{ transformStyle: 'preserve-3d' }}
                         >
                             {mainTitle}
                         </h2>
                     </div>
 
-                    <div className="max-w-6x mt-4 md:mt-8">
-                        <p className="text-4xl md:text-5xl lg:text-[56px] leading-[1.15] tracking-tight" style={{ perspective: '800px' }}>
+                    <div className="max-w-6x mt-2 md:mt-8">
+                        <p className="text-3xl md:text-5xl lg:text-[56px] leading-[1.15] tracking-tight" style={{ perspective: '800px' }}>
                             {paragraphSegments.map((segment, segmentIndex) => (
                                 // Wrapper for the segment purely for styling
                                 <span 

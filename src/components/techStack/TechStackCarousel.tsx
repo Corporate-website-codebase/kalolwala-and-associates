@@ -44,7 +44,7 @@ export default function TechStackCarousel() {
   const title = "The engines behind our work";
 
   return (
-    <section className="mx-auto bg-[#eeeeee] mt-12 rounded-2xl space-y-12 py-12 px-3">
+    <section className="mx-auto bg-[#eeeeee] mt-12 rounded-2xl space-y-12 py-12 px-6 md:px-12">
       <motion.header
         initial="hidden"
         whileInView="visible"
