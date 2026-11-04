@@ -303,7 +303,7 @@ export default function ServicePillars({
                 <div ref={trackRef} className="relative w-full">
                     <div
                         ref={stickyRef}
-                        className="sticky top-0 z-10 w-full overflow-x-clip bg-[#E3E3E3] pt-16 md:pt-20"
+                        className="sticky top-0 z-10 w-full overflow-x-clip bg-[#E3E3E3] pt-16 md:pt-24"
                     >
                         <div className="max-w-[1600px] mx-auto px-6 md:px-12 mb-6">
                             <div className="arrive-fade-up inline-flex items-center bg-white rounded-full pl-6 pr-1 py-1 shadow-sm">
