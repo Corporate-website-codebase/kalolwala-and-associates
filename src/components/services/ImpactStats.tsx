@@ -65,9 +65,9 @@ export default function ImpactStats({ gridCols, stats }: ImpactStatsProps) {
     }, [stats]);
 
     return (
-        <section ref={containerRef} className="bg-[#E3E3E3] font-noto-sans py-24 relative z-10">
+        <section ref={containerRef} className="bg-[#E3E3E3] font-noto-sans pt-18 relative z-10">
             <div className="max-w-[1600px] mx-auto px-6 md:px-12">
-                <div className={`grid grid-cols-1 md:grid-cols-2 ${gridCols || 'lg:grid-cols-4'} gap-6`}>
+                <div className={`grid grid-cols-1 md:grid-cols-2 ${gridCols || 'lg:grid-cols-4'} gap-3`}>
                     {stats.map((stat) => (
                         <div 
                             key={stat.id} 
@@ -89,7 +89,7 @@ export default function ImpactStats({ gridCols, stats }: ImpactStatsProps) {
                             </div>}
                             
                             {stat.label && (
-                                <p className="text-sm md:text-[14px] text-gray-700 leading-relaxed font-medium pr-4">
+                                <p className="text-sm md:text-base max-w-[70%] text-gray-700 leading-relaxed font-medium pr-4">
                                     {stat.label}
                                 </p>
                             )}

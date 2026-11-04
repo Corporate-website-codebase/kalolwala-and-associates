@@ -145,7 +145,7 @@ export default function OneTeamStatement({
                 ref={cardRef} 
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
-                className="relative bg-white pt-24 pb-32 overflow-hidden"
+                className="relative bg-white pt-18 pb-18 overflow-hidden"
                 style={{ transformStyle: 'preserve-3d', willChange: 'transform, opacity' }}
             >
                 <div className="max-w-[1600px] mx-auto px-6 md:px-12">

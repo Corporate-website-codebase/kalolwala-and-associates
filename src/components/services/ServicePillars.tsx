@@ -235,7 +235,7 @@ export default function ServicePillars({
     return (
         <section
             ref={sectionRef}
-            className="bg-[#E3E3E3] text-[#1A1A1A] font-noto-sans pt-8 overflow-x-clip"
+            className="bg-[#E3E3E3] text-[#1A1A1A] font-noto-sans  overflow-x-clip"
         >
             {/* --- TOP CONTENT --- */}
             <div className="max-w-[1600px] mx-auto px-6 md:px-12 pb-8">
@@ -259,7 +259,7 @@ export default function ServicePillars({
             {/* --- EXTRA CONTENT (frameworks / standards) --- */}
             {hasExtraContent && (
                 <div ref={extraRef} className="w-full">
-                    <div className="max-w-[1600px] mx-auto px-6 md:px-12 pt-8 pb-12 md:pb-16">
+                    <div className="max-w-[1600px] mx-auto px-6 md:px-12 pt-8 pb-8">
                         {extraContentHeading && (
                             <div className="mb-10 md:mb-14">
                                 <h3
@@ -296,7 +296,7 @@ export default function ServicePillars({
                 </div>
             )}
 
-            {isTech && <div className='max-w-[] -auto px-'><TechStackCarousel /></div>}
+            {isTech && <div className=''><TechStackCarousel /></div>}
             
 
             {pillars && pillars.length > 0 && (

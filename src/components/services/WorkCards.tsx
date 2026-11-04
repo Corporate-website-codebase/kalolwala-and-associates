@@ -250,12 +250,12 @@ export default function WorkCards({
             <div ref={yellowOverlayRef} className="fixed inset-0 w-full h-full bg-[#ffcb03] z-[9998] pointer-events-none -translate-x-full" />
             <div ref={blackOverlayRef} className="fixed inset-0 w-full h-full bg-[#1A1A1A] z-[9999] pointer-events-none -translate-x-full" />
 
-            <section ref={sectionRef} className="py-24 bg-[#E3E3E3] font-sans">
+            <section ref={sectionRef} className="pt-10 pb-10 bg-[#E3E3E3] font-sans">
                 <div className="max-w-[1600px] mx-auto px-6 md:px-12">
 
                     {/* Tab Navigation */}
                     {isTabbed && tabs.length > 0 && (
-                        <div className="flex flex-wrap items-center gap-3 md:gap-4 mb-10 overflow-x-auto pb-2 scrollbar-hide">
+                        <div className="flex flex-wrap items-center gap-3 md:gap-4 mb-10 overflow-x-auto  scrollbar-hide">
                             {tabs.map((tab) => {
                                 const isActive = activeTabId === tab.id;
                                 return (
