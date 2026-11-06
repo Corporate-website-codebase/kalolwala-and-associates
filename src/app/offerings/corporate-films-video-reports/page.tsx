@@ -328,7 +328,7 @@ We treat every film as one creative proposition, carried end-to-end: concept, na
       {/* The stats grid below it */}
       <ImpactStats gridCols="lg:grid-cols-3" stats={statsData} />
 
-      <WorkCards isVideo={true} works={caseStudies} />
+      {/* <WorkCards isVideo={true} works={caseStudies} /> */}
 
       <LogoMarquee />
 

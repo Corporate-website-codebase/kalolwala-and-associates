@@ -442,11 +442,11 @@ Our role continues well beyond launch. From information architecture and develop
       {/* The stats grid below it */}
       <ImpactStats stats={statsData} />
 
-      <WorkCards 
+      {/* <WorkCards 
                 isTabbed={true} 
                 tabs={webTabsData} 
                 isVideo={false} 
-            />
+            /> */}
 
       <LogoMarquee />
 

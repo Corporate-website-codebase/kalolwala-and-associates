@@ -54,9 +54,9 @@ const navLinks: NavItem[] = [
         label: 'CASE STUDIES',
         subItems: [
             // TODO: replace these hrefs with your real case study page routes
-            { label: 'Integrated Report', href: '/case-studies/integrated-reports' },
-            { label: 'Annual Report', href: '/case-studies/annual-reports' },
-            { label: 'Sustainability Report', href: '/case-studies/sustainability-reports' },
+            { label: 'Integrated Reports', href: '/case-studies/integrated-reports' },
+            { label: 'Annual Reports', href: '/case-studies/annual-reports' },
+            { label: 'Sustainability Reports', href: '/case-studies/sustainability-reports' },
             // { label: 'Digital', href: '/offerings/case-studies/digital' },
         ],
     },

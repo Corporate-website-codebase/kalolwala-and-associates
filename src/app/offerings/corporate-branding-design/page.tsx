@@ -303,7 +303,7 @@ export default function IntegratedReportPage() {
       {/* The stats grid below it */}
       <ImpactStats stats={statsData} />
 
-      <WorkCards works={caseStudies} />
+      {/* <WorkCards works={caseStudies} /> */}
 
       <LogoMarquee />
 
