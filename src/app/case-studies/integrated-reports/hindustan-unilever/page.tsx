@@ -182,7 +182,8 @@ export default function IntegratedReportPage() {
             <HeroSec
       imageSrc="/case-studies/ir/Hul-cover.webp"
       imageAlt="Hindustan Unilever Limited hero"
-      title="Hindustan Unilever Limited (HUL)"
+      title="Hindustan Unilever
+      Limited (HUL)"
       overlay="linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 28%, rgba(0,0,0,0) 60%)"
     />
         <CardHighlights cards={HIGHLIGHTS} />

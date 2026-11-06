@@ -68,7 +68,8 @@ export default function IntegratedReportPage() {
             <HeroSec
       imageSrc="/case-studies/ar/eil-cover.webp"
       imageAlt="engineers-india"
-      title="Engineers India Limited (EIL)"
+      title="Engineers India
+      Limited (EIL)"
       overlay="linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 28%, rgba(0,0,0,0) 60%)"
     />
         <CardHighlights cards={HIGHLIGHTS} />

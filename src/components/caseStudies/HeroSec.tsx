@@ -113,7 +113,7 @@ export default function HeroSec({
           whileInView="visible"
           viewport={{ once: true }}
           custom={0}
-          className="text-white font-bold leading-[1.2] text-[clamp(1rem,5cqw,5rem)] lg:text-[clamp(1rem,3.6cqw,5rem)] max-w-[45cqw]"
+          className="text-white font-bold leading-[1.2] whitespace-pre-line text-[clamp(1rem,5cqw,5rem)] lg:text-[clamp(1rem,3.6cqw,5rem)] max-w-[45cqw]"
           style={{
             // fontSize: "clamp(1rem, 5cqw, 5rem)",
             maxWidth: "45cqw",
