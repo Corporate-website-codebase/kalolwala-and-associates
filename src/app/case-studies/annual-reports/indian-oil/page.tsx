@@ -66,10 +66,12 @@ export default function IntegratedReportPage() {
         <main className=''>
 
             <HeroSec
+            priority
+
       imageSrc="/case-studies/ar/iol-cover.webp"
       imageAlt="indian-oil"
       title="Indian Oil Corporation Limited (IndianOil)"
-      overlay="linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 28%, rgba(0,0,0,0) 60%)"
+    //   overlay="linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 28%, rgba(0,0,0,0) 60%)"
     />
         <CardHighlights cards={HIGHLIGHTS} />
 

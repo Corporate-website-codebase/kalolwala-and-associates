@@ -15,7 +15,7 @@ export default function Heading({ title }: HeadingProps) {
                 The left side holds both the Title and Description.
                 The right side holds the FAQs, starting at the same top baseline as the Title.
             */}
-            <div className="grid grid-cols-1 px-12 lg:grid-cols-12 gap-12 lg:gap-16">
+            <div className="grid grid-cols-1 px-6 md:px-12 lg:grid-cols-12 gap-12 lg:gap-16">
                 
                 {/* Left Column: Title + Paragraph (Dictates the total height) */}
                 <div className="lg:col-span-7 flex flex-col">

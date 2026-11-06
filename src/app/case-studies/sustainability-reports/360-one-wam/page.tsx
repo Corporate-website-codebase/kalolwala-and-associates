@@ -64,10 +64,12 @@ export default function IntegratedReportPage() {
         <main className=''>
 
             <HeroSec
+            priority
+
       imageSrc="/case-studies/sr/360-cover.webp"
       imageAlt="360-one-wam"
       title="360 ONE WAM"
-      overlay="linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 28%, rgba(0,0,0,0) 60%)"
+    //   overlay="linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 28%, rgba(0,0,0,0) 60%)"
     />
         <CardHighlights cards={HIGHLIGHTS} />
 

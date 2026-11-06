@@ -44,7 +44,7 @@ export default async function CaseStudyCategoryPage({ params }: PageProps) {
                         <>
                             {data.titleLines.map((line, i) => (
                                 <Fragment key={line}>
-                                    {i > 0 && <br className="hidden md:block" />}
+                                    {i > 0 && <br  />}
                                     {line}
                                 </Fragment>
                             ))}
