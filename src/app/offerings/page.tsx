@@ -114,7 +114,7 @@ const Services = () => {
             <HorizontalScroll />
             <ImpactSection />
             <div className="marginal">
-                <Footers nextPageName="About Us" nextPageLink="/about" />
+                <Footers nextPageName="Case Studies - Integrated Reports" nextPageLink="/case-studies/integrated-reports" />
             </div>
         </div>
     );

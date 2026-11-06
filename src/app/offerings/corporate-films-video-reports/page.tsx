@@ -342,7 +342,7 @@ We treat every film as one creative proposition, carried end-to-end: concept, na
                 <div className="w-full h-64 bg-gray-200 rounded-2xl animate-pulse"></div>
             </section> */}
       <div className="">
-        <Footers nextPageName="About Us" nextPageLink="/about" />
+        <Footers nextPageName="Case Studies - Integrated Reports" nextPageLink="/case-studies/integrated-reports" />
       </div>
     </main>
   );

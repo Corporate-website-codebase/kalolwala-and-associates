@@ -460,7 +460,8 @@ Our role continues well beyond launch. From information architecture and develop
                 <div className="w-full h-64 bg-gray-200 rounded-2xl animate-pulse"></div>
             </section> */}
       <div className="">
-        <Footers nextPageName="About Us" nextPageLink="/about" />
+        <Footers nextPageName="Case Studies - Integrated Reports" nextPageLink="/case-studies/integrated-reports" />
+
       </div>
     </main>
   );

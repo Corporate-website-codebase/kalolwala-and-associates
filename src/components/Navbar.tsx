@@ -1,3 +1,5 @@
+
+
 'use client'
 
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-motion'
@@ -15,7 +17,8 @@ interface SubNavItem {
 
 interface NavItem {
     label: string
-    href: string
+    /** Optional: items without an href (e.g. CASE STUDIES) are dropdown triggers only, not links */
+    href?: string
     subItems?: SubNavItem[]
 }
 
@@ -46,6 +49,17 @@ const navLinks: NavItem[] = [
             { label: 'Software & Digital Solutions', href: '/offerings/corporate-websites' },
         ],
     },
+    {
+        // No href: "Case Studies" itself has no page, only its sub-items do
+        label: 'CASE STUDIES',
+        subItems: [
+            // TODO: replace these hrefs with your real case study page routes
+            { label: 'Integrated Report', href: '/case-studies/integrated-reports' },
+            { label: 'Annual Report', href: '/case-studies/annual-reports' },
+            { label: 'Sustainability Report', href: '/case-studies/sustainability-reports' },
+            // { label: 'Digital', href: '/offerings/case-studies/digital' },
+        ],
+    },
     { label: 'ABOUT US', href: '/about' },
     { label: 'BLOGS', href: '/blogs' },
     { label: 'CAREERS', href: '/careers' },
@@ -57,8 +71,10 @@ const Navbar = () => {
     const [isVisible, setIsVisible] = useState(true)
     const isVisibleRef = useRef(true)
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-    const [isOfferingsHovered, setIsOfferingsHovered] = useState(false)
-    const [isMobileOfferingsOpen, setIsMobileOfferingsOpen] = useState(false)
+    // Which desktop dropdown is open (by label), or null
+    const [hoveredMenu, setHoveredMenu] = useState<string | null>(null)
+    // Which mobile sub-menu is expanded (by label), or null
+    const [mobileOpenMenu, setMobileOpenMenu] = useState<string | null>(null)
     const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
     const pathname = usePathname()
@@ -87,19 +103,38 @@ const Navbar = () => {
                 navRef.current.style.transform = `translateY(-${navHeight}px)`
             }
             setIsMobileMenuOpen(false)
-            setIsOfferingsHovered(false)
+            setHoveredMenu(null)
         }
     }
 
-    const handleMouseEnter = () => {
+    const handleMouseEnter = (label: string) => {
         if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current)
-        setIsOfferingsHovered(true)
+        setHoveredMenu(label)
     }
 
     const handleMouseLeave = () => {
+        if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current)
         hoverTimeoutRef.current = setTimeout(() => {
-            setIsOfferingsHovered(false)
+            setHoveredMenu(null)
         }, 150)
+    }
+
+    // Active state helpers (items without an href are active when one of their sub-items is)
+    const isDesktopActive = (link: NavItem) => {
+        if (!link.href) return !!link.subItems?.some((s) => pathname.startsWith(s.href))
+        return link.href === '/'
+            ? pathname === '/' && link.label === 'HOME'
+            : pathname.startsWith(link.href)
+    }
+
+    const isMobileActive = (link: NavItem) => {
+        if (!link.href)
+            return !!link.subItems?.some(
+                (s) => pathname === s.href || pathname.startsWith(s.href + '/'),
+            )
+        return link.href === '/'
+            ? pathname === '/' && link.label === 'HOME'
+            : pathname === link.href || pathname.startsWith(link.href + '/')
     }
 
     const lastScrollYRef = useRef(0)
@@ -193,56 +228,74 @@ const Navbar = () => {
                             </motion.div>
                         </Link>
 
-
-{/* --- DESKTOP MENU --- */}
-<ul className="hidden md:flex font-noto-sans items-center space-x-0">
+                        {/* --- DESKTOP MENU --- */}
+                        <ul className="hidden md:flex font-noto-sans items-center space-x-0">
                             {navLinks.map((link, i) => {
-                                const isActive =
-                                    link.href === '/'
-                                        ? pathname === '/' && link.label === 'HOME'
-                                        : pathname.startsWith(link.href)
+                                const isActive = isDesktopActive(link)
+                                const isItemHovered = hoveredMenu === link.label
 
-                                const isItemHovered =
-                                    link.label === 'OFFERINGS' && isOfferingsHovered
+                                const triggerClassName = `group relative text-[11px] lg:text-[12px] tracking-wide px-3 lg:px-4 py-2 font-semibold transition-colors duration-300 inline-flex items-center gap-2 ${
+                                    isActive || isItemHovered
+                                        ? 'text-yellow-400'
+                                        : 'text-white hover:text-yellow-400'
+                                }`
+
+                                const triggerContent = (
+                                    <>
+                                        <span>{link.label}</span>
+                                        {link.subItems && (
+                                            <ChevronDown
+                                                className={`w-3.5 h-3.5 transition-transform duration-300 ${
+                                                    isItemHovered
+                                                        ? 'rotate-180 text-yellow-400'
+                                                        : 'text-white group-hover:text-yellow-400'
+                                                }`}
+                                            />
+                                        )}
+                                        <span
+                                            className={`absolute bottom-0 left-1/2 block h-[1px] -translate-x-1/2 bg-yellow-400 transition-all duration-300 ease-out ${
+                                                isActive || isItemHovered
+                                                    ? 'w-[calc(100%-24px)]'
+                                                    : 'w-0 group-hover:w-[calc(100%-24px)]'
+                                            }`}
+                                        />
+                                    </>
+                                )
 
                                 return (
                                     <li
                                         key={link.label}
                                         className="relative flex items-center"
-                                        onMouseEnter={link.subItems ? handleMouseEnter : undefined}
+                                        onMouseEnter={
+                                            link.subItems
+                                                ? () => handleMouseEnter(link.label)
+                                                : undefined
+                                        }
                                         onMouseLeave={link.subItems ? handleMouseLeave : undefined}
                                     >
-                                        <Link
-                                            href={link.href}
-                                            className={`group relative text-[11px] lg:text-[12px] tracking-wide px-3 lg:px-4 py-2 font-semibold transition-colors duration-300 inline-flex items-center gap-2 ${
-                                                isActive || isItemHovered
-                                                    ? 'text-yellow-400'
-                                                    : 'text-white hover:text-yellow-400'
-                                            }`}
-                                        >
-                                            <span>{link.label}</span>
-                                            {link.subItems && (
-                                                <ChevronDown
-                                                    className={`w-3.5 h-3.5 transition-transform duration-300 ${
-                                                        isItemHovered
-                                                            ? 'rotate-180 text-yellow-400'
-                                                            : 'text-white group-hover:text-yellow-400'
-                                                    }`}
-                                                />
-                                            )}
-                                            <span
-                                                className={`absolute bottom-0 left-1/2 block h-[1px] -translate-x-1/2 bg-yellow-400 transition-all duration-300 ease-out ${
-                                                    isActive || isItemHovered
-                                                        ? 'w-[calc(100%-24px)]'
-                                                        : 'w-0 group-hover:w-[calc(100%-24px)]'
-                                                }`}
-                                            />
-                                        </Link>
+                                        {link.href ? (
+                                            <Link href={link.href} className={triggerClassName}>
+                                                {triggerContent}
+                                            </Link>
+                                        ) : (
+                                            // No page of its own: a button that opens the dropdown (hover, click or keyboard)
+                                            <button
+                                                type="button"
+                                                aria-haspopup="menu"
+                                                aria-expanded={isItemHovered}
+                                                onClick={() =>
+                                                    setHoveredMenu(isItemHovered ? null : link.label)
+                                                }
+                                                className={`${triggerClassName} cursor-pointer focus:outline-none`}
+                                            >
+                                                {triggerContent}
+                                            </button>
+                                        )}
 
                                         {/* Popover Dropdown Sub-menu */}
                                         {link.subItems && (
                                             <AnimatePresence>
-                                                {isOfferingsHovered && (
+                                                {isItemHovered && (
                                                     <motion.div
                                                         initial={{ opacity: 0, y: 10, scale: 0.97 }}
                                                         animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -261,7 +314,7 @@ const Navbar = () => {
                                                                     key={subItem.href}
                                                                     href={subItem.href}
                                                                     onClick={() =>
-                                                                        setIsOfferingsHovered(false)
+                                                                        setHoveredMenu(null)
                                                                     }
                                                                     className={`group flex items-center justify-between px-5 py-3 text-xs md:text-sm font-medium transition-all duration-200 border-b border-zinc-800/60 last:border-b-0 ${
                                                                         isSubActive
@@ -325,11 +378,8 @@ const Navbar = () => {
                     >
                         <div className="flex flex-col items-center space-y-6 w-full pb-12">
                             {navLinks.map((link, i) => {
-                                const isActive =
-                                    link.href === '/'
-                                        ? pathname === '/' && link.label === 'HOME'
-                                        : pathname === link.href ||
-                                          pathname.startsWith(link.href + '/')
+                                const isActive = isMobileActive(link)
+                                const isSubOpen = mobileOpenMenu === link.label
 
                                 return (
                                     <motion.div
@@ -341,40 +391,70 @@ const Navbar = () => {
                                     >
                                         {link.subItems ? (
                                             <div className="w-full flex flex-col items-center">
-                                                <div className="relative inline-flex items-center justify-center">
-                                                    <Link
-                                                        href={link.href}
-                                                        onClick={() => setIsMobileMenuOpen(false)}
-                                                        className={`text-xl font-light tracking-widest py-2 ${
-                                                            isActive
+                                                {link.href ? (
+                                                    // Has its own page (OFFERINGS): link + separate chevron toggle
+                                                    <div className="relative inline-flex items-center justify-center">
+                                                        <Link
+                                                            href={link.href}
+                                                            onClick={() =>
+                                                                setIsMobileMenuOpen(false)
+                                                            }
+                                                            className={`text-xl font-light tracking-widest py-2 ${
+                                                                isActive
+                                                                    ? 'text-yellow-400'
+                                                                    : 'text-white'
+                                                            }`}
+                                                        >
+                                                            {link.label}
+                                                        </Link>
+                                                        <button
+                                                            onClick={(e) => {
+                                                                e.stopPropagation()
+                                                                setMobileOpenMenu(
+                                                                    isSubOpen ? null : link.label,
+                                                                )
+                                                            }}
+                                                            className="absolute left-full ml-2 p-1 text-zinc-400 hover:text-yellow-400 transition-colors focus:outline-none"
+                                                            aria-label="Toggle sub-menu"
+                                                        >
+                                                            <ChevronDown
+                                                                className={`w-4 h-4 transition-transform duration-300 ${
+                                                                    isSubOpen
+                                                                        ? 'rotate-180 text-yellow-400'
+                                                                        : 'text-zinc-400'
+                                                                }`}
+                                                            />
+                                                        </button>
+                                                    </div>
+                                                ) : (
+                                                    // No page (CASE STUDIES): the whole label toggles the sub-menu
+                                                    <button
+                                                        type="button"
+                                                        onClick={() =>
+                                                            setMobileOpenMenu(
+                                                                isSubOpen ? null : link.label,
+                                                            )
+                                                        }
+                                                        aria-expanded={isSubOpen}
+                                                        className={`inline-flex items-center justify-center gap-2 text-xl font-light tracking-widest py-2 focus:outline-none ${
+                                                            isActive || isSubOpen
                                                                 ? 'text-yellow-400'
                                                                 : 'text-white'
                                                         }`}
                                                     >
                                                         {link.label}
-                                                    </Link>
-                                                    <button
-                                                        onClick={(e) => {
-                                                            e.stopPropagation()
-                                                            setIsMobileOfferingsOpen(
-                                                                !isMobileOfferingsOpen,
-                                                            )
-                                                        }}
-                                                        className="absolute left-full ml-2 p-1 text-zinc-400 hover:text-yellow-400 transition-colors focus:outline-none"
-                                                        aria-label="Toggle sub-menu"
-                                                    >
                                                         <ChevronDown
                                                             className={`w-4 h-4 transition-transform duration-300 ${
-                                                                isMobileOfferingsOpen
+                                                                isSubOpen
                                                                     ? 'rotate-180 text-yellow-400'
                                                                     : 'text-zinc-400'
                                                             }`}
                                                         />
                                                     </button>
-                                                </div>
+                                                )}
 
                                                 <AnimatePresence>
-                                                    {isMobileOfferingsOpen && (
+                                                    {isSubOpen && (
                                                         <motion.div
                                                             initial={{ opacity: 0, height: 0 }}
                                                             animate={{ opacity: 1, height: 'auto' }}
@@ -396,9 +476,7 @@ const Navbar = () => {
                                                                             setIsMobileMenuOpen(
                                                                                 false,
                                                                             )
-                                                                            setIsMobileOfferingsOpen(
-                                                                                false,
-                                                                            )
+                                                                            setMobileOpenMenu(null)
                                                                         }}
                                                                         className={`text-sm sm:text-base font-light tracking-wider transition-all duration-200 flex items-center gap-2 py-1 ${
                                                                             isSubActive
@@ -423,7 +501,7 @@ const Navbar = () => {
                                             </div>
                                         ) : (
                                             <Link
-                                                href={link.href}
+                                                href={link.href!}
                                                 onClick={() => setIsMobileMenuOpen(false)}
                                                 className={`block text-xl font-light tracking-widest py-2 ${
                                                     isActive ? 'text-yellow-400' : 'text-white'
