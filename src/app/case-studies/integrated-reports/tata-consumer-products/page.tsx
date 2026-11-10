@@ -72,7 +72,7 @@ export default function IntegratedReportPage() {
       imageSrc="/case-studies/ir/tcp-cover.webp"
       imageAlt="Tata Consumer Products"
       title="Tata Consumer 
-    //   Products Limited"
+       Products Limited"
     //   overlay="linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 28%, rgba(0,0,0,0) 60%)"
     />
         <CardHighlights cards={HIGHLIGHTS} />
