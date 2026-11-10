@@ -26,9 +26,9 @@ export const VISIONARIES_DATA: Record<string, Visionary> = {
             'The global communication landscape is changing at the blink of an eye, driven by high-tech innovation. Amid the whirlwind of change around us, our philosophy is to stay true to our core values, navigate the change with strategic foresight and craft authentic communication for our clients that stands the test of time.',
         linkedin: 'https://www.linkedin.com/in/thekalolwala/',
         seo: {
-            title: 'Hussain Kalolwala | CEO & Director | Kalolwala & Associates',
+            title: 'Hussain Kalolwala | CEO | K&A',
             description:
-                'Explore the vision of Hussain Kalolwala, CEO & Director at Kalolwala & Associates (K&A). Leading corporate reporting and stakeholder communications with strategic foresight.',
+                'Meet Hussain Kalolwala, CEO of Kalolwala & Associates, India\'s largest independent Annual Report and corporate communication consultancy.',
             keywords: [
                 'Hussain Kalolwala',
                 'CEO & Director K&A',
@@ -49,9 +49,9 @@ export const VISIONARIES_DATA: Record<string, Visionary> = {
             'Strategy is a multivariable equation at K&A, which involves resource planning and acquisition, optimal resource utilisation and above all facilitating execution brilliance and adaptation to change. If it is an equation, what do all these vectors equate to? The answer is sustainable value creation for our clients and our internal teams alike.',
         linkedin: 'https://www.linkedin.com/in/jumana-vadnagarwala-a99a3a109/',
         seo: {
-            title: 'Jumana Vadnagarwala | Chief Strategy Officer & Director | Kalolwala & Associates',
+            title: 'Jumana Vadnagarwala | Chief Strategy Officer | K&A',
             description:
-                'Learn about Jumana Vadnagarwala, Chief Strategy Officer & Director at Kalolwala & Associates (K&A). Facilitating execution brilliance and sustainable value creation.',
+                'Meet Jumana Vadnagarwala, Chief Strategy Officer and Director at Kalolwala & Associates, India\'s largest independent Annual Report and corporate communication consultancy.',
             keywords: [
                 'Jumana Vadnagarwala',
                 'Chief Strategy Officer & Director',

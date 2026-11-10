@@ -18,9 +18,9 @@ export const PAGE_METADATA: Record<string, PageMetadata> = {
         canonical: '/',
     },
     about: {
-        title: 'About Kalolwala & Associates | ESG Advisory & Consulting',
+        title: 'About Kalolwala & Associates | Annual Report Agency',
         description:
-            'Discover K&A’s journey as India’s largest independent stakeholder communication firm, delivering high-impact reporting, design and communication solutions.',
+            'K&A is India\'s largest independent stakeholder communication consultancy: 10+ years, 120+ specialists and 300+ clients served in FY25.',
         canonical: '/about',
     },
     careers: {
@@ -59,6 +59,57 @@ export const PAGE_METADATA: Record<string, PageMetadata> = {
             'How K&A plans, writes and designs annual, ESG and BRSR reports: timelines, corrections, deliverables, confidentiality and quality checks.',
         canonical: '/faqs',
     },
+    video: {
+        title: 'Corporate Film & Video Production Agency | K&A',
+        description:
+            'K&A creates corporate films and annual report video using strategic storytelling, motion graphics, cinematic visuals and authentic voiceovers.',
+        canonical: '/offerings/video',
+    },
+    iar:{
+        title:'Integrated Annual Reporting Services India | K&A',
+        description:'K&A delivers integrated annual reporting services in India that combine financial, ESG and stakeholder insights with clear, engaging report design.',
+        canonical:'/offerings/integrated-annual-reporting'
+    },
+    esg:{
+        title:'Sustainability & ESG Reporting Services India | K&A',
+        description:'K&A provides sustainability and ESG reporting services in India, helping companies communicate their environmental, social and governance performance effectively.',
+        canonical:'/offerings/sustainability-esg-reporting'
+    },
+    investor:{
+        title:'Investor & Corporate Presentation Design Services | K&A',
+        description:'K&A helps companies draft corporate and investor presentations that turn complex information into clear, compelling visuals for investors and larger stakeholders.',
+        canonical:'/offerings/investor-corporate-presentations'
+    },
+    design:{
+        title:'Corporate Brand Identity Design Agency | K&A',
+        description:'K&A is a corporate brand identity design agency creating distinctive creatives through strategy, visual identity and storytelling.',
+        canonical:'/offerings/corporate-branding-design'
+    },
+    
+    digital:{
+        title:'Corporate Website & Microsite for Annual Report | K&A',
+        description:'Build secure, scalable corporate websites, annual report microsite and digital solutions with K&A. We combine robust development, UX, AI and new-age technology.',
+        canonical:'/offerings/corporate-websites'
+    },
+    granules:{
+        title: "Granules India Integrated Annual Report | K&A Case Study",
+  description:
+    "How K&A shaped the integrated annual report for Granules India: the narrative, structure and design choices behind it. Read the case study.",
+        canonical:'/offerings/case-studies/iar/granules'
+    },
+    solar:{
+        title: "Integrated Annual Report Case Study | K&A Case Study",
+  description:
+    "How K&A shaped the integrated annual report: the narrative, structure and design choices behind it. Read the case study.",
+        canonical:'/offerings/case-studies/iar/solar'
+    },
+    gulfOil:{
+         title: "Gulf Oil Integrated Annual Report | K&A Case Study",
+  description:
+    "How K&A shaped the integrated annual report for Gulf Oil: the narrative, structure and design choices behind it. Read the case study.",
+        canonical:'/offerings/case-studies/iar/gulf-oil'
+    }
+
 }
 
 export function getMetadata(page: keyof typeof PAGE_METADATA): Metadata {
