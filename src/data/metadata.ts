@@ -12,9 +12,9 @@ type PageMetadata = {
  */
 export const PAGE_METADATA: Record<string, PageMetadata> = {
     home: {
-        title: 'K&A - India’s Largest Stakeholder Communication Agency',
+        title: 'India’s Largest Independent Annual Report Agency | K&A',
         description:
-            'K&A is India’s largest independent stakeholder communication agency, specialising in annual reports, ESG and corporate storytelling.',
+            'K&A is India’s Largest Independent Annual Report Agency, specialising in annual reports, integrated reports, sustainability reports, ESG fact book and more.',
         canonical: '/',
     },
     about: {
@@ -24,39 +24,39 @@ export const PAGE_METADATA: Record<string, PageMetadata> = {
         canonical: '/about',
     },
     careers: {
-        title: 'Explore Careers | K&A',
+        title: 'Careers at Kalolwala & Associates | Join Our Team',
         description:
             'Explore careers at Kalolwala & Associates, grow creatively with roles in business development, research, editorial, design & digital. Apply now to be part of our team.',
         canonical: '/careers',
     },
     contact: {
-        title: 'Contact Kalolwala & Associates | ESG Advisory & Consulting',
+        title: 'Contact Kalolwala & Associates | Offices Across India',
         canonical: '/contact',
         description:
-            'Connect with K&A to explore expert solutions in corporate communication, reporting, ESG, branding and digital engagement.',
+            'Plan your next annual, ESG or BRSR report, investor presentation or corporate film with K&A. Connect with our teams in Kolkata, Mumbai, Gurugram, Hyderabad and Bengaluru.',
     },
     culture: {
-        title: 'Culture & Values at Kalolwala & Associates | Our ESG Team',
+        title: 'Life at Kalolwala & Associates | Culture & Values',
         description:
-            'Experience life at K&A, where creativity meets strategy, collaboration sparks innovation and every conversation drives excellence.',
+            'Life at Kalolwala & Associates: how our 120+ team of analysts, designers and strategists work together on annual, ESG and BRSR reports. See what we value.',
         canonical: '/culture',
     },
     offerings: {
-        title: 'Our Offerings | ESG Advisory & Sustainability | Kalolwala',
+        title: 'Corporate Communication | ESG & Sustainability | K&A',
         description:
-            'Transform how your organisation communicates: K&A delivers expert annual reporting, ESG insights, branding, digital strategies and impactful stakeholder engagement.',
+            'Explore K&A’s corporate communication services, from annual reports and ESG reporting to investor presentations, branding, films and digital solutions.',
         canonical: '/offerings',
     },
     blogs: {
-        title: 'ESG & Sustainability Blog | Insights | Kalolwala & Associates',
+        title: 'Corporate Communication & ESG Reporting Blogs | K&A',
         description:
-            'Read expert articles on stakeholder communication, ESG, annual reports & corporate storytelling, insights from Kalolwala to inform and inspire your brand strategy.',
+            'Practical articles on communication, integrated annual reports, BRSR, ESG reporting and other important topics from the Kalolwala & Associates team.',
         canonical: '/blogs',
     },
     faqs: {
-        title: 'FAQs | ESG & Sustainability Consulting | Kalolwala & Associates',
+        title: 'Annual Report FAQs: Process & Timelines | K&A',
         description:
-            'Learn about timelines, reporting process, ESG support, deliverables, and how we ensure confidentiality and quality.',
+            'How K&A plans, writes and designs annual, ESG and BRSR reports: timelines, corrections, deliverables, confidentiality and quality checks.',
         canonical: '/faqs',
     },
 }

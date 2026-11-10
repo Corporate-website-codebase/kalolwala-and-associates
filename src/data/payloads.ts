@@ -126,9 +126,9 @@ export const PAYLOADS: Record<string, any> = {
     ],
     seo: {
       slug: "integrated-annual-reporting",
-      title: "Integrated Annual Reporting Services | K&A",
+      title: "Integrated Annual Reporting Services India | K&A",
       description:
-        "K&A’s integrated annual reporting solutions translate strategy, performance, ESG and governance into clear, decision-ready stakeholder communication.",
+        "K&A delivers integrated annual reporting services in India that combine financial, ESG and stakeholder insights with clear, engaging report design.",
     },
   },
 
@@ -177,7 +177,7 @@ export const PAYLOADS: Record<string, any> = {
       slug: "sustainability-esg-reporting",
       title: "Sustainability & ESG Reporting | K&A",
       description:
-        "Explore K&A’s sustainability and ESG reporting solutions designed to communicate impact, meet compliance standards and reinforce long-term value creation.",
+        "Explore careers at Kalolwala & Associates in business development, research, editorial, design and digital. Help build annual and ESG reports. Apply now.",
     },
   },
 
@@ -296,9 +296,9 @@ export const PAYLOADS: Record<string, any> = {
     ],
     seo: {
       slug: "corporate-websites",
-      title: "Corporate Website & Digital Communication | K&A",
+      title: "Corporate Website & Microsite for Annual Report | K&A",
       description:
-        "Transform your digital presence with K&A's corporate website and communication solutions, articulated to engage stakeholders through compelling storytelling and seamless usability.",
+        "Build secure, scalable corporate websites, annual report microsite and digital solutions with K&A. We combine robust development, UX, AI and new-age technology.",
     },
     specializations: WEB_SPECIALIZATIONS,
   },
@@ -345,9 +345,9 @@ export const PAYLOADS: Record<string, any> = {
     ],
     seo: {
       slug: "investor-corporate-presentations",
-      title: "Investor & Corporate Presentation Design Services",
+      title: "Investor & Corporate Presentation Design Services | K&A",
       description:
-        "Investor and corporate presentation designs by K&A are crafted to ensure clarity, consistency and maximum impact with stakeholders.",
+        "K&A helps companies draft corporate and investor presentations that turn complex information into clear, compelling visuals for investors and larger stakeholders.",
     },
   },
   branding: {
@@ -385,9 +385,9 @@ export const PAYLOADS: Record<string, any> = {
     ],
     seo: {
       slug: "corporate-branding-design",
-      title: "Corporate Branding & Design Services | K&A",
+      title: "Corporate Brand Identity Design Agency | K&A",
       description:
-        "K&A delivers corporate branding and design solutions that shape powerful visual identities and unified brand communication.",
+        "K&A is a corporate brand identity design agency creating distinctive creatives through strategy, visual identity and storytelling.",
     },
   },
   video: {
@@ -487,9 +487,9 @@ export const PAYLOADS: Record<string, any> = {
     ],
     seo: {
       slug: "corporate-films-video-reports",
-      title: "Corporate Films & Video Report Service | K&A",
+      title: "Corporate Film & Video Production Agency | K&A",
       description:
-        "K&A creates compelling corporate films and video reports that translate complex business narratives into engaging, investor-focused visual experiences.",
+        "K&A creates corporate films and annual report video using strategic storytelling, motion graphics, cinematic visuals and authentic voiceovers.",
     },
   },
   data: {
@@ -555,9 +555,9 @@ export const PAYLOADS: Record<string, any> = {
     ],
     seo: {
       slug: "corporate-websites",
-      title: "Corporate Website & Digital Communication | K&A",
+      title: "Corporate Website & Microsite for Annual Report | K&A",
       description:
-        "Transform your digital presence with K&A's corporate website and communication solutions, articulated to engage stakeholders through compelling storytelling and seamless usability.",
+        "Build secure, scalable corporate websites, annual report microsite and digital solutions with K&A. We combine robust development, UX, AI and new-age technology.",
     },
   },
 };

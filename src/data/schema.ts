@@ -15,7 +15,7 @@ export const organizationGraphSchema = {
             name: 'Kalolwala & Associates',
             alternateName: ['K&A', 'Kalolwala and Associates'],
             description:
-                'K&A is India’s largest independent stakeholder communication agency, specialising in annual reports, ESG and corporate storytelling.',
+                'K&A is India’s Largest Independent Annual Report Agency, specialising in annual reports, integrated reports, sustainability reports, ESG fact book and more.',
             publisher: {
                 '@id': `${BASE_URL}/#organization`,
             },
@@ -159,9 +159,9 @@ export const organizationGraphSchema = {
             '@type': 'WebPage',
             '@id': `${BASE_URL}/#webpage`,
             url: `${BASE_URL}/`,
-            name: 'K&A - India’s Largest Stakeholder Communication Agency',
+            name: 'India’s Largest Independent Annual Report Agency | K&A',
             description:
-                'K&A is India’s largest independent stakeholder communication agency, specialising in annual reports, ESG and corporate storytelling.',
+                'K&A is India’s Largest Independent Annual Report Agency, specialising in annual reports, integrated reports, sustainability reports, ESG fact book and more.',
             isPartOf: { '@id': `${BASE_URL}/#website` },
             about: { '@id': `${BASE_URL}/#organization` },
             inLanguage: 'en-IN',
