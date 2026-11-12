@@ -73,7 +73,7 @@ export default function IntegratedReportPage() {
       imageAlt="Tata Consumer Products"
       title="Tata Consumer 
        Products Limited"
-    //   overlay="linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 28%, rgba(0,0,0,0) 60%)"
+      overlay="linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.5) 38%, rgba(0,0,0,0) 70%)"
     />
         <CardHighlights cards={HIGHLIGHTS} />
 

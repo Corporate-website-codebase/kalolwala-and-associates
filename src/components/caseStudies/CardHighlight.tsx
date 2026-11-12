@@ -187,7 +187,7 @@ export default function CardHighlights({
                             {/* ROW 3: content */}
                             <motion.p
                                 variants={textVariants}
-                                className="text-[#4A4A4A] max-w-[52ch] whitespace-pre-line"
+                                className="text-[#4A4A4A] whitespace-pre-line"
                                 style={{
                                     fontSize: BODY_SIZE,
                                     lineHeight: 1.6,

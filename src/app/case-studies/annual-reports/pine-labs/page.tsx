@@ -70,7 +70,7 @@ export default function IntegratedReportPage() {
       imageSrc="/case-studies/ar/pine-cover.webp"
       imageAlt="pine-labs"
       title="Pine Labs"
-    //   overlay="linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 28%, rgba(0,0,0,0) 60%)"
+      overlay="linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.5) 28%, rgba(0,0,0,0) 60%)"
     />
         <CardHighlights cards={HIGHLIGHTS} />
 
