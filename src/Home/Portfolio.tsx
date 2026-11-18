@@ -207,9 +207,9 @@ const items = [
   { id: 10, type: "image", label: "Tata Chemicals Limited\nIntegrated Annual Report 2025-26", src: "/portfolio/TATA Chemicals.webp", y: -100, w: "23vw", aspect: "aspect-[3/4]", speed: 1 },
   { id: 2, type: "image", label: "Marico Limited\nIntegrated Annual report 2025-26", src: "/portfolio/Marico.webp", y: 150, w: "23vw", aspect: "aspect-[3/4]", speed: 0.9 },
   { id: 10, type: "image", label: "Tata Communications\nIntegrated Annual Report 2025-26", src: "/portfolio/TATA Communication.webp", y: -100, w: "23vw", aspect: "aspect-[3/4]", speed: 1 },
-  { id: 7, type: "image", label: "Noida International Airport\nSustainability Report 2025-26", src: "/portfolio/Noida.webp", y: 150, w: "22vw", aspect: "aspect-[3/4]", speed: 1.1 },
-  { id: 5, type: "image", label: "nxtra by airtel\nSustainability Report 2025-26", src: "/portfolio/NXTRA.webp", y: -50, w: "40vw", aspect: "aspect-[16/9]", speed: 1.3 },
-  { id: 7, type: "image", label: "Apollo Tyres Limited\nSustainability Report 2025-26", src: "/portfolio/Apollo tyer.webp", y: 150, w: "22vw", aspect: "aspect-[3/4]", speed: 1.1 },
+  // { id: 7, type: "image", label: "Noida International Airport\nSustainability Report 2025-26", src: "/portfolio/Noida.webp", y: 150, w: "22vw", aspect: "aspect-[3/4]", speed: 1.1 },
+  { id: 5, type: "image", label: "nxtra by airtel\nSustainability Report 2025-26", src: "/portfolio/NXTRA.webp", y: 150, w: "40vw", aspect: "aspect-[16/9]", speed: 1.1 },
+  { id: 7, type: "image", label: "Apollo Tyres Limited\nSustainability Report 2025-26", src: "/portfolio/Apollo tyer.webp", y: -100, w: "22vw", aspect: "aspect-[3/4]", speed: 1 },
 ];
 
 const Portfolio = () => {
