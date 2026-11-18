@@ -78,7 +78,7 @@ const titleWords = ["The", "engines", "behind", "our work"];
   return (
     <section
   id="iso-certification"
-  className="scroll-mt-32 w-full max-w-[1440px] mx-auto mt-12 px-5 sm:px-8 md:px-12 lg:px-16"
+  className="scroll-mt-32 w-full max-w-[1600px] mx-auto mt-12 px-6 md:px-12"
 >
       {/* Two separate containers with outer spacing and explicit gap */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-[28px] lg:gap-[32px] items-stretch">
@@ -253,6 +253,17 @@ const titleWords = ["The", "engines", "behind", "our work"];
             Annual Reports, ESG Reporting, Corporate Websites and Investor
             Presentations.
           </motion.p>
+
+          {/* ISO SVG BADGE — starts on the next line directly below "Presentations." */}
+          <motion.div variants={fadeUpVariants} className="mt-5">
+            <div className="inline-flex items-center justify-center">
+              <img
+                src="/ISO.svg"
+                alt="K&A ISO/IEC 27001:2022 Certified Badge"
+                className="w-16 sm:w-[74px] h-auto object-contain select-none"
+              />
+            </div>
+          </motion.div>
         </div>
 
         {/* INNER RIGHT: Certificate Image (Top-aligned with "Your story,") */}
