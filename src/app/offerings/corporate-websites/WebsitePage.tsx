@@ -235,8 +235,8 @@ export default function WebsitePage() {
   const irFaqsData = [
     {
       id: "faq-1",
-      question: "What digital services does K&A offer?",
-      link: "/faqs#what-digital-services-does-ka-offer",
+      question: "What corporate website development services does K&A offer?",
+      link: "/faqs#what-corporate-website-development-services-does-ka-offer",
     },
     {
       id: "faq-2",
@@ -245,21 +245,26 @@ export default function WebsitePage() {
     },
     {
       id: "faq-3",
+      question: "What is enterprise website development, and how is it different from standard website development?",
+      link: "/faqs#what-is-enterprise-website-development-and-how-is-it-different-from-standard-website-development",
+    },
+    {
+      id: "faq-4",
       question: "What is an interactive annual report microsite?",
       link: "/faqs#what-is-an-interactive-annual-report-microsite",
     },
     {
-      id: "faq-4",
-      question: "How does K&A help companies appear accurately in AI search?",
-      link: "/faqs#how-does-ka-help-companies-appear-accurately-in-ai-search",
+      id: "faq-5",
+      question: "Does K&A provide enterprise software development services?",
+      link: "/faqs#does-ka-provide-enterprise-software-development-services",
     },
     {
-      id: "faq-5",
+      id: "faq-6",
       question:
-        "Are K&A websites accessible and secure?",
-      link: "/faqs#are-ka-websites-accessible-and-secure",
+        "Are K&A websites secure, accessible and compliant?",
+      link: "/faqs#are-ka-websites-secure-accessible-and-compliant",
     },
-    { id: 'faq-6', question: 'Does K&A maintain websites after launch?', link: '/faqs#does-ka-maintain-websites-after-launch' },
+    { id: 'faq-7', question: 'Can AI chatbots be integrated into corporate websites?', link: '/faqs#can-ai-chatbots-be-integrated-into-corporate-websites' },
   ];
 
   const teamParagraph: TextSegment[] = [
@@ -384,11 +389,13 @@ export default function WebsitePage() {
         <ServiceHeader
           title={
             <>
-              Digital Solutions <br className="hidden md:block" />
+              Corporate Website Development
+ <br className="hidden md:block" />
               {/* and Design */}
             </>
           }
-          description="Most digital agencies build the platform and leave the content to the client. We start with the content. Because our team also writes annual reports, sustainability reports and investor presentations, we understand what investors, regulators, employees and customers come to a corporate website to find, and we structure the platform around those needs."
+          description="Most digital agencies build the platform and leave the content to the client. Our corporate website development approach starts with content. Because our team also writes annual reports, sustainability reports and investor presentations, we understand what investors, regulators, employees and customers expect from an enterprise website. We combine this insight with enterprise software development services to create secure, scalable enterprise digital solutions, including enterprise security solutions and AI chatbot development services.
+"
           faqs={irFaqsData}
         />
 
@@ -423,10 +430,9 @@ export default function WebsitePage() {
       <ServicePillars
         title="What do we do?"
         headline="A website is your company’s most visited document. We build it like one.  "
-        description="We build digital platforms that bring an organisation’s story, information and brand together in one seamless experience. From corporate websites and investor relations portals to interactive annual report microsites and ESG data hubs, we combine content strategy, UX, UI and full-stack development to create platforms that are intuitive to navigate, engaging to explore and designed around the way stakeholders actually look for information.
+        description="We build digital platforms that bring an organisation’s story, information and brand together in one seamless experience. Our corporate website development and enterprise website development services cover corporate websites, investor relations portals, interactive annual report microsites and ESG data hubs. We combine content strategy, UX, UI and full-stack development to deliver enterprise digital solutions that are intuitive to navigate, engaging to explore and designed around the way stakeholders actually look for information.
 
-Our role continues well beyond launch. From information architecture and development to optimisation, maintenance and ongoing support, we manage the digital experience across its lifecycle, keeping platforms fast, accessible, secure and compliant as audiences, regulations and organisations evolve.
-"
+Our role continues well beyond launch. From information architecture and development to optimisation, maintenance and ongoing support, we manage the digital experience across its lifecycle, keeping platforms fast, accessible, secure and compliant as audiences, regulations and organisations evolve."
         pillars={irPillarsData}
         isTech={true}
       />

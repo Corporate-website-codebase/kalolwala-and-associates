@@ -66,8 +66,8 @@ export const PAGE_METADATA: Record<string, PageMetadata> = {
         canonical: '/offerings/video',
     },
     iar:{
-        title:'Integrated Annual Reporting Services India | K&A',
-        description:'K&A delivers integrated annual reporting services in India that combine financial, ESG and stakeholder insights with clear, engaging report design.',
+        title:'Integrated Annual Report Services | K&A',
+        description:'K&A offers integrated annual report design and reporting services in India, connecting financial, ESG and business performance through clear, engaging reports.',
         canonical:'/offerings/integrated-annual-reporting'
     },
     esg:{

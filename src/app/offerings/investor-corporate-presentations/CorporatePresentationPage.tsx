@@ -54,12 +54,12 @@ export default function CorporatePresentationPage() {
     ];
 
     const irFaqsData = [
-        { id: 'faq-1', question: 'What investor presentation services does K&A offer?', link: '/faqs#what-investor-presentation-services-does-ka-offer' },
-        { id: 'faq-2', question: 'How quickly can K&A turn around an earnings presentation?', link: '/faqs#how-quickly-can-ka-turn-around-an-earnings-presentation' },
-        { id: 'faq-3', question: 'Does K&A write the content or only design the slides?', link: '/faqs#does-ka-write-the-content-or-only-design-the-slides' },
-        { id: 'faq-4', question: 'How does K&A tailor a presentation to a company’s business?', link: '/faqs#how-does-ka-tailor-a-presentation-to-a-companys-business' },
+        { id: 'faq-1', question: 'What investor presentation design services does K&A offer?', link: '/faqs#what-investor-presentation-design-services-does-ka-offer' },
+        { id: 'faq-2', question: 'How quickly can K&A prepare an earnings presentation?', link: '/faqs#how-quickly-can-ka-prepare-an-earnings-presentation' },
+        { id: 'faq-3', question: 'Does K&A write presentation content or only design the slides?', link: '/faqs#does-ka-write-presentation-content-or-only-design-the-slides' },
+        { id: 'faq-4', question: "How does K&A tailor presentations to a company's business?", link: '/faqs#how-does-ka-tailor-presentations-to-a-companys-business' },
         { id: 'faq-5', question: 'Are investor presentations regulated in India?', link: '/faqs#are-investor-presentations-regulated-in-india' },
-        { id: 'faq-6', question: 'Can K&A build templates our internal team can use?', link: '/faqs#can-ka-build-templates-our-internal-team-can-use' },
+        { id: 'faq-6', question: 'Can K&A create presentation templates for internal teams?', link: '/faqs#can-ka-create-presentation-templates-for-internal-teams' },
         
     ];
 
@@ -155,7 +155,8 @@ export default function CorporatePresentationPage() {
                             Corporate Presentations
                         </>
                     }
-                    description="We turn financial and strategic complexity into presentations that are clear, incisive and built for decision-making. For some of India’s largest listed companies, our team combines financial fluency, sharp writing and strong visual storytelling to shape earnings presentations, analyst and institutional investor meets, investor days, AGM decks, IPO roadshows and fundraise presentations that communicate with precision and confidence."
+                    description="We turn financial and strategic complexity into clear, incisive presentations built for decision-making. As an investor presentation design agency, our team combines financial fluency, sharp writing and strong visual storytelling to deliver investor presentation design services. For some of India's largest listed companies, we provide corporate presentation content services and strategy presentation design, shaping earnings presentations, analyst and institutional investor meets, investor days, AGM decks, IPO roadshows and fundraising presentations that communicate with precision and confidence.
+"
                     faqs={irFaqsData}
                 />
 
@@ -190,14 +191,16 @@ export default function CorporatePresentationPage() {
             <ServicePillars
                 title="What do we do?"
                 headline="Turning Complexity into Clarity "
-                description="An investor presentation is not a shortened annual report. It is a tightly argued case, read by analysts who have already modelled your numbers and will notice anything that does not add up. Our content team starts with the investment thesis: what investors need to believe about the business, what evidence supports it, and what questions they will ask. Design then makes that argument fast to read. "
+                description="An investor presentation is not a shortened annual report. It is a tightly argued case, read by analysts who have already modelled your numbers and will notice anything that does not add up. Our investor presentation design services combine financial understanding, strategic content and visual storytelling. As an investor presentation design agency, our team starts with the investment thesis: what investors need to believe about the business, what evidence supports it, and what questions they will ask. Design then makes that argument easy to follow."
                 pillars={irPillarsData}
                 header='What we offer'
                 extraContentPara={[
-    { heading: 'Built around your business, not a template. ', para: 'We work with the CFO, investor relations and leadership to understand the business model, segment drivers, capital allocation and strategy before a single slide is drafted. A steel company, a hospital chain and a consumer brand are judged on different metrics, and their decks should reflect that.' },
-    { heading: 'Written for the people in the room. ', para: 'Long-only funds, sell-side analysts, lenders, retail shareholders and prospective IPO investors look for different things. We shape the narrative, the depth of financial detail and the sequence of slides for the audience each presentation serves.' },
-    { heading: 'Consistent with everything you have filed. ', para: 'The numbers, segment definitions and strategic messages in your deck must match your results, annual report, BRSR and earnings call commentary. ' },
-    { heading: 'Aware of the disclosure rules.', para: 'Under SEBI’s LODR Regulations, presentations made to analysts and institutional investors must be shared with the stock exchanges, and earnings call recordings and transcripts must be published on the company website. Under SEBI’s insider trading regulations, nothing price-sensitive can be shared selectively. ' },
+    { heading: 'Built around your business, not a template. ', para: 'We work with the CEO, investor relations and leadership to understand the business model, segment drivers, capital allocation and strategy before a single slide is drafted. As a strategy presentation design company, we build presentations around each organisation\'s business priorities. A steel company, a hospital chain and a consumer brand are judged on different metrics, and their decks should reflect that.' },
+
+    { heading: 'Written for the people in the room. ', para: 'Long-only funds, sell-side analysts, lenders, retail shareholders and prospective IPO investors look for different things. Our corporate presentation content services shape the narrative, depth of financial detail and sequence of slides for the audience each presentation serves.' },
+
+    { heading: 'Consistent with everything you have filed. ', para: 'The numbers, segment definitions and strategic messages in your deck must match your results, annual report, BRSR and earnings call commentary.Every presentation is developed with attention to accuracy, consistency and clear communication.' },
+    { heading: 'Aware of the disclosure rules.', para: 'As a corporate presentation agency, we understand the importance of regulatory requirements. Under SEBI\'s LODR Regulations, presentations made to analysts and institutional investors must be shared with the stock exchanges, and earnings call recordings and transcripts must be published on the company website. Under SEBI\'s insider trading regulations, nothing price-sensitive can be shared selectively.' },
    
 
 

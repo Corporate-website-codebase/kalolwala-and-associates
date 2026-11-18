@@ -101,8 +101,8 @@ export default function VideoPage() {
   const irFaqsData = [
     {
       id: "faq-1",
-      question: "What corporate video services does K&A offer?",
-      link: "/faqs#what-corporate-video-services-does-ka-offer",
+      question: "What corporate video production services does K&A offer?",
+      link: "/faqs#what-corporate-video-production-services-does-ka-offer",
     },
     {
       id: "faq-2",
@@ -111,13 +111,13 @@ export default function VideoPage() {
     },
     {
       id: "faq-3",
-      question: "How does K&A ensure facts in a corporate film are accurate?",
-      link: "/faqs#how-does-ka-ensure-facts-in-a-corporate-film-are-accurate",
+      question: "How does K&A ensure accuracy in corporate films?",
+      link: "/faqs#how-does-ka-ensure-accuracy-in-corporate-films",
     },
     {
       id: "faq-4",
-      question: "Does K&A use AI in film production?",
-      link: "/faqs#does-ka-use-ai-in-film-production",
+      question: "Does K&A use AI in corporate film production?",
+      link: "/faqs#does-ka-use-ai-in-corporate-film-production",
     },
     {
       id: "faq-5",
@@ -273,7 +273,7 @@ export default function VideoPage() {
                and Video Reports
             </>
           }
-          description="Corporate films often look impressive and say very little. Ours start with the story the business needs to tell and the audience it needs to reach. Because our writers also work on annual reports, sustainability reports and investor presentations, they understand strategy, financial performance and ESG disclosure, and they write scripts that are as accurate as they are engaging."
+          description="Corporate films often look impressive and say very little. As a corporate video agency, K&A starts with the story the business needs to tell and the audience it needs to reach. As a corporate video production company, our writers also work on annual reports, sustainability reports and investor presentations. This understanding helps our corporate video makers and corporate film makers create engaging scripts through our corporate video production services, grounded in business strategy, financial performance and ESG disclosure."
           faqs={irFaqsData}
         />
 
@@ -308,9 +308,9 @@ export default function VideoPage() {
       <ServicePillars
         title="What do we do?"
         headline="Every great film starts with a script that knows the business.  "
-        description="The strongest business stories make strategy, performance and purpose clear in moments and memorable for years. Our team brings together filmmakers, writers, motion designers and data visualisation specialists to turn complex corporate narratives, ESG performance and leadership perspectives into films with editorial depth and visual intelligence.
+        description="The strongest business stories make strategy, performance and purpose clear in moments and memorable for years. As a corporate video agency and corporate video production company, our team brings together filmmakers, writers, motion designers and data visualisation specialists to turn complex corporate narratives, ESG performance and leadership perspectives into films with editorial depth and visual intelligence.
 
-We treat every film as one creative proposition, carried end-to-end: concept, narrative, scripting, production, cinematography, motion design and data visualisation, all shaped into a single visual language. From corporate films to video annual reports, we bring the rigour of boardroom communication to the storytelling power of film.
+We treat every film as one creative proposition, carried end-to-end through our corporate video production services, from concept, narrative and scripting to production, cinematography, motion design and data visualisation. Our corporate video makers and corporate film makers bring the rigour of boardroom communication to the storytelling power of film.
 "
         pillars={irPillarsData}
                 header='What we create'

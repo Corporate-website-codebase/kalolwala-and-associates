@@ -54,12 +54,12 @@ export default function SustainabilityPage() {
     ];
 
     const irFaqsData = [
-        { id: 'faq-1', question: 'Does K&A prepare sustainability and ESG reports?', link: '/faqs#does-ka-prepare-sustainability-and-esg-reports' },
+        { id: 'faq-1', question: 'Does K&A provide ESG reporting and sustainability reporting services in India?', link: '/faqs#does-ka-provide-esg-reporting-and-sustainability-reporting-services-in-india' },
         { id: 'faq-2', question: 'Which sustainability reporting frameworks does K&A work with?', link: '/faqs#which-sustainability-reporting-frameworks-does-ka-work-with' },
         { id: 'faq-3', question: 'What is the difference between an ESG report and a sustainability report?', link: '/faqs#what-is-the-difference-between-an-esg-report-and-a-sustainability-report' },
-        { id: 'faq-4', question: 'Can K&A help with BRSR Core assurance readiness?', link: '/faqs#can-ka-help-with-brsr-core-assurance-readiness' },
-        { id: 'faq-5', question: 'Does K&A conduct materiality assessments?', link: '/faqs#does-ka-conduct-materiality-assessments' },
-        { id: 'faq-6', question: 'How does K&A avoid greenwashing in sustainability reports?', link: '/faqs#how-does-ka-avoid-greenwashing-in-sustainability-reports' },
+        { id: 'faq-4', question: 'Can K&A help companies with BRSR and BRSR Core reporting requirements?', link: '/faqs#can-ka-help-companies-with-brsr-and-brsr-core-reporting-requirements' },
+        { id: 'faq-5', question: 'Does K&A conduct materiality assessments for ESG reporting?', link: '/faqs#does-ka-conduct-materiality-assessments-for-esg-reporting' },
+        { id: 'faq-6', question: 'How does K&A help prevent greenwashing in sustainability reports?', link: '/faqs#how-does-ka-help-prevent-greenwashing-in-sustainability-reports' },
         
     ];
 
@@ -156,7 +156,8 @@ export default function SustainabilityPage() {
                             ESG Report
                         </>
                     }
-                    description="Sustainability reporting today is subject to scrutiny from an increasingly discerning range of stakeholders, including assurance providers, rating agencies and analysts, alongside employees and communities. Credibility rests on the integrity and traceability of the information behind the narrative. K&A works in close collaboration with sustainability, finance and compliance teams to ensure that every disclosure, commitment and performance metric is substantiated by verifiable evidence attributable to its source and aligned with the organisation’s underlying practices. The result is reporting that inspires confidence and reflects the non-financial strengths of the business."
+                    description="Sustainability reporting today is subject to scrutiny from an increasingly discerning range of stakeholders, including assurance providers, rating agencies and analysts, alongside employees and communities. Our ESG reporting services focus on the integrity and traceability of the information behind every narrative. K&A works in close collaboration with sustainability, finance and compliance teams to support ESG reporting in India, including Business Responsibility and Sustainability Reporting (BRSR). As a sustainability report design agency, we ensure that every disclosure, commitment and performance metric is substantiated by verifiable evidence, aligned with the organisation’s underlying practices. Our sustainability reporting services help businesses present their non-financial performance with clarity and credibility.
+"
                     faqs={irFaqsData}
                 />
 
@@ -191,17 +192,17 @@ export default function SustainabilityPage() {
             <ServicePillars
                 title="What do we do?"
                 headline="We write sustainability reports that make a lot of sense"
-                description="As a listed member of the IFRS Sustainability Alliance, our team of experts are well-versed with evolving frameworks shaping sustainability disclosures for Indian and global markets. "
+                description="As a listed member of the IFRS Sustainability Alliance, our team of experts provides ESG reporting services and stays well-versed in evolving frameworks shaping sustainability disclosures for Indian and global markets. We support organisations with sustainability reporting in India, helping them address reporting requirements with accuracy and clarity."
                 pillars={irPillarsData}
                 extraContentHeading="Frameworks and standards our team works with:"
   extraContentPara={[
-    { heading: 'BRSR and BRSR Core', para: 'SEBI’s mandated disclosure for the top 1,000 listed entities, including the nine Core attributes, value chain disclosures and assurance readiness' },
-    { heading: 'GRI Standards', para: 'Reports in accordance with, or with reference to, GRI, including Sector Standards and the new GRI 102 Climate and GRI 103 Energy standards' },
-    { heading: 'IFRS S1 and S2 (ISSB)', para: 'Sustainability-related and climate-related financial disclosures for companies with global investors and lenders, alongside SASB industry metrics' },
-    { heading: 'Integrated Reporting Framework', para: 'Connecting sustainability performance to strategy, the six capitals and long-term value creation' },
-    { heading: 'ESRS and the EU Voluntary Standard', para: 'For exporters and suppliers responding to data requests from European customers' },
-    { heading: 'Climate and nature', para: 'GHG Protocol emissions reporting, transition plans, science-based targets, CDP responses and TNFD-aligned nature disclosures' },
-    { heading: 'UN Sustainable Development Goals', para: 'Mapping that is specific and evidenced, not decorative' },
+    { heading: 'BRSR and BRSR Core', para: 'SEBI\'s mandated Business Responsibility and Sustainability Reporting (BRSR) disclosure for the top 1,000 listed entities, including the nine Core attributes, value chain disclosures and assurance readiness.' },
+    { heading: 'GRI Standards', para: 'Reports in accordance with, or with reference to, GRI, including Sector Standards and the new GRI 102 Climate and GRI 103 Energy standards.' },
+    { heading: 'IFRS S1 and S2 (ISSB)', para: 'Sustainability-related and climate-related financial disclosures for companies with global investors and lenders, alongside SASB industry metrics.' },
+    { heading: 'Integrated Reporting Framework', para: 'Connecting sustainability performance to strategy, the six capitals and long-term value creation.' },
+    { heading: 'ESRS and the EU Voluntary Standard', para: 'For exporters and suppliers responding to data requests from European customers.' },
+    { heading: 'Climate and nature', para: 'GHG Protocol emissions reporting, transition plans, science-based targets, CDP responses and TNFD-aligned nature disclosures.' },
+    { heading: 'UN Sustainable Development Goals', para: 'Mapping that is specific and evidenced, not decorative.' },
 
 
   ]}

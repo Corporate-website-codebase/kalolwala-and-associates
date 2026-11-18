@@ -111,13 +111,13 @@ export default function BrandingPage() {
     },
     {
       id: "faq-3",
-      question: "Does K&A create brand strategy or only visual design?",
-      link: "/faqs#does-ka-create-brand-strategy-or-only-visual-design",
+      question: "Does K&A provide corporate brand strategy or only visual design?",
+      link: "/faqs#does-ka-provide-corporate-brand-strategy-or-only-visual-design",
     },
     {
       id: "faq-4",
-      question: "Can K&A manage a complete rebrand?",
-      link: "/faqs#can-ka-manage-a-complete-rebrand",
+      question: "Can K&A manage a complete corporate rebranding project?",
+      link: "/faqs#can-ka-manage-a-complete-corporate-rebranding-project",
     },
     {
       id: "faq-5",
@@ -125,7 +125,7 @@ export default function BrandingPage() {
         "Does K&A design annual reports in line with a company’s brand?",
       link: "/faqs#does-ka-design-annual-reports-in-line-with-a-company-s-brand",
     },
-    // { id: 'faq-6', question: 'Can K&A build templates our internal team can use?', link: '/faqs#can-ka-build-templates-our-internal-team-can-use' },
+    // { id: 'faq-6', question: 'Can K&A create presentation templates for internal teams?', link: '/faqs#can-ka-build-templates-our-internal-team-can-use' },
   ];
 
   const teamParagraph: TextSegment[] = [
@@ -249,7 +249,8 @@ export default function BrandingPage() {
               and Design
             </>
           }
-          description="A corporate identity should do more than look distinctive. It should give an organisation a recognisable point of view and make that character visible wherever the brand meets its stakeholders, from the annual report on an investor’s desk to the website a job applicant visits and the signage a customer walks past."
+          description="A corporate identity should do more than look distinctive. As a brand identity design agency, we develop a corporate brand strategy that gives an organisation a recognisable point of view and makes its character visible wherever the brand meets its stakeholders. Our brand identity design services and corporate branding services bring consistency across every touchpoint, from logo and stationery branding to a detailed brand manual, annual reports, websites and physical signage.
+"
           faqs={irFaqsData}
         />
 
@@ -284,9 +285,10 @@ export default function BrandingPage() {
       <ServicePillars
         title="What do we do?"
         headline="Building brands with a distinctive identity "
-        description="We build distinctive brand identity systems for listed companies, growing businesses and institutions, integrating brand strategy, verbal identity, visual language and application. From identity architecture and guidelines to corporate collateral, digital interfaces and campaigns, we create cohesive systems that translate brand positioning into a consistent presence across touchpoints.
+        description="We build distinctive brand identity systems for listed companies, growing businesses and institutions. As a brand identity design agency, we integrate corporate brand strategy, verbal identity, visual language and application. From identity architecture and brand guidelines to corporate collateral, digital interfaces and campaigns, our brand identity design services create cohesive systems that translate brand positioning into a consistent presence across touchpoints.
 
-                Our work goes beyond defining an identity to ensuring its effective application. We bring the system to life across real-world contexts and equip teams with the tools to sustain consistency as the business evolves. The result is an identity that is distinctive, coherent and built to scale."
+                Our work goes beyond defining an identity to ensuring its effective application. As a corporate branding agency, we bring the system to life through corporate branding services, including logo and stationery branding, and equip teams with a brand manual to sustain consistency as the business evolves. The result is an identity that is distinctive, coherent and built to scale.
+"
         pillars={irPillarsData}
                 header='What we create'
 
