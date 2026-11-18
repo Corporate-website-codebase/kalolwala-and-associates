@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
-import { motion, Variants } from "motion/react";
+import React, { useState, useEffect } from "react";
+import { motion, Variants, AnimatePresence } from "motion/react";
+import AestheticDot from "@/components/AestheticDot";
 
 // --- ANIMATION VARIANTS ---
 const sectionVariants: Variants = {
@@ -16,7 +17,7 @@ const titleWordVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.04 },
+    transition: { staggerChildren: 0.035 },
   },
 };
 
@@ -39,106 +40,302 @@ const fadeUpVariants: Variants = {
   },
 };
 
+interface TechStackCarouselProps {
+  certificateSrc?: string;
+  certificateAlt?: string;
+}
+
 // --- COMPONENT ---
-export default function TechStackCarousel() {
+export default function TechStackCarousel({
+  certificateSrc = "/ISO 27001 IN64526E  Kalolwala & Associates_page-0001.webp", // Replace with your certificate image path
+  certificateAlt = "K&A ISO/IEC 27001:2022 Information Security Certificate",
+}: TechStackCarouselProps) {
   const title = "The engines behind our work";
+  
+
+const titleWords = ["The", "engines", "behind", "our work"];
+  const [isCertOpen, setIsCertOpen] = useState(false);
+
+  useEffect(() => {
+    if (window.location.hash !== "#iso-certification") return;
+
+    const scrollToSection = () => {
+      const el = document.getElementById("iso-certification");
+      if (!el) return;
+
+      const navbarOffset = 120; // Adjust if your navbar is taller/shorter
+      const top =
+        el.getBoundingClientRect().top + window.scrollY - navbarOffset;
+
+      window.scrollTo({ top, behavior: "smooth" });
+    };
+
+    // Wait briefly for above-the-fold images/animations to settle
+    const timer = setTimeout(scrollToSection, 350);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    <section className="mx-auto bg-[#eeeeee] mt-12 rounded-2xl space-y-12 py-12 px-6 md:px-12">
-      <motion.header
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: false, margin: "-100px" }}
-        variants={sectionVariants}
-        className="space-y-[20px] px-4"
+    <section
+  id="iso-certification"
+  className="scroll-mt-32 w-full max-w-[1440px] mx-auto mt-12 px-5 sm:px-8 md:px-12 lg:px-16"
+>
+      {/* Two separate containers with outer spacing and explicit gap */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-[28px] lg:gap-[32px] items-stretch">
+        {/* CONTAINER 1 (LEFT): Tech Stack & Marquee */}
+        <div className="lg:col-span-6 min-w-0 overflow-hidden bg-[#eeeeee] rounded-2xl py-10 px-6 sm:px-8 md:p-10 flex flex-col justify-between space-y-10">
+          <motion.header
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false, margin: "-100px" }}
+            variants={sectionVariants}
+            className="space-y-5"
+          >
+            {/* Animated Title */}
+            <motion.div
+  variants={titleWordVariants}
+  className="font-noto-sans text-4xl sm:text-5xl xl:text-[3.25rem] text-left font-semibold leading-tight"
+  aria-label={title}
+>
+  {titleWords.map((word, wordIndex) => (
+    <span
+      key={wordIndex}
+      className="inline-block whitespace-nowrap mr-[0.28em]"
+    >
+      {word.split(" ").map((part, partIndex) => (
+        <span key={partIndex} className="inline-block">
+          {part.split("").map((char, charIndex) => (
+            <motion.span
+              key={charIndex}
+              variants={letterVariants}
+              className="inline-block pb-1 text-neutral-800 tracking-tight font-light font-noto-sans will-change-transform"
+            >
+              {char}
+            </motion.span>
+          ))}
+          {partIndex < word.split(" ").length - 1 && "\u00A0"}
+        </span>
+      ))}
+    </span>
+  ))}
+</motion.div>
+            {/* Subtitle */}
+            <motion.p
+              variants={fadeUpVariants}
+              className="text-neutral-800 text-base sm:text-lg xl:text-xl font-noto-sans font-medium text-left leading-relaxed"
+            >
+              The technologies that form the backbone of our solutions,
+              supporting everything from deep architecture to the front-end
+              experience.
+            </motion.p>
+          </motion.header>
+
+          {/* Infinite Carousel with CSS Mask Fade */}
+          <div
+            className="relative overflow-hidden w-full"
+            style={{
+              WebkitMaskImage:
+                "linear-gradient(to right, transparent, black 48px, black calc(100% - 48px), transparent)",
+              maskImage:
+                "linear-gradient(to right, transparent, black 48px, black calc(100% - 48px), transparent)",
+            }}
+          >
+            <div className="flex w-max animate-marquee-scroll hover:[animation-play-state:paused] py-4">
+              {/* Render the icons twice for seamless looping */}
+              {[...iconsData, ...iconsData].map((icon, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 flex justify-center items-center p-2 w-24 h-24 max-md:w-14 max-md:h-14 mx-4 cursor-pointer transition-transform duration-300 hover:scale-110"
+                >
+                  <svg
+                    stroke={icon.stroke || "currentColor"}
+                    fill={icon.fill || "currentColor"}
+                    strokeWidth={icon.strokeWidth || "0"}
+                    strokeLinecap={
+                      icon.strokeLinecap as
+                        | "round"
+                        | "butt"
+                        | "square"
+                        | "inherit"
+                        | undefined
+                    }
+                    strokeLinejoin={
+                      icon.strokeLinejoin as
+                        | "round"
+                        | "miter"
+                        | "bevel"
+                        | "inherit"
+                        | undefined
+                    }
+                    viewBox={icon.viewBox}
+                    className={`w-full h-full ${icon.className}`}
+                    height="1em"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    {icon.paths.map((pathStr: string, i: number) => (
+                      <path
+                        key={i}
+                        d={pathStr}
+                        fill={
+                          icon.pathColors && icon.pathColors[i]
+                            ? icon.pathColors[i]
+                            : undefined
+                        }
+                      />
+                    ))}
+                  </svg>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* CONTAINER 2 (RIGHT): ISO Certification */}
+<motion.aside
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: false, margin: "-100px" }}
+  variants={sectionVariants}
+  className="lg:col-span-6 min-w-0 relative rounded-2xl bg-[#121212]"
+>
+  {/* GLASSMORPHIC INNER SURFACE */}
+  <div className="relative h-full overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl py-10 px-6 sm:px-8 md:p-10">
+    {/* TOP RIGHT GLOW */}
+    <div className="absolute -top-32 -right-32 w-64 h-64 rounded-full bg-[#F4C016]/10 blur-3xl pointer-events-none" />
+
+    {/* BOTTOM LEFT GLOW */}
+    <div className="absolute -bottom-32 -left-32 w-64 h-64 rounded-full bg-[#F4C016]/5 blur-3xl pointer-events-none" />
+
+    {/* CONTENT */}
+    <div className="relative z-10">
+      {/* EYEBROW — positioned above the row so the certificate top-aligns with "Your story," */}
+      <motion.div
+        variants={fadeUpVariants}
+        className="flex items-center gap-3 mb-4"
       >
-        {/* Animated Title — left aligned */}
+        <AestheticDot color="#F4C016" />
+        <span className="text-[#F4C016] text-[11px] md:text-xs uppercase tracking-[0.25em] font-medium">
+          ISO/IEC 27001:2022
+        </span>
+      </motion.div>
+
+      {/* ALIGNED ROW: Heading & Copy (Left) + Certificate Image (Right) */}
+      <div className="flex flex-col sm:flex-row items-start justify-between gap-7 xl:gap-8">
+        {/* INNER LEFT: ISO Content */}
+        <div className="flex-1 min-w-0 text-left">
+          {/* HEADING */}
+          <motion.h3
+            variants={fadeUpVariants}
+            className="text-white text-2xl md:text-3xl lg:text-[34px] font-light tracking-tight leading-tight mb-5"
+          >
+            Your story,
+            <br />
+            <span className="text-[#F4C016] font-normal">secured.</span>
+          </motion.h3>
+
+          {/* DECORATIVE LINE */}
+          <motion.div
+            variants={fadeUpVariants}
+            className="h-px w-16 bg-white/20 mb-5"
+          />
+
+          {/* EXACT BODY COPY */}
+          <motion.p
+            variants={fadeUpVariants}
+            className="text-white/75 text-base md:text-lg font-normal leading-relaxed"
+          >
+            K&amp;A is{" "}
+            <span className="text-[#F4C016] font-medium">
+              ISO/IEC 27001:2022
+            </span>{" "}
+            certified for information security. This covers all our work on
+            Annual Reports, ESG Reporting, Corporate Websites and Investor
+            Presentations.
+          </motion.p>
+        </div>
+
+        {/* INNER RIGHT: Certificate Image (Top-aligned with "Your story,") */}
         <motion.div
-          variants={titleWordVariants}
-          className=" space-y-4 font-bricolage-grotesque text-7xl font-noto-sans max-md:text-4xl max-sm:text-3xl text-left font-semibold md:w-4/5"
+          variants={fadeUpVariants}
+          onClick={() => setIsCertOpen(true)}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              setIsCertOpen(true);
+            }
+          }}
+          aria-label="Click to view full ISO certificate"
+          className="relative w-full sm:w-[40%] xl:w-[42%] shrink-0 cursor-zoom-in group select-none"
         >
-          <div className="inline-block overflow-hidden" aria-label={title}>
-            {title.split("").map((char, index) => (
-              <motion.span
-                key={index}
-                variants={letterVariants}
-                className="inline-block pb-3 text-neutral-800 tracking-tight font-light font-noto-sans will-change-transform"
+          {/* IMAGE GLOW */}
+          <div className="absolute inset-4 rounded-full bg-[#F4C016]/15 blur-2xl pointer-events-none" />
+
+          <div className="relative z-10 overflow-hidden rounded-xl bg-white p-3.5 flex flex-col items-center justify-center ring-1 ring-white/15 group-hover:ring-[#F4C016]/70 drop-shadow-[0_20px_30px_rgba(0,0,0,0.5)] transition-all duration-300 group-hover:-translate-y-0.5">
+            <img
+              src={certificateSrc}
+              alt={certificateAlt}
+              className="w-full max-h-64 sm:max-h-72 object-contain rounded transition-transform duration-300 group-hover:scale-[1.02]"
+            />
+            <span className="mt-2 inline-flex items-center gap-1 text-[11px] font-medium tracking-wide text-neutral-500 group-hover:text-neutral-900 transition-colors">
+              <svg
+                className="w-3 h-3 text-[#d4a308]"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
               >
-                {char === " " ? "\u00A0" : char}
-              </motion.span>
-            ))}
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.3-4.3" />
+                <path d="M11 8v6" />
+                <path d="M8 11h6" />
+              </svg>
+              Inspect certificate
+            </span>
           </div>
         </motion.div>
-
-        {/* Subtitle — left aligned */}
-        <motion.p
-          variants={fadeUpVariants}
-          className="text-neutral-800 text-xl font-noto-sans font-medium text-left max-w-4xl"
-        >
-          The technologies that form the backbone of our solutions, supporting
-          everything from <br /> deep architecture to the front-end experience.
-        </motion.p>
-      </motion.header>
-
-      {/* Infinite Carousel with CSS Mask Fade */}
-      <div
-        className="relative overflow-hidden w-full"
-        style={{
-          WebkitMaskImage:
-            "linear-gradient(to right, transparent, black 60px, black calc(100% - 60px), transparent)",
-          maskImage:
-            "linear-gradient(to right, transparent, black 60px, black calc(100% - 60px), transparent)",
-        }}
-      >
-        <div className="flex w-max animate-marquee-scroll hover:[animation-play-state:paused] py-4">
-          {/* Render the icons twice for seamless looping */}
-          {[...iconsData, ...iconsData].map((icon, index) => (
-            <div
-              key={index}
-              className="flex-shrink-0 flex  justify-center items-center p-2 w-28 h-28 max-md:w-14 max-md:h-14 mx-4 cursor-pointer transition-transform duration-300 hover:scale-110"
-            >
-              <svg
-                stroke={icon.stroke || "currentColor"}
-                fill={icon.fill || "currentColor"}
-                strokeWidth={icon.strokeWidth || "0"}
-                strokeLinecap={
-                  icon.strokeLinecap as
-                    | "round"
-                    | "butt"
-                    | "square"
-                    | "inherit"
-                    | undefined
-                }
-                strokeLinejoin={
-                  icon.strokeLinejoin as
-                    | "round"
-                    | "miter"
-                    | "bevel"
-                    | "inherit"
-                    | undefined
-                }
-                viewBox={icon.viewBox}
-                className={`w-full h-full ${icon.className}`}
-                height="1em"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                {icon.paths.map((pathStr: string, i: number) => (
-                  <path
-                    key={i}
-                    d={pathStr}
-                    fill={
-                      icon.pathColors && icon.pathColors[i]
-                        ? icon.pathColors[i]
-                        : undefined
-                    }
-                  />
-                ))}
-              </svg>
-            </div>
-          ))}
-        </div>
       </div>
+    </div>
+  </div>
+</motion.aside>
+      </div>
+
+      {/* Full-View Certificate Modal */}
+<AnimatePresence>
+  {isCertOpen && (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={() => setIsCertOpen(false)}
+      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-start justify-center pt-24 sm:pt-28 pb-6 px-4 overflow-y-auto"
+    >
+      <motion.div
+        initial={{ scale: 0.94, opacity: 0, y: -10 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.94, opacity: 0, y: -10 }}
+        onClick={(e) => e.stopPropagation()}
+        className="relative max-w-xl w-full bg-white rounded-2xl p-3.5 sm:p-4 shadow-2xl border border-[#F4C016]/60"
+      >
+        <button
+          type="button"
+          onClick={() => setIsCertOpen(false)}
+          aria-label="Close certificate preview"
+          className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-neutral-900 text-[#F4C016] border border-[#F4C016]/40 flex items-center justify-center hover:bg-[#F4C016] hover:text-black transition-colors cursor-pointer"
+        >
+          ✕
+        </button>
+        <img
+          src={certificateSrc}
+          alt={certificateAlt}
+          className="w-full max-h-[62vh] sm:max-h-[66vh] object-contain rounded-lg"
+        />
+      </motion.div>
+    </motion.div>
+  )}
+</AnimatePresence>
     </section>
   );
 }
