@@ -67,7 +67,7 @@ export default function IntegratedReportPage() {
             <HeroSec
             priority
 
-      imageSrc="/case-studies/ar/pine-cover.webp"
+      imageSrc="/case-studies/ar/pine-cover-m.webp"
       imageAlt="pine-labs"
       title="Pine Labs"
       overlay="linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.5) 28%, rgba(0,0,0,0) 60%)"

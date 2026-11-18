@@ -144,7 +144,7 @@ export default function BrandingPage() {
   const statsData: StatCard[] = [
     {
       id: "1",
-      value: "[XX]",
+      value: "26+",
       label: "Team of design graduates who master the creatives",
       barColor: "#B68B4A",
     },
